@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Utilities
 {
@@ -15,6 +16,9 @@ namespace Utilities
 			// TODO:
 			// Iniciar seleccion de campeon en TODAS
 			// las recreativas.
+
+			// Por ahora salto directamente al juego
+			GetComponent<NetworkManager> ().ServerChangeScene ("Torre");
 		}
 
 		public void Creditos()
