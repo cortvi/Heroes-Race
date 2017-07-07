@@ -19,8 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4169688224855226}
+  - component: {fileID: 114336238277371580}
   - component: {fileID: 114304223984242674}
   - component: {fileID: 114854237575113086}
+  - component: {fileID: 114431268023548364}
   m_Layer: 0
   m_Name: MANAGER
   m_TagString: Untagged
@@ -61,9 +63,8 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 1584245679127478, guid: 91654f2bf412c544ba8ad73df2a45512,
-    type: 2}
-  m_AutoCreatePlayer: 1
+  m_PlayerPrefab: {fileID: 0}
+  m_AutoCreatePlayer: 0
   m_PlayerSpawnMethod: 0
   m_OfflineScene: lobby
   m_OnlineScene: main
@@ -123,6 +124,28 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!114 &114336238277371580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1895734729070994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43cf732c2b6baaf49a58238022fcb4cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114431268023548364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1895734729070994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8868ee4814895d4459438103d9c19657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114854237575113086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -134,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  showGUI: 1
-  offsetX: 50
-  offsetY: 50
+  manager: {fileID: 114304223984242674}
+  showGUI: 0
+  offsetX: 113
+  offsetY: 90

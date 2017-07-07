@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace Networking
 {
-	public class Player : NetworkBehaviour
+	public class Player : MonoBehaviour
 	{
 		private void Update()
 		{
