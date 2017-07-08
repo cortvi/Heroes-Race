@@ -8,7 +8,7 @@ namespace Utilities
 	/// Mapea el input tanto de teclado como de
 	/// recreativa a los controles del juego.
 	/// </summary>
-	public class InputX : MonoBehaviour
+	public static class InputX
 	{
 		// Funciones alternativas
 		public static bool GetKey ( PlayerActions action ) { return Input.GetKey (( KeyCode ) action); }
@@ -39,6 +39,8 @@ namespace Utilities
 	{
 		// De momento esta hard-coded, pero esto facilita
 		// que en un futuro se puedan cambiar facilmente los controles.
+		// Basta con cambiar el valolr aquí para que se cambie en el resto
+		// del juego.
 		MoveLeft = KeyCode.LeftArrow,
 		MoveRight = KeyCode.RightArrow,
 		Jump = KeyCode.Space,
