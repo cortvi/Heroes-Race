@@ -16,7 +16,7 @@ namespace Utilities
 			if ( Input.GetKeyDown ( (KeyCode) DevActions.NetworkHUD ) )
 			{
 				/// Muestra/Oculta HUD del NetworkManager
-				GetComponent<NetworkManagerHUD> ().showGUI ^= true;		// invertir valor
+				NetworkManager.singleton.GetComponent<NetworkManagerHUD> ().showGUI ^= true;		// invertir valor
 			}
 		} 
 	}
