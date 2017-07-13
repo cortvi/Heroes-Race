@@ -5,58 +5,66 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
-/// Contiene las funciones que se llaman
-/// desde el UI.
+/// Contiene las funciones que gestionan
+/// y regulan el UI entre el cliente y el servidor.
 /// </summary>
 public class UIManager : NetworkBehaviour
 {
-	#region REFERENCIAS
-	[Header ("Seleccion de personaje")]
-	public GameObject seleccionPersonaje;
+	#region GESTION DEL UI
+	/// <summary>
+	/// Todas las pantallas en terminos
+	/// de UI.
+	/// </summary>
+	private enum Pantallas 
+	{
+		MenuPrincipal,
+		SeleccionPersonaje,
+		Loading,
+		InGame
+	}
+	private Pantallas currentScreen;
 	#endregion
 
-	#region UI MANAGEMENT
-	/// Controla en que pantalla de los menus estan
-	/// todas las recreativas.
-	[SyncVar (hook = "OnChangedScreen")]
-	private string screen;
-
-	void OnChangedScreen ( string newScene )
+	private void Update()
 	{
-		// TODO:
-		// Comprovar nombre y cambiar
-		// UI a esa pantalla
-	}
-	#endregion
-
-	[Command]
-	private void Cmd_NuevaPartida ()
-	{
-		print ("Hola");
-	}
-
-	public void NuevaPartida ()
-	{
-		// Solo empezar partida si se tiene conexion
-		if (NetworkManager.singleton.isNetworkActive)
+		/// Funcionalidades de los clientes
+		if (isLocalPlayer)
 		{
-			// TODO:
-			// Iniciar seleccion de campeon
-			// en TODAS las recreativas
-			Cmd_NuevaPartida ();
+			// Al pulsar el boton verde de la recreativa:
+			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn ) )
+			{
+				/// El boton verde ejecuta acciones diferentes
+				/// segun en que momento del juego nos encontremos.
+				switch ( currentScreen )
+				{
+					case Pantallas.MenuPrincipal:
+						// Ir a seleccion de personaje
+						// en todas las recreativas a la vez
+						ui.SetTrigger ("SeleccionPersonaje");
+						break;
+				}
+			}
+		}
+
+		/// Funcionalidades del servidor
+		if (isServer)
+		{
+			if ( InputX.GetKeyDown (DevActions.NetworkHUD) )
+			{
+				/// Muestra/Oculta HUD del NetworkManager
+				NetworkManager.singleton.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
+			}
 		}
 	}
 
-	public void Creditos ()
+	#region COMMANDS
+	/// Estas funcionas se llaman desde los clientes
+	/// y se ejecutan en el Servidor.
+	#endregion
+
+	Animator ui;
+	private void Awake()
 	{
-		// TODO:
-		// Mostrar la pantalla de creditos
-		// ( NO en todas las recreativas )
-
-		// Alomejor no hace falta funcion,
-		// se puede hacer desde los eventos del inspector!
+		ui = GameObject.Find ("Canvas").GetComponent<Animator> ();
 	}
-
-	// Salir del juego
-	public void Salir () { Application.Quit (); } 
 }

@@ -24,24 +24,15 @@ Core/
 
 UI/
 		UIManager.cs
-			Dentro de este script deben ponerse todas las funciones
-			que se usen desde el UI, HUD, etc...
-			( ej: Salir, Nueva Partida, pausa, etc ).
+			Gestiona las funciones que se llaman desde el UI, cambios de pantalla, sincronizacion
+			servidor-cliente y cualquier cosa que tenga que ver con menus, HUD etc.
 
 
 Utilities/
-		DevHotKeys.cs
-			Se encarga simplemente de simplemente leer
-			atajos de teclado con utilidades para nosotros
-			( ej: activar conexiones de red, etc ).
-
 		Inputx.cs
 			Aquí están centralizados los controles del jugador,
 			de manera que es más sencillo cambiar los controles en un
-			momento dado. También hay una serie de funciones ( GetKey, GetKeyDown,
-			GetKeyUp ) que se usan igual que las de la clase Input de Unity, pero
+			momento dado. También hay una serie de funciones, que equivalen a las
+			de la clase Input de Unity ( GetKey, GetKeyDown y GetKeyUp ),
+			que se usan igual que las de la clase Input de Unity, pero
 			estas aceptan PlayerActions como parámetro en vez de un KeyCode. Por comodidad.
-
-		ShowDisconnected.cs
-			Los objetos que llevan este script solo aparecen visibles cuando
-			NO estamos conectados al servidor.

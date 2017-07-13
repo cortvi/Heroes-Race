@@ -10,13 +10,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class Game : MonoBehaviour
 {
-	/// Referencia statica a si mismo.
-	public static Game manager;
-
 	private void Awake()
 	{
-		// Inicializar referencias
-		manager = this;
 		DontDestroyOnLoad (gameObject);
 	}
 }
