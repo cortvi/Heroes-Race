@@ -22,16 +22,18 @@ Core/
 			Gestiona funcionalidades de red tanto para el cliente como para el servidor.
 
 
+UI/
+		UIManager.cs
+			Dentro de este script deben ponerse todas las funciones
+			que se usen desde el UI, HUD, etc...
+			( ej: Salir, Nueva Partida, pausa, etc ).
+
+
 Utilities/
 		DevHotKeys.cs
 			Se encarga simplemente de simplemente leer
 			atajos de teclado con utilidades para nosotros
 			( ej: activar conexiones de red, etc ).
-
-		UIManager.cs
-			Dentro de este script deben ponerse todas las funciones
-			que se usen desde el UI, HUD, etc...
-			( ej: Salir, Nueva Partida, pausa, etc ).
 
 		Inputx.cs
 			Aquí están centralizados los controles del jugador,
