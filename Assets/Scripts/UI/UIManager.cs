@@ -30,21 +30,22 @@ public class UIManager : NetworkBehaviour
 	#endregion
 
 	[Command]
-	public void Cmd_NuevaPartida ()
+	private void Cmd_NuevaPartida ()
 	{
 		print ("Hola");
 	}
 
-	//	public void NuevaPartida ()
-	//	{
-	//		// Solo empezar partida si se tiene conexion
-	//		if (NetworkManager.singleton.isNetworkActive)
-	//		{
-	//			// TODO:
-	//			// Iniciar seleccion de campeon
-	//			// en TODAS las recreativas
-	//		}
-	//	}
+	public void NuevaPartida ()
+	{
+		// Solo empezar partida si se tiene conexion
+		if (NetworkManager.singleton.isNetworkActive)
+		{
+			// TODO:
+			// Iniciar seleccion de campeon
+			// en TODAS las recreativas
+			Cmd_NuevaPartida ();
+		}
+	}
 
 	public void Creditos ()
 	{
