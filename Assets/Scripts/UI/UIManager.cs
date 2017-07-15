@@ -40,7 +40,7 @@ public class UIManager : NetworkBehaviour
 					case Pantallas.MenuPrincipal:
 						// Ir a seleccion de personaje
 						// en todas las recreativas a la vez
-						ui.SetTrigger ("SeleccionPersonaje");
+						ui.GetComponent<NetworkAnimator> ().SetTrigger ("SeleccionPersonaje");
 						break;
 				}
 			}
@@ -60,6 +60,8 @@ public class UIManager : NetworkBehaviour
 	#region COMMANDS
 	/// Estas funcionas se llaman desde los clientes
 	/// y se ejecutan en el Servidor.
+	[Command]
+	void TriggerTest () { ui.SetTrigger ("SeleccionPersonaje"); }
 	#endregion
 
 	Animator ui;
