@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
 /// Mapea el input tanto de teclado como de
 /// recreativa a los controles del juego.
-/// </summary>
 public static class InputX
 {
-	// Funciones alternativas a la clase Input de Unity
+	/// Funciones alternativas a la clase Input de Unity
 	public static bool GetKey ( PlayerActions action ) { return Input.GetKey (( KeyCode ) action); }
 	public static bool GetKey ( DevActions action ) { return Input.GetKey (( KeyCode ) action); }
 
@@ -18,13 +16,11 @@ public static class InputX
 	public static bool GetKeyUp ( PlayerActions action ) { return Input.GetKeyUp (( KeyCode ) action); }
 	public static bool GetKeyUp ( DevActions action ) { return Input.GetKeyUp (( KeyCode ) action); }
 
-	/// <summary>
-	/// Devuelve:
-	/// 1  si el personaje se esta moviendo hacia la derecha,
-	/// -1 si se esta moviendo hacia la izquierda.s
-	/// </summary>
-	public static float GetMovement ()
+	public static float GetMovement () 
 	{
+		/// Devuelve:
+		/// 1  si el personaje se esta moviendo hacia la derecha,
+		/// -1 si se esta moviendo hacia la izquierda.s
 		if (GetKey (PlayerActions.MoveLeft)) return -1;
 		else
 		if (GetKey (PlayerActions.MoveRight)) return 1;
@@ -34,10 +30,8 @@ public static class InputX
 }
 
 #region KEYS
-/// <summary>
 /// Todas las acciones que puede llevar a cabo el juaador.
 /// Cada accion equivale a un KeyCode.
-/// </summary>
 public enum PlayerActions 
 {
 	// De momento esta hard-coded, pero esto facilita

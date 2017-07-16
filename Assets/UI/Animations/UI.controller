@@ -8,7 +8,25 @@ AnimatorController:
   m_Name: UI
   serializedVersion: 5
   m_AnimatorParameters:
+  - m_Name: MenuPrincipal
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: SeleccionPersonaje
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Loading
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: InGame
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0

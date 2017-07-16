@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,10 +12,10 @@ using UnityEngine.UI;
 public class UIManager : NetworkBehaviour
 {
 	#region GESTION DEL UI
-	/// <summary>
 	/// Todas las pantallas en terminos
 	/// de UI.
-	/// </summary>
+	[SyncVar]
+	private Pantallas currentScreen;
 	private enum Pantallas 
 	{
 		MenuPrincipal,
@@ -22,51 +23,64 @@ public class UIManager : NetworkBehaviour
 		Loading,
 		InGame
 	}
-	private Pantallas currentScreen;
+
+	/// Referencias
+	Animator ui;
 	#endregion
 
+	#region COMMANDS
+	/// Transicion entre pantallas
+	/// del UI en Red
+	[Command]
+	void Cmd_TriggerUI ( string trigger )
+	{
+		ui.SetTrigger (trigger);
+		// Actualizar variable de control
+		currentScreen = (Pantallas) Enum.Parse (typeof (Pantallas), trigger, true);
+	}
+	#endregion
+
+	#region CALLBACKS
 	private void Update()
 	{
 		/// Funcionalidades de los clientes
+		#region CLIENTE
 		if (isLocalPlayer)
 		{
-			// Al pulsar el boton verde de la recreativa:
-			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn ) )
+			/// Al pulsar el boton verde de la recreativa:
+			if (InputX.GetKeyDown (PlayerActions.GreenBtn))
 			{
 				/// El boton verde ejecuta acciones diferentes
 				/// segun en que momento del juego nos encontremos.
-				switch ( currentScreen )
+				switch (currentScreen)
 				{
 					case Pantallas.MenuPrincipal:
 						// Ir a seleccion de personaje
 						// en todas las recreativas a la vez
-						ui.GetComponent<NetworkAnimator> ().SetTrigger ("SeleccionPersonaje");
+						Cmd_TriggerUI ("SeleccionPersonaje");
+						
 						break;
 				}
 			}
 		}
+		#endregion
 
 		/// Funcionalidades del servidor
+		#region SERVIDOR
 		if (isServer)
 		{
-			if ( InputX.GetKeyDown (DevActions.NetworkHUD) )
+			if (InputX.GetKeyDown (DevActions.NetworkHUD))
 			{
 				/// Muestra/Oculta HUD del NetworkManager
-				NetworkManager.singleton.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
+				Game.net.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
 			}
-		}
+		} 
+		#endregion
 	}
 
-	#region COMMANDS
-	/// Estas funcionas se llaman desde los clientes
-	/// y se ejecutan en el Servidor.
-	[Command]
-	void TriggerTest () { ui.SetTrigger ("SeleccionPersonaje"); }
-	#endregion
-
-	Animator ui;
 	private void Awake()
 	{
 		ui = GameObject.Find ("Canvas").GetComponent<Animator> ();
-	}
+	} 
+	#endregion
 }
