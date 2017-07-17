@@ -11,11 +11,11 @@ public class Selector : NetworkBehaviour
 	public Image current;
 	public Image next;
 	public Sprite[] personajes;			// El orden tiene que coincidir!
+	public GameObject focus;			// Marca cual es nuestro personje
 
 	private void Update() 
 	{
-		if (!hasAuthority)
-			return;
+		if (!hasAuthority) return;
 
 
 	}

@@ -9,10 +9,15 @@ using UnityEngine.UI;
 /// y regulan el UI entre el cliente y el servidor.
 public class UIManager : NetworkBehaviour
 {
+	#region REFERENCIAS
+	Animator ui;            // El animator de todo el UI
+	Selector[] selectors;   // Los selectores de personaje 
+	#endregion
+
 	#region GESTION DEL UI
 	/// Todas las pantallas en terminos
 	/// de UI.
-	[SyncVar]
+	[SyncVar (hook = "OnScreenChange")]
 	private Pantallas currentScreen;
 	private enum Pantallas 
 	{
@@ -21,18 +26,35 @@ public class UIManager : NetworkBehaviour
 		Loading,
 		InGame
 	}
+	/// Logica ejecutada en los clientes
+	/// al cambiar de pantalla
+	void OnScreenChange ( Pantallas next )
+	{
+		switch ( next )
+		{
+			case Pantallas.SeleccionPersonaje:
+				/// Al entrar en la pantalla de seleccion
+				/// de personaje, los clientes deben asignar
+				/// autoridad sobre su selector
+				var selector = selectors[Game.id];
+				Game.manager.Cmd_GiveControl (selector.gameObject);
+				// Activar la marca de focus!
+				selector.focus.SetActive (true);
+				break;
+		}
 
-	/// Referencias
-	Animator ui;
+		currentScreen = next;
+	}
 	#endregion
 
 	#region COMMANDS
-	/// Transicion entre pantallas
-	/// del UI en Red
 	[Command]
-	void Cmd_TriggerUI ( string trigger )
+	void Cmd_TriggerUI ( string trigger ) 
 	{
+		/// Transicion entre pantallas
+		/// del UI en Red
 		ui.SetTrigger (trigger);
+
 		// Actualizar variable de control
 		currentScreen = (Pantallas) Enum.Parse (typeof (Pantallas), trigger, true);
 	}
@@ -48,6 +70,7 @@ public class UIManager : NetworkBehaviour
 			/// Al pulsar el boton verde de la recreativa:
 			if (InputX.GetKeyDown (PlayerActions.GreenBtn))
 			{
+				#region SWITCH
 				/// El boton verde ejecuta acciones diferentes
 				/// segun en que momento del juego nos encontremos.
 				switch (currentScreen)
@@ -56,9 +79,9 @@ public class UIManager : NetworkBehaviour
 						// Ir a seleccion de personaje
 						// en todas las recreativas a la vez
 						Cmd_TriggerUI ("SeleccionPersonaje");
-						
 						break;
-				}
+				} 
+				#endregion
 			}
 		}
 		#endregion
@@ -79,6 +102,7 @@ public class UIManager : NetworkBehaviour
 	private void Awake() 
 	{
 		ui = GameObject.Find ("Canvas").GetComponent<Animator> ();
+		selectors = ui.GetComponentsInChildren<Selector> (true);
 	} 
 	#endregion
 }
