@@ -19,13 +19,17 @@ Core/
 			de cada jugador.
 
 		Networker.cs
-			Gestiona funcionalidades de red tanto para el cliente como para el servidor.
+			NetworkManager personalizado. Gestiona algunas funciones internas
+			de la red y las conexiones tanto de servidor como de cliente.
 
 
 UI/
 		UIManager.cs
 			Gestiona las funciones que se llaman desde el UI, cambios de pantalla, sincronizacion
 			servidor-cliente y cualquier cosa que tenga que ver con menus, HUD etc.
+
+		Selector.cs
+			Gestiona la lógica del selector de personaje.
 
 
 Utilities/
@@ -36,3 +40,6 @@ Utilities/
 			de la clase Input de Unity ( GetKey, GetKeyDown y GetKeyUp ),
 			que se usan igual que las de la clase Input de Unity, pero
 			estas aceptan PlayerActions como parámetro en vez de un KeyCode. Por comodidad.
+
+		Extensions.cs
+			--- ignorar ---

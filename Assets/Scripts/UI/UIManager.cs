@@ -5,10 +5,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-/// <summary>
 /// Contiene las funciones que gestionan
 /// y regulan el UI entre el cliente y el servidor.
-/// </summary>
 public class UIManager : NetworkBehaviour
 {
 	#region GESTION DEL UI
@@ -78,7 +76,7 @@ public class UIManager : NetworkBehaviour
 		#endregion
 	}
 
-	private void Awake()
+	private void Awake() 
 	{
 		ui = GameObject.Find ("Canvas").GetComponent<Animator> ();
 	} 

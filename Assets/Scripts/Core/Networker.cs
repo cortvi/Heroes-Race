@@ -16,7 +16,7 @@ public class Networker : NetworkManager
 		base.OnServerConnect (conn);
 		// Registrar la conexion de cada
 		// player cuando se conecta
-		Game.manager.Rpc_SavePlayerID (playerCount);
+		StartCoroutine (Game.waitConnectionID (playerCount));
 		playerCount++;
 	}
 	#endregion
@@ -24,4 +24,4 @@ public class Networker : NetworkManager
 	#region CLIENTE
 	// TODO
 	#endregion
-} 
+}
