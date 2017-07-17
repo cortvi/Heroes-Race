@@ -47,7 +47,7 @@ public class Game : NetworkBehaviour
 		/// Cede la autoridad sobre el
 		/// objeto a el cliente
 		var obj = NetworkServer.FindLocalObject (id);
-		NetworkServer.SpawnWithClientAuthority (obj, connectionToClient);
+		NetworkServer.SpawnWithClientAuthority (obj, gameObject);
 	}
 	#endregion
 
