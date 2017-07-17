@@ -42,11 +42,12 @@ public class Game : NetworkBehaviour
 
 	#region COMMANDS
 	[Command]
-	public void Cmd_GiveControl( GameObject obj )
+	public void Cmd_GiveControl( NetworkInstanceId id )
 	{
 		/// Cede la autoridad sobre el
 		/// objeto a el cliente
-		NetworkServer.SpawnWithClientAuthority (obj.gameObject, connectionToClient);
+		var obj = NetworkServer.FindLocalObject (id);
+		NetworkServer.SpawnWithClientAuthority (obj, connectionToClient);
 	}
 	#endregion
 
