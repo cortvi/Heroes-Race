@@ -15,8 +15,6 @@ public class Selector : NetworkBehaviour
 
 	int charId;
 	bool sliding;
-	NetworkAnimator ui;
-
 	private void Update() 
 	{
 		if (!hasAuthority) return;
@@ -27,11 +25,11 @@ public class Selector : NetworkBehaviour
 		var dir = InputX.GetMovement ();
 		if (!sliding && dir != 0)
 		{
-			sliding = true;												// Evitar cambio de personaje hasta terminar animacion
-			CorrectSlideID ( (int)dir );                                // Seleccionar ID del siguiente personaje
-			next.sprite = personajes[charId];							// Mostrar siguiente personaje
-			ui.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");	// UI Trigger en base a la direccion del movimiento
-			StartCoroutine ( Slide () );
+//			sliding = true;												// Evitar cambio de personaje hasta terminar animacion
+//			CorrectSlideID ( (int)dir );                                // Seleccionar ID del siguiente personaje
+//			next.sprite = personajes[charId];							// Mostrar siguiente personaje
+//			ui.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");	// UI Trigger en base a la direccion del movimiento
+//			StartCoroutine ( Slide () );
 		}
 	}
 
@@ -54,7 +52,6 @@ public class Selector : NetworkBehaviour
 	{
 		charId = Game.id;
 		current.sprite = personajes[charId];
-		ui = GetComponent<NetworkAnimator> ();
 	}
 }
 
