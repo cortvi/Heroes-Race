@@ -15,6 +15,7 @@ public class Selector : NetworkBehaviour
 
 	int charId;
 	bool sliding;
+	NetworkAnimator ui;
 
 	private void Update() 
 	{
@@ -24,35 +25,36 @@ public class Selector : NetworkBehaviour
 		/// ( y si no se está moviendo ya ),
 		/// deslizar targeta de personaje.
 		var dir = InputX.GetMovement ();
-		if (!sliding && dir != 0) StartCoroutine (Slide (dir));
-	}
-	private void Awake() 
-	{
-		charId = Game.id;
-		current.sprite = personajes[charId];
-	}
-
-	IEnumerator Slide ( float dir )
-	{
-		// Posicionar siguiente slide
-		next.rectTransform.position = current.rectTransform.position + Vector3.right * 100f * dir;
-		// Cambiar imagen en siguiente slide
-		CorrectSlideID (( int ) dir);
-		next.sprite = personajes[charId];
-
-		var progress = 0f;
-		while ( progress <= 1 )
+		if (!sliding && dir != 0)
 		{
-			yield return null;
+			sliding = true;												// Evitar cambio de personaje hasta terminar animacion
+			CorrectSlideID ( (int)dir );                                // Seleccionar ID del siguiente personaje
+			next.sprite = personajes[charId];							// Mostrar siguiente personaje
+			ui.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");	// UI Trigger en base a la direccion del movimiento
+			StartCoroutine ( Slide () );
 		}
 	}
 
-	void CorrectSlideID ( int dir )
+	IEnumerator Slide ()
+	{
+		// Esperar duracion de la animacion
+		yield return new WaitForSeconds (.5f);
+		// Corregir imagen en base a la animacion!
+		current.sprite = personajes[charId];
+	}
+	void CorrectSlideID ( int dir ) 
 	{
 		charId += dir;
 		if (charId == -1) charId = personajes.Length-1;
 		else
 		if (charId == personajes.Length) charId = 0;
+	}
+
+	private void Awake() 
+	{
+		charId = Game.id;
+		current.sprite = personajes[charId];
+		ui = GetComponent<NetworkAnimator> ();
 	}
 }
 
