@@ -14,30 +14,14 @@ public class Game : NetworkBehaviour
 	/// por order de conexion con el servidor
 	public static int id;
 
-	[ClientRpc]
-	public void Rpc_SavePlayerID( int id ) 
+	[TargetRpc]
+	public void Target_SavePlayerID( NetworkConnection target, int id ) 
 	{
 		/// Recibe desde el ID de conexion
 		/// desde el Servidor
 		Game.id = id;
 		print ("Connection ID: " + Game.id);
 	}
-	public static IEnumerator waitConnectionID ( int id ) 
-	{
-		/// Esperar hasta que se hayan conectado
-		/// completamente los jugadores
-		/// [Server-side]
-		while (!manager) yield return null;
-
-		manager.Rpc_SavePlayerID (id);
-	}
-	#endregion
-
-	#region REFERENCIAS
-	public static Game manager;					/// El propio script
-	public static UIManager ui;					/// El script que controla el UI
-	public static Networker net;				/// El manager de la red
-	public static NetworkIdentity connection;   /// La conexion del cliente con el servidor
 	#endregion
 
 	#region COMMANDS
@@ -47,8 +31,18 @@ public class Game : NetworkBehaviour
 		/// Cede la autoridad sobre el
 		/// objeto a el cliente
 		nid.AssignClientAuthority (connectionToClient);
-		print ("Assigned authority over " + nid.gameObject.name + "to " + name);
+		print ("Assigned authority over " + nid.gameObject.name + "to ->\t" + name);
 	}
+	#endregion
+
+	#region REFERENCIAS
+	/// Las referencias solo son
+	/// validas dentro de cada
+	/// cliente!
+	public static Game manager;					/// El propio script
+	public static UIManager ui;					/// El script que controla el UI
+	public static Networker net;				/// El manager de la red
+	public static NetworkIdentity connection;   /// La conexion del cliente con el servidor
 	#endregion
 
 	#region CALLBACKS

@@ -28,7 +28,7 @@ public class UIManager : NetworkBehaviour
 	}
 	/// Logica ejecutada en los clientes
 	/// al cambiar de pantalla
-	void OnScreenChange ( Pantallas next )
+	void OnScreenChange ( Pantallas next ) 
 	{
 		switch ( next )
 		{
