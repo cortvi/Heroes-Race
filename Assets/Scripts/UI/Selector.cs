@@ -53,8 +53,9 @@ public class Selector : NetworkBehaviour
 		}
 	}
 
-	private void Awake() 
+	public override void OnStartAuthority()
 	{
+		base.OnStartAuthority ();
 		charId = Game.manager.id;
 		current.sprite = personajes[charId];
 		ui = GetComponent<NetworkAnimator> ();
