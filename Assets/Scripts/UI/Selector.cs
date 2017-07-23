@@ -56,6 +56,8 @@ public class Selector : NetworkBehaviour
 	public override void OnStartAuthority()
 	{
 		base.OnStartAuthority ();
+		if (isServer) return;
+
 		charId = Game.manager.id;
 		current.sprite = personajes[charId];
 		ui = GetComponent<NetworkAnimator> ();
