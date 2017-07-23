@@ -17,7 +17,7 @@ public class Networker : NetworkManager
 		base.OnServerAddPlayer (conn, playerControllerId);
 		// Registrar la conexion de cada
 		// player cuando se conecta
-		FindObjectsOfType<Game> ().Last ().Target_SavePlayerID (conn, playerCount);
+		FindObjectsOfType<Game> ().Last ().id = playerCount;
 		playerCount++;
 	}
 	#endregion

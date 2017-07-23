@@ -12,16 +12,8 @@ public class Game : NetworkBehaviour
 	#region ID CONEXION
 	/// Identificacion de cada recreativa
 	/// por order de conexion con el servidor
-	public int id;
-
-	[TargetRpc]
-	public void Target_SavePlayerID( NetworkConnection target, int id ) 
-	{
-		/// Recibe desde el ID de conexion
-		/// desde el Servidor
-		this.id = id;
-		print ("Connection ID: " + this.id);
-	}
+	[SyncVar]
+	public int id=-1;
 	#endregion
 
 	#region COMMANDS
