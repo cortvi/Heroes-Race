@@ -12,15 +12,15 @@ public class Game : NetworkBehaviour
 	#region ID CONEXION
 	/// Identificacion de cada recreativa
 	/// por order de conexion con el servidor
-	public static int id;
+	public int id;
 
 	[TargetRpc]
 	public void Target_SavePlayerID( NetworkConnection target, int id ) 
 	{
 		/// Recibe desde el ID de conexion
 		/// desde el Servidor
-		Game.id = id;
-		print ("Connection ID: " + Game.id);
+		this.id = id;
+		print ("Connection ID: " + this.id);
 	}
 	#endregion
 
@@ -46,14 +46,18 @@ public class Game : NetworkBehaviour
 	#endregion
 
 	#region CALLBACKS
-	private void Awake() 
+	public override void OnStartLocalPlayer() 
 	{
+		base.OnStartLocalPlayer ();
 		manager = this;
 		ui = GetComponent<UIManager> ();
 		net = NetworkManager.singleton as Networker;
 		connection = GetComponent<NetworkIdentity> ();
+	}
 
+	private void Awake() 
+	{
 		DontDestroyOnLoad (gameObject);
-	} 
+	}
 	#endregion
 }

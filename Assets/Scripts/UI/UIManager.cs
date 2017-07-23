@@ -36,7 +36,7 @@ public class UIManager : NetworkBehaviour
 				/// Al entrar en la pantalla de seleccion
 				/// de personaje, los clientes deben asignar
 				/// autoridad sobre su selector
-				var selector = selectors[Game.id];
+				var selector = selectors[Game.manager.id];
 				Game.manager.Cmd_GiveControl (selector.GetComponent<NetworkIdentity> ());
 				// Activar la marca de focus!
 				selector.focus.SetActive (true);
