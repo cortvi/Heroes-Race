@@ -21,11 +21,15 @@ public class Selector : NetworkBehaviour
 	IEnumerator Slide()
 	{
 		// Esperar duracion de la animacion
-		yield return new WaitForSeconds (.4f);
+		yield return new WaitForSeconds (.5f);
 		// Corregir imagen en base a la animacion!
-		current.sprite = personajes[charId];
+		Cmd_CorrectSprite ();
 		sliding = false;
 	}
+	[Command]
+	void Cmd_CorrectSprite() { current.sprite = personajes[charId]; }
+	[ClientRpc]
+	void Rpc_CorrectSprite() { current.sprite = personajes[charId]; }
 	void CorrectSlideID( int dir )
 	{
 		charId += dir;
@@ -54,12 +58,17 @@ public class Selector : NetworkBehaviour
 		}
 	}
 
-	public override void OnStartAuthority()
+	static int serverCount;
+	public override void OnStartAuthority() 
 	{
 		base.OnStartAuthority ();
-		if (isServer) return;
+		if (isServer)
+		{
+			charId = serverCount;
+			serverCount++;
+		}
+		else charId = Game.manager.id;
 
-		charId = Game.manager.id;
 		current.sprite = personajes[charId];
 		ui = GetComponent<NetworkAnimator> ();
 	} 
