@@ -21,7 +21,7 @@ public class Selector : NetworkBehaviour
 	IEnumerator Slide()
 	{
 		// Esperar duracion de la animacion
-		yield return new WaitForSeconds (.45f);
+		yield return new WaitForSeconds (.4f);
 		// Corregir imagen en base a la animacion!
 		current.sprite = personajes[charId];
 		sliding = false;
@@ -38,7 +38,7 @@ public class Selector : NetworkBehaviour
 	#region CALLBACKS
 	private void Update()
 	{
-		if (!hasAuthority) return;
+		if (!hasAuthority || isServer) return;
 
 		/// En caso de que se pulse tecla de mover
 		/// ( y si no se está moviendo ya ),
