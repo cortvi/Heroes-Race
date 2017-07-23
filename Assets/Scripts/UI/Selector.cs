@@ -24,6 +24,7 @@ public class Selector : NetworkBehaviour
 		yield return new WaitForSeconds (.45f);
 		// Corregir imagen en base a la animacion!
 		current.sprite = personajes[charId];
+		sliding = false;
 	}
 	void CorrectSlideID( int dir )
 	{
