@@ -55,7 +55,7 @@ public class Selector : NetworkBehaviour
 
 	private void Awake() 
 	{
-		charId = Game.id;
+		charId = Game.manager.id;
 		current.sprite = personajes[charId];
 		ui = GetComponent<NetworkAnimator> ();
 	} 
