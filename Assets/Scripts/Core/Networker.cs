@@ -14,10 +14,9 @@ public class Networker : NetworkManager
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId )
 	{
-		base.OnServerAddPlayer (conn, playerControllerId);
-		// Registrar la conexion de cada
-		// player cuando se conecta
-		FindObjectsOfType<Game> ().Last ().id = playerCount;
+		/// Registrar la conexion de cada
+		/// player cuando se conecta
+
 		playerCount++;
 	}
 	#endregion

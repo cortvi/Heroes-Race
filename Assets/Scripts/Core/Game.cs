@@ -13,7 +13,8 @@ public class Game : NetworkBehaviour
 	/// Identificacion de cada recreativa
 	/// por order de conexion con el servidor
 	[SyncVar]
-	public int id=-1;
+	public int id;
+
 	#endregion
 
 	#region COMMANDS
@@ -27,14 +28,13 @@ public class Game : NetworkBehaviour
 	}
 	#endregion
 
-	#region REFERENCIAS
+	#region REFERENCIA
 	/// Las referencias solo son
 	/// validas dentro de cada
 	/// cliente!
-	public static Game manager;					/// El propio script
-	public static UIManager ui;					/// El script que controla el UI
-	public static Networker net;				/// El manager de la red
-	public static NetworkIdentity connection;   /// La conexion del cliente con el servidor
+	public static List<Game> players;		/// Player objects de cada jugador
+	public UIManager ui;					/// El script que controla el UI
+	public Networker net;					/// El manager de la red
 	#endregion
 
 	#region CALLBACKS
