@@ -23,7 +23,7 @@ public class Selector : NetworkBehaviour
 	public GameObject focus;            // Marca cual es nuestro personje
 
 	bool sliding;
-	NetworkAnimator anim;
+	Animator anim;
 	#endregion
 
 	#region SLIDING
@@ -65,7 +65,7 @@ public class Selector : NetworkBehaviour
 	{
 		base.OnStartAuthority ();
 		current.sprite = personajes[charId];
-		anim = GetComponent<NetworkAnimator> ();
+		anim = GetComponent<Animator> ();
 		if (isClient) focus.SetActive (true);
 	} 
 	#endregion
