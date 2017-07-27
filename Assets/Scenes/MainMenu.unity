@@ -337,10 +337,10 @@ RectTransform:
   m_Father: {fileID: 1394001237}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.00012207, y: 0}
+  m_SizeDelta: {x: 1920.0001, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &558037556
 GameObject:
@@ -424,11 +424,11 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: 192.168.1.77
+  m_NetworkAddress: 192.168.1.20
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
-  m_MaxDelay: 0.01
+  m_MaxDelay: 0.1
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1703898347403670, guid: dab11599f7807fd45a0eb8c40b1c61c5,
     type: 2}
@@ -479,7 +479,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -556,7 +556,7 @@ Prefab:
     - target: {fileID: 224941310068608280, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -641.99994
+      value: -642.0001
       objectReference: {fileID: 0}
     - target: {fileID: 224941310068608280, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
@@ -732,7 +732,7 @@ Prefab:
     - target: {fileID: 224941310068608280, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 623.99994
+      value: 624
       objectReference: {fileID: 0}
     - target: {fileID: 224941310068608280, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
