@@ -10,7 +10,12 @@ public class Selector : NetworkBehaviour
 {
 	#region REFERENCES
 	[SyncVar]
-	public int charId;					// El personaje selccionado
+	public PJs pj;					// El personaje selccionado
+	int charId 
+	{
+		get { return ( int ) pj; }
+		set { pj = ( PJs ) value; }
+	}
 
 	public Image current;
 	public Image next;
@@ -22,25 +27,20 @@ public class Selector : NetworkBehaviour
 	#endregion
 
 	#region SLIDING
-	IEnumerator Slide()
+	public void CorrectSprite () 
 	{
-		// Esperar duracion de la animacion
-		yield return new WaitForSeconds (.5f);
-		// Corregir imagen en base a la animacion!
-		Cmd_CorrectSprite ();
+		current.sprite = personajes[charId];
 		sliding = false;
 	}
-	[Command]
-	void Cmd_CorrectSprite() { current.sprite = personajes[charId]; }
-	[ClientRpc]
-	void Rpc_CorrectSprite() { current.sprite = personajes[charId]; }
-	void CorrectSlideID( int dir )
+	void CorrectSlideID ( int dir ) 
 	{
 		charId += dir;
-		if (charId == -1) charId = personajes.Length-1;
+		var max = personajes.Length;
+
+		if (charId == -1) charId = max-1;
 		else
-		if (charId == personajes.Length) charId = 0;
-	} 
+		if (charId == max) charId = 0;
+	}
 	#endregion
 
 	#region CALLBACKS
@@ -54,11 +54,10 @@ public class Selector : NetworkBehaviour
 		var dir = InputX.GetMovement ();
 		if (!sliding && dir != 0)
 		{
-			sliding = true;                                             // Evitar cambio de personaje hasta terminar animacion
-			CorrectSlideID (( int ) dir);                                // Seleccionar ID del siguiente personaje
-			next.sprite = personajes[charId];                           // Mostrar siguiente personaje
-			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");   // UI Trigger en base a la direccion del movimiento
-			StartCoroutine (Slide ());
+			sliding = true;													// Evitar cambio de personaje hasta terminar animacion
+			CorrectSlideID (( int ) dir);									// Seleccionar ID del siguiente personaje
+			next.sprite = personajes[charId];								// Mostrar siguiente personaje
+			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");		// UI Trigger en base a la direccion del movimiento
 		}
 	}
 
@@ -76,6 +75,7 @@ public enum PJs
 {
 	/// Lista de todos los personajes
 	/// que se pueden seleccionar
+	NONE,   // => Espectador
 	Gatete,
 	Sir,
 	Random_0,

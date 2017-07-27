@@ -9,10 +9,9 @@ using UnityEngine.UI;
 /// y regulan el UI entre el cliente y el servidor.
 public class UIManager : NetworkBehaviour
 {
-	#region GESTION DEL UI
 	[SyncVar]
 	public Pantallas currentScreen;
-	#endregion
+	public Sprite[] personajes;
 }
 
 public enum Pantallas 
