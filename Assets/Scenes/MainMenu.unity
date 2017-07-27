@@ -292,6 +292,11 @@ Prefab:
       propertyPath: m_Color.b
       value: 0.4558823
       objectReference: {fileID: 0}
+    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: charId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
   m_IsPrefabParent: 0
@@ -419,7 +424,7 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: 192.168.1.20
+  m_NetworkAddress: 192.168.1.77
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
@@ -792,6 +797,11 @@ Prefab:
         type: 2}
       propertyPath: m_Color.b
       value: 0.33823538
+      objectReference: {fileID: 0}
+    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: charId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
