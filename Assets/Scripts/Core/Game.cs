@@ -31,7 +31,6 @@ public class Game : NetworkBehaviour
 				var selectors = ui.GetComponentsInChildren<Selector> (true);
 				for (var s=0; s!=net.players.Count; s++)
 				{
-//					selectors[s].c_Id = netId.Value;
 					var nId = selectors[s].GetComponent<NetworkIdentity> ();
 					nId.AssignClientAuthority (net.players[s]);
 				}

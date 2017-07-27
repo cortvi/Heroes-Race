@@ -9,17 +9,13 @@ using UnityEngine.Networking;
 public class Selector : NetworkBehaviour
 {
 	#region REFERENCES
-//	[SyncVar]
-//	public uint c_Id;					// El n-ID del 'Game' que tiene autoridad sobre este selector
+	[SyncVar]
+	public int charId;					// El personaje selccionado
 
 	public Image current;
 	public Image next;
 	public Sprite[] personajes;			// El orden tiene que coincidir con la enum!
 	public GameObject focus;            // Marca cual es nuestro personje
-
-//	Game owner;
-	[SyncVar]
-	public int charId;
 
 	bool sliding;
 	NetworkAnimator anim;
@@ -66,14 +62,11 @@ public class Selector : NetworkBehaviour
 		}
 	}
 
-	static int globalCharId;
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		charId = globalCharId;
 		current.sprite = personajes[charId];
-		globalCharId++;
-
+		anim = GetComponent<NetworkAnimator> ();
 		if (isClient) focus.SetActive (true);
 	} 
 	#endregion
