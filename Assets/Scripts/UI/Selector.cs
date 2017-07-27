@@ -32,14 +32,24 @@ public class Selector : NetworkBehaviour
 		current.sprite = personajes[charId];
 		sliding = false;
 	}
-	void CorrectSlideID ( int dir ) 
+
+	[Command]
+	void Cmd_CorrectSlideID ( int dir ) 
 	{
-		charId += dir;
 		var max = personajes.Length;
 
+		charId += dir;
 		if (charId == -1) charId = max-1;
 		else
 		if (charId == max) charId = 0;
+
+		next.sprite = personajes[charId];
+		Rpc_CorrectSlideID (charId);
+	}
+	[ClientRpc]
+	void Rpc_CorrectSlideID ( int id ) 
+	{
+		next.sprite = personajes[id];
 	}
 	#endregion
 
@@ -54,10 +64,9 @@ public class Selector : NetworkBehaviour
 		var dir = InputX.GetMovement ();
 		if (!sliding && dir != 0)
 		{
-			sliding = true;													// Evitar cambio de personaje hasta terminar animacion
-			CorrectSlideID (( int ) dir);									// Seleccionar ID del siguiente personaje
-			next.sprite = personajes[charId];								// Mostrar siguiente personaje
-			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");		// UI Trigger en base a la direccion del movimiento
+			sliding = true;
+			Cmd_CorrectSlideID (( int ) dir);
+			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");
 		}
 	}
 
