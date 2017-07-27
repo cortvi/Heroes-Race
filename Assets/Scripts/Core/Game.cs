@@ -82,14 +82,10 @@ public class Game : NetworkBehaviour
 		#endregion
 	}
 
-	public override void OnStartLocalPlayer() 
-	{
-		base.OnStartLocalPlayer ();
-		ui = GameObject.Find ("Canvas").GetComponent<UIManager> ();
-		net = NetworkManager.singleton as Networker;
-	}
 	private void Awake() 
 	{
+		ui = GameObject.Find ("Canvas").GetComponent<UIManager> ();
+		net = NetworkManager.singleton as Networker;
 		DontDestroyOnLoad (gameObject);
 	}
 	#endregion
