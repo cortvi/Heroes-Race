@@ -178,6 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9fec9456f6218c498af768a156f6589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  c_Id: 0
   current: {fileID: 114026476169356544}
   next: {fileID: 114109625254361876}
   personajes:

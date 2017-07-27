@@ -9,15 +9,17 @@ using UnityEngine.Networking;
 public class Networker : NetworkManager
 {
 	#region SERVIDOR
-	// Las conexiones con las recreativas
-	static int playerCount;
+	/// Las conexiones con las recreativas
+	public List<NetworkConnection> players = new List<NetworkConnection> ();
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId )
 	{
 		/// Registrar la conexion de cada
 		/// player cuando se conecta
+		var player = Instantiate (playerPrefab) as GameObject;
+		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 
-		playerCount++;
+		players.Add (conn);
 	}
 	#endregion
 

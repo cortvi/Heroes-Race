@@ -10,9 +10,7 @@
 
 Core/
 		Game.cs
-			Esta clase contendrá de forma centralizada referencias a
-			diferentes elementes del juego, para facilitar el acceso. Así como
-			funcionalidades básicas de funcionamiento.
+			---
 
 		Player.cs
 			Esta clase contendrá todas las funcionalidades de los personajes
@@ -25,8 +23,7 @@ Core/
 
 UI/
 		UIManager.cs
-			Gestiona las funciones que se llaman desde el UI, cambios de pantalla, sincronizacion
-			servidor-cliente y cualquier cosa que tenga que ver con menus, HUD etc.
+			---
 
 		Selector.cs
 			Gestiona la lógica del selector de personaje.
@@ -39,7 +36,8 @@ Utilities/
 			momento dado. También hay una serie de funciones, que equivalen a las
 			de la clase Input de Unity ( GetKey, GetKeyDown y GetKeyUp ),
 			que se usan igual que las de la clase Input de Unity, pero
-			estas aceptan PlayerActions como parámetro en vez de un KeyCode. Por comodidad.
+			estas aceptan PlayerActions como parámetro en vez de un KeyCode.
+			Por comodidad.
 
 		Extensions.cs
 			--- ignorar ---

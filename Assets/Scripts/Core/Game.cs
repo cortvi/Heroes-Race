@@ -9,44 +9,86 @@ using UnityEngine.Networking;
 /// del funcionamiento del juego.
 public class Game : NetworkBehaviour
 {
-	#region ID CONEXION
-	/// Identificacion de cada recreativa
-	/// por order de conexion con el servidor
-	[SyncVar]
-	public int id;
-
+	#region CONNECTION ID
+	[SyncVar] public int id;
 	#endregion
 
 	#region COMMANDS
 	[Command]
-	public void Cmd_GiveControl( NetworkIdentity nid )
+	void Cmd_TriggerUI ( int trigger )
 	{
-		/// Cede la autoridad sobre el
-		/// objeto a el cliente
-		nid.AssignClientAuthority (connectionToClient);
-		print ("Assigned authority over " + nid.gameObject.name + "to ->\t" + name);
+		/// Cambia de pantalla para
+		/// todas las recreativas
+		var next = ( Pantallas ) trigger;
+		ui.currentScreen = next;
+
+		#region SWITCH
+		switch (next)
+		{
+			case Pantallas.SeleccionPersonaje:
+				ui.GetComponent<NetworkAnimator> ().SetTrigger (next.ToString ());
+				/// Otorga autoridad sobre los selectores
+				var selectors = ui.GetComponentsInChildren<Selector> (true);
+				for (var s=0; s!=net.players.Count; s++)
+				{
+//					selectors[s].c_Id = netId.Value;
+					var nId = selectors[s].GetComponent<NetworkIdentity> ();
+					nId.AssignClientAuthority (net.players[s]);
+				}
+				break;
+		}
+		#endregion
 	}
 	#endregion
 
 	#region REFERENCIA
-	/// Las referencias solo son
-	/// validas dentro de cada
-	/// cliente!
-	public static List<Game> players;		/// Player objects de cada jugador
-	public UIManager ui;					/// El script que controla el UI
-	public Networker net;					/// El manager de la red
+	public static UIManager ui;			/// El script que controla el UI
+	public static Networker net;		/// El manager de la red
 	#endregion
 
 	#region CALLBACKS
+	private void Update() 
+	{
+		#region CLIENTE
+		/// Funcionalidades de los clientes
+		if (isLocalPlayer)
+		{
+			/// Al pulsar el boton verde de la recreativa:
+			if (InputX.GetKeyDown (PlayerActions.GreenBtn))
+			{
+				#region SWITCH
+				/// El boton verde ejecuta acciones diferentes
+				/// segun en que momento del juego nos encontremos.
+				switch (ui.currentScreen)
+				{
+					case Pantallas.MenuPrincipal:
+						Cmd_TriggerUI ( (int) Pantallas.SeleccionPersonaje );
+						break;
+				}
+				#endregion
+			}
+		}
+		#endregion
+
+		#region SERVIDOR
+		/// Funcionalidades del servidor
+		if (isServer)
+		{
+			if (InputX.GetKeyDown (DevActions.NetworkHUD))
+			{
+				/// Muestra/Oculta HUD del NetworkManager
+				net.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
+			}
+		}
+		#endregion
+	}
+
 	public override void OnStartLocalPlayer() 
 	{
 		base.OnStartLocalPlayer ();
-		manager = this;
-		ui = GetComponent<UIManager> ();
+		ui = GameObject.Find ("Canvas").GetComponent<UIManager> ();
 		net = NetworkManager.singleton as Networker;
-		connection = GetComponent<NetworkIdentity> ();
 	}
-
 	private void Awake() 
 	{
 		DontDestroyOnLoad (gameObject);

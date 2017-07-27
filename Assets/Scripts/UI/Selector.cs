@@ -8,14 +8,22 @@ using UnityEngine.Networking;
 /// y permite seleccionar uno
 public class Selector : NetworkBehaviour
 {
+	#region REFERENCES
+//	[SyncVar]
+//	public uint c_Id;					// El n-ID del 'Game' que tiene autoridad sobre este selector
+
 	public Image current;
 	public Image next;
 	public Sprite[] personajes;			// El orden tiene que coincidir con la enum!
 	public GameObject focus;            // Marca cual es nuestro personje
 
-	int charId;
+//	Game owner;
+	[SyncVar]
+	public int charId;
+
 	bool sliding;
-	NetworkAnimator ui;
+	NetworkAnimator anim;
+	#endregion
 
 	#region SLIDING
 	IEnumerator Slide()
@@ -40,7 +48,7 @@ public class Selector : NetworkBehaviour
 	#endregion
 
 	#region CALLBACKS
-	private void Update()
+	private void Update() 
 	{
 		if (!hasAuthority || isServer) return;
 
@@ -53,24 +61,20 @@ public class Selector : NetworkBehaviour
 			sliding = true;                                             // Evitar cambio de personaje hasta terminar animacion
 			CorrectSlideID (( int ) dir);                                // Seleccionar ID del siguiente personaje
 			next.sprite = personajes[charId];                           // Mostrar siguiente personaje
-			ui.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");   // UI Trigger en base a la direccion del movimiento
+			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");   // UI Trigger en base a la direccion del movimiento
 			StartCoroutine (Slide ());
 		}
 	}
 
-	static int serverCount;
-	public override void OnStartAuthority() 
+	static int globalCharId;
+	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		if (isServer)
-		{
-			charId = serverCount;
-			serverCount++;
-		}
-		else charId = Game.manager.id;
-
+		charId = globalCharId;
 		current.sprite = personajes[charId];
-		ui = GetComponent<NetworkAnimator> ();
+		globalCharId++;
+
+		if (isClient) focus.SetActive (true);
 	} 
 	#endregion
 }
@@ -84,6 +88,5 @@ public enum PJs
 	Random_0,
 	Random_1
 	// En un futuro cuidado con
-	// cambiar los nombres!
-	// El orden tiene que coincidir con la array!
+	// cambiar los nombres! => El orden tiene que coincidir con la array!
 }
