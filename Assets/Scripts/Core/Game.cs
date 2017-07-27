@@ -26,7 +26,7 @@ public class Game : NetworkBehaviour
 		switch (next)
 		{
 			case Pantallas.SeleccionPersonaje:
-				ui.GetComponent<NetworkAnimator> ().SetTrigger (next.ToString ());
+				ui.GetComponent<Animator> ().SetTrigger (next.ToString ());
 				/// Otorga autoridad sobre los selectores
 				var selectors = ui.GetComponentsInChildren<Selector> (true);
 				for (var s=0; s!=net.players.Count; s++)
