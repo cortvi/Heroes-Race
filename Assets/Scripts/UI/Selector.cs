@@ -74,12 +74,13 @@ public class Selector : NetworkBehaviour
 	{
 		base.OnStartAuthority ();
 		anim = GetComponent<Animator> ();
-		personajes = GetComponentInParent<UIManager> ().personajes;
-
 		current.sprite = personajes[charId];
-
 		if (isClient) focus.SetActive (true);
-	} 
+	}
+	private void Awake() 
+	{
+		personajes = GetComponentInParent<UIManager> ().personajes;
+	}
 	#endregion
 }
 
