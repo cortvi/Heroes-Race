@@ -9,8 +9,8 @@ using UnityEngine.Networking;
 public class Selector : NetworkBehaviour
 {
 	#region REFERENCES
-	[SyncVar]
-	public PJs pj;						// El personaje selccionado
+	Sprite[] personajes;                // El orden tiene que coincidir con la enum!
+	[SyncVar] public PJs pj;			// El personaje selccionado
 	int charId 
 	{
 		get { return ( int ) pj; }
@@ -24,7 +24,7 @@ public class Selector : NetworkBehaviour
 
 	bool sliding;
 	Animator anim;
-	Sprite[] personajes;				// El orden tiene que coincidir con la enum!
+	RectTransform rect;
 	#endregion
 
 	#region SLIDING
@@ -57,6 +57,8 @@ public class Selector : NetworkBehaviour
 	#region CALLBACKS
 	private void Update() 
 	{
+		if (rect.anchoredPosition != pos) rect.anchoredPosition = pos;
+
 		if (!hasAuthority || isServer) return;
 
 		/// En caso de que se pulse tecla de mover
@@ -74,7 +76,7 @@ public class Selector : NetworkBehaviour
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		GetComponent<RectTransform> ().anchoredPosition = pos;
+		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 
 		if (isClient) focus.SetActive (true);
