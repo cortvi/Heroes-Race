@@ -76,13 +76,13 @@ public class Selector : NetworkBehaviour
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 
 		if (isClient) focus.SetActive (true);
 	}
 	private void Start () 
 	{
+		rect = GetComponent<RectTransform> ();
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
 		current.sprite = personajes[charId];
 	}
