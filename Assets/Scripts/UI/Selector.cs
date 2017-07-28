@@ -17,6 +17,7 @@ public class Selector : NetworkBehaviour
 		set { pj = ( PJs ) value; }
 	}
 
+	public Vector2 pos;
 	public Image current;
 	public Image next;
 	public GameObject focus;            // Marca cual es nuestro personje
@@ -80,6 +81,7 @@ public class Selector : NetworkBehaviour
 	private void Awake() 
 	{
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
+		GetComponent<RectTransform> ().anchoredPosition = pos;
 	}
 	#endregion
 }
