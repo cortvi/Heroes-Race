@@ -10,7 +10,7 @@ public class Selector : NetworkBehaviour
 {
 	#region REFERENCES
 	[SyncVar]
-	public PJs pj;					// El personaje selccionado
+	public PJs pj;						// El personaje selccionado
 	int charId 
 	{
 		get { return ( int ) pj; }
@@ -19,11 +19,11 @@ public class Selector : NetworkBehaviour
 
 	public Image current;
 	public Image next;
-	public Sprite[] personajes;			// El orden tiene que coincidir con la enum!
 	public GameObject focus;            // Marca cual es nuestro personje
 
 	bool sliding;
 	Animator anim;
+	Sprite[] personajes;				// El orden tiene que coincidir con la enum!
 	#endregion
 
 	#region SLIDING
@@ -73,8 +73,11 @@ public class Selector : NetworkBehaviour
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		current.sprite = personajes[charId];
 		anim = GetComponent<Animator> ();
+		personajes = GetComponentInParent<UIManager> ().personajes;
+
+		current.sprite = personajes[charId];
+
 		if (isClient) focus.SetActive (true);
 	} 
 	#endregion
