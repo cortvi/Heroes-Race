@@ -79,7 +79,7 @@ public class Selector : NetworkBehaviour
 	}
 	private void Awake() 
 	{
-		personajes = GetComponentInParent<UIManager> ().personajes;
+		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
 	}
 	#endregion
 }
