@@ -74,14 +74,12 @@ public class Selector : NetworkBehaviour
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		anim = GetComponent<Animator> ();
-		current.sprite = personajes[charId];
-		if (isClient) focus.SetActive (true);
-	}
-	private void Awake() 
-	{
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
 		GetComponent<RectTransform> ().anchoredPosition = pos;
+		anim = GetComponent<Animator> ();
+
+		current.sprite = personajes[charId];
+		if (isClient) focus.SetActive (true);
 	}
 	#endregion
 }
