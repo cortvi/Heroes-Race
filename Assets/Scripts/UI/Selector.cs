@@ -77,12 +77,12 @@ public class Selector : NetworkBehaviour
 		GetComponent<RectTransform> ().anchoredPosition = pos;
 		anim = GetComponent<Animator> ();
 
-		current.sprite = personajes[charId];
 		if (isClient) focus.SetActive (true);
 	}
-	private void Awake() 
+	private void Start () 
 	{
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
+		current.sprite = personajes[charId];
 	}
 	#endregion
 }
