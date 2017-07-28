@@ -82,8 +82,8 @@ public class Selector : NetworkBehaviour
 	}
 	private void Start () 
 	{
-		rect = GetComponent<RectTransform> ();
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
+		rect = GetComponent<RectTransform> ();
 		current.sprite = personajes[charId];
 	}
 	#endregion
