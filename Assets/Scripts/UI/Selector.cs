@@ -71,6 +71,7 @@ public class Selector : NetworkBehaviour
 	[ClientRpc]
 	void Rpc_CorrectSlideID ( int id ) 
 	{
+		sliding = true;
 		next.sprite = personajes[id];
 	}
 	#endregion
@@ -89,7 +90,6 @@ public class Selector : NetworkBehaviour
 			/// Animacion
 			if (dir != 0 && !done)
 			{
-				sliding = true;
 				Cmd_CorrectSlideID (( int ) dir);
 				anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight"); 
 			}
