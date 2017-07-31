@@ -29,10 +29,10 @@ public class Game : NetworkBehaviour
 				ui.GetComponent<Animator> ().SetTrigger (next.ToString ());
 				/// Otorga autoridad sobre los selectores
 				var selectors = ui.GetComponentsInChildren<Selector> (true);
-				for (var s=0; s!=net.players.Count; s++)
+				for (var s=0; s!=Networker.players.Count; s++)
 				{
 					var nId = selectors[s].GetComponent<NetworkIdentity> ();
-					nId.AssignClientAuthority (net.players[s]);
+					nId.AssignClientAuthority (Networker.players[s]);
 				}
 				break;
 		}

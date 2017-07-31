@@ -9,29 +9,50 @@ using UnityEngine.Networking;
 public class Selector : NetworkBehaviour
 {
 	#region REFERENCES
-	Sprite[] personajes;                // El orden tiene que coincidir con la enum!
-	[SyncVar] public PJs pj;			// El personaje selccionado
+	[SyncVar]
+	public PJs pj;						// El personaje selccionado
 	int charId 
 	{
 		get { return ( int ) pj; }
 		set { pj = ( PJs ) value; }
 	}
+	Sprite[] personajes;                // El orden tiene que coincidir con la enum!
 
 	public Vector2 pos;
 	public Image current;
 	public Image next;
-	public GameObject focus;            // Marca cual es nuestro personje
+	public GameObject focus;            // Marca de cual es nuestro personje
+	public GameObject selected;
 
-	bool sliding;
+	[SyncVar] bool done;				// Personaje seleccionado?
+	[SyncVar] bool sliding;				// Animacion en marcha?
 	Animator anim;
 	RectTransform rect;
+	#endregion
+
+	#region SELECTING CHAR
+	static int playersDone;
+	[Command]
+	void Cmd_Select ( bool done ) 
+	{
+		playersDone += done ? +1 : -1;
+
+		selected.SetActive (done);
+		this.done = done;
+		Rpc_Select (done);
+	}
+	[ClientRpc]
+	void Rpc_Select ( bool done ) 
+	{
+		selected.SetActive (done);
+	}
 	#endregion
 
 	#region SLIDING
 	public void CorrectSprite () 
 	{
 		current.sprite = personajes[charId];
-		sliding = false;
+		if (isServer) sliding = false;
 	}
 
 	[Command]
@@ -58,32 +79,48 @@ public class Selector : NetworkBehaviour
 	private void Update() 
 	{
 		if (rect.anchoredPosition != pos) rect.anchoredPosition = pos;
-
 		if (!hasAuthority || isServer) return;
 
 		/// En caso de que se pulse tecla de mover
-		/// ( y si no se está moviendo ya ),
 		/// deslizar targeta de personaje.
 		var dir = InputX.GetMovement ();
-		if (!sliding && dir != 0)
+		if (!sliding)
 		{
-			sliding = true;
-			Cmd_CorrectSlideID (( int ) dir);
-			anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");
+			/// Animacion
+			if (dir != 0 && !done)
+			{
+				sliding = true;
+				Cmd_CorrectSlideID (( int ) dir);
+				anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight"); 
+			}
+
+			/// Seleccionar personaje
+			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn ) )
+			{
+				if (!done)
+				{
+					done = true;
+					Cmd_Select ( true );
+				}
+				else
+				{
+					selected.SetActive (false);
+					Cmd_Select (false);
+				}
+			}
 		}
 	}
 
 	public override void OnStartAuthority () 
 	{
 		base.OnStartAuthority ();
-		anim = GetComponent<Animator> ();
-
 		if (isClient) focus.SetActive (true);
 	}
 	private void Start () 
 	{
 		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
 		rect = GetComponent<RectTransform> ();
+		anim = GetComponent<Animator> ();
 		current.sprite = personajes[charId];
 	}
 	#endregion

@@ -10,7 +10,7 @@ public class Networker : NetworkManager
 {
 	#region SERVIDOR
 	/// Las conexiones con las recreativas
-	public List<NetworkConnection> players = new List<NetworkConnection> ();
+	public static List<NetworkConnection> players = new List<NetworkConnection> (3);
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId )
 	{
