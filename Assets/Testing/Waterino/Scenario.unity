@@ -325,9 +325,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys:
-  - 0.206
+  - 0.187
   - -0.318
   - -0.516
+  rotSpeed: 2
 --- !u!1 &1669348147
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,6 +549,10 @@ Prefab:
     - target: {fileID: 100014, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
       propertyPath: m_Name
       value: Waterfall
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2300012, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
