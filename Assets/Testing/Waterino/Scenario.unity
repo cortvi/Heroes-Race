@@ -305,9 +305,9 @@ SkinnedMeshRenderer:
   m_Mesh: {fileID: 4300018, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
   m_Bones: []
   m_BlendShapeWeights:
-  - 0
-  - 0
-  - 0
+  - 57.28
+  - 56.53
+  - 37.91
   m_RootBone: {fileID: 0}
   m_AABB:
     m_Center: {x: 0.0501976, y: 0.026657104, z: 0.33478165}
@@ -325,10 +325,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys:
-  - 0.187
-  - -0.318
-  - -0.516
-  rotSpeed: 2
+  - -0.064
+  - 0.318
+  - 0.516
+  rotSpeed: 3
 --- !u!1 &1669348147
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +554,22 @@ Prefab:
       propertyPath: m_LocalPosition.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.2100431
+      objectReference: {fileID: 0}
+    - target: {fileID: 400014, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9776922
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300026, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 848918a99d11f25f110026ca44295342, type: 2}
     m_RemovedComponents:
     - {fileID: 2300012, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
     - {fileID: 3300012, guid: 5ab62983e113e4e4981d532f01325a28, type: 3}
