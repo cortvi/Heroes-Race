@@ -32,6 +32,7 @@ public class Waterfall : MonoBehaviour
 
 	private void Awake() 
 	{
+		Camera.main.depthTextureMode = DepthTextureMode.Depth;
 		mesh = GetComponent<SkinnedMeshRenderer> ();
 		values = new float[keys.Length];
 	}

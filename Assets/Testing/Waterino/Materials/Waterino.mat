@@ -19,8 +19,8 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 974a2c559920da94e81be00689226adf, type: 3}
-        m_Scale: {x: 2, y: 1}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Bump:
         m_Texture: {fileID: 2800000, guid: 4794294927f70df479ff7b18dabc0ba5, type: 3}
@@ -32,7 +32,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Detail:
         m_Texture: {fileID: 2800000, guid: 1580cf740b1a0604d95e280ad0032138, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 1, y: 0.31}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
@@ -66,6 +66,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 4b423aefad6a4c5469550afe06bec277, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseMask:
+        m_Texture: {fileID: 2800000, guid: 16c7463875913be4a82c9e4f5d8627c9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -76,35 +84,48 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Waves:
         m_Texture: {fileID: 2800000, guid: 86f2df4d7aee6fe4b84440679c792de6, type: 3}
-        m_Scale: {x: 2, y: 1}
+        m_Scale: {x: 6, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _WavesCol:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WavesMask:
+        m_Texture: {fileID: 2800000, guid: 866441449e2f90e419daeb4cf4099d1b, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BumpAmt: 40.3
+    - _BumpAmt: 26.6
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _DetailMul: 1
+    - _DetailFres: 0.96
+    - _DetailMul: 0.83
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FPower: 1.19
+    - _FPower: 3.5
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _NoiseFres: 1
+    - _NoiseMul: 2
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _R0: 0.0385
+    - _R0: 0.0238
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WavesMul: 0.43
+    - _WavesFres: 1
+    - _WavesMul: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dark: {r: 0, g: 0, b: 0, a: 0}
+    - _Dark: {r: 0.8088235, g: 0.88192046, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Light: {r: 1, g: 1, b: 1, a: 1}
-    - _Speed: {r: -0.39, g: -1.3, b: 0, a: 0}
+    - _Light: {r: 0.4705882, g: 0.48615915, b: 1, a: 1}
+    - _Lit: {r: 0.77205884, g: 0.80893165, b: 1, a: 1}
+    - _Speed: {r: 0, g: 1.38, b: 0, a: -2.16}

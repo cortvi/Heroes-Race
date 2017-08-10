@@ -107,3 +107,90 @@ ENDCG
 }
 
 }
+
+/*
+ * => OLD
+		CGINCLUDE
+		uniform fixed4 _FColor;
+		uniform float _FPower;
+		uniform float _R0;
+		
+		uniform fixed4 _Dark;
+		uniform fixed4 _Light;
+
+//		uniform sampler2D _Albedo;
+		uniform sampler2D _Waves;
+		uniform sampler2D _Detail;
+		uniform float2 _Speed;
+
+		// STRUCTS
+		struct Input   
+		{
+			float2 uv_Albedo;
+			float2 uv_Waves;
+			float2 uv_Detail;
+		};
+		struct Surface 
+		{
+			fixed3 Albedo;  // diffuse color
+			float3 Normal;  // tangent space normal, if written
+			fixed3 Emission;
+			half Specular;  // specular power in 0..1 range
+			fixed Gloss;    // specular intensity
+			fixed Alpha;    // alpha for transparencies
+
+		};
+		// END STRUCTS
+		ENDCG
+
+		//--------
+
+		CGPROGRAM
+		#pragma surface surf Lambert alpha
+
+//		fixed4 LightingWater ( Surface s, float3 lightDir, float3 viewDir, fixed atten )
+//		{
+//			float4 col = float4 (s.Albedo, s.Alpha);
+//
+//			float fresnel;
+//			fresnel = saturate ( 1.0 - dot(s.Normal, viewDir) );
+//			fresnel = pow (fresnel, _FPower);
+//			fresnel = _R0 + (1. - _R0) * fresnel;
+//
+//			return col * fresnel * _FColor;
+//		}
+
+		void surf ( Input i, inout SurfaceOutput s )
+		{
+			float2 uv = i.uv_Albedo.xy + _Time.x * _Speed;
+			s.Albedo = tex2D(_Albedo, uv ).rgb * _Color.rgb;
+			s.Normal = UnpackNormal( tex2D (_Bump, uv ) );
+		}
+		ENDCG
+
+		Blend One Zero
+
+		CGPROGRAM
+		#pragma surface surf Water alpha
+
+		fixed4 LightingWater ( Surface s, float3 lightDir, float3 viewDir, fixed atten )
+		{
+			float4 col = float4 (s.Albedo, s.Alpha);
+
+			float fresnel;
+			fresnel = saturate ( 1.0 - dot(s.Normal, viewDir) );
+			fresnel = pow (fresnel, _FPower);
+			fresnel = _R0 + (1. - _R0) * fresnel;
+
+			return float4(_FColor.rgb, fresnel);
+		}
+
+		void surf ( Input i, inout Surface s )
+		{
+			float2 uv = i.uv_Albedo.xy + _Time.x * _Speed;
+			s.Albedo = tex2D(_Albedo, uv ).rgb * _Color.rgb;
+			s.Normal = UnpackNormal( tex2D (_Bump, uv ) );
+			s.Alpha = (tex2D (_Gloss, uv ) * _Color.a).r;
+		}
+		ENDCG
+*/

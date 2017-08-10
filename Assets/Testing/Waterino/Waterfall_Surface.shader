@@ -4,26 +4,38 @@ Shader "Custom/Waterfall_Surface"
 {
 	Properties 
 	{
-		_FColor ("Fresnel Color",	Color)		   = (1,1,1,1)
-		_FPower ("Fresnel power",	Range(0, 10) ) = 5.0
-		_R0		("Fresnel R0",		Range(0, 1) )  = 0.05
+		_Dark	("Dark water color", Color)  = (0,0,0,1)
+		_Lit	("Lit water color",	 Color)	 = (1,1,1,1)
+		_Speed	("Water Speed",		 Vector) = (0, 0, 0, 0)
 
-		_Dark	("Water dark color",  Color) = (0,0,0,0)
-		_Light	("Water light color", Color) = (1,1,1,1)
+		_BumpAmt  ("Distortion Amount", range (0,128)) = 10
 
-		_Albedo		("Albedo (RGB)",		  2D)	  = "white" {}
-		_Speed		("Water Speed (XY + ZW)", Vector) = (0, 0, 0, 0)
-		_Waves		("Waves (normal map)",	  2D)	  = "bump" {}
-		_WavesMul	("Waves strenght",		  float)  = 1.0
-		_Detail		("Details (normal map)",  2D)	  = "bump" {}
-		_DetailMul	("Detail strenght",		  float)  = 1.0
+		_FColor ("Fresnel Color", Color)		 = (1,1,1,1)
+		_FPower ("Fresnel power", Range(0, 10)) = 5.0
+		_R0		("Fresnel R0",	  Range(0, .1))  = 0.05
 
-		_BumpAmt  ("Distortion", range (0,128)) = 10
+		_Waves		("Waves (normal map)", 2D)	  = "bump" {}
+		_WavesMul	("Waves strenght",	   float) = 1.0
+		_WavesFres	("Waves fresnel",	   float) = 1.0
+		[NoScaleOffset]
+		_WavesMask	("Waves color mask",   2D)	  = "white" {}
+
+		_Noise		("Noise (normal map)", 2D)	  = "bump" {}
+		_NoiseMul	("Noise strenght",	   float) = 1.0
+		[NoScaleOffset]
+		_NoiseMask	("Noise color mask",   2D)	  = "white" {}
+
 	}
 
 	SubShader
 	{
 		Tags { "Queue"="Transparent" "RenderType"="Opaque" }
+
+		CGINCLUDE
+		#define FADE _SinTime.z * 0.5 +0.5
+		#define SPEED(st) _Time.x * _Speed.st
+		#define UTEX(name) tex2D(name, i.uv##name)
+		ENDCG
 
 		// This pass grabs the screen behind the object into a texture.
         // We can access the result in the next pass as _Screen
@@ -38,6 +50,7 @@ Shader "Custom/Waterfall_Surface"
 		{
             Tags { "LightMode" = "Always" }
 
+			ZWrite Off
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
@@ -46,23 +59,24 @@ Shader "Custom/Waterfall_Surface"
 			struct v2f 
 			{
 				float4 vertex		: SV_POSITION;
-				float2 uv_albedo	: TEXCOORD0;
 				float2 uv_waves		: TEXCOORD1;
-				float2 uv_detail	: TEXCOORD2;
+				float2 uv_noise		: TEXCOORD2;
 				float4 uv_grab		: TEXCOORD3;
 			};
 
-			uniform sampler2D _Albedo;
-			uniform float4 _Albedo_ST;
+			sampler2D _CameraDepthTexture;
+			sampler2D _GrabTexture;
+			float4 _GrabTexture_TexelSize;
+
+			uniform fixed4 _Dark;
+
 			uniform sampler2D _Waves;
 			uniform float4 _Waves_ST;
 			uniform float _WavesMul;
-			uniform sampler2D _Detail;
-			uniform float4 _Detail_ST;
-			uniform float _DetailMul;
 
-			sampler2D _GrabTexture;
-			float4 _GrabTexture_TexelSize;
+			uniform sampler2D _Noise;
+			uniform float4 _Noise_ST;
+			uniform float _NoiseMul;
 
 			float4 _Speed;
 			float _BumpAmt;
@@ -72,123 +86,118 @@ Shader "Custom/Waterfall_Surface"
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
 
-				o.uv_albedo = TRANSFORM_TEX( v.texcoord, _Albedo );
-				o.uv_waves = TRANSFORM_TEX( v.texcoord, _Waves );
-				o.uv_detail = TRANSFORM_TEX ( v.texcoord, _Detail );
+				o.uv_waves = TRANSFORM_TEX( v.texcoord, _Waves);
+				o.uv_noise = TRANSFORM_TEX (v.texcoord, _Noise);
 				o.uv_grab = ComputeGrabScreenPos (o.vertex);
-
 				return o;
 			}
 
 			half4 frag (v2f i) : SV_Target 
 			{
-				float3 waves = UnpackNormal(tex2D( _Waves, i.uv_waves+_Time.x*_Speed.xy )) * _WavesMul;
-				float3 detail = UnpackNormal(tex2D( _Detail, i.uv_detail+_Time.x*_Speed.zw )) * _DetailMul;
+				i.uv_waves += SPEED(xy);
+				i.uv_noise += SPEED(zw);
+				float3 waves = UnpackNormal(tex2D( _Waves, i.uv_waves) ) * _WavesMul;
+				float3 noise = UnpackNormal(tex2D( _Noise, i.uv_noise) ) * _NoiseMul;
+				float3 bump = waves + noise;
+				float2 offset = bump * _BumpAmt * _GrabTexture_TexelSize.xy;
 
-				float2 offset = waves * _BumpAmt * _GrabTexture_TexelSize.xy;
+				float4 dissort = i.uv_grab;
 				#ifdef UNITY_Z_0_FAR_FROM_CLIPSPACE //to handle recent standard asset package on older version of unity (before 5.5)
-					i.uv_grab.xy = offset * UNITY_Z_0_FAR_FROM_CLIPSPACE(i.uv_grab.z) + i.uv_grab.xy;
+					dissort.xy += offset * UNITY_Z_0_FAR_FROM_CLIPSPACE(i.uv_grab.z);
 				#else
-					i.uv_grab.xy = offset * i.uv_grab.z + i.uv_grab.xy;
+					dissort.xy += offset * i.uv_grab.z;
 				#endif
 
-				float4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uv_grab));
-				fixed4 tint = tex2D(_Albedo, i.uv_albedo);
-				col *= tint;
+				//*1
+				float4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(dissort));
 
-				return col;
+				/// This shit doesn't work
+//				float4 fix = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uv_grab));
+
+//				float reff = UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(dissort)));
+//				if (LinearEyeDepth(reff) < dissort.z)
+//					col = fix;
+
+				return col*_Dark;
 			}
 			ENDCG
         }
-	}
-	FallBack "Diffuse"
-}
-
-
-
-/*
- * => OLD
-		CGINCLUDE
-		uniform fixed4 _FColor;
-		uniform float _FPower;
-		uniform float _R0;
 		
-		uniform fixed4 _Dark;
-		uniform fixed4 _Light;
 
-//		uniform sampler2D _Albedo;
-		uniform sampler2D _Waves;
-		uniform sampler2D _Detail;
-		uniform float2 _Speed;
+		Blend SrcAlpha OneMinusSrcAlpha
+		// Color pass: Mix dissorted background with water color
+		// based on fresnel
+		CGPROGRAM
+		#pragma surface surf Water keepalpha nofog
+		#pragma target 3.0
 
-		// STRUCTS
 		struct Input   
 		{
-			float2 uv_Albedo;
 			float2 uv_Waves;
-			float2 uv_Detail;
+			float2 uv_WavesMask;
+			float2 uv_Noise;
+			float2 uv_NoiseMask;
 		};
 		struct Surface 
 		{
-			fixed3 Albedo;  // diffuse color
-			float3 Normal;  // tangent space normal, if written
+			fixed3 Albedo;
+			float3 Normal;
 			fixed3 Emission;
-			half Specular;  // specular power in 0..1 range
-			fixed Gloss;    // specular intensity
-			fixed Alpha;    // alpha for transparencies
-
+			half Specular;
+			fixed Gloss;
+			float Alpha;
 		};
-		// END STRUCTS
-		ENDCG
+		
+		uniform float4 _Dark;
+		uniform float4 _Lit;
+		uniform float4 _Speed;
 
-		//--------
+		uniform float4 _FColor;
+		uniform float _FPower;
+		uniform float _R0;
 
-		CGPROGRAM
-		#pragma surface surf Lambert alpha
+		uniform sampler2D _Waves;
+		uniform float _WavesFres;
+		uniform sampler2D _WavesMask;
+		uniform sampler2D _NoiseMask;
 
-//		fixed4 LightingWater ( Surface s, float3 lightDir, float3 viewDir, fixed atten )
-//		{
-//			float4 col = float4 (s.Albedo, s.Alpha);
-//
-//			float fresnel;
-//			fresnel = saturate ( 1.0 - dot(s.Normal, viewDir) );
-//			fresnel = pow (fresnel, _FPower);
-//			fresnel = _R0 + (1. - _R0) * fresnel;
-//
-//			return col * fresnel * _FColor;
-//		}
-
-		void surf ( Input i, inout SurfaceOutput s )
+		void surf (Input i, inout Surface s ) 
 		{
-			float2 uv = i.uv_Albedo.xy + _Time.x * _Speed;
-			s.Albedo = tex2D(_Albedo, uv ).rgb * _Color.rgb;
-			s.Normal = UnpackNormal( tex2D (_Bump, uv ) );
+			// Calculate normal bump
+			i.uv_Waves += SPEED(xy);
+			float3 waves = UnpackNormal(UTEX(_Waves)) * _WavesFres;
+			s.Normal = waves;
+
+			i.uv_WavesMask = i.uv_Waves;
+			s.Alpha = UTEX(_WavesMask).r;
+
+			// Calculate noise mask
+//			i.uv_NoiseMask += SPEED(zw);
+//			s.Alpha = UTEX(_NoiseMask).r * FADE;
 		}
-		ENDCG
 
-		Blend One Zero
-
-		CGPROGRAM
-		#pragma surface surf Water alpha
-
-		fixed4 LightingWater ( Surface s, float3 lightDir, float3 viewDir, fixed atten )
+		half4 LightingWater ( Surface s, float3 lightDir, float3 viewDir, fixed atten )
 		{
-			float4 col = float4 (s.Albedo, s.Alpha);
-
 			float fresnel;
 			fresnel = saturate ( 1.0 - dot(s.Normal, viewDir) );
 			fresnel = pow (fresnel, _FPower);
 			fresnel = _R0 + (1. - _R0) * fresnel;
 
-			return float4(_FColor.rgb, fresnel);
-		}
+			float4 col = lerp(_Dark, _Lit, pow(fresnel, s.Alpha));
+			col.a = fresnel;
 
-		void surf ( Input i, inout Surface s )
-		{
-			float2 uv = i.uv_Albedo.xy + _Time.x * _Speed;
-			s.Albedo = tex2D(_Albedo, uv ).rgb * _Color.rgb;
-			s.Normal = UnpackNormal( tex2D (_Bump, uv ) );
-			s.Alpha = (tex2D (_Gloss, uv ) * _Color.a).r;
+			return col;
 		}
 		ENDCG
-*/
+	}
+	FallBack "Diffuse"
+}
+
+///=>*1
+//			    fixed4 refraction = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(DistUV));
+//                fixed4 refractionN = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.GrabUV));
+// 
+//                fixed refrFix = UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(DistUV)));
+//                 
+//                 if(LinearEyeDepth(refrFix) < i.GrabUV.z)
+//                     refraction = refractionN;
