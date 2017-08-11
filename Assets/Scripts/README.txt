@@ -6,7 +6,6 @@
 
 /// De no entender el funcionamiento de algo, whatsapp, skype o GitHub!
 /// Recordad usar las Issues de GitHub :)
----
 
 Core/
 		Game.cs
@@ -22,12 +21,17 @@ Core/
 
 
 UI/
-		UIManager.cs
+		UI.cs
 			---
 
 		Selector.cs
 			Gestiona la lógica del selector de personaje.
 
+
+Props/
+		Waterfall.cs
+			Controla el efecto del agua del fondo.
+	
 
 Utilities/
 		Inputx.cs

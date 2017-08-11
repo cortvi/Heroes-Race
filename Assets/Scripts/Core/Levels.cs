@@ -10,7 +10,7 @@ public class Levels : NetworkBehaviour
 	enum Names 
 	{
 		MainMenu,
-		Torre
+		WaterTower
 	}
 	public static Levels manager;
 
@@ -18,7 +18,7 @@ public class Levels : NetworkBehaviour
 	{
 		switch ((Names) level)
 		{
-			case Names.Torre:
+			case Names.WaterTower:
 
 				break;
 		}

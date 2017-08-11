@@ -9,13 +9,9 @@ using UnityEngine.Networking;
 /// del funcionamiento del juego.
 public class Game : NetworkBehaviour
 {
-	#region CONNECTION ID
-	[SyncVar] public int id;
-	#endregion
-
 	#region COMMANDS
 	[Command]
-	void Cmd_TriggerUI ( int trigger )
+	void Cmd_TriggerUI ( int trigger ) 
 	{
 		/// Cambia de pantalla para
 		/// todas las recreativas
