@@ -10,7 +10,8 @@ public class Networker : NetworkManager
 {
 	#region SERVIDOR
 	/// Las conexiones con las recreativas
-	public static List<NetworkConnection> players = new List<NetworkConnection> (3);
+	public static List<NetworkConnection> conns;
+	public static Dictionary<NetworkConnection, GameObject> players;
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId )
 	{
@@ -19,11 +20,20 @@ public class Networker : NetworkManager
 		var player = Instantiate (playerPrefab) as GameObject;
 		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 
-		players.Add (conn);
+		conns.Add (conn);
+		players.Add (conn, player);
 	}
 	#endregion
 
 	#region CLIENTE
 	// TODO
+	#endregion
+
+	#region CALLBACKS
+	private void Awake() 
+	{
+		conns = new List<NetworkConnection> (3);
+		players = new Dictionary<NetworkConnection, GameObject> (3);
+	}
 	#endregion
 }

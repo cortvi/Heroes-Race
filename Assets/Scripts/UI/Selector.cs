@@ -26,8 +26,8 @@ public class Selector : NetworkBehaviour
 
 	[SyncVar] bool done;				// Personaje seleccionado?
 	[SyncVar] bool sliding;				// Animacion en marcha?
-	Animator anim;
 	RectTransform rect;
+	Animator anim;
 	#endregion
 
 	#region SELECTING CHAR
@@ -36,6 +36,11 @@ public class Selector : NetworkBehaviour
 	void Cmd_Select ( bool done ) 
 	{
 		playersDone += done ? +1 : -1;
+		if (playersDone == 3)
+		{
+			UI.manager.currentScreen = Pantallas.TodosListos;
+			NetworkManager.singleton.ServerChangeScene ("Torre");
+		}
 
 		selected.SetActive (done);
 		this.done = done;
@@ -96,15 +101,17 @@ public class Selector : NetworkBehaviour
 			}
 
 			/// Seleccionar personaje
-			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn ) )
+			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn )
+			&& UI.manager.currentScreen == Pantallas.SeleccionPersonaje )
 			{
 				if (!done)
 				{
-					done = true;
+					done = true;   // auto avoid player from sliding
 					Cmd_Select ( true );
 				}
 				else
 				{
+					// only can slide again when server provides
 					selected.SetActive (false);
 					Cmd_Select (false);
 				}
@@ -119,7 +126,7 @@ public class Selector : NetworkBehaviour
 	}
 	private void Start () 
 	{
-		personajes = GameObject.Find ("Canvas").GetComponent<UIManager> ().personajes;
+		personajes = UI.manager.personajes;
 		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 		current.sprite = personajes[charId];

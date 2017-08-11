@@ -20,29 +20,24 @@ public class Game : NetworkBehaviour
 		/// Cambia de pantalla para
 		/// todas las recreativas
 		var next = ( Pantallas ) trigger;
-		ui.currentScreen = next;
+		UI.manager.currentScreen = next;
 
 		#region SWITCH
 		switch (next)
 		{
 			case Pantallas.SeleccionPersonaje:
-				ui.GetComponent<Animator> ().SetTrigger (next.ToString ());
+				UI.manager.GetComponent<Animator> ().SetTrigger (next.ToString ());
 				/// Otorga autoridad sobre los selectores
-				var selectors = ui.GetComponentsInChildren<Selector> (true);
-				for (var s=0; s!=Networker.players.Count; s++)
+				var selectors = UI.manager.GetComponentsInChildren<Selector> (true);
+				for (var s=0; s!=Networker.conns.Count; s++)
 				{
 					var nId = selectors[s].GetComponent<NetworkIdentity> ();
-					nId.AssignClientAuthority (Networker.players[s]);
+					nId.AssignClientAuthority (Networker.conns[s]);
 				}
 				break;
 		}
 		#endregion
 	}
-	#endregion
-
-	#region REFERENCIA
-	public static UIManager ui;			/// El script que controla el UI
-	public static Networker net;		/// El manager de la red
 	#endregion
 
 	#region CALLBACKS
@@ -58,7 +53,7 @@ public class Game : NetworkBehaviour
 				#region SWITCH
 				/// El boton verde ejecuta acciones diferentes
 				/// segun en que momento del juego nos encontremos.
-				switch (ui.currentScreen)
+				switch (UI.manager.currentScreen)
 				{
 					case Pantallas.MenuPrincipal:
 						Cmd_TriggerUI ( (int) Pantallas.SeleccionPersonaje );
@@ -76,17 +71,23 @@ public class Game : NetworkBehaviour
 			if (InputX.GetKeyDown (DevActions.NetworkHUD))
 			{
 				/// Muestra/Oculta HUD del NetworkManager
-				net.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
+				NetworkManager.singleton.GetComponent<NetworkManagerHUD> ().showGUI ^= true;   // invertir valor
 			}
 		}
 		#endregion
 	}
 
-	private void Awake() 
+	private void Awake () 
 	{
-		ui = GameObject.Find ("Canvas").GetComponent<UIManager> ();
-		net = NetworkManager.singleton as Networker;
 		DontDestroyOnLoad (gameObject);
+
+		if (isClient)
+		{
+			// This way, any wrong call will generate
+			// a NullReferenceException
+			Networker.conns = null;
+			Networker.players = null;
+		}
 	}
 	#endregion
 }

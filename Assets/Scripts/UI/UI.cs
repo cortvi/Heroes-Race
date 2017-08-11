@@ -7,11 +7,18 @@ using UnityEngine.UI;
 
 /// Contiene las funciones que gestionan
 /// y regulan el UI entre el cliente y el servidor.
-public class UIManager : NetworkBehaviour
+public class UI : NetworkBehaviour
 {
 	[SyncVar]
 	public Pantallas currentScreen;
 	public Sprite[] personajes;
+
+
+	public static UI manager;
+	private void Awake() 
+	{
+		manager = this;
+	}
 }
 
 public enum Pantallas 
@@ -20,6 +27,8 @@ public enum Pantallas
 	/// de UI
 	MenuPrincipal,
 	SeleccionPersonaje,
+	TodosListos,
 	Loading,
+	ReadySteadyGo,
 	InGame
 }
