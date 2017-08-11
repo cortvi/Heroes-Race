@@ -1,6 +1,4 @@
-﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Custom/Waterfall_Surface"
+﻿Shader "Custom/Waterfall"
 {
 	Properties 
 	{
@@ -111,7 +109,7 @@ Shader "Custom/Waterfall_Surface"
 				//*1
 				float4 col = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(dissort));
 
-				/// This shit doesn't work
+				/// This shit doesn't work => fix z-bad dissortion
 //				float4 fix = tex2Dproj( _GrabTexture, UNITY_PROJ_COORD(i.uv_grab));
 
 //				float reff = UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(dissort)));
@@ -123,10 +121,9 @@ Shader "Custom/Waterfall_Surface"
 			ENDCG
         }
 		
-
+		// Color pass: Mix dissorted background
+		// with water color based on fresnel
 		Blend SrcAlpha OneMinusSrcAlpha
-		// Color pass: Mix dissorted background with water color
-		// based on fresnel
 		CGPROGRAM
 		#pragma surface surf Water keepalpha nofog
 		#pragma target 3.0
@@ -192,12 +189,3 @@ Shader "Custom/Waterfall_Surface"
 	}
 	FallBack "Diffuse"
 }
-
-///=>*1
-//			    fixed4 refraction = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(DistUV));
-//                fixed4 refractionN = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(i.GrabUV));
-// 
-//                fixed refrFix = UNITY_SAMPLE_DEPTH(tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(DistUV)));
-//                 
-//                 if(LinearEyeDepth(refrFix) < i.GrabUV.z)
-//                     refraction = refractionN;

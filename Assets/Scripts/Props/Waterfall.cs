@@ -8,7 +8,8 @@ public class Waterfall : MonoBehaviour
 {
 	/// La velocidad de cada Key
 	[Range(-1f, 1f)] public float[] keys;
-	public float rotSpeed;
+
+	public float rotationSpeed;
 	SkinnedMeshRenderer mesh;
 	float[] values;
 
@@ -27,7 +28,7 @@ public class Waterfall : MonoBehaviour
 			}
 		}
 
-		transform.Rotate (Vector3.up, rotSpeed * Time.deltaTime);
+		transform.Rotate (Vector3.up, rotationSpeed * Time.deltaTime);
 	}
 
 	private void Awake() 

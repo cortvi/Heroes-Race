@@ -22,6 +22,11 @@ Core/
 			Gestiona funcionalidades de red tanto para el cliente como para el servidor.
 
 
+Props/
+		Waterfall.cs
+			Controla el efecto del agua del fondo.
+	
+
 Utilities/
 		DevHotKeys.cs
 			Se encarga simplemente de simplemente leer
