@@ -38,7 +38,7 @@ public class Selector : NetworkBehaviour
 	void Cmd_Select( bool done ) 
 	{
 		playersDone += done ? +1 : -1;
-		if (playersDone == 3)
+		if (playersDone == 2)			// Pos de momento solo tengo 2 PCs
 		{
 			UI.manager.currentScreen = UI.Pantallas.TodosListos;
 			NetworkManager.singleton.ServerChangeScene ("Torre");

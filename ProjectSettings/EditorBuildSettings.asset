@@ -9,5 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 4cf8ddff0820e8347864c4f3dccee66b
   - enabled: 1
-    path: Assets/Blockout/Torre.unity
+    path: Assets/Blockout/WaterTower.unity
     guid: 969646f614d7eae4e9b07b4ed95a46d8

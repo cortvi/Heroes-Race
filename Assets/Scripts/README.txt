@@ -20,9 +20,6 @@ Core/
 			NetworkManager personalizado. Gestiona algunas funciones internas
 			de la red y las conexiones tanto de servidor como de cliente.
 
-		Levels.cs
-			Gestiona cargas de niveles, cambios, transiciones.
-
 
 UI/
 		UI.cs

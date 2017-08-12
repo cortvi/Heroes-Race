@@ -38,8 +38,8 @@ public enum PlayerActions
 	// que en un futuro se puedan cambiar facilmente los controles.
 	// Basta con cambiar el valolr aquí para que se cambie en el resto
 	// del juego.
-	MoveLeft = KeyCode.LeftArrow,
-	MoveRight = KeyCode.RightArrow,
+	MoveLeft = KeyCode.A,
+	MoveRight = KeyCode.D,
 	Jump = KeyCode.Space,
 	Dash = KeyCode.Q,
 	Attack = KeyCode.W,
