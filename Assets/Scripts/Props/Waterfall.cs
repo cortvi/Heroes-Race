@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// Gestiona el movimiento de los
-/// blend-shapes de la torre de agua
+/// blend-shapes del torrente de agua
 public class Waterfall : MonoBehaviour
 {
-	/// La velocidad de cada Key
-	[Range(-1f, 1f)] public float[] keys;
+	[Range(-1f, 1f)] public float[] keys;   // La velocidad de cada Key
+	public float rotationSpeed;				// La velocidad de rotacion (sobre si mismo)
 
-	public float rotationSpeed;
 	SkinnedMeshRenderer mesh;
 	float[] values;
-
 	private void Update()
 	{
 		for ( var k=0; k!=keys.Length; k++ )

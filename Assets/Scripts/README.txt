@@ -9,20 +9,25 @@
 
 Core/
 		Game.cs
-			---
+			Gestiona lógica básica de cada jugador, sobre todo input
+			relacionado con el UI
 
 		Player.cs
-			Esta clase contendrá todas las funcionalidades de los personajes
-			de cada jugador.
+			Esta clase contendrá todas las funcionalidades de los 
+			objetos-personajes de cada jugador.
 
 		Networker.cs
 			NetworkManager personalizado. Gestiona algunas funciones internas
 			de la red y las conexiones tanto de servidor como de cliente.
 
+		Levels.cs
+			Gestiona cargas de niveles, cambios, transiciones.
+
 
 UI/
 		UI.cs
-			---
+			Contiene referencias y datos sobre el UI. Indica tanto a clientes
+			como al servidor en que pantalla se encuentra el juego.
 
 		Selector.cs
 			Gestiona la lógica del selector de personaje.

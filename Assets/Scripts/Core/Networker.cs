@@ -13,13 +13,12 @@ public class Networker : NetworkManager
 	public static List<NetworkConnection> conns;
 	public static Dictionary<NetworkConnection, GameObject> players;
 
-	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId )
+	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId ) 
 	{
-		/// Registrar la conexion de cada
-		/// player cuando se conecta
 		var player = Instantiate (playerPrefab) as GameObject;
 		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
-
+		/// Registrar la conexion de cada
+		/// player cuando se conecta
 		conns.Add (conn);
 		players.Add (conn, player);
 	}

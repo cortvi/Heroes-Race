@@ -15,22 +15,22 @@ public class Game : NetworkBehaviour
 	{
 		/// Cambia de pantalla para
 		/// todas las recreativas
-		var next = ( Pantallas ) trigger;
+		var next = ( UI.Pantallas ) trigger;
 		UI.manager.currentScreen = next;
 
 		#region SWITCH
 		switch (next)
 		{
-			case Pantallas.SeleccionPersonaje:
-				UI.manager.GetComponent<Animator> ().SetTrigger (next.ToString ());
-				/// Otorga autoridad sobre los selectores
-				var selectors = UI.manager.GetComponentsInChildren<Selector> (true);
-				for (var s=0; s!=Networker.conns.Count; s++)
-				{
-					var nId = selectors[s].GetComponent<NetworkIdentity> ();
-					nId.AssignClientAuthority (Networker.conns[s]);
-				}
-				break;
+		case UI.Pantallas.SeleccionPersonaje:
+			UI.manager.GetComponent<Animator> ().SetTrigger (next.ToString ());
+			/// Otorga autoridad sobre los selectores
+			var selectors = UI.manager.GetComponentsInChildren<Selector> (true);
+			for (var s=0; s!=Networker.conns.Count; s++)
+			{
+				var nId = selectors[s].GetComponent<NetworkIdentity> ();
+				nId.AssignClientAuthority (Networker.conns[s]);
+			}
+		break;
 		}
 		#endregion
 	}
@@ -51,9 +51,9 @@ public class Game : NetworkBehaviour
 				/// segun en que momento del juego nos encontremos.
 				switch (UI.manager.currentScreen)
 				{
-					case Pantallas.MenuPrincipal:
-						Cmd_TriggerUI ( (int) Pantallas.SeleccionPersonaje );
-						break;
+				case UI.Pantallas.MenuPrincipal:
+					Cmd_TriggerUI ( (int) UI.Pantallas.SeleccionPersonaje );
+				break;
 				}
 				#endregion
 			}

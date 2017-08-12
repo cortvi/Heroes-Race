@@ -8,10 +8,10 @@ using UnityEngine.Networking;
 /// y permite seleccionar uno
 public class Selector : NetworkBehaviour
 {
-	#region REFERENCES
+	#region INTERNAL DATA
 	[SyncVar]
-	public PJs pj;						// El personaje selccionado
-	int charId 
+	public PJs pj;                      // El personaje selccionado
+	int charId
 	{
 		get { return ( int ) pj; }
 		set { pj = ( PJs ) value; }
@@ -22,67 +22,73 @@ public class Selector : NetworkBehaviour
 	public Image current;
 	public Image next;
 	public GameObject focus;            // Marca de cual es nuestro personje
-	public GameObject selected;
+	public GameObject selected;         // Indicador de seleccion
 
-	[SyncVar] bool done;				// Personaje seleccionado?
-	[SyncVar] bool sliding;				// Animacion en marcha?
+	[SyncVar]
+	bool done;              // Personaje seleccionado?
+	[SyncVar]
+	bool sliding;               // Animacion en marcha?
 	RectTransform rect;
 	Animator anim;
 	#endregion
 
 	#region SELECTING CHAR
-	static int playersDone;
+	static int playersDone;             // Cantidad de jugadores listos
 	[Command]
-	void Cmd_Select ( bool done ) 
+	void Cmd_Select( bool done ) 
 	{
 		playersDone += done ? +1 : -1;
 		if (playersDone == 3)
 		{
-			UI.manager.currentScreen = Pantallas.TodosListos;
+			UI.manager.currentScreen = UI.Pantallas.TodosListos;
 			NetworkManager.singleton.ServerChangeScene ("Torre");
 		}
 
-		selected.SetActive (done);
-		this.done = done;
-		Rpc_Select (done);
+		selected.SetActive (done);      // Mostrar indicador de seleccion (servidor)
+		this.done = done;               // Bloquear sliding
+		Rpc_Select (done);              // Mostrar indicador de seleccion (cliente)
 	}
 	[ClientRpc]
-	void Rpc_Select ( bool done ) 
+	void Rpc_Select( bool done ) 
 	{
 		selected.SetActive (done);
 	}
 	#endregion
 
 	#region SLIDING
-	public void CorrectSprite () 
+	public void CorrectSprite() 
 	{
+		/// Esto se ejecuta para intercambiar los splasharts
+		/// y que no se note el cambio (animacion)
 		current.sprite = personajes[charId];
 		if (isServer) sliding = false;
 	}
 
 	[Command]
-	void Cmd_CorrectSlideID ( int dir ) 
+	void Cmd_CorrectSlideID( int dir ) 
 	{
-		sliding = true;
+		sliding = true;                     // Bloquea el sliding (porque ya se esta ejecutando)
 		var max = personajes.Length;
 
+		/// Cambia los splasharts en base al movimiento
 		charId += dir;
+		// Asegura el loop
 		if (charId == -1) charId = max-1;
 		else
 		if (charId == max) charId = 0;
 
-		next.sprite = personajes[charId];
-		Rpc_CorrectSlideID (charId);
+		next.sprite = personajes[charId];   // Cambiar el splashart siguiente (servidor)
+		Rpc_CorrectSlideID (charId);        // Cambiar el splashart siguiente (cliente)
 	}
 	[ClientRpc]
-	void Rpc_CorrectSlideID ( int id ) 
+	void Rpc_CorrectSlideID( int id ) 
 	{
 		next.sprite = personajes[id];
 	}
 	#endregion
 
 	#region CALLBACKS
-	private void Update() 
+	private void Update()
 	{
 		if (rect.anchoredPosition != pos) rect.anchoredPosition = pos;
 		if (!hasAuthority || isServer) return;
@@ -97,17 +103,17 @@ public class Selector : NetworkBehaviour
 			{
 				sliding = true;
 				Cmd_CorrectSlideID (( int ) dir);
-				anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight"); 
+				anim.SetTrigger ((dir == -1) ? "SlideLeft" : "SlideRight");
 			}
 
 			/// Seleccionar personaje
-			if ( InputX.GetKeyDown ( PlayerActions.GreenBtn )
-			&& UI.manager.currentScreen == Pantallas.SeleccionPersonaje )
+			if (InputX.GetKeyDown (PlayerActions.GreenBtn)
+			&& UI.manager.currentScreen == UI.Pantallas.SeleccionPersonaje)
 			{
 				if (!done)
 				{
 					done = true;   // auto avoid player from sliding
-					Cmd_Select ( true );
+					Cmd_Select (true);
 				}
 				else
 				{
@@ -119,18 +125,18 @@ public class Selector : NetworkBehaviour
 		}
 	}
 
-	public override void OnStartAuthority () 
+	public override void OnStartAuthority()
 	{
 		base.OnStartAuthority ();
 		if (isClient) focus.SetActive (true);
 	}
-	private void Start () 
+	private void Start()
 	{
 		personajes = UI.manager.personajes;
 		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 		current.sprite = personajes[charId];
-	}
+	} 
 	#endregion
 }
 
