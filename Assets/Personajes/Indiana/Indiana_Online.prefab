@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 114348685212763646}
   - component: {fileID: 114983493738582874}
   m_Layer: 0
-  m_Name: Indiana
+  m_Name: Indiana_Online
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,21 +574,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1781710860757170
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4351920560803504}
-  m_Layer: 0
-  m_Name: Character001
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1820792084229122
 GameObject:
   m_ObjectHideFlags: 1
@@ -874,19 +859,6 @@ Transform:
   m_Father: {fileID: 4012125299926042}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4351920560803504
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1781710860757170}
-  m_LocalRotation: {x: 0.50000006, y: -0.5, z: -0.4999999, w: 0.5}
-  m_LocalPosition: {x: -0.0018059328, y: 0, z: 0.007623926}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4843997300309790}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4359926511897356
 Transform:
   m_ObjectHideFlags: 1
@@ -993,7 +965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4843997300309790}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4562082251945462
 Transform:
@@ -1170,11 +1142,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329425656299250}
   m_LocalRotation: {x: -0, y: 0.8904116, z: -0, w: 0.4551563}
-  m_LocalPosition: {x: -8.599, y: 0.332, z: -9.413}
+  m_LocalPosition: {x: -8.599, y: 0.65, z: -9.413}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4130329765641320}
-  - {fileID: 4351920560803504}
   - {fileID: 4554154396167284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1380,6 +1351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac8727c464626478b2f0978baaac8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 0
   charSpeed: 2.5
   runSpeedOffset: 0.5
 --- !u!136 &136494398298610342

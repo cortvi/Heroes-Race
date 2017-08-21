@@ -30,18 +30,19 @@ public class Player : MonoBehaviour
 	#region MOVEMENT
 	void Movement (float mov) 
 	{
-		if (onAir)
-		{
-			body.AddForce (transform.forward * 100 * Time.deltaTime, ForceMode.VelocityChange);
-			return;
-		}
-
-		Moving = (mov!=0 ? true : false);
 		if (mov != 0)
 		{
+			Moving = true;
+			if (onAir)
+			{
+				body.AddForce (transform.forward * 100 * Time.deltaTime, ForceMode.VelocityChange);
+				return;
+			}
+
 			SpeedMul = Mathf.Abs (mov) + runSpeedOffset;
 			transform.Translate (0, 0, mov * direction * charSpeed * Time.deltaTime);
 		}
+		else Moving = false;
 	}
 	#endregion
 
@@ -49,14 +50,38 @@ public class Player : MonoBehaviour
 	float direction = 1;
 	void Rotation( float dir )
 	{
-		if (dir != direction && dir!=0)
+		if ( dir != 0 )
 		{
-			// De momento la transicion sera dura
-			// Luego habra que suavizarla teniendo en cuenta
-			// el movimiento circular
-			transform.Rotate (Vector3.up, 180);
-			direction = dir;
+			/// Rota 180 al cambiar direccion de movimiento
+			if (dir != direction)
+			{
+				// De momento la transicion sera dura
+				// Luego habra que suavizarla teniendo en cuenta
+				// el movimiento circular
+				transform.Rotate (Vector3.up, 180);
+				direction = dir;
+			}
+			transform.Rotate (Vector3.up, -5.5f *  Time.deltaTime);
+			//CorrectRotation ( dir );
 		}
+	}
+	void CorrectRotation( float mov )
+	{
+		Circle c1 = new Circle { x=0, y=0, r=12.156815d };
+		Circle c2 = new Circle
+		{
+			// aG9sYSBwaWUgOjM=
+			x=transform.position.x,
+			y=transform.position.z,
+			r=mov * charSpeed
+		};
+		Vector3 target = new Vector3 (0, transform.position.y, 0);
+		Vector3 targetAlt = target;
+		CircleUtils.FindCircleCircleIntersections (c1, c2, ref target, ref targetAlt);
+
+		float angle = Vector3.Angle (targetAlt, transform.TransformPoint( Vector3.forward* ( float ) c2.r));
+		print (angle);
+		transform.Rotate ( Vector3.up, -angle * direction );
 	}
 	#endregion
 
