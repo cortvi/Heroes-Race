@@ -85,6 +85,7 @@ ModelImporter:
     100154: Character001
     100156: //RootNode
     100158: Object002
+    100160: Box001
     400000: CATRigHub001
     400002: CATRigHub001Bone001
     400004: CATRigHub001Bone001Gizmo
@@ -165,6 +166,7 @@ ModelImporter:
     400154: Character001
     400156: //RootNode
     400158: Object002
+    400160: Box001
     2300000: CATRigHub001Bone001
     2300002: CATRigLArmDigit11
     2300004: CATRigLArmDigit12
@@ -184,6 +186,28 @@ ModelImporter:
     2300032: CATRigRArmDigit41
     2300034: CATRigRArmDigit42
     2300036: CATRigRLegDigit11
+    2300038: Box001
+    2300040: CATRigHub001
+    2300042: CATRigHub002
+    2300044: CATRigHub003
+    2300046: CATRigLArm1
+    2300048: CATRigLArm2
+    2300050: CATRigLArmCollarbone
+    2300052: CATRigLArmPalm
+    2300054: CATRigLLeg1
+    2300056: CATRigLLeg2
+    2300058: CATRigLLegAnkle
+    2300060: CATRigRArm1
+    2300062: CATRigRArm2
+    2300064: CATRigRArmCollarbone
+    2300066: CATRigRArmPalm
+    2300068: CATRigRLeg1
+    2300070: CATRigRLeg2
+    2300072: CATRigRLegAnkle
+    2300074: CATRigSpine1
+    2300076: CATRigSpine1 1
+    2300078: CATRigSpine2
+    2300080: CATRigSpine2 1
     3300000: CATRigHub001Bone001
     3300002: CATRigLArmDigit11
     3300004: CATRigLArmDigit12
@@ -203,6 +227,28 @@ ModelImporter:
     3300032: CATRigRArmDigit41
     3300034: CATRigRArmDigit42
     3300036: CATRigRLegDigit11
+    3300038: Box001
+    3300040: CATRigHub001
+    3300042: CATRigHub002
+    3300044: CATRigHub003
+    3300046: CATRigLArm1
+    3300048: CATRigLArm2
+    3300050: CATRigLArmCollarbone
+    3300052: CATRigLArmPalm
+    3300054: CATRigLLeg1
+    3300056: CATRigLLeg2
+    3300058: CATRigLLegAnkle
+    3300060: CATRigRArm1
+    3300062: CATRigRArm2
+    3300064: CATRigRArmCollarbone
+    3300066: CATRigRArmPalm
+    3300068: CATRigRLeg1
+    3300070: CATRigRLeg2
+    3300072: CATRigRLegAnkle
+    3300074: CATRigSpine1
+    3300076: CATRigSpine1 1
+    3300078: CATRigSpine2
+    3300080: CATRigSpine2 1
     4300000: Object002
     4300002: CATRigLLegDigit11
     4300004: CATRigRLegDigit11
@@ -223,17 +269,39 @@ ModelImporter:
     4300034: CATRigRArmDigit41
     4300036: CATRigRArmDigit42
     4300038: CATRigHub001Bone001
+    4300040: Box001
+    4300042: CATRigHub001
+    4300044: CATRigLLeg1
+    4300046: CATRigLLeg2
+    4300048: CATRigLLegAnkle
+    4300050: CATRigRLeg1
+    4300052: CATRigRLeg2
+    4300054: CATRigRLegAnkle
+    4300056: CATRigSpine1
+    4300058: CATRigSpine2
+    4300060: CATRigHub002
+    4300062: CATRigLArmCollarbone
+    4300064: CATRigLArm1
+    4300066: CATRigLArm2
+    4300068: CATRigLArmPalm
+    4300070: CATRigRArmCollarbone
+    4300072: CATRigRArm1
+    4300074: CATRigRArm2
+    4300076: CATRigRArmPalm
+    4300078: CATRigSpine1
+    4300080: CATRigSpine2
+    4300082: CATRigHub003
     7400000: Indiana_Idle
     9500000: //RootNode
     13700000: Object002
   materials:
     importMaterials: 0
-    materialName: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleCurves: 0
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -256,7 +324,7 @@ ModelImporter:
       lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0
-      level: -0.05
+      level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -484,6 +552,6 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
-  userData: 
+  userData: DONE
   assetBundleName: 
   assetBundleVariant: 

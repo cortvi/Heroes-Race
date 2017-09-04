@@ -1,0 +1,201 @@
+fileFormatVersion: 2
+guid: cc8a6d1d1b2dfda4b912ed5a9ad7d06c
+timeCreated: 1503594207
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ESPONJA1
+    100002: ESPONJA2
+    100004: ESPONJA3
+    100006: ESPONJA4
+    100008: PINXOS
+    100010: //RootNode
+    100012: QUESITO
+    100014: CORALENPUNTA002
+    100016: CORALENPUNTA003
+    100018: CORALENPUNTA004
+    100020: CORALENPUNTA005
+    100022: CORALENPUNTA006
+    100024: CORALENPUNTA007
+    100026: CORALENPUNTA008
+    100028: CORALENPUNTA009
+    100030: ESPONJA5
+    100032: ESPONJA6
+    100034: ALGAS
+    100036: CABALLITO
+    100038: CORAL
+    100040: ESPONJAS
+    100042: ESTRELLAS
+    100044: PIEDRAS3
+    100046: PIEDRASALGAS
+    100048: QUESITO9
+    400000: ESPONJA1
+    400002: ESPONJA2
+    400004: ESPONJA3
+    400006: ESPONJA4
+    400008: PINXOS
+    400010: //RootNode
+    400012: QUESITO
+    400014: CORALENPUNTA002
+    400016: CORALENPUNTA003
+    400018: CORALENPUNTA004
+    400020: CORALENPUNTA005
+    400022: CORALENPUNTA006
+    400024: CORALENPUNTA007
+    400026: CORALENPUNTA008
+    400028: CORALENPUNTA009
+    400030: ESPONJA5
+    400032: ESPONJA6
+    400034: ALGAS
+    400036: CABALLITO
+    400038: CORAL
+    400040: ESPONJAS
+    400042: ESTRELLAS
+    400044: PIEDRAS3
+    400046: PIEDRASALGAS
+    400048: QUESITO9
+    2300000: ESPONJA1
+    2300002: ESPONJA2
+    2300004: ESPONJA3
+    2300006: ESPONJA4
+    2300008: PINXOS
+    2300010: QUESITO
+    2300012: CORALENPUNTA002
+    2300014: CORALENPUNTA003
+    2300016: CORALENPUNTA004
+    2300018: CORALENPUNTA005
+    2300020: CORALENPUNTA006
+    2300022: CORALENPUNTA007
+    2300024: CORALENPUNTA008
+    2300026: CORALENPUNTA009
+    2300028: ESPONJA5
+    2300030: ESPONJA6
+    2300032: ALGAS
+    2300034: CABALLITO
+    2300036: CORAL
+    2300038: ESPONJAS
+    2300040: ESTRELLAS
+    2300042: PIEDRAS3
+    2300044: PIEDRASALGAS
+    2300046: QUESITO9
+    3300000: ESPONJA1
+    3300002: ESPONJA2
+    3300004: ESPONJA3
+    3300006: ESPONJA4
+    3300008: PINXOS
+    3300010: QUESITO
+    3300012: CORALENPUNTA002
+    3300014: CORALENPUNTA003
+    3300016: CORALENPUNTA004
+    3300018: CORALENPUNTA005
+    3300020: CORALENPUNTA006
+    3300022: CORALENPUNTA007
+    3300024: CORALENPUNTA008
+    3300026: CORALENPUNTA009
+    3300028: ESPONJA5
+    3300030: ESPONJA6
+    3300032: ALGAS
+    3300034: CABALLITO
+    3300036: CORAL
+    3300038: ESPONJAS
+    3300040: ESTRELLAS
+    3300042: PIEDRAS3
+    3300044: PIEDRASALGAS
+    3300046: QUESITO9
+    4300000: QUESITO
+    4300002: PINXOS
+    4300004: ESPONJA3
+    4300006: ESPONJA4
+    4300008: ESPONJA2
+    4300010: ESPONJA1
+    4300012: CORALENPUNTA002
+    4300014: CORALENPUNTA003
+    4300016: CORALENPUNTA004
+    4300018: CORALENPUNTA005
+    4300020: CORALENPUNTA006
+    4300022: CORALENPUNTA007
+    4300024: CORALENPUNTA008
+    4300026: CORALENPUNTA009
+    4300028: ESPONJA5
+    4300030: ESPONJA6
+    4300032: ESPONJAS
+    4300034: QUESITO9
+    4300036: CORAL
+    4300038: ALGAS
+    4300040: PIEDRAS3
+    4300042: PIEDRASALGAS
+    4300044: ESTRELLAS
+    4300046: CABALLITO
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,181 @@
+fileFormatVersion: 2
+guid: c656a690ae4e9d4478a0fd2a66fcd8c5
+timeCreated: 1503954413
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: CORALENPUNTA003
+    100002: CORALENPUNTA004
+    100004: CORALENPUNTA005
+    100006: CORALENPUNTA006
+    100008: ESPONJA1
+    100010: ESPONJA2
+    100012: ESPONJA3
+    100014: ESPONJA4
+    100016: //RootNode
+    100018: QUESITO
+    100020: TENTACULO
+    100022: ALGAS
+    100024: CORAL
+    100026: CORAL001
+    100028: ESTRELLAS
+    100030: MADERA1
+    100032: PARED1
+    100034: PIEDRAS3
+    100036: PIEDRASALGAS
+    100038: PINXOS
+    100040: TROZOBARCO
+    400000: CORALENPUNTA003
+    400002: CORALENPUNTA004
+    400004: CORALENPUNTA005
+    400006: CORALENPUNTA006
+    400008: ESPONJA1
+    400010: ESPONJA2
+    400012: ESPONJA3
+    400014: ESPONJA4
+    400016: //RootNode
+    400018: QUESITO
+    400020: TENTACULO
+    400022: ALGAS
+    400024: CORAL
+    400026: CORAL001
+    400028: ESTRELLAS
+    400030: MADERA1
+    400032: PARED1
+    400034: PIEDRAS3
+    400036: PIEDRASALGAS
+    400038: PINXOS
+    400040: TROZOBARCO
+    2300000: CORALENPUNTA003
+    2300002: CORALENPUNTA004
+    2300004: CORALENPUNTA005
+    2300006: CORALENPUNTA006
+    2300008: ESPONJA1
+    2300010: ESPONJA2
+    2300012: ESPONJA3
+    2300014: ESPONJA4
+    2300016: QUESITO
+    2300018: TENTACULO
+    2300020: ALGAS
+    2300022: CORAL
+    2300024: CORAL001
+    2300026: ESTRELLAS
+    2300028: MADERA1
+    2300030: PARED1
+    2300032: PIEDRAS3
+    2300034: PIEDRASALGAS
+    2300036: PINXOS
+    2300038: TROZOBARCO
+    3300000: CORALENPUNTA003
+    3300002: CORALENPUNTA004
+    3300004: CORALENPUNTA005
+    3300006: CORALENPUNTA006
+    3300008: ESPONJA1
+    3300010: ESPONJA2
+    3300012: ESPONJA3
+    3300014: ESPONJA4
+    3300016: QUESITO
+    3300018: TENTACULO
+    3300020: ALGAS
+    3300022: CORAL
+    3300024: CORAL001
+    3300026: ESTRELLAS
+    3300028: MADERA1
+    3300030: PARED1
+    3300032: PIEDRAS3
+    3300034: PIEDRASALGAS
+    3300036: PINXOS
+    3300038: TROZOBARCO
+    4300000: QUESITO
+    4300002: CORALENPUNTA003
+    4300004: CORALENPUNTA004
+    4300006: CORALENPUNTA005
+    4300008: CORALENPUNTA006
+    4300010: ESPONJA4
+    4300012: ESPONJA3
+    4300014: ESPONJA2
+    4300016: ESPONJA1
+    4300018: TENTACULO
+    4300020: PINXOS
+    4300022: PIEDRASALGAS
+    4300024: CORAL
+    4300026: MADERA1
+    4300028: ESTRELLAS
+    4300030: ALGAS
+    4300032: PIEDRAS3
+    4300034: CORAL001
+    4300036: TROZOBARCO
+    4300038: PARED1
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

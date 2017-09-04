@@ -85,6 +85,7 @@ ModelImporter:
     100154: Character001
     100156: Object002
     100158: //RootNode
+    100160: Box001
     400000: CATRigHub001
     400002: CATRigHub001Bone001
     400004: CATRigHub001Bone001Gizmo
@@ -165,6 +166,7 @@ ModelImporter:
     400154: Character001
     400156: Object002
     400158: //RootNode
+    400160: Box001
     2300000: CATRigHub001Bone001
     2300002: CATRigLArmDigit11
     2300004: CATRigLArmDigit12
@@ -184,6 +186,7 @@ ModelImporter:
     2300032: CATRigRArmDigit41
     2300034: CATRigRArmDigit42
     2300036: CATRigRLegDigit11
+    2300038: Box001
     3300000: CATRigHub001Bone001
     3300002: CATRigLArmDigit11
     3300004: CATRigLArmDigit12
@@ -203,6 +206,7 @@ ModelImporter:
     3300032: CATRigRArmDigit41
     3300034: CATRigRArmDigit42
     3300036: CATRigRLegDigit11
+    3300038: Box001
     4300000: Object002
     4300002: CATRigLLegDigit11
     4300004: CATRigRLegDigit11
@@ -223,17 +227,18 @@ ModelImporter:
     4300034: CATRigRArmDigit41
     4300036: CATRigRArmDigit42
     4300038: CATRigHub001Bone001
+    4300040: Box001
     7400000: Indiana_Run
     9500000: //RootNode
     13700000: Object002
   materials:
     importMaterials: 0
-    materialName: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleCurves: 1
+    resampleCurves: 0
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
@@ -256,8 +261,8 @@ ModelImporter:
       lastFrame: 29.9
       wrapMode: 0
       orientationOffsetY: 0
-      level: -0.02
-      cycleOffset: 0.27
+      level: 0
+      cycleOffset: 0.22
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
@@ -484,6 +489,6 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
-  userData: 
+  userData: DONE
   assetBundleName: 
   assetBundleVariant: 

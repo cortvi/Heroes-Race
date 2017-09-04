@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// Gestiona el movimiento de los
-/// blend-shapes del torrente de agua
 public class Waterfall : MonoBehaviour
 {
 	[Range(-1f, 1f)] public float[] keys;   // La velocidad de cada Key
@@ -18,7 +16,7 @@ public class Waterfall : MonoBehaviour
 			values[k] += keys[k] * 100f * Time.deltaTime;
 			mesh.SetBlendShapeWeight (k, values[k]);
 
-			// Invertir velocidad si se alcanzan minimos/maximos
+			/// Invertir velocidad si se alcanzan minimos/maximos
 			if (values[k] <= 0 || values[k] >= 100)
 			{
 				keys[k] *= -1;
@@ -31,7 +29,7 @@ public class Waterfall : MonoBehaviour
 
 	private void Awake() 
 	{
-		Camera.main.depthTextureMode = DepthTextureMode.Depth;
+		/// Referencias internas
 		mesh = GetComponent<SkinnedMeshRenderer> ();
 		values = new float[keys.Length];
 	}

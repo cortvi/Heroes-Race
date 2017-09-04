@@ -10,7 +10,7 @@
 Core/
 		Game.cs
 			Gestiona lógica básica de cada jugador, sobre todo input
-			relacionado con el UI
+			relacionado con el UI. Cada jugador tiene uno propio.
 
 		Player.cs
 			Esta clase contendrá todas las funcionalidades de los 
@@ -19,6 +19,10 @@ Core/
 		Networker.cs
 			NetworkManager personalizado. Gestiona algunas funciones internas
 			de la red y las conexiones tanto de servidor como de cliente.
+
+		Cam.cs
+			Gestiona la cámara que sigue al personaje.
+			< Aún por hacer... >
 
 
 UI/
@@ -42,8 +46,13 @@ Utilities/
 			momento dado. También hay una serie de funciones, que equivalen a las
 			de la clase Input de Unity ( GetKey, GetKeyDown y GetKeyUp ),
 			que se usan igual que las de la clase Input de Unity, pero
-			estas aceptan PlayerActions como parámetro en vez de un KeyCode.
+			estas aceptan PlayerActions o DevActions como parámetro en vez de un KeyCode.
 			Por comodidad.
 
+		PrefabSpawner.cs
+			Sustituye el objeto en el que se coloque este script por un prefab. Sirve para
+			colocar, al iniciar el juego, prefabs dentro/sobre de otros prefabs.
+			< Aún por testear en red... >
+
 		Extensions.cs
-			--- ignorar ---
+			--- ignorar por ahora ---

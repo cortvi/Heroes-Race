@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: 7e23d35c58bb3ef4ab5e4ebc1de83100
+timeCreated: 1503937034
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: PINXOS
+    100002: PLATAFORMA1
+    100004: PLATAFORMA2
+    100006: PLATAFORMA3
+    100008: //RootNode
+    100010: QUESITO
+    100012: ROCASFONDO
+    100014: ALGAS
+    100016: CORAL
+    100018: ESTRELLAS
+    100020: MADERA1
+    100022: PARED1
+    100024: PIEDRAS3
+    100026: PIEDRASALGAS
+    100028: RUNAS
+    400000: PINXOS
+    400002: PLATAFORMA1
+    400004: PLATAFORMA2
+    400006: PLATAFORMA3
+    400008: //RootNode
+    400010: QUESITO
+    400012: ROCASFONDO
+    400014: ALGAS
+    400016: CORAL
+    400018: ESTRELLAS
+    400020: MADERA1
+    400022: PARED1
+    400024: PIEDRAS3
+    400026: PIEDRASALGAS
+    400028: RUNAS
+    2300000: PINXOS
+    2300002: PLATAFORMA1
+    2300004: PLATAFORMA2
+    2300006: PLATAFORMA3
+    2300008: QUESITO
+    2300010: ROCASFONDO
+    2300012: ALGAS
+    2300014: CORAL
+    2300016: ESTRELLAS
+    2300018: MADERA1
+    2300020: PARED1
+    2300022: PIEDRAS3
+    2300024: PIEDRASALGAS
+    2300026: RUNAS
+    3300000: PINXOS
+    3300002: PLATAFORMA1
+    3300004: PLATAFORMA2
+    3300006: PLATAFORMA3
+    3300008: QUESITO
+    3300010: ROCASFONDO
+    3300012: ALGAS
+    3300014: CORAL
+    3300016: ESTRELLAS
+    3300018: MADERA1
+    3300020: PARED1
+    3300022: PIEDRAS3
+    3300024: PIEDRASALGAS
+    3300026: RUNAS
+    4300000: QUESITO
+    4300002: PLATAFORMA2
+    4300004: PINXOS
+    4300006: ROCASFONDO
+    4300008: PLATAFORMA1
+    4300010: PLATAFORMA3
+    4300012: PIEDRASALGAS
+    4300014: CORAL
+    4300016: MADERA1
+    4300018: ESTRELLAS
+    4300020: ALGAS
+    4300022: PIEDRAS3
+    4300024: RUNAS
+    4300026: PARED1
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

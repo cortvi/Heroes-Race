@@ -5,18 +5,16 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-/// Contiene las funciones que gestionan
-/// y regulan el UI entre el cliente y el servidor
 public class UI : NetworkBehaviour
 {
-	public static UI manager;
+	public static UI manager;						// Referencia estática a sí mismo
 
 	[SyncVar]
-	public Pantallas currentScreen;					// La pantalla (estado) actual del juego
+	public Pantallas currentScreen;					// La pantalla (estado) actual del juego (sincronizado en red)
 	public enum Pantallas 
 	{
-		/// Todas las pantallas en terminos
-		/// de UI
+		/// Todas las pantallas
+		/// en terminos de UI
 		MenuPrincipal,
 		SeleccionPersonaje,
 		TodosListos,

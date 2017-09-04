@@ -4,30 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-/// Rota el selector de personaje
-/// y permite seleccionar uno
 public class Selector : NetworkBehaviour
 {
 	#region INTERNAL DATA
 	[SyncVar]
-	public PJs pj;                      // El personaje selccionado
-	int charId
+	public PJs pj;                      // El personaje selccionado en este selector (esta variable se sincroniza por red)
+	int charId							// Forma fácil de modificar la variable 'pj' 
 	{
 		get { return ( int ) pj; }
 		set { pj = ( PJs ) value; }
 	}
-	Sprite[] personajes;                // El orden tiene que coincidir con la enum!
+	Sprite[] personajes;				// Los splasharts de los diferentes personajes
+	//-> El orden tiene que
+	//   coincidir con la enum!
 
-	public Vector2 pos;
-	public Image current;
-	public Image next;
-	public GameObject focus;            // Marca de cual es nuestro personje
-	public GameObject selected;         // Indicador de seleccion
+	public Vector2 pos;					// Posicion fijada del selector en pantalla
+	public Image current;				// Splashart del personaje mostrado
+	public Image next;					// Splashart del siguiente personaje a mostrar
 
-	[SyncVar]
-	bool done;              // Personaje seleccionado?
-	[SyncVar]
-	bool sliding;               // Animacion en marcha?
+	public GameObject focus;            // Marca de cual es nuestro selector
+	public GameObject selected;         // Indicador de seleccion lista
+
+	[SyncVar] bool done;				// Seleccion lista?
+	[SyncVar] bool sliding;				// Animacion en marcha?
+
 	RectTransform rect;
 	Animator anim;
 	#endregion
@@ -37,59 +37,72 @@ public class Selector : NetworkBehaviour
 	[Command]
 	void Cmd_Select( bool done ) 
 	{
+		// Mostrar/Ocultar indicador de seleccion hecha (servidor)
+		selected.SetActive (done);
+		// Bloquear sliding
+		this.done = done;
+		// Mostrar/Ocultar indicador de seleccion hecha (cliente)
+		Rpc_Select (done);
+
+		// Sumar/Restar a la suma de jugadores listos
 		playersDone += done ? +1 : -1;
-		if (playersDone == 2)			// Pos de momento solo tengo 2 PCs
+		if (playersDone == 2)           // Pos de momento solo tengo 2 PCs xd ( en realidad esto tiene que ser 3)
 		{
+			/// Cambiar en todas las recreativas a esta de TODOS LISTOS
 			UI.manager.currentScreen = UI.Pantallas.TodosListos;
 			NetworkManager.singleton.ServerChangeScene ("Torre");
 		}
-
-		selected.SetActive (done);      // Mostrar indicador de seleccion (servidor)
-		this.done = done;               // Bloquear sliding
-		Rpc_Select (done);              // Mostrar indicador de seleccion (cliente)
 	}
 	[ClientRpc]
 	void Rpc_Select( bool done ) 
 	{
+		// Mostrar/Ocultar indicador de seleccion hecha (cliente)
 		selected.SetActive (done);
 	}
 	#endregion
 
 	#region SLIDING
-	public void CorrectSprite() 
+	public void CorrectSprite () 
 	{
-		/// Esto se ejecuta para intercambiar los splasharts
-		/// y que no se note el cambio (animacion)
+		/// Esto se ejecuta desde el Animator
+		/// para intercambiar los splasharts
+		/// se note el cambio
 		current.sprite = personajes[charId];
 		if (isServer) sliding = false;
 	}
 
 	[Command]
+	/// Corrige el cambio de splashart
 	void Cmd_CorrectSlideID( int dir ) 
 	{
-		sliding = true;                     // Bloquea el sliding (porque ya se esta ejecutando)
+		/// Bloquea el sliding (porque ya se esta ejecutando)
+		sliding = true;
 		var max = personajes.Length;
 
 		/// Cambia los splasharts en base al movimiento
 		charId += dir;
-		// Asegura el loop
+		/// Asegura el loop
 		if (charId == -1) charId = max-1;
 		else
 		if (charId == max) charId = 0;
 
-		next.sprite = personajes[charId];   // Cambiar el splashart siguiente (servidor)
-		Rpc_CorrectSlideID (charId);        // Cambiar el splashart siguiente (cliente)
+		/// Cambiar el splashart siguiente (servidor)
+		next.sprite = personajes[charId];
+		/// Cambiar el splashart siguiente (cliente)
+		Rpc_CorrectSlideID (charId);
 	}
 	[ClientRpc]
 	void Rpc_CorrectSlideID( int id ) 
 	{
+		/// Cambiar el splashart siguiente (cliente)
 		next.sprite = personajes[id];
 	}
 	#endregion
 
 	#region CALLBACKS
-	private void Update()
+	private void Update() 
 	{
+		/// Se asegura que el selector esté en la posición correcta
 		if (rect.anchoredPosition != pos) rect.anchoredPosition = pos;
 		if (!hasAuthority || isServer) return;
 
@@ -98,7 +111,8 @@ public class Selector : NetworkBehaviour
 		var dir = InputX.GetMovement ();
 		if (!sliding)
 		{
-			/// Animacion
+			/// Animacion de cambio de splashart
+			/// (sliding)
 			if (dir != 0 && !done)
 			{
 				sliding = true;
@@ -112,7 +126,8 @@ public class Selector : NetworkBehaviour
 			{
 				if (!done)
 				{
-					done = true;   // auto avoid player from sliding
+					// auto avoid player from sliding
+					done = true;
 					Cmd_Select (true);
 				}
 				else
@@ -125,13 +140,15 @@ public class Selector : NetworkBehaviour
 		}
 	}
 
-	public override void OnStartAuthority()
+	public override void OnStartAuthority() 
 	{
 		base.OnStartAuthority ();
+		/// Mostrar marcador de cual es nuestro selector
 		if (isClient) focus.SetActive (true);
 	}
-	private void Start()
+	private void Start() 
 	{
+		/// Referencias internas
 		personajes = UI.manager.personajes;
 		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
@@ -150,5 +167,6 @@ public enum PJs
 	Random_0,
 	Random_1
 	// En un futuro cuidado con
-	// cambiar los nombres! => El orden tiene que coincidir con la array!
+	// cambiar los nombres!
+	//=> El orden tiene que coincidir con la array!
 }

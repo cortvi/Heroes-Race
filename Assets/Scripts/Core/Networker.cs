@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/// Gestiona funcionalidades de red tanto
-/// del cliente como del servidor.
 public class Networker : NetworkManager
 {
 	#region SERVIDOR
@@ -15,6 +13,8 @@ public class Networker : NetworkManager
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId ) 
 	{
+		/// Crea un nuevo objeto con el script Game.cs 
+		/// para la recreativa que se acaba de conectar
 		var player = Instantiate (playerPrefab) as GameObject;
 		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 		/// Registrar la conexion de cada
@@ -31,6 +31,7 @@ public class Networker : NetworkManager
 	#region CALLBACKS
 	private void Awake() 
 	{
+		/// Inicializacion
 		conns = new List<NetworkConnection> (3);
 		players = new Dictionary<NetworkConnection, GameObject> (3);
 	}

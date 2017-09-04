@@ -1,0 +1,136 @@
+fileFormatVersion: 2
+guid: a3919d8721a13b34495f9d18e8a29b26
+timeCreated: 1503954413
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: MEDUSA
+    100002: PLATAFORMA1
+    100004: PLATAFORMA2
+    100006: //RootNode
+    100008: QUESITO
+    100010: ALGAS
+    100012: CARACOLA
+    100014: CORAL
+    100016: ESTRELLAS
+    100018: MEDUSABOX
+    100020: PIEDRAS3
+    100022: PIEDRASALGAS
+    400000: MEDUSA
+    400002: PLATAFORMA1
+    400004: PLATAFORMA2
+    400006: //RootNode
+    400008: QUESITO
+    400010: ALGAS
+    400012: CARACOLA
+    400014: CORAL
+    400016: ESTRELLAS
+    400018: MEDUSABOX
+    400020: PIEDRAS3
+    400022: PIEDRASALGAS
+    2300000: MEDUSA
+    2300002: PLATAFORMA1
+    2300004: PLATAFORMA2
+    2300006: QUESITO
+    2300008: ALGAS
+    2300010: CARACOLA
+    2300012: CORAL
+    2300014: ESTRELLAS
+    2300016: MEDUSABOX
+    2300018: PIEDRAS3
+    2300020: PIEDRASALGAS
+    3300000: MEDUSA
+    3300002: PLATAFORMA1
+    3300004: PLATAFORMA2
+    3300006: QUESITO
+    3300008: ALGAS
+    3300010: CARACOLA
+    3300012: CORAL
+    3300014: ESTRELLAS
+    3300016: MEDUSABOX
+    3300018: PIEDRAS3
+    3300020: PIEDRASALGAS
+    4300000: MEDUSA
+    4300002: PLATAFORMA1
+    4300004: PLATAFORMA2
+    4300006: QUESITO
+    4300008: PIEDRASALGAS
+    4300010: CORAL
+    4300012: ESTRELLAS
+    4300014: ALGAS
+    4300016: PIEDRAS3
+    4300018: CARACOLA
+    4300020: MEDUSABOX
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

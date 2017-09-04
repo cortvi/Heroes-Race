@@ -1,0 +1,241 @@
+fileFormatVersion: 2
+guid: d711ac7bea017ff46a6ddaab0c487456
+timeCreated: 1504218805
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: ESPONJA2
+    100004: Muscle Strand001
+    100006: Muscle Strand001M_End
+    100008: Muscle Strand001M_End001
+    100010: Muscle Strand001M_End002
+    100012: Muscle Strand001M_End003
+    100014: Muscle Strand001M_End004
+    100016: Muscle Strand001M_End005
+    100018: Muscle Strand001M_EndHdl
+    100020: Muscle Strand001M_EndHdl001
+    100022: Muscle Strand001M_EndHdl002
+    100024: Muscle Strand001M_EndHdl003
+    100026: Muscle Strand001M_EndHdl004
+    100028: Muscle Strand001M_EndHdl005
+    100030: Muscle Strand001M_START
+    100032: Muscle Strand001M_START001
+    100034: Muscle Strand001M_START002
+    100036: Muscle Strand001M_START003
+    100038: Muscle Strand001M_START004
+    100040: Muscle Strand001M_START005
+    100042: Muscle Strand001M_StartHdl
+    100044: Muscle Strand001M_StartHdl001
+    100046: Muscle Strand001M_StartHdl002
+    100048: Muscle Strand001M_StartHdl003
+    100050: Muscle Strand001M_StartHdl004
+    100052: Muscle Strand001M_StartHdl005
+    100054: Muscle Strand002
+    100056: Muscle Strand003
+    100058: Muscle Strand004
+    100060: Muscle Strand005
+    100062: Muscle Strand006
+    100064: ESPONJA_HI
+    400000: //RootNode
+    400002: ESPONJA2
+    400004: Muscle Strand001
+    400006: Muscle Strand001M_End
+    400008: Muscle Strand001M_End001
+    400010: Muscle Strand001M_End002
+    400012: Muscle Strand001M_End003
+    400014: Muscle Strand001M_End004
+    400016: Muscle Strand001M_End005
+    400018: Muscle Strand001M_EndHdl
+    400020: Muscle Strand001M_EndHdl001
+    400022: Muscle Strand001M_EndHdl002
+    400024: Muscle Strand001M_EndHdl003
+    400026: Muscle Strand001M_EndHdl004
+    400028: Muscle Strand001M_EndHdl005
+    400030: Muscle Strand001M_START
+    400032: Muscle Strand001M_START001
+    400034: Muscle Strand001M_START002
+    400036: Muscle Strand001M_START003
+    400038: Muscle Strand001M_START004
+    400040: Muscle Strand001M_START005
+    400042: Muscle Strand001M_StartHdl
+    400044: Muscle Strand001M_StartHdl001
+    400046: Muscle Strand001M_StartHdl002
+    400048: Muscle Strand001M_StartHdl003
+    400050: Muscle Strand001M_StartHdl004
+    400052: Muscle Strand001M_StartHdl005
+    400054: Muscle Strand002
+    400056: Muscle Strand003
+    400058: Muscle Strand004
+    400060: Muscle Strand005
+    400062: Muscle Strand006
+    400064: ESPONJA_HI
+    4300000: ESPONJA2
+    4300002: ESPONJA_HI
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: ESPONJA2
+    13700002: ESPONJA_HI
+  materials:
+    importMaterials: 0
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: ESPONJA_HI
+        weight: 1
+      - path: Muscle Strand001
+        weight: 1
+      - path: Muscle Strand001M_End
+        weight: 1
+      - path: Muscle Strand001M_End/Muscle Strand001M_EndHdl
+        weight: 1
+      - path: Muscle Strand001M_End001
+        weight: 1
+      - path: Muscle Strand001M_End001/Muscle Strand001M_EndHdl001
+        weight: 1
+      - path: Muscle Strand001M_End002
+        weight: 1
+      - path: Muscle Strand001M_End002/Muscle Strand001M_EndHdl002
+        weight: 1
+      - path: Muscle Strand001M_End003
+        weight: 1
+      - path: Muscle Strand001M_End003/Muscle Strand001M_EndHdl003
+        weight: 1
+      - path: Muscle Strand001M_End004
+        weight: 1
+      - path: Muscle Strand001M_End004/Muscle Strand001M_EndHdl004
+        weight: 1
+      - path: Muscle Strand001M_End005
+        weight: 1
+      - path: Muscle Strand001M_End005/Muscle Strand001M_EndHdl005
+        weight: 1
+      - path: Muscle Strand001M_START
+        weight: 1
+      - path: Muscle Strand001M_START/Muscle Strand001M_StartHdl
+        weight: 1
+      - path: Muscle Strand001M_START001
+        weight: 1
+      - path: Muscle Strand001M_START001/Muscle Strand001M_StartHdl001
+        weight: 1
+      - path: Muscle Strand001M_START002
+        weight: 1
+      - path: Muscle Strand001M_START002/Muscle Strand001M_StartHdl002
+        weight: 1
+      - path: Muscle Strand001M_START003
+        weight: 1
+      - path: Muscle Strand001M_START003/Muscle Strand001M_StartHdl003
+        weight: 1
+      - path: Muscle Strand001M_START004
+        weight: 1
+      - path: Muscle Strand001M_START004/Muscle Strand001M_StartHdl004
+        weight: 1
+      - path: Muscle Strand001M_START005
+        weight: 1
+      - path: Muscle Strand001M_START005/Muscle Strand001M_StartHdl005
+        weight: 1
+      - path: Muscle Strand002
+        weight: 1
+      - path: Muscle Strand003
+        weight: 1
+      - path: Muscle Strand004
+        weight: 1
+      - path: Muscle Strand005
+        weight: 1
+      - path: Muscle Strand006
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,309 @@
+fileFormatVersion: 2
+guid: 64c4786768a34b14d8359c5e60113945
+timeCreated: 1504210705
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: CATRigHub001
+    100004: CATRigTail1
+    100006: CATRigTail10
+    100008: CATRigTail11
+    100010: CATRigTail12
+    100012: CATRigTail13
+    100014: CATRigTail14
+    100016: CATRigTail15
+    100018: CATRigTail16
+    100020: CATRigTail17
+    100022: CATRigTail18
+    100024: CATRigTail19
+    100026: CATRigTail2
+    100028: CATRigTail20
+    100030: CATRigTail21
+    100032: CATRigTail22
+    100034: CATRigTail23
+    100036: CATRigTail24
+    100038: CATRigTail25
+    100040: CATRigTail26
+    100042: CATRigTail3
+    100044: CATRigTail4
+    100046: CATRigTail5
+    100048: CATRigTail6
+    100050: CATRigTail7
+    100052: CATRigTail8
+    100054: CATRigTail9
+    100056: Character002
+    100058: TENTACULO
+    400000: //RootNode
+    400002: CATRigHub001
+    400004: CATRigTail1
+    400006: CATRigTail10
+    400008: CATRigTail11
+    400010: CATRigTail12
+    400012: CATRigTail13
+    400014: CATRigTail14
+    400016: CATRigTail15
+    400018: CATRigTail16
+    400020: CATRigTail17
+    400022: CATRigTail18
+    400024: CATRigTail19
+    400026: CATRigTail2
+    400028: CATRigTail20
+    400030: CATRigTail21
+    400032: CATRigTail22
+    400034: CATRigTail23
+    400036: CATRigTail24
+    400038: CATRigTail25
+    400040: CATRigTail26
+    400042: CATRigTail3
+    400044: CATRigTail4
+    400046: CATRigTail5
+    400048: CATRigTail6
+    400050: CATRigTail7
+    400052: CATRigTail8
+    400054: CATRigTail9
+    400056: Character002
+    400058: TENTACULO
+    2300000: //RootNode
+    2300002: CATRigTail1
+    2300004: CATRigTail10
+    2300006: CATRigTail11
+    2300008: CATRigTail12
+    2300010: CATRigTail13
+    2300012: CATRigTail14
+    2300014: CATRigTail15
+    2300016: CATRigTail16
+    2300018: CATRigTail17
+    2300020: CATRigTail18
+    2300022: CATRigTail19
+    2300024: CATRigTail2
+    2300026: CATRigTail20
+    2300028: CATRigTail21
+    2300030: CATRigTail22
+    2300032: CATRigTail23
+    2300034: CATRigTail24
+    2300036: CATRigTail25
+    2300038: CATRigTail26
+    2300040: CATRigTail3
+    2300042: CATRigTail4
+    2300044: CATRigTail5
+    2300046: CATRigTail6
+    2300048: CATRigTail7
+    2300050: CATRigTail8
+    2300052: CATRigTail9
+    3300000: //RootNode
+    3300002: CATRigTail1
+    3300004: CATRigTail10
+    3300006: CATRigTail11
+    3300008: CATRigTail12
+    3300010: CATRigTail13
+    3300012: CATRigTail14
+    3300014: CATRigTail15
+    3300016: CATRigTail16
+    3300018: CATRigTail17
+    3300020: CATRigTail18
+    3300022: CATRigTail19
+    3300024: CATRigTail2
+    3300026: CATRigTail20
+    3300028: CATRigTail21
+    3300030: CATRigTail22
+    3300032: CATRigTail23
+    3300034: CATRigTail24
+    3300036: CATRigTail25
+    3300038: CATRigTail26
+    3300040: CATRigTail3
+    3300042: CATRigTail4
+    3300044: CATRigTail5
+    3300046: CATRigTail6
+    3300048: CATRigTail7
+    3300050: CATRigTail8
+    3300052: CATRigTail9
+    4300000: TENTACULO
+    4300002: CATRigTail1
+    4300004: CATRigTail2
+    4300006: CATRigTail3
+    4300008: CATRigTail4
+    4300010: CATRigTail5
+    4300012: CATRigTail6
+    4300014: CATRigTail7
+    4300016: CATRigTail8
+    4300018: CATRigTail9
+    4300020: CATRigTail10
+    4300022: CATRigTail11
+    4300024: CATRigTail12
+    4300026: CATRigTail13
+    4300028: CATRigTail14
+    4300030: CATRigTail15
+    4300032: CATRigTail16
+    4300034: CATRigTail17
+    4300036: CATRigTail18
+    4300038: CATRigTail19
+    4300040: CATRigTail20
+    4300042: CATRigTail21
+    4300044: CATRigTail22
+    4300046: CATRigTail23
+    4300048: CATRigTail24
+    4300050: CATRigTail25
+    4300052: CATRigTail26
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: TENTACULO
+  materials:
+    importMaterials: 0
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 110
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: CATRigHub001
+        weight: 1
+      - path: CATRigHub001/CATRigTail1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21/CATRigTail22
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21/CATRigTail22/CATRigTail23
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21/CATRigTail22/CATRigTail23/CATRigTail24
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21/CATRigTail22/CATRigTail23/CATRigTail24/CATRigTail25
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5/CATRigTail6/CATRigTail7/CATRigTail8/CATRigTail9/CATRigTail10/CATRigTail11/CATRigTail12/CATRigTail13/CATRigTail14/CATRigTail15/CATRigTail16/CATRigTail17/CATRigTail18/CATRigTail19/CATRigTail20/CATRigTail21/CATRigTail22/CATRigTail23/CATRigTail24/CATRigTail25/CATRigTail26
+        weight: 1
+      - path: Character002
+        weight: 1
+      - path: TENTACULO
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 
