@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
+  - MedusaTentaculos
+  - Pvelocidad
+  - Pescudo
+  - Pinchos
+  - Pmina
   layers:
   - Default
   - TransparentFX

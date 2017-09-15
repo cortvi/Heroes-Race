@@ -9,7 +9,16 @@ public class Player : MonoBehaviour
 	#region INTERNAL DATA
 	public float jumpForce;				// Fuerza del salto
 	public float charSpeed;				// La velocidad del personaje
-	public float runSpeedOffset;        // Añadido a la velocidad base de la animacion de correr
+	public float runSpeedOffset;		// Añadido a la velocidad base de la animacion de correr
+
+//--------------------------------------------------------------------------------------
+	public float coolDown = 5;			// Para los power up sera el teimpo que dure 
+	public float coolDowmTimer;
+
+	public bool escudo; 
+	public bool mina;
+	public GameObject minaobj;
+//-------------------------------------------------------------------------------------
 
 	Transform parent;					// El parent del objeto, se rota para dar la sensación de movimiento
 	Rigidbody body;						// El 'Rigidbody' que se encarga de algunas físicas del personaje
@@ -106,6 +115,27 @@ public class Player : MonoBehaviour
 		Movement (dir);
 		Rotation (dir);
 		JumpCheck ();
+
+//-------------------------------------------------------------------------------
+		if (coolDowmTimer>0){
+			coolDowmTimer -= Time.deltaTime;
+			charSpeed = 10; 
+			runSpeedOffset = 1.4f;
+
+		}
+		if (coolDowmTimer < 0) {
+			coolDowmTimer = 0;
+			charSpeed = 5; 
+			runSpeedOffset = 0.7f;
+		}
+
+		if (mina == true) {
+			if (Input.GetKeyDown (KeyCode.E)) {
+				Instantiate(minaobj,transform.position,transform.rotation);
+				mina = false;
+			}
+		} 
+//------------------------------------------------------------------------------
 	}
 	private void Awake() 
 	{
@@ -132,7 +162,50 @@ public class Player : MonoBehaviour
 				}
 			}
 			break;
+//--------------------------------------------------------------------------------------
+		case "Pvelocidad":
+			{
+				coolDowmTimer = coolDown;
+
+			}
+			break;
+		case "Pescudo":
+			{
+				escudo = true;
+			}
+			break;
+		case "Pinchos":
+			{
+				if (escudo == false) {
+					Destroy (gameObject);
+				} else {
+					escudo = false;
+				}
+			}
+			break;
+		case "Pmina":
+			{
+				mina = true;
+			}
+			break;
+
+//-----------------------------------------------------------------------------------------------
 		}
 	}
+//--------------------------------------------------------------------------------------
+	void OnTriggerStay (Collider obj){
+		if (obj.tag == "MedusaTentaculos") {
+			charSpeed = 2; 
+			runSpeedOffset = 0.3f;
+		}
+	}
+	void OnTriggerExit (Collider obj){
+		if (obj.tag == "MedusaTentaculos") {
+			charSpeed = 5; 
+			runSpeedOffset = 0.7f;
+		}
+	}
+
+//--------------------------------------------------------------------------------------------
 	#endregion
 }
