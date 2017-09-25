@@ -17,6 +17,7 @@ public class Selector : NetworkBehaviour
 	Sprite[] personajes;				// Los splasharts de los diferentes personajes
 	//-> El orden tiene que
 	//   coincidir con la enum!
+	Sprite ownedSelector;				// El sprite de selector para cuando es el nuestro
 
 	public Vector2 pos;					// Posicion fijada del selector en pantalla
 	public Image current;				// Splashart del personaje mostrado
@@ -44,13 +45,15 @@ public class Selector : NetworkBehaviour
 		// Mostrar/Ocultar indicador de seleccion hecha (cliente)
 		Rpc_Select (done);
 
+		// Guardar seleccion
+		if (done) TowerLoader.pjSelected[Game.manager.playerId] = pj;
 		// Sumar/Restar a la suma de jugadores listos
 		playersDone += done ? +1 : -1;
-		if (playersDone == 2)           // Pos de momento solo tengo 2 PCs xd ( en realidad esto tiene que ser 3)
+		if (playersDone == 3)
 		{
 			/// Cambiar en todas las recreativas a esta de TODOS LISTOS
 			UI.manager.currentScreen = UI.Pantallas.TodosListos;
-			NetworkManager.singleton.ServerChangeScene ("Torre");
+			NetworkManager.singleton.ServerChangeScene ("WaterTower");
 		}
 	}
 	[ClientRpc]
@@ -144,12 +147,17 @@ public class Selector : NetworkBehaviour
 	{
 		base.OnStartAuthority ();
 		/// Mostrar marcador de cual es nuestro selector
-		if (isClient) focus.SetActive (true);
+		if (isClient) 
+		{
+			focus.SetActive (true);
+			transform.GetChild (1).GetComponent<SpriteRenderer> ().sprite = ownedSelector;
+		}
 	}
 	private void Start() 
 	{
 		/// Referencias internas
 		personajes = UI.manager.personajes;
+		ownedSelector = UI.manager.ownedSelector;
 		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 		current.sprite = personajes[charId];

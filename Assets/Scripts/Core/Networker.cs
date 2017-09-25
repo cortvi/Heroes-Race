@@ -9,7 +9,6 @@ public class Networker : NetworkManager
 	#region SERVIDOR
 	/// Las conexiones con las recreativas
 	public static List<NetworkConnection> conns;
-	public static Dictionary<NetworkConnection, GameObject> players;
 
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId ) 
 	{
@@ -19,8 +18,8 @@ public class Networker : NetworkManager
 		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 		/// Registrar la conexion de cada
 		/// player cuando se conecta
+		player.GetComponent<Game> ().playerId = conns.Count;
 		conns.Add (conn);
-		players.Add (conn, player);
 	}
 	#endregion
 
@@ -33,7 +32,6 @@ public class Networker : NetworkManager
 	{
 		/// Inicializacion
 		conns = new List<NetworkConnection> (3);
-		players = new Dictionary<NetworkConnection, GameObject> (3);
 	}
 	#endregion
 }

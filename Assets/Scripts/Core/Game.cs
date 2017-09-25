@@ -6,6 +6,10 @@ using UnityEngine.Networking;
 
 public class Game : NetworkBehaviour
 {
+	[SyncVar]
+	public int playerId;
+	public static Game manager;
+
 	#region COMMANDS
 	[Command]
 	void Cmd_TriggerUI ( int trigger ) 
@@ -83,7 +87,7 @@ public class Game : NetworkBehaviour
 			// This way, any wrong call will generate
 			// a NullReferenceException
 			Networker.conns = null;
-			Networker.players = null;
+			manager = this;
 		}
 	}
 	#endregion

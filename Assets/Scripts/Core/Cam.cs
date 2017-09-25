@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Cam : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class Cam : MonoBehaviour
 		newPos.x = transform.localPosition.x;
 		newPos.z = transform.localPosition.z;
 		transform.localPosition = newPos;
+	}
+	private void Start () 
+	{
+		var nId = GetComponentInParent<NetworkIdentity> ();
+		if (!nId.hasAuthority) gameObject.SetActive (false);
 	}
 
 	public void MoveLevel ( int dir ) 

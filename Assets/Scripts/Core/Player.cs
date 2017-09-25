@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
 	#region INTERNAL DATA
 	[Header ("References")]
@@ -15,15 +15,6 @@ public class Player : MonoBehaviour
 	public float jumpForce;				// Fuerza del salto
 	public float charSpeed;				// La velocidad del personaje
 	public float runSpeedMul;			// Añadido a la velocidad base de la animacion de correr
-
-//--------------------------------------------------------------------------------------
-	public float coolDown = 5;			// Para los power up sera el teimpo que dure 
-	public float coolDowmTimer;
-
-	public bool escudo; 
-	public bool mina;
-	public GameObject minaobj;
-//-------------------------------------------------------------------------------------
 
 	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
 	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
@@ -106,46 +97,20 @@ public class Player : MonoBehaviour
 	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
-//		if ( !isClient || !hasAuthority) return;
-// Esta linea esta comentada
-// para trabajar con el
-// personaje sin red!
+		if (!isClient || !hasAuthority) return;
 		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
 		Movement (dir);
 		Rotation (dir);
-
-//-------------------------------------------------------------------------------
-		if (coolDowmTimer>0){
-			coolDowmTimer -= Time.deltaTime;
-			charSpeed = 10; 
-			runSpeedMul = 1.4f;
-
-		}
-		if (coolDowmTimer < 0) {
-			coolDowmTimer = 0;
-			charSpeed = 5; 
-			runSpeedMul = 0.7f;
-		}
-
-		if (mina == true) {
-			if (Input.GetKeyDown (KeyCode.E)) {
-				Instantiate(minaobj,transform.position,transform.rotation);
-				mina = false;
-			}
-		} 
-//------------------------------------------------------------------------------
 	}
 
 	private void Update() 
 	{
-		/// Cada cliente conrtola SOLO su personaje
-//		if ( !isClient || !hasAuthority) return;
-// Esta linea esta comentada
-// para trabajar con el
-// personaje sin red!
 		UpdateCapsule ();
+
+		/// Cada cliente conrtola SOLO su personaje
+		if (!isClient || !hasAuthority) return;
 		if (cannotWork) return;
 
 		JumpCheck ();
@@ -172,24 +137,6 @@ public class Player : MonoBehaviour
 					anim.SetTrigger ( "Land" );
 				}
 			break;
-//--------------------------------------------------------------------------------------
-		case "Pvelocidad":
-			{
-				coolDowmTimer = coolDown;
-
-			}
-			break;
-		case "Pescudo":
-			{
-				escudo = true;
-			}
-			break;
-		case "Pmina":
-			{
-				mina = true;
-			}
-			break;
-//-----------------------------------------------------------------------------------------------
 		}
 	}
 	#endregion

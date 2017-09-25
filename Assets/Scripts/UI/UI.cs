@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UI : NetworkBehaviour
 {
-	public static UI manager;						// Referencia estática a sí mismo
+	public static UI manager;                       // Referencia estática a sí mismo
 
 	[SyncVar]
 	public Pantallas currentScreen;					// La pantalla (estado) actual del juego (sincronizado en red)
@@ -23,7 +23,8 @@ public class UI : NetworkBehaviour
 		InGame
 	}
 
-	public Sprite[] personajes;						// Los splasharts de los personajes jugables
+	public Sprite[] personajes;                     // Los splasharts de los personajes jugables
+	public Sprite ownedSelector;                    // El sprite de selector para cuando es el nuestro
 
 	private void Awake() 
 	{
