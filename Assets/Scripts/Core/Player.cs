@@ -7,9 +7,14 @@ using UnityEngine.Networking;
 public class Player : MonoBehaviour
 {
 	#region INTERNAL DATA
+	[Header ("References")]
+	public Animator anim;				// El Animator del personaje
+	public Animator cam;				// El Animator de la camara
+	
+	[Header ("Params")]
 	public float jumpForce;				// Fuerza del salto
 	public float charSpeed;				// La velocidad del personaje
-	public float runSpeedOffset;		// Añadido a la velocidad base de la animacion de correr
+	public float runSpeedMul;			// Añadido a la velocidad base de la animacion de correr
 
 //--------------------------------------------------------------------------------------
 	public float coolDown = 5;			// Para los power up sera el teimpo que dure 
@@ -20,28 +25,30 @@ public class Player : MonoBehaviour
 	public GameObject minaobj;
 //-------------------------------------------------------------------------------------
 
-	Transform parent;					// El parent del objeto, se rota para dar la sensación de movimiento
-	Rigidbody body;						// El 'Rigidbody' que se encarga de algunas físicas del personaje
-	Animator anim;						// El 'Animator' que gestiona las animaciones del personaje
+	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
+	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
+	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
+	CapsuleCollider playerCapsule;
 	#endregion
 
 	#region ANIMATON PARAMS
 	// Multiplicador de velocidad de la animacion de
 	// movimiento del personaje
-	float SpeedMul 
+	public float SpeedMul 
 	{
 		get { return anim.GetFloat ("SpeedMul"); } 
 		set { anim.SetFloat ("SpeedMul", value); }
 	}
 	// Si es TRUE, se activa la animacion de movimiento,
 	// si es FALSE, se detiene
-	bool Moving 
+	public bool Moving 
 	{
 		get { return anim.GetBool ("Moving"); }
 		set { anim.SetBool ("Moving", value); }
 	}
-	// Si el personaje está, o no, el aire tras un salto.
-	bool OnAir
+	// Si el personaje está, o no,
+	// el aire tras un salto.
+	public bool OnAir
 	{
 		get { return anim.GetBool ("OnAir"); }
 		set { anim.SetBool ("OnAir", value); }
@@ -54,9 +61,9 @@ public class Player : MonoBehaviour
 		if (dir != 0)
 		{
 			Moving = true;
-			SpeedMul = Mathf.Abs (dir) + runSpeedOffset;
-			/// Rotamos el parent del Transform para simular el movimiento circular
-			parent.Rotate (Vector3.up, charSpeed * Time.deltaTime * -dir);
+			/// Rotamos rigidbody para simular el movimiento circular
+			var q = Quaternion.Euler (0f, charSpeed * Time.fixedDeltaTime * -dir, 0f);
+			body.MoveRotation (body.rotation * q);
 		}
 		else Moving = false;
 	}
@@ -72,8 +79,10 @@ public class Player : MonoBehaviour
 		if (dir != 0 && dir != currentDirection)
 		{
 			// De momento la transicion será dura,
-			// luego habra que suavizarla
-			transform.Rotate (Vector3.up, 180);
+			// luego habra que suavizarla (Additive animation?)
+			anim.transform.Rotate (Vector3.up, 180);
+			// Girar camara
+			cam.SetTrigger ("Turn");
 			currentDirection = dir;
 		}
 	}
@@ -85,48 +94,39 @@ public class Player : MonoBehaviour
 	{
 		/// Saltamos al presionar la tecla,
 		/// y si NO estamos ya en el aire
-		if ( InputX.GetKeyDown ( PlayerActions.Jump ) && !OnAir )
+		if ( InputX.GetKeyDown ( PlayerActions.Jump ) && !OnAir && !cannotJump )
 		{
 			/// Trigger animaciones de salto
 			anim.SetTrigger ("Jump");
 		}
 	}
-	void Jump () 
-	{
-		/// Esta funcion se llama desde la animacion de salto,
-		/// aplica una fuerza hacia arriba en el Rigidbody
-		var jumpDir = (transform.forward + transform.up) * jumpForce;
-		body.AddForceAtPosition (jumpDir, transform.position, ForceMode.VelocityChange);
-		/// Ahora estamos en el aire
-		OnAir = true;
-	}
 	#endregion
 
 	#region CALLBACKS
-	private void Update()
+	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
 //		if ( !isClient || !hasAuthority) return;
 // Esta linea esta comentada
 // para trabajar con el
 // personaje sin red!
+		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
 		Movement (dir);
 		Rotation (dir);
-		JumpCheck ();
 
 //-------------------------------------------------------------------------------
 		if (coolDowmTimer>0){
 			coolDowmTimer -= Time.deltaTime;
 			charSpeed = 10; 
-			runSpeedOffset = 1.4f;
+			runSpeedMul = 1.4f;
 
 		}
 		if (coolDowmTimer < 0) {
 			coolDowmTimer = 0;
 			charSpeed = 5; 
-			runSpeedOffset = 0.7f;
+			runSpeedMul = 0.7f;
 		}
 
 		if (mina == true) {
@@ -137,12 +137,27 @@ public class Player : MonoBehaviour
 		} 
 //------------------------------------------------------------------------------
 	}
+
+	private void Update() 
+	{
+		/// Cada cliente conrtola SOLO su personaje
+//		if ( !isClient || !hasAuthority) return;
+// Esta linea esta comentada
+// para trabajar con el
+// personaje sin red!
+		UpdateCapsule ();
+		if (cannotWork) return;
+
+		JumpCheck ();
+	}
+
 	private void Awake() 
 	{
 		/// Referencias internas
-		parent = transform.parent;
-		anim = GetComponent<Animator> ();
+		playerCapsule = GetComponent<CapsuleCollider> ();
 		body = GetComponent<Rigidbody> ();
+		body.centerOfMass = Vector3.zero;
+		SpeedMul = runSpeedMul;
 	} 
 
 	private void OnCollisionEnter( Collision col ) 
@@ -151,16 +166,11 @@ public class Player : MonoBehaviour
 		switch (col.gameObject.tag)
 		{
 			case "Floor":
-			{
 				if (OnAir)
 				{
-					/// Al chocar con el suelo, estando en el aire,
-					/// cerramos la animacion de salto y dejamas de estar
-					/// en el aire.
 					OnAir = false;
 					anim.SetTrigger ( "Land" );
 				}
-			}
 			break;
 //--------------------------------------------------------------------------------------
 		case "Pvelocidad":
@@ -174,38 +184,55 @@ public class Player : MonoBehaviour
 				escudo = true;
 			}
 			break;
-		case "Pinchos":
-			{
-				if (escudo == false) {
-					Destroy (gameObject);
-				} else {
-					escudo = false;
-				}
-			}
-			break;
 		case "Pmina":
 			{
 				mina = true;
 			}
 			break;
-
 //-----------------------------------------------------------------------------------------------
 		}
 	}
-//--------------------------------------------------------------------------------------
-	void OnTriggerStay (Collider obj){
-		if (obj.tag == "MedusaTentaculos") {
-			charSpeed = 2; 
-			runSpeedOffset = 0.3f;
-		}
-	}
-	void OnTriggerExit (Collider obj){
-		if (obj.tag == "MedusaTentaculos") {
-			charSpeed = 5; 
-			runSpeedOffset = 0.7f;
-		}
+	#endregion
+
+	#region STUFF
+	public IEnumerator BlockPlayer ( float t, bool onAir=false ) 
+	{
+		this.OnAir = OnAir;
+		cannotWork = true;
+		Moving = false;
+		yield return new WaitForSeconds (t);
+		cannotWork = false;
+		anim.ResetTrigger ("Hit");
 	}
 
-//--------------------------------------------------------------------------------------------
+	public IEnumerator Tentaculo ( Transform hook ) 
+	{
+		var ogPos = anim.transform.localPosition;
+		var ogRot = anim.transform.rotation;
+		anim.transform.Translate (0.35f * -currentDirection, 0f, 0f);
+		anim.transform.SetParent (hook);
+		yield return new WaitForSeconds (0.45f);
+		cam.SetTrigger ("GoDown");
+		yield return new WaitForSeconds (0.6f);
+
+		OnAir=true;
+		var animPos = Vector3.zero;
+		animPos.y = anim.transform.position.y;
+		transform.position = animPos;
+
+		anim.transform.SetParent (transform);
+		anim.transform.localPosition = ogPos;
+		anim.transform.rotation = ogRot;
+	}
+
+	void UpdateCapsule () 
+	{
+		if (anim.transform.hasChanged)
+		{
+			var newCenter = playerCapsule.center;
+			newCenter.z = anim.transform.localPosition.z;
+			playerCapsule.center = newCenter;
+		}
+	}
 	#endregion
 }

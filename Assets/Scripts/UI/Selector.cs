@@ -162,11 +162,7 @@ public enum PJs
 	/// Lista de todos los personajes
 	/// que se pueden seleccionar
 	NONE,   // => Espectador
-	Gatete,
-	Sir,
-	Random_0,
-	Random_1
-	// En un futuro cuidado con
-	// cambiar los nombres!
-	//=> El orden tiene que coincidir con la array!
+	Indiana,
+	Harry,
+	Leia
 }

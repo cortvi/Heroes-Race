@@ -73,7 +73,8 @@ ModelImporter:
     400064: ESPONJA_HI
     4300000: ESPONJA2
     4300002: ESPONJA_HI
-    7400000: Take 001
+    7400000: Charge
+    7400002: Release
     9500000: //RootNode
     13700000: ESPONJA2
     13700002: ESPONJA_HI
@@ -93,7 +94,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -101,17 +102,17 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Charge
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -124,6 +125,105 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: ESPONJA_HI
+        weight: 1
+      - path: Muscle Strand001
+        weight: 1
+      - path: Muscle Strand001M_End
+        weight: 1
+      - path: Muscle Strand001M_End/Muscle Strand001M_EndHdl
+        weight: 1
+      - path: Muscle Strand001M_End001
+        weight: 1
+      - path: Muscle Strand001M_End001/Muscle Strand001M_EndHdl001
+        weight: 1
+      - path: Muscle Strand001M_End002
+        weight: 1
+      - path: Muscle Strand001M_End002/Muscle Strand001M_EndHdl002
+        weight: 1
+      - path: Muscle Strand001M_End003
+        weight: 1
+      - path: Muscle Strand001M_End003/Muscle Strand001M_EndHdl003
+        weight: 1
+      - path: Muscle Strand001M_End004
+        weight: 1
+      - path: Muscle Strand001M_End004/Muscle Strand001M_EndHdl004
+        weight: 1
+      - path: Muscle Strand001M_End005
+        weight: 1
+      - path: Muscle Strand001M_End005/Muscle Strand001M_EndHdl005
+        weight: 1
+      - path: Muscle Strand001M_START
+        weight: 1
+      - path: Muscle Strand001M_START/Muscle Strand001M_StartHdl
+        weight: 1
+      - path: Muscle Strand001M_START001
+        weight: 1
+      - path: Muscle Strand001M_START001/Muscle Strand001M_StartHdl001
+        weight: 1
+      - path: Muscle Strand001M_START002
+        weight: 1
+      - path: Muscle Strand001M_START002/Muscle Strand001M_StartHdl002
+        weight: 1
+      - path: Muscle Strand001M_START003
+        weight: 1
+      - path: Muscle Strand001M_START003/Muscle Strand001M_StartHdl003
+        weight: 1
+      - path: Muscle Strand001M_START004
+        weight: 1
+      - path: Muscle Strand001M_START004/Muscle Strand001M_StartHdl004
+        weight: 1
+      - path: Muscle Strand001M_START005
+        weight: 1
+      - path: Muscle Strand001M_START005/Muscle Strand001M_StartHdl005
+        weight: 1
+      - path: Muscle Strand002
+        weight: 1
+      - path: Muscle Strand003
+        weight: 1
+      - path: Muscle Strand004
+        weight: 1
+      - path: Muscle Strand005
+        weight: 1
+      - path: Muscle Strand006
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Release
+      takeName: Take 001
+      firstFrame: 12
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.79236275
+        functionName: ThrowPlayers
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask:
       - path: 
         weight: 1
