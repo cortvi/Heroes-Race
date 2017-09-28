@@ -16,15 +16,6 @@ public class Player : MonoBehaviour
 	public float charSpeed;				// La velocidad del personaje
 	public float runSpeedMul;			// Añadido a la velocidad base de la animacion de correr
 
-//--------------------------------------------------------------------------------------
-	public float coolDown = 5;			// Para los power up sera el teimpo que dure 
-	public float coolDowmTimer;
-
-	public bool escudo; 
-	public bool mina;
-	public GameObject minaobj;
-//-------------------------------------------------------------------------------------
-
 	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
 	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
 	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
@@ -110,32 +101,12 @@ public class Player : MonoBehaviour
 // Esta linea esta comentada
 // para trabajar con el
 // personaje sin red!
+
 		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
 		Movement (dir);
 		Rotation (dir);
-
-//-------------------------------------------------------------------------------
-		if (coolDowmTimer>0){
-			coolDowmTimer -= Time.deltaTime;
-			charSpeed = 10; 
-			runSpeedMul = 1.4f;
-
-		}
-		if (coolDowmTimer < 0) {
-			coolDowmTimer = 0;
-			charSpeed = 5; 
-			runSpeedMul = 0.7f;
-		}
-
-		if (mina == true) {
-			if (Input.GetKeyDown (KeyCode.E)) {
-				Instantiate(minaobj,transform.position,transform.rotation);
-				mina = false;
-			}
-		} 
-//------------------------------------------------------------------------------
 	}
 
 	private void Update() 
@@ -172,24 +143,6 @@ public class Player : MonoBehaviour
 					anim.SetTrigger ( "Land" );
 				}
 			break;
-//--------------------------------------------------------------------------------------
-		case "Pvelocidad":
-			{
-				coolDowmTimer = coolDown;
-
-			}
-			break;
-		case "Pescudo":
-			{
-				escudo = true;
-			}
-			break;
-		case "Pmina":
-			{
-				mina = true;
-			}
-			break;
-//-----------------------------------------------------------------------------------------------
 		}
 	}
 	#endregion
@@ -207,8 +160,9 @@ public class Player : MonoBehaviour
 
 	public IEnumerator Tentaculo ( Transform hook ) 
 	{
+		playerCapsule.enabled = false;
 		var ogPos = anim.transform.localPosition;
-		var ogRot = anim.transform.rotation;
+		var ogRot = anim.transform.localRotation;
 		anim.transform.Translate (0.35f * -currentDirection, 0f, 0f);
 		anim.transform.SetParent (hook);
 		yield return new WaitForSeconds (0.45f);
@@ -222,7 +176,9 @@ public class Player : MonoBehaviour
 
 		anim.transform.SetParent (transform);
 		anim.transform.localPosition = ogPos;
-		anim.transform.rotation = ogRot;
+		anim.transform.localRotation = ogRot;
+		yield return new WaitForSeconds (0.1f);
+		playerCapsule.enabled = true;
 	}
 
 	void UpdateCapsule () 

@@ -20,6 +20,34 @@ ModelImporter:
     100024: Bone012
     100026: Bone013
     100028: "PIRA\xD1A"
+    100030: CATRigHub001
+    100032: CATRigHub002
+    100034: CATRigSpine1
+    100036: CATRigSpine2
+    100038: CATRigSpine3
+    100040: CATRigSpine4
+    100042: CATRigSpine5
+    100044: CATRigTail1
+    100046: CATRigTail1 1
+    100048: CATRigTail1 2
+    100050: CATRigTail1 3
+    100052: CATRigTail2
+    100054: CATRigTail2 1
+    100056: CATRigTail2 2
+    100058: CATRigTail2 3
+    100060: CATRigTail3
+    100062: CATRigTail3 1
+    100064: CATRigTail3 2
+    100066: CATRigTail3 3
+    100068: CATRigTail4
+    100070: CATRigTail4 1
+    100072: CATRigTail4 2
+    100074: CATRigTail4 3
+    100076: CATRigTail5
+    100078: CATRigTail5 1
+    100080: CATRigTail5 2
+    100082: CATRigTail5 3
+    100084: Character001
     400000: //RootNode
     400002: Bone001
     400004: Bone002
@@ -35,10 +63,119 @@ ModelImporter:
     400024: Bone012
     400026: Bone013
     400028: "PIRA\xD1A"
+    400030: CATRigHub001
+    400032: CATRigHub002
+    400034: CATRigSpine1
+    400036: CATRigSpine2
+    400038: CATRigSpine3
+    400040: CATRigSpine4
+    400042: CATRigSpine5
+    400044: CATRigTail1
+    400046: CATRigTail1 1
+    400048: CATRigTail1 2
+    400050: CATRigTail1 3
+    400052: CATRigTail2
+    400054: CATRigTail2 1
+    400056: CATRigTail2 2
+    400058: CATRigTail2 3
+    400060: CATRigTail3
+    400062: CATRigTail3 1
+    400064: CATRigTail3 2
+    400066: CATRigTail3 3
+    400068: CATRigTail4
+    400070: CATRigTail4 1
+    400072: CATRigTail4 2
+    400074: CATRigTail4 3
+    400076: CATRigTail5
+    400078: CATRigTail5 1
+    400080: CATRigTail5 2
+    400082: CATRigTail5 3
+    400084: Character001
     2300000: //RootNode
+    2300002: CATRigHub001
+    2300004: CATRigHub002
+    2300006: CATRigSpine1
+    2300008: CATRigSpine2
+    2300010: CATRigSpine3
+    2300012: CATRigSpine4
+    2300014: CATRigSpine5
+    2300016: CATRigTail1
+    2300018: CATRigTail1 1
+    2300020: CATRigTail1 2
+    2300022: CATRigTail1 3
+    2300024: CATRigTail2
+    2300026: CATRigTail2 1
+    2300028: CATRigTail2 2
+    2300030: CATRigTail2 3
+    2300032: CATRigTail3
+    2300034: CATRigTail3 1
+    2300036: CATRigTail3 2
+    2300038: CATRigTail3 3
+    2300040: CATRigTail4
+    2300042: CATRigTail4 1
+    2300044: CATRigTail4 2
+    2300046: CATRigTail4 3
+    2300048: CATRigTail5
+    2300050: CATRigTail5 1
+    2300052: CATRigTail5 2
+    2300054: CATRigTail5 3
     3300000: //RootNode
+    3300002: CATRigHub001
+    3300004: CATRigHub002
+    3300006: CATRigSpine1
+    3300008: CATRigSpine2
+    3300010: CATRigSpine3
+    3300012: CATRigSpine4
+    3300014: CATRigSpine5
+    3300016: CATRigTail1
+    3300018: CATRigTail1 1
+    3300020: CATRigTail1 2
+    3300022: CATRigTail1 3
+    3300024: CATRigTail2
+    3300026: CATRigTail2 1
+    3300028: CATRigTail2 2
+    3300030: CATRigTail2 3
+    3300032: CATRigTail3
+    3300034: CATRigTail3 1
+    3300036: CATRigTail3 2
+    3300038: CATRigTail3 3
+    3300040: CATRigTail4
+    3300042: CATRigTail4 1
+    3300044: CATRigTail4 2
+    3300046: CATRigTail4 3
+    3300048: CATRigTail5
+    3300050: CATRigTail5 1
+    3300052: CATRigTail5 2
+    3300054: CATRigTail5 3
     4300000: PIRANA
     4300002: "PIRA\xD1A"
+    4300004: CATRigHub001
+    4300006: CATRigTail1
+    4300008: CATRigTail2
+    4300010: CATRigTail3
+    4300012: CATRigTail4
+    4300014: CATRigTail5
+    4300016: CATRigTail1
+    4300018: CATRigTail2
+    4300020: CATRigTail3
+    4300022: CATRigTail4
+    4300024: CATRigTail5
+    4300026: CATRigSpine1
+    4300028: CATRigSpine2
+    4300030: CATRigSpine3
+    4300032: CATRigSpine4
+    4300034: CATRigSpine5
+    4300036: CATRigHub002
+    4300038: CATRigTail1
+    4300040: CATRigTail2
+    4300042: CATRigTail3
+    4300044: CATRigTail4
+    4300046: CATRigTail5
+    4300048: CATRigTail1
+    4300050: CATRigTail2
+    4300052: CATRigTail3
+    4300054: CATRigTail4
+    4300056: CATRigTail5
     7400000: Take 001
     9500000: //RootNode
     13700000: "PIRA\xD1A"

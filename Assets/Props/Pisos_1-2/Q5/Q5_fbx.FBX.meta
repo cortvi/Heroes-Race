@@ -1,0 +1,176 @@
+fileFormatVersion: 2
+guid: 57b02dcc6c69abb4d968dcc7b96f4e0e
+timeCreated: 1506553235
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ALGAS
+    100002: BASEPIEDRAAPLASTAR
+    100004: BASEPIEDRAAPLASTAR2
+    100006: BASEPIEDRAAPLASTAR3
+    100008: CADENAS
+    100010: CADENAS2
+    100012: CADENAS3
+    100014: CORAL
+    100016: ESCALERA
+    100018: ESTRELLAS
+    100020: FUEGO
+    100022: MADERA
+    100024: PIEDRAAPLASTAR
+    100026: PIEDRAAPLASTAR2
+    100028: PIEDRAAPLASTAR3
+    100030: PIEDRAESCALERA
+    100032: PIEDRAS3
+    100034: PIEDRASALGAS
+    100036: //RootNode
+    100038: QUESITO11
+    400000: ALGAS
+    400002: BASEPIEDRAAPLASTAR
+    400004: BASEPIEDRAAPLASTAR2
+    400006: BASEPIEDRAAPLASTAR3
+    400008: CADENAS
+    400010: CADENAS2
+    400012: CADENAS3
+    400014: CORAL
+    400016: ESCALERA
+    400018: ESTRELLAS
+    400020: FUEGO
+    400022: MADERA
+    400024: PIEDRAAPLASTAR
+    400026: PIEDRAAPLASTAR2
+    400028: PIEDRAAPLASTAR3
+    400030: PIEDRAESCALERA
+    400032: PIEDRAS3
+    400034: PIEDRASALGAS
+    400036: //RootNode
+    400038: QUESITO11
+    2300000: ALGAS
+    2300002: BASEPIEDRAAPLASTAR
+    2300004: BASEPIEDRAAPLASTAR2
+    2300006: BASEPIEDRAAPLASTAR3
+    2300008: CADENAS
+    2300010: CADENAS2
+    2300012: CADENAS3
+    2300014: CORAL
+    2300016: ESCALERA
+    2300018: ESTRELLAS
+    2300020: FUEGO
+    2300022: MADERA
+    2300024: PIEDRAAPLASTAR
+    2300026: PIEDRAAPLASTAR2
+    2300028: PIEDRAAPLASTAR3
+    2300030: PIEDRAESCALERA
+    2300032: PIEDRAS3
+    2300034: PIEDRASALGAS
+    2300036: QUESITO11
+    3300000: ALGAS
+    3300002: BASEPIEDRAAPLASTAR
+    3300004: BASEPIEDRAAPLASTAR2
+    3300006: BASEPIEDRAAPLASTAR3
+    3300008: CADENAS
+    3300010: CADENAS2
+    3300012: CADENAS3
+    3300014: CORAL
+    3300016: ESCALERA
+    3300018: ESTRELLAS
+    3300020: FUEGO
+    3300022: MADERA
+    3300024: PIEDRAAPLASTAR
+    3300026: PIEDRAAPLASTAR2
+    3300028: PIEDRAAPLASTAR3
+    3300030: PIEDRAESCALERA
+    3300032: PIEDRAS3
+    3300034: PIEDRASALGAS
+    3300036: QUESITO11
+    4300000: CORAL
+    4300002: ALGAS
+    4300004: PIEDRAS3
+    4300006: PIEDRASALGAS
+    4300008: ESTRELLAS
+    4300010: MADERA
+    4300012: CADENAS
+    4300014: PIEDRAAPLASTAR
+    4300016: BASEPIEDRAAPLASTAR
+    4300018: CADENAS2
+    4300020: CADENAS3
+    4300022: FUEGO
+    4300024: ESCALERA
+    4300026: PIEDRAESCALERA
+    4300028: PIEDRAAPLASTAR3
+    4300030: BASEPIEDRAAPLASTAR3
+    4300032: PIEDRAAPLASTAR2
+    4300034: BASEPIEDRAAPLASTAR2
+    4300036: QUESITO11
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 0
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 
