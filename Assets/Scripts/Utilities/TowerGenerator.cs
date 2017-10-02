@@ -7,7 +7,9 @@ using UnityEngine.Internal;
 public class TowerGenerator : MonoBehaviour
 {
 	public GameObject[] levelsRoot;				// Los transforms de cada nivel
-	public GameObject[] prefabs;				// Los prefabs de los quesitos (17=quesito final)
+	public GameObject[] prefabs;				// Los prefabs de los quesitos
+	// 18->quesito final
+	// 17->entrada 2 (recepcion ascensores)
 
 	public IEnumerator GenerateTower ()
 	{
@@ -34,7 +36,7 @@ public class TowerGenerator : MonoBehaviour
 			// El quesito inicial en el resto son los ascensores
 			level[0] = 11;
 			// El ultimo quesito del ultimo piso es el final
-			if (lvl==2) level[5] = 17;
+			if (lvl==2) level[5] = 18;
 		}
 		for (var q=0; q!=9; q++)
 		{

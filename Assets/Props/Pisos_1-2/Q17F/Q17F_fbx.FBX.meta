@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 239a1a252bb01bf47ab5d18214d0bf06
+timeCreated: 1506972519
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ALGAS
+    100002: BANDERAENTI
+    100004: BANDERAPALOENTI
+    100006: COLUMNASQFINAL
+    100008: CORAL
+    100010: ESCALERAS
+    100012: ESTATUA
+    100014: ESTRELLAS
+    100016: MADERA
+    100018: PIEDRAS3
+    100020: PIEDRASALGAS
+    100022: POSTE
+    100024: //RootNode
+    100026: QUESITO12
+    100028: REBORDESESCALERAS
+    100030: TOLDO
+    100032: Box013
+    400000: ALGAS
+    400002: BANDERAENTI
+    400004: BANDERAPALOENTI
+    400006: COLUMNASQFINAL
+    400008: CORAL
+    400010: ESCALERAS
+    400012: ESTATUA
+    400014: ESTRELLAS
+    400016: MADERA
+    400018: PIEDRAS3
+    400020: PIEDRASALGAS
+    400022: POSTE
+    400024: //RootNode
+    400026: QUESITO12
+    400028: REBORDESESCALERAS
+    400030: TOLDO
+    400032: Box013
+    2300000: ALGAS
+    2300002: BANDERAENTI
+    2300004: BANDERAPALOENTI
+    2300006: COLUMNASQFINAL
+    2300008: CORAL
+    2300010: ESCALERAS
+    2300012: ESTATUA
+    2300014: ESTRELLAS
+    2300016: MADERA
+    2300018: PIEDRAS3
+    2300020: PIEDRASALGAS
+    2300022: POSTE
+    2300024: QUESITO12
+    2300026: REBORDESESCALERAS
+    2300028: TOLDO
+    2300030: Box013
+    3300000: ALGAS
+    3300002: BANDERAENTI
+    3300004: BANDERAPALOENTI
+    3300006: COLUMNASQFINAL
+    3300008: CORAL
+    3300010: ESCALERAS
+    3300012: ESTATUA
+    3300014: ESTRELLAS
+    3300016: MADERA
+    3300018: PIEDRAS3
+    3300020: PIEDRASALGAS
+    3300022: POSTE
+    3300024: QUESITO12
+    3300026: REBORDESESCALERAS
+    3300028: TOLDO
+    3300030: Box013
+    4300000: QUESITO12
+    4300002: ESCALERAS
+    4300004: REBORDESESCALERAS
+    4300006: COLUMNASQFINAL
+    4300008: TOLDO
+    4300010: ESTATUA
+    4300012: BANDERAENTI
+    4300014: CORAL
+    4300016: ALGAS
+    4300018: PIEDRAS3
+    4300020: PIEDRASALGAS
+    4300022: ESTRELLAS
+    4300024: MADERA
+    4300026: POSTE
+    4300028: BANDERAPALOENTI
+    4300030: Box013
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

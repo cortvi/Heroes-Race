@@ -1,186 +1,157 @@
 fileFormatVersion: 2
-guid: 185125b58f995dd43a8e0a28c0e08f52
-timeCreated: 1503883251
+guid: bd81feedd8ec9844cb66035092c2acd6
+timeCreated: 1506609271
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Bone001
-    100004: Bone002
-    100006: Bone003
-    100008: Bone004
-    100010: Bone005
-    100012: Bone006
-    100014: Bone007
-    100016: Bone008
-    100018: Bone009
-    100020: Bone010
-    100022: Bone011
-    100024: Bone012
-    100026: Bone013
-    100028: "PIRA\xD1A"
-    100030: CATRigHub001
-    100032: CATRigHub002
-    100034: CATRigSpine1
-    100036: CATRigSpine2
-    100038: CATRigSpine3
-    100040: CATRigSpine4
-    100042: CATRigSpine5
-    100044: CATRigTail1
-    100046: CATRigTail1 1
-    100048: CATRigTail1 2
-    100050: CATRigTail1 3
-    100052: CATRigTail2
-    100054: CATRigTail2 1
-    100056: CATRigTail2 2
-    100058: CATRigTail2 3
-    100060: CATRigTail3
-    100062: CATRigTail3 1
-    100064: CATRigTail3 2
-    100066: CATRigTail3 3
-    100068: CATRigTail4
-    100070: CATRigTail4 1
-    100072: CATRigTail4 2
-    100074: CATRigTail4 3
-    100076: CATRigTail5
-    100078: CATRigTail5 1
-    100080: CATRigTail5 2
-    100082: CATRigTail5 3
-    100084: Character001
-    400000: //RootNode
-    400002: Bone001
-    400004: Bone002
-    400006: Bone003
-    400008: Bone004
-    400010: Bone005
-    400012: Bone006
-    400014: Bone007
-    400016: Bone008
-    400018: Bone009
-    400020: Bone010
-    400022: Bone011
-    400024: Bone012
-    400026: Bone013
-    400028: "PIRA\xD1A"
-    400030: CATRigHub001
-    400032: CATRigHub002
-    400034: CATRigSpine1
-    400036: CATRigSpine2
-    400038: CATRigSpine3
-    400040: CATRigSpine4
-    400042: CATRigSpine5
-    400044: CATRigTail1
-    400046: CATRigTail1 1
-    400048: CATRigTail1 2
-    400050: CATRigTail1 3
-    400052: CATRigTail2
-    400054: CATRigTail2 1
-    400056: CATRigTail2 2
-    400058: CATRigTail2 3
-    400060: CATRigTail3
-    400062: CATRigTail3 1
-    400064: CATRigTail3 2
-    400066: CATRigTail3 3
-    400068: CATRigTail4
-    400070: CATRigTail4 1
-    400072: CATRigTail4 2
-    400074: CATRigTail4 3
-    400076: CATRigTail5
-    400078: CATRigTail5 1
-    400080: CATRigTail5 2
-    400082: CATRigTail5 3
-    400084: Character001
-    2300000: //RootNode
-    2300002: CATRigHub001
-    2300004: CATRigHub002
-    2300006: CATRigSpine1
-    2300008: CATRigSpine2
-    2300010: CATRigSpine3
-    2300012: CATRigSpine4
-    2300014: CATRigSpine5
-    2300016: CATRigTail1
-    2300018: CATRigTail1 1
-    2300020: CATRigTail1 2
-    2300022: CATRigTail1 3
-    2300024: CATRigTail2
-    2300026: CATRigTail2 1
-    2300028: CATRigTail2 2
-    2300030: CATRigTail2 3
-    2300032: CATRigTail3
-    2300034: CATRigTail3 1
-    2300036: CATRigTail3 2
-    2300038: CATRigTail3 3
-    2300040: CATRigTail4
-    2300042: CATRigTail4 1
-    2300044: CATRigTail4 2
-    2300046: CATRigTail4 3
-    2300048: CATRigTail5
-    2300050: CATRigTail5 1
-    2300052: CATRigTail5 2
-    2300054: CATRigTail5 3
-    3300000: //RootNode
-    3300002: CATRigHub001
-    3300004: CATRigHub002
-    3300006: CATRigSpine1
-    3300008: CATRigSpine2
-    3300010: CATRigSpine3
-    3300012: CATRigSpine4
-    3300014: CATRigSpine5
-    3300016: CATRigTail1
-    3300018: CATRigTail1 1
-    3300020: CATRigTail1 2
-    3300022: CATRigTail1 3
-    3300024: CATRigTail2
-    3300026: CATRigTail2 1
-    3300028: CATRigTail2 2
-    3300030: CATRigTail2 3
-    3300032: CATRigTail3
-    3300034: CATRigTail3 1
-    3300036: CATRigTail3 2
-    3300038: CATRigTail3 3
-    3300040: CATRigTail4
-    3300042: CATRigTail4 1
-    3300044: CATRigTail4 2
-    3300046: CATRigTail4 3
-    3300048: CATRigTail5
-    3300050: CATRigTail5 1
-    3300052: CATRigTail5 2
-    3300054: CATRigTail5 3
-    4300000: PIRANA
-    4300002: "PIRA\xD1A"
-    4300004: CATRigHub001
-    4300006: CATRigTail1
-    4300008: CATRigTail2
-    4300010: CATRigTail3
-    4300012: CATRigTail4
-    4300014: CATRigTail5
-    4300016: CATRigTail1
-    4300018: CATRigTail2
-    4300020: CATRigTail3
-    4300022: CATRigTail4
-    4300024: CATRigTail5
-    4300026: CATRigSpine1
-    4300028: CATRigSpine2
-    4300030: CATRigSpine3
-    4300032: CATRigSpine4
-    4300034: CATRigSpine5
-    4300036: CATRigHub002
-    4300038: CATRigTail1
-    4300040: CATRigTail2
-    4300042: CATRigTail3
-    4300044: CATRigTail4
-    4300046: CATRigTail5
-    4300048: CATRigTail1
-    4300050: CATRigTail2
-    4300052: CATRigTail3
-    4300054: CATRigTail4
-    4300056: CATRigTail5
-    7400000: Take 001
+    100000: CATRigHub001
+    100002: CATRigHub002
+    100004: CATRigSpine1
+    100006: CATRigSpine2
+    100008: CATRigSpine3
+    100010: CATRigSpine4
+    100012: CATRigSpine5
+    100014: CATRigTail1
+    100016: CATRigTail1 1
+    100018: CATRigTail1 2
+    100020: CATRigTail1 3
+    100022: CATRigTail2
+    100024: CATRigTail2 1
+    100026: CATRigTail2 2
+    100028: CATRigTail2 3
+    100030: CATRigTail3
+    100032: CATRigTail3 1
+    100034: CATRigTail3 2
+    100036: CATRigTail3 3
+    100038: CATRigTail4
+    100040: CATRigTail4 1
+    100042: CATRigTail4 2
+    100044: CATRigTail4 3
+    100046: CATRigTail5
+    100048: CATRigTail5 1
+    100050: CATRigTail5 2
+    100052: CATRigTail5 3
+    100054: Character001
+    100056: //RootNode
+    100058: "PIRA\xD1A"
+    400000: CATRigHub001
+    400002: CATRigHub002
+    400004: CATRigSpine1
+    400006: CATRigSpine2
+    400008: CATRigSpine3
+    400010: CATRigSpine4
+    400012: CATRigSpine5
+    400014: CATRigTail1
+    400016: CATRigTail1 1
+    400018: CATRigTail1 2
+    400020: CATRigTail1 3
+    400022: CATRigTail2
+    400024: CATRigTail2 1
+    400026: CATRigTail2 2
+    400028: CATRigTail2 3
+    400030: CATRigTail3
+    400032: CATRigTail3 1
+    400034: CATRigTail3 2
+    400036: CATRigTail3 3
+    400038: CATRigTail4
+    400040: CATRigTail4 1
+    400042: CATRigTail4 2
+    400044: CATRigTail4 3
+    400046: CATRigTail5
+    400048: CATRigTail5 1
+    400050: CATRigTail5 2
+    400052: CATRigTail5 3
+    400054: Character001
+    400056: //RootNode
+    400058: "PIRA\xD1A"
+    2300000: CATRigHub001
+    2300002: CATRigHub002
+    2300004: CATRigSpine1
+    2300006: CATRigSpine2
+    2300008: CATRigSpine3
+    2300010: CATRigSpine4
+    2300012: CATRigSpine5
+    2300014: CATRigTail1
+    2300016: CATRigTail1 1
+    2300018: CATRigTail1 2
+    2300020: CATRigTail1 3
+    2300022: CATRigTail2
+    2300024: CATRigTail2 1
+    2300026: CATRigTail2 2
+    2300028: CATRigTail2 3
+    2300030: CATRigTail3
+    2300032: CATRigTail3 1
+    2300034: CATRigTail3 2
+    2300036: CATRigTail3 3
+    2300038: CATRigTail4
+    2300040: CATRigTail4 1
+    2300042: CATRigTail4 2
+    2300044: CATRigTail4 3
+    2300046: CATRigTail5
+    2300048: CATRigTail5 1
+    2300050: CATRigTail5 2
+    2300052: CATRigTail5 3
+    3300000: CATRigHub001
+    3300002: CATRigHub002
+    3300004: CATRigSpine1
+    3300006: CATRigSpine2
+    3300008: CATRigSpine3
+    3300010: CATRigSpine4
+    3300012: CATRigSpine5
+    3300014: CATRigTail1
+    3300016: CATRigTail1 1
+    3300018: CATRigTail1 2
+    3300020: CATRigTail1 3
+    3300022: CATRigTail2
+    3300024: CATRigTail2 1
+    3300026: CATRigTail2 2
+    3300028: CATRigTail2 3
+    3300030: CATRigTail3
+    3300032: CATRigTail3 1
+    3300034: CATRigTail3 2
+    3300036: CATRigTail3 3
+    3300038: CATRigTail4
+    3300040: CATRigTail4 1
+    3300042: CATRigTail4 2
+    3300044: CATRigTail4 3
+    3300046: CATRigTail5
+    3300048: CATRigTail5 1
+    3300050: CATRigTail5 2
+    3300052: CATRigTail5 3
+    4300000: "PIRA\xD1A"
+    4300002: CATRigHub001
+    4300004: CATRigTail1
+    4300006: CATRigTail2
+    4300008: CATRigTail3
+    4300010: CATRigTail4
+    4300012: CATRigTail5
+    4300014: CATRigTail1
+    4300016: CATRigTail2
+    4300018: CATRigTail3
+    4300020: CATRigTail4
+    4300022: CATRigTail5
+    4300024: CATRigSpine1
+    4300026: CATRigSpine2
+    4300028: CATRigSpine3
+    4300030: CATRigSpine4
+    4300032: CATRigSpine5
+    4300034: CATRigHub002
+    4300036: CATRigTail1
+    4300038: CATRigTail2
+    4300040: CATRigTail3
+    4300042: CATRigTail4
+    4300044: CATRigTail5
+    4300046: CATRigTail1
+    4300048: CATRigTail2
+    4300050: CATRigTail3
+    4300052: CATRigTail4
+    4300054: CATRigTail5
+    7400000: Morder
     9500000: //RootNode
     13700000: "PIRA\xD1A"
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 1
     materialSearch: 1
   animations:
@@ -203,7 +174,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Morder
       takeName: Take 001
       firstFrame: 0
       lastFrame: 60
@@ -229,31 +200,72 @@ ModelImporter:
       transformMask:
       - path: 
         weight: 1
-      - path: Bone001
+      - path: CATRigHub001
         weight: 1
-      - path: Bone001/Bone002
+      - path: CATRigHub001/CATRigSpine1
         weight: 1
-      - path: Bone001/Bone002/Bone003
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2
         weight: 1
-      - path: Bone001/Bone002/Bone003/Bone004
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3
         weight: 1
-      - path: Bone001/Bone002/Bone003/Bone004/Bone005
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4
         weight: 1
-      - path: Bone001/Bone002/Bone006
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5
         weight: 1
-      - path: Bone001/Bone002/Bone006/Bone007
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002
         weight: 1
-      - path: Bone001/Bone002/Bone006/Bone007/Bone008
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          2
         weight: 1
-      - path: Bone001/Bone009
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          2/CATRigTail2 2
         weight: 1
-      - path: Bone001/Bone009/Bone010
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          2/CATRigTail2 2/CATRigTail3 2
         weight: 1
-      - path: Bone001/Bone009/Bone010/Bone011
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          2/CATRigTail2 2/CATRigTail3 2/CATRigTail4 2
         weight: 1
-      - path: Bone001/Bone009/Bone012
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          2/CATRigTail2 2/CATRigTail3 2/CATRigTail4 2/CATRigTail5 2
         weight: 1
-      - path: Bone001/Bone009/Bone012/Bone013
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          3
+        weight: 1
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          3/CATRigTail2 3
+        weight: 1
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          3/CATRigTail2 3/CATRigTail3 3
+        weight: 1
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          3/CATRigTail2 3/CATRigTail3 3/CATRigTail4 3
+        weight: 1
+      - path: CATRigHub001/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine5/CATRigHub002/CATRigTail1
+          3/CATRigTail2 3/CATRigTail3 3/CATRigTail4 3/CATRigTail5 3
+        weight: 1
+      - path: CATRigHub001/CATRigTail1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4
+        weight: 1
+      - path: CATRigHub001/CATRigTail1/CATRigTail2/CATRigTail3/CATRigTail4/CATRigTail5
+        weight: 1
+      - path: CATRigHub001/CATRigTail1 1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1 1/CATRigTail2 1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1 1/CATRigTail2 1/CATRigTail3 1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1 1/CATRigTail2 1/CATRigTail3 1/CATRigTail4 1
+        weight: 1
+      - path: CATRigHub001/CATRigTail1 1/CATRigTail2 1/CATRigTail3 1/CATRigTail4 1/CATRigTail5
+          1
+        weight: 1
+      - path: Character001
         weight: 1
       - path: "PIRA\xD1A"
         weight: 1

@@ -1,0 +1,121 @@
+fileFormatVersion: 2
+guid: e840aaeda1a09ee4981397af74cc5dd5
+timeCreated: 1506972272
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ALGAS
+    100002: CORAL
+    100004: ESTRELLAS
+    100006: MADERA
+    100008: PIEDRAS3
+    100010: PIEDRASALGAS
+    100012: PINXOS002
+    100014: //RootNode
+    100016: QUESITO15
+    400000: ALGAS
+    400002: CORAL
+    400004: ESTRELLAS
+    400006: MADERA
+    400008: PIEDRAS3
+    400010: PIEDRASALGAS
+    400012: PINXOS002
+    400014: //RootNode
+    400016: QUESITO15
+    2300000: ALGAS
+    2300002: CORAL
+    2300004: ESTRELLAS
+    2300006: MADERA
+    2300008: PIEDRAS3
+    2300010: PIEDRASALGAS
+    2300012: PINXOS002
+    2300014: QUESITO15
+    3300000: ALGAS
+    3300002: CORAL
+    3300004: ESTRELLAS
+    3300006: MADERA
+    3300008: PIEDRAS3
+    3300010: PIEDRASALGAS
+    3300012: PINXOS002
+    3300014: QUESITO15
+    4300000: QUESITO15
+    4300002: PINXOS002
+    4300004: CORAL
+    4300006: ALGAS
+    4300008: PIEDRAS3
+    4300010: PIEDRASALGAS
+    4300012: ESTRELLAS
+    4300014: MADERA
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 1
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: DONE
+  assetBundleName: 
+  assetBundleVariant: 

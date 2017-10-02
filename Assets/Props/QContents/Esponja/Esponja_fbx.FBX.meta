@@ -79,7 +79,7 @@ ModelImporter:
     13700000: ESPONJA2
     13700002: ESPONJA_HI
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 1
     materialSearch: 1
   animations:

@@ -25,6 +25,9 @@ ModelImporter:
     100034: QUESITO12
     100036: TUBERIA
     100038: TUBERIA2
+    100040: COLUMNATUBERIA001
+    100042: PLANOTUBERIA001
+    100044: TUBERIA001
     400000: ALGAS
     400002: COLUMNATUBERIA
     400004: COLUMNATUBERIA2
@@ -45,6 +48,9 @@ ModelImporter:
     400034: QUESITO12
     400036: TUBERIA
     400038: TUBERIA2
+    400040: COLUMNATUBERIA001
+    400042: PLANOTUBERIA001
+    400044: TUBERIA001
     2300000: ALGAS
     2300002: COLUMNATUBERIA
     2300004: COLUMNATUBERIA2
@@ -64,6 +70,9 @@ ModelImporter:
     2300032: QUESITO12
     2300034: TUBERIA
     2300036: TUBERIA2
+    2300038: COLUMNATUBERIA001
+    2300040: PLANOTUBERIA001
+    2300042: TUBERIA001
     3300000: ALGAS
     3300002: COLUMNATUBERIA
     3300004: COLUMNATUBERIA2
@@ -83,6 +92,9 @@ ModelImporter:
     3300032: QUESITO12
     3300034: TUBERIA
     3300036: TUBERIA2
+    3300038: COLUMNATUBERIA001
+    3300040: PLANOTUBERIA001
+    3300042: TUBERIA001
     4300000: QUESITO12
     4300002: MADERA2
     4300004: MADERA1
@@ -102,10 +114,13 @@ ModelImporter:
     4300032: TUBERIA2
     4300034: PLANOTUBERIA
     4300036: PLANOTUBERIA2
+    4300038: COLUMNATUBERIA001
+    4300040: PLANOTUBERIA001
+    4300042: TUBERIA001
     7400000: Take 001
     9500000: //RootNode
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 1
     materialSearch: 1
   animations:
@@ -165,10 +180,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: DONE

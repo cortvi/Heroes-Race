@@ -1195,6 +1195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1585185725384860, guid: 52be07311b1154749a32e9df8fc29554, type: 2}
+  delay: 1
 --- !u!114 &114254645123483796
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1207,6 +1208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1659308065382690, guid: 11f0de518d1970d41b1639c94b4a2eba, type: 2}
+  delay: 0
 --- !u!114 &114429698584292312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1219,3 +1221,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1585185725384860, guid: 52be07311b1154749a32e9df8fc29554, type: 2}
+  delay: 0

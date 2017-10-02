@@ -24,11 +24,12 @@ public class Esponja : MonoBehaviour
 		anim.ResetTrigger ("Charge");
 	}
 
-	private void OnCollisionEnter( Collision col )
+	private void OnCollisionStay ( Collision col ) 
 	{
 		if (col.gameObject.tag=="Player")
 		{
-			if (col.transform.position.y < transform.position.y) return;
+			if (col.gameObject.GetComponent<Player> ().cannotWork) return;
+			if (Vector3.Distance (transform.parent.position, col.transform.GetChild(0).position)>0.35f) return;
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName("None")) anim.SetTrigger ("Charge");
 		}
 	}

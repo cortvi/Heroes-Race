@@ -7,10 +7,16 @@ public class PrefabSpawner : MonoBehaviour
 {
 	/// El Prefab que colocar
 	public GameObject prefab;
+	public float delay;
 
-	public void Awake() 
+	void Create ()
 	{
 		Instantiate (prefab, transform.position, transform.rotation);
 		Destroy (gameObject);
+	}
+
+	public void Awake() 
+	{
+		Invoke ("Create", delay);
 	}
 }

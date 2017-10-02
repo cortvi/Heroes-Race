@@ -12,7 +12,7 @@ public class Tentaculo : MonoBehaviour
 	List<Player> playersIn;
 	bool doneWaiting;
 
-	IEnumerator Wake ()
+	IEnumerator Work ()
 	{
 		while (true)
 		{
@@ -66,17 +66,16 @@ public class Tentaculo : MonoBehaviour
 			playersIn.Add (other.GetComponent<Player> ());
 
 	}
-	private void OnTriggerExit( Collider other ) 
+	private void OnTriggerExit( Collider other )  
 	{
 		if (other.tag=="Player")
 			playersIn.Remove (other.GetComponent<Player> ());
 	}
 
-	private void Awake() 
+	private void Start () 
 	{
 		playersIn = new List<Player> (3);
 		anim = GetComponent<Animator> ();
-		StartCoroutine ("Wake");
+		StartCoroutine ("Work");
 	}
 }
-;

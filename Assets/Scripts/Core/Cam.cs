@@ -12,7 +12,7 @@ public class Cam : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		var h = levelHeigth*currentLevel + levelHeigth*upDown + 1.95f;
+		var h = levelHeigth*currentLevel + levelHeigth*upDown + 2.65f;
 		var newPos = transform.parent.InverseTransformPoint (Vector3.up*h);
 		newPos.x = transform.localPosition.x;
 		newPos.z = transform.localPosition.z;

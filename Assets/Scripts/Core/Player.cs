@@ -153,6 +153,8 @@ public class Player : MonoBehaviour
 		this.OnAir = OnAir;
 		cannotWork = true;
 		Moving = false;
+		yield return null;
+		anim.ResetTrigger ("Hit");
 		yield return new WaitForSeconds (t);
 		cannotWork = false;
 		anim.ResetTrigger ("Hit");
@@ -164,6 +166,7 @@ public class Player : MonoBehaviour
 		var ogPos = anim.transform.localPosition;
 		var ogRot = anim.transform.localRotation;
 		anim.transform.Translate (0.35f * -currentDirection, 0f, 0f);
+		anim.applyRootMotion = true;
 		anim.transform.SetParent (hook);
 		yield return new WaitForSeconds (0.45f);
 		cam.SetTrigger ("GoDown");
@@ -175,6 +178,7 @@ public class Player : MonoBehaviour
 		transform.position = animPos;
 
 		anim.transform.SetParent (transform);
+		anim.applyRootMotion = false;
 		anim.transform.localPosition = ogPos;
 		anim.transform.localRotation = ogRot;
 		yield return new WaitForSeconds (0.1f);

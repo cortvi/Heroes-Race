@@ -152,7 +152,7 @@ ModelImporter:
     9500000: //RootNode
     13700000: TENTACULO
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 1
     materialSearch: 1
   animations:
