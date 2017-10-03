@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUp : MonoBehaviour {
+public class PowerUp : MonoBehaviour
+{
+	public ParticleSystem ps;
 
-	// Use this for initialization
-	void Start () {
-		
+	private void OnTriggerEnter( Collider other )
+	{
+		if (other.tag!="Player" || !ps) return;
+
+		Destroy (gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+}
+
+public enum PU 
+{
+	SpeedUp,
+	Shield,
+	Bomb
 }

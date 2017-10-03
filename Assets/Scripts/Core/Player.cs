@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
 	public float charSpeed;				// La velocidad del personaje
 	public float runSpeedMul;			// Añadido a la velocidad base de la animacion de correr
 
+	[HideInInspector] public PU powerUp;
 	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
 	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
 	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
