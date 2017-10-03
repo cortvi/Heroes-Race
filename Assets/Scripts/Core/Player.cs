@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
 	#region POWER UP
 	void PUCheck ()
 	{
-		if (OnAir || cannotWork || cannotJump || powerUp==PU.NONE) return;
+		if (cannotWork || cannotJump || powerUp==PU.NONE) return;
 		if (InputX.GetKeyDown (PlayerActions.PowerUp))
 		{
 			StartCoroutine ("PU_" + powerUp.ToString ());
