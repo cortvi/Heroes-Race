@@ -15,7 +15,6 @@ public class UI : NetworkBehaviour
 	{
 		/// Todas las pantallas
 		/// en terminos de UI
-		MenuPrincipal,
 		SeleccionPersonaje,
 		TodosListos,
 		Loading,

@@ -21,6 +21,12 @@ public class Networker : NetworkManager
 		/// player cuando se conecta
 		conns.Add (conn);
 		players.Add (conn, player);
+
+		/// Assign selector
+		var selectors = FindObjectsOfType<Selector> ();
+		var id = players.Count-1;
+		selectors[id].GetComponent<NetworkIdentity> ().AssignClientAuthority (conn);
+		selectors[id].pj = ( PJs ) id;
 	}
 	#endregion
 

@@ -17,6 +17,7 @@ public class Selector : NetworkBehaviour
 	Sprite[] personajes;				// Los splasharts de los diferentes personajes
 	//-> El orden tiene que
 	//   coincidir con la enum!
+	static bool[] takenPJs;
 
 	public Vector2 pos;					// Posicion fijada del selector en pantalla
 	public Image current;				// Splashart del personaje mostrado
@@ -46,12 +47,15 @@ public class Selector : NetworkBehaviour
 
 		// Sumar/Restar a la suma de jugadores listos
 		playersDone += done ? +1 : -1;
-		if (playersDone == 2)           // Pos de momento solo tengo 2 PCs xd ( en realidad esto tiene que ser 3)
+		if (playersDone == 3)
 		{
 			/// Cambiar en todas las recreativas a esta de TODOS LISTOS
 			UI.manager.currentScreen = UI.Pantallas.TodosListos;
-			NetworkManager.singleton.ServerChangeScene ("Torre");
+			NetworkManager.singleton.ServerChangeScene ("WaterTower");
 		}
+
+		/// Marcar personajes como (de)seleccionado
+		if (pj!=PJs.NONE) takenPJs[charId] = done;
 	}
 	[ClientRpc]
 	void Rpc_Select( bool done ) 
@@ -80,7 +84,9 @@ public class Selector : NetworkBehaviour
 		var max = personajes.Length;
 
 		/// Cambia los splasharts en base al movimiento
-		charId += dir;
+		/// Asegurarse de no marcar personajes ya elegidos
+		do charId += dir;
+		while (!takenPJs[charId]);
 		/// Asegura el loop
 		if (charId == -1) charId = max-1;
 		else
@@ -121,8 +127,7 @@ public class Selector : NetworkBehaviour
 			}
 
 			/// Seleccionar personaje
-			if (InputX.GetKeyDown (PlayerActions.GreenBtn)
-			&& UI.manager.currentScreen == UI.Pantallas.SeleccionPersonaje)
+			if (InputX.GetKeyDown (PlayerActions.GreenBtn))
 			{
 				if (!done)
 				{
@@ -153,6 +158,7 @@ public class Selector : NetworkBehaviour
 		rect = GetComponent<RectTransform> ();
 		anim = GetComponent<Animator> ();
 		current.sprite = personajes[charId];
+		takenPJs = new bool[4];
 	} 
 	#endregion
 }
@@ -161,8 +167,8 @@ public enum PJs
 {
 	/// Lista de todos los personajes
 	/// que se pueden seleccionar
-	NONE,   // => Espectador
 	Indiana,
+	Harley,
 	Harry,
-	Leia
+	NONE   // => Espectador
 }
