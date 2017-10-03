@@ -283,9 +283,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pj: 0
-  pos: {x: -642, y: 0}
+  pos: {x: 0, y: -145}
   current: {fileID: 114026476169356544}
   next: {fileID: 114109625254361876}
+  border: {fileID: 114808987646051638}
+  borderImg: {fileID: 21300000, guid: 42524bd22260b37408983675a44374ad, type: 3}
   focus: {fileID: 1419958426148812}
   selected: {fileID: 1917529665037650}
 --- !u!114 &114808987646051638

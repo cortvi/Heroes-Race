@@ -205,11 +205,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: selected
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1523458505317034, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
       propertyPath: m_Name
       value: Selector (2)
@@ -598,11 +593,6 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
-      propertyPath: selected
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
       propertyPath: pos.y
       value: -145
       objectReference: {fileID: 0}
@@ -983,16 +973,6 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: pos.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114553910962998624, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: pos.y
-      value: -145
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}

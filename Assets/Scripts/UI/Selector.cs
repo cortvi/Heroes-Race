@@ -21,7 +21,10 @@ public class Selector : NetworkBehaviour
 
 	public Vector2 pos;					// Posicion fijada del selector en pantalla
 	public Image current;				// Splashart del personaje mostrado
-	public Image next;					// Splashart del siguiente personaje a mostrar
+	public Image next;                  // Splashart del siguiente personaje a mostrar
+
+	public Image border;
+	public Sprite borderImg;
 
 	public GameObject focus;            // Marca de cual es nuestro selector
 	public GameObject selected;         // Indicador de seleccion lista
@@ -93,7 +96,7 @@ public class Selector : NetworkBehaviour
 			else
 			if (charId == max) charId = 0;
 		}
-		while (!takenPJs[charId]);
+		while (takenPJs[charId]);
 
 		/// Cambiar el splashart siguiente (servidor)
 		next.sprite = personajes[charId];
@@ -152,7 +155,11 @@ public class Selector : NetworkBehaviour
 	{
 		base.OnStartAuthority ();
 		/// Mostrar marcador de cual es nuestro selector
-		if (isClient) focus.SetActive (true);
+		if (isClient)
+		{
+			border.sprite = borderImg;
+			focus.SetActive (true);
+		}
 	}
 	private void Start() 
 	{
