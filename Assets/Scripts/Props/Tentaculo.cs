@@ -55,6 +55,13 @@ public class Tentaculo : MonoBehaviour
 		if (playersIn.Count==0) return;
 
 		var chosen = playersIn[Random.Range (0, playersIn.Count)];
+		if (chosen.shielded)
+		{
+			chosen.shielded=false;
+			playersIn.Remove (chosen);
+			return;
+		}
+
 		chosen.StartCoroutine (chosen.BlockPlayer (2f));
 		chosen.StartCoroutine (chosen.Tentaculo (hook));
 		playersIn.Remove (chosen);

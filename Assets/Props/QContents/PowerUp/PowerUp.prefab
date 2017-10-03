@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 135614287572232034}
   - component: {fileID: 23847807804595454}
   - component: {fileID: 111771551324699954}
+  - component: {fileID: 114745733300864980}
   m_Layer: 0
   m_Name: PowerUp
   m_TagString: Untagged
@@ -66,14 +67,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1726317998707548}
-  m_LocalRotation: {x: 0.042880885, y: -0.6634857, z: -0.048175253, w: 0.745404}
-  m_LocalPosition: {x: -5.964, y: 1.563, z: -31.041}
+  m_LocalRotation: {x: 0.04877324, y: -0.56108075, z: -0.04219948, w: 0.82524467}
+  m_LocalPosition: {x: -9.483, y: 1.662, z: -28.135}
   m_LocalScale: {x: 0.58668756, y: 0.58668756, z: 0.58668756}
   m_Children:
   - {fileID: 4607709853117912}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -83.345, z: -7.3960004}
+  m_LocalEulerAnglesHint: {x: 1.899, y: -68.542, z: -7.149}
 --- !u!23 &23467475412209534
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -167,6 +168,19 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114745733300864980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1726317998707548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a31bbb4c5a2f1549871a8f086ffefd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forcePU: 1
+  ps: {fileID: 0}
 --- !u!135 &135614287572232034
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -9,7 +9,11 @@ public class Player : MonoBehaviour
 	#region INTERNAL DATA
 	[Header ("References")]
 	public Animator anim;				// El Animator del personaje
-	public Animator cam;				// El Animator de la camara
+	public Animator cam;                // El Animator de la camara
+
+	[Header ("PU Refs")]
+	public GameObject shield;
+//	public GameObject bomb;
 	
 	[Header ("Params")]
 	public float jumpForce;				// Fuerza del salto
@@ -17,6 +21,8 @@ public class Player : MonoBehaviour
 	public float runSpeedMul;			// Añadido a la velocidad base de la animacion de correr
 
 	[HideInInspector] public PU powerUp;
+	[HideInInspector] public bool shielded;
+
 	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
 	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
 	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
@@ -119,8 +125,8 @@ public class Player : MonoBehaviour
 // personaje sin red!
 		UpdateCapsule ();
 		if (cannotWork) return;
-
 		JumpCheck ();
+		PUCheck ();
 	}
 
 	private void Awake() 
@@ -146,6 +152,47 @@ public class Player : MonoBehaviour
 			break;
 		}
 	}
+	#endregion
+
+	#region POWER UP
+	void PUCheck ()
+	{
+		if (OnAir || cannotWork || cannotJump || powerUp==PU.NONE) return;
+		if (InputX.GetKeyDown (PlayerActions.PowerUp))
+		{
+			StartCoroutine ("PU_" + powerUp.ToString ());
+			PowerUp.ShowPU (-1, true);
+			powerUp = PU.NONE;
+		}
+	}
+
+	IEnumerator PU_SpeedUp () 
+	{
+		float mul = 2f;
+
+		SpeedMul *= mul;
+		charSpeed *= mul;
+		yield return new WaitForSeconds (2f);
+		SpeedMul /= mul;
+		charSpeed /= mul;
+	}
+	IEnumerator PU_Shield () 
+	{
+		var obj = Instantiate (shield);
+		obj.transform.SetParent (anim.transform);
+		obj.transform.localPosition = Vector3.up * 0.358f;
+		shielded=true;
+
+		var endTime = Time.time + 3f;
+		while (Time.time<endTime && shielded) yield return null;
+
+		Destroy (obj);
+		shielded=false;
+	}
+//	IEnumerator PU_Bomb () 
+//	{
+//
+//	}
 	#endregion
 
 	#region STUFF
