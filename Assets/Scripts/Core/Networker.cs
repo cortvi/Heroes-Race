@@ -23,7 +23,7 @@ public class Networker : NetworkManager
 		players.Add (conn, player);
 
 		/// Assign selector
-		var selectors = FindObjectsOfType<Selector> ();
+		var selectors = UI.manager.selectors;
 		var id = players.Count-1;
 		selectors[id].GetComponent<NetworkIdentity> ().AssignClientAuthority (conn);
 		selectors[id].pj = ( PJs ) id;

@@ -324,7 +324,7 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: 192.168.1.20
+  m_NetworkAddress: 192.168.1.77
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScreen: 0
+  selectors: []
   personajes:
   - {fileID: 21300000, guid: 137af83bff83e854fbb2549d0e71d752, type: 3}
   - {fileID: 21300000, guid: 61154df3399a4764b9304ef83de6779f, type: 3}

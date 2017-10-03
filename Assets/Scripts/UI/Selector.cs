@@ -85,12 +85,15 @@ public class Selector : NetworkBehaviour
 
 		/// Cambia los splasharts en base al movimiento
 		/// Asegurarse de no marcar personajes ya elegidos
-		do charId += dir;
+		do
+		{
+			charId += dir;
+			/// Asegura el loop
+			if (charId == -1) charId = max-1;
+			else
+			if (charId == max) charId = 0;
+		}
 		while (!takenPJs[charId]);
-		/// Asegura el loop
-		if (charId == -1) charId = max-1;
-		else
-		if (charId == max) charId = 0;
 
 		/// Cambiar el splashart siguiente (servidor)
 		next.sprite = personajes[charId];

@@ -22,6 +22,7 @@ public class UI : NetworkBehaviour
 		InGame
 	}
 
+	public Selector[] selectors; 
 	public Sprite[] personajes;						// Los splasharts de los personajes jugables
 
 	private void Awake() 
