@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 114582166814693152}
   - component: {fileID: 95686992965641116}
   m_Layer: 0
-  m_Name: Ascensor_roto
+  m_Name: Ascensor_Roto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

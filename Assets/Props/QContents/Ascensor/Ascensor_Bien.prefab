@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 114183519972242646}
   - component: {fileID: 95616471599288176}
   m_Layer: 0
-  m_Name: Ascensor_bien
+  m_Name: Ascensor_Bien
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
