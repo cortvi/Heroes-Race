@@ -1509,7 +1509,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1726317998707548, guid: 48140ff8889f3524182ebdd9f8d6ce96, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 48140ff8889f3524182ebdd9f8d6ce96, type: 2}
@@ -2679,7 +2679,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1853561391659432, guid: 01535fa867cc1ff4fafe1447edf34e2f, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4417079509673698, guid: 01535fa867cc1ff4fafe1447edf34e2f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y

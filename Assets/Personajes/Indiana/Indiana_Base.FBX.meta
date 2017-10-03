@@ -227,8 +227,8 @@ ModelImporter:
     9500000: //RootNode
     13700000: Object002
   materials:
-    importMaterials: 1
-    materialName: 0
+    importMaterials: 0
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
@@ -483,6 +483,6 @@ ModelImporter:
   animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
-  userData: 
+  userData: DONE
   assetBundleName: 
   assetBundleVariant: 

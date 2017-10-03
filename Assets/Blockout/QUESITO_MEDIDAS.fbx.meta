@@ -21,7 +21,7 @@ ModelImporter:
     4300002: Cylinder002
   materials:
     importMaterials: 0
-    materialName: 2
+    materialName: 1
     materialSearch: 1
   animations:
     legacyGenerateAnimations: 4
@@ -86,6 +86,6 @@ ModelImporter:
   animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
-  userData: 
+  userData: DONE
   assetBundleName: 
   assetBundleVariant: 
