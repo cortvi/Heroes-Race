@@ -61,7 +61,7 @@ public class Selector : NetworkBehaviour
 		/// Marcar personajes como (de)seleccionado
 		if (pj!=PJs.NONE) takenPJs[charId] = done;
 		/// Guardar seleccion en Game.cs
-		owner.pj = pj;
+		owner.pj = (int) pj;
 
 		// Sumar/Restar a la suma de jugadores listos
 		playersDone += done ? +1 : -1;

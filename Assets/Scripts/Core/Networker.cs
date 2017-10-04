@@ -8,7 +8,6 @@ public class Networker : NetworkManager
 {
 	#region SERVIDOR
 	public static int playerCount;
-
 	public override void OnServerAddPlayer( NetworkConnection conn, short playerControllerId ) 
 	{
 		/// Crea un nuevo objeto con el script Game.cs 

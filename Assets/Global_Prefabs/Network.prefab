@@ -154,3 +154,7 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  pjPrefabs:
+  - {fileID: 1329425656299250, guid: 75edd8da86a74c140aeb13ee55d9cf4c, type: 2}
+  - {fileID: 1329425656299250, guid: 75edd8da86a74c140aeb13ee55d9cf4c, type: 2}
+  - {fileID: 1329425656299250, guid: 75edd8da86a74c140aeb13ee55d9cf4c, type: 2}

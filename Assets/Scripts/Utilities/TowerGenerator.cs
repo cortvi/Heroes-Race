@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class TowerGenerator : NetworkBehaviour
 {
+	public GameObject[] pjPrefabs;
 	public Transform[] levelsRoot;				// Los transforms de cada nivel
 	public GameObject[] qPrefabs;				// Los prefabs de los quesitos
 	// 00->entrada torre
@@ -75,7 +76,6 @@ public class TowerGenerator : NetworkBehaviour
 
 				tower[p][q] = Q;
 			}
-
 			// Yield
 			yield return null;
 		}
@@ -98,7 +98,18 @@ public class TowerGenerator : NetworkBehaviour
 				}
 				NetworkServer.Spawn (Q);
 			}
-		} 
+		}
+		#endregion
+
+		#region SPAWN PLAYERS
+		var players = FindObjectsOfType<Game> ();
+		foreach (var p in players)
+		{
+			var obj = Instantiate (pjPrefabs[p.pj]);
+			obj.transform.position = Vector3.up * 1.25f;
+			obj.transform.rotation = Quaternion.Euler (0f, 202 + p.pj, 0f);
+			NetworkServer.SpawnWithClientAuthority (obj, p.gameObject);
+		}
 		#endregion
 	}
 
