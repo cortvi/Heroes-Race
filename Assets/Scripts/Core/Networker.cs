@@ -35,7 +35,7 @@ public class Networker : NetworkManager
 	#endregion
 
 	#region CALLBACKS
-	private void Awake() 
+	private void Start () 
 	{
 		/// Inicializacion
 		conns = new List<NetworkConnection> (3);

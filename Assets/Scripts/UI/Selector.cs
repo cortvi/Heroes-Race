@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Selector : NetworkBehaviour
 {
@@ -54,6 +55,7 @@ public class Selector : NetworkBehaviour
 		{
 			/// Cambiar en todas las recreativas a esta de TODOS LISTOS
 			UI.manager.currentScreen = UI.Pantallas.TodosListos;
+			SceneManager.LoadScene ("WaterTower");
 			NetworkManager.singleton.ServerChangeScene ("WaterTower");
 		}
 
