@@ -59,6 +59,9 @@ public class Selector : NetworkBehaviour
 
 		/// Marcar personajes como (de)seleccionado
 		if (pj!=PJs.NONE) takenPJs[charId] = done;
+
+		/// Guardar seleccion en Game.cs
+		Networker.players[connectionToServer].pj = pj;
 	}
 	[ClientRpc]
 	void Rpc_Select( bool done ) 

@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 
 public class Game : NetworkBehaviour
 {
+	[SyncVar] public PJs pj;
+
 	#region CALLBACKS
 	private void Update() 
 	{

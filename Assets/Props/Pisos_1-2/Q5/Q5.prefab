@@ -337,7 +337,8 @@ GameObject:
   - component: {fileID: 4937434188785510}
   - component: {fileID: 33902780888068610}
   - component: {fileID: 23499886127575224}
-  - component: {fileID: 64047449555333710}
+  - component: {fileID: 65468304486089786}
+  - component: {fileID: 65945912949844536}
   m_Layer: 0
   m_Name: MADERA
   m_TagString: Floor
@@ -1794,20 +1795,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1442348262428748}
   m_Mesh: {fileID: 4300026, guid: 57b02dcc6c69abb4d968dcc7b96f4e0e, type: 3}
---- !u!64 &64047449555333710
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1740585998616254}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300010, guid: 57b02dcc6c69abb4d968dcc7b96f4e0e, type: 3}
 --- !u!64 &64226354147194134
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1884,6 +1871,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0206592, y: 1.2350981, z: 0.7607124}
   m_Center: {x: -8.527684e-15, y: 1.309496e-15, z: -0.00000017881399}
+--- !u!65 &65468304486089786
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1740585998616254}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7906113, y: 0.6511676, z: 0.7436728}
+  m_Center: {x: -2.2106802, y: 0.63244426, z: -0.00000005960465}
 --- !u!65 &65573003381439808
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1944,6 +1943,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.09, y: 0.909273, z: 0.25}
   m_Center: {x: 0, y: 0, z: -0.9}
+--- !u!65 &65945912949844536
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1740585998616254}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7437344, y: 0.8760507, z: 0.7436728}
+  m_Center: {x: -5.425698, y: 0.2804133, z: -0.00000005960464}
 --- !u!95 &95791797925042800
 Animator:
   serializedVersion: 3
