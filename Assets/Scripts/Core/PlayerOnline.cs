@@ -25,9 +25,9 @@ public class PlayerOnline : NetworkBehaviour
 	[HideInInspector] public PU powerUp;
 	[HideInInspector] public bool shielded;
 
-	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
-	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
-	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
+	[HideInInspector] public Rigidbody body;				// El 'Rigidbody' que se encarga de algunas físicas del personaje
+	[SyncVar] [HideInInspector] public bool cannotWork;		// Esta bloqueada la accion del jugador?
+	[SyncVar] [HideInInspector] public bool cannotJump;		// Esta bloqueado el salto?
 	CapsuleCollider playerCapsule;
 	#endregion
 
@@ -56,7 +56,8 @@ public class PlayerOnline : NetworkBehaviour
 	#endregion
 
 	#region MOVEMENT
-	void Movement (float dir) 
+	[Command]
+	void Cmd_Movement (float dir) 
 	{
 		if (dir != 0)
 		{
@@ -73,7 +74,8 @@ public class PlayerOnline : NetworkBehaviour
 	/// La direccion del movimiento hasta ahora
 	/// 0->Hacia la izquierda | 1->Hacia la derecha
 	float currentDirection = 1;
-	void Rotation( float dir )
+	[Command]
+	void Cmd_Rotation( float dir )
 	{
 		/// Rota 180 al cambiar direccion de movimiento
 		if (dir != 0 && dir != currentDirection)
@@ -90,15 +92,13 @@ public class PlayerOnline : NetworkBehaviour
 	#endregion
 
 	#region JUMPING
-	void JumpCheck () 
+	[Command]
+	void Cmd_JumpCheck () 
 	{
 		/// Saltamos al presionar la tecla,
 		/// y si NO estamos ya en el aire
-		if ( InputX.GetKeyDown ( PlayerActions.Jump ) && !OnAir && !cannotJump )
-		{
-			/// Trigger animaciones de salto
-			animN.SetTrigger ("Jump");
-		}
+		if (OnAir || cannotJump) return;
+		animN.SetTrigger ("Jump");
 	}
 	#endregion
 
@@ -112,8 +112,8 @@ public class PlayerOnline : NetworkBehaviour
 		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
-		Movement (dir);
-		Rotation (dir);
+		Cmd_Movement (dir);
+		Cmd_Rotation (dir);
 	}
 
 	private void Update() 
@@ -123,8 +123,8 @@ public class PlayerOnline : NetworkBehaviour
 		if (!isClient || !hasAuthority) return;
 
 		if (cannotWork) return;
-		JumpCheck ();
-		PUCheck ();
+		if (InputX.GetKeyDown (PlayerActions.Jump))    Cmd_JumpCheck ();
+		if (InputX.GetKeyDown (PlayerActions.PowerUp)) Cmd_PUCheck ();
 	}
 
 	private void Start () 
@@ -136,7 +136,7 @@ public class PlayerOnline : NetworkBehaviour
 		SpeedMul = runSpeedMul;
 	} 
 
-	[ClientCallback]
+	[ServerCallback]
 	private void OnCollisionEnter( Collision col ) 
 	{
 		/// Checks de colision
@@ -154,15 +154,13 @@ public class PlayerOnline : NetworkBehaviour
 	#endregion
 
 	#region POWER UP
-	void PUCheck ()
+	[Command]
+	void Cmd_PUCheck ()
 	{
 		if (cannotWork || cannotJump || powerUp==PU.NONE) return;
-		if (InputX.GetKeyDown (PlayerActions.PowerUp))
-		{
-			StartCoroutine ("PU_" + powerUp.ToString ());
-			PowerUp.ShowPU (-1, true);
-			powerUp = PU.NONE;
-		}
+		StartCoroutine ("PU_" + powerUp.ToString ());
+		PowerUp.ShowPU (-1, true);
+		powerUp = PU.NONE;
 	}
 
 	IEnumerator PU_SpeedUp () 
