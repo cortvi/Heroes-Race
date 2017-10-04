@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Cam : MonoBehaviour
 {
@@ -21,4 +22,10 @@ public class Cam : MonoBehaviour
 
 	public void MoveLevel ( int dir ) 
 	{ currentLevel += dir; }
+
+	private void Start()
+	{
+		if (!transform.parent.GetComponent<NetworkIdentity> ().hasAuthority)
+			gameObject.SetActive (false);
+	}
 }
