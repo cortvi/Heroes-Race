@@ -13,6 +13,7 @@
 	{
 		Tags { "Queue" = "AlphaTest" "IgnoreProjector" = "True" "RenderType" = "TransparentCutout" }
 		LOD 300
+		ZWrite Off
 		Cull Off
 		
 		CGPROGRAM

@@ -153,6 +153,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4131037493138828}
+  - component: {fileID: 114753146716592934}
   m_Layer: 0
   m_Name: Q17F
   m_TagString: Untagged
@@ -1630,3 +1631,35 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114753146716592934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1347978440487296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 198
+    i1: 64
+    i2: 191
+    i3: 72
+    i4: 253
+    i5: 222
+    i6: 177
+    i7: 148
+    i8: 217
+    i9: 236
+    i10: 36
+    i11: 225
+    i12: 114
+    i13: 22
+    i14: 20
+    i15: 62
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

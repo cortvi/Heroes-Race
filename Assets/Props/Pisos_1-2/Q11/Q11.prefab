@@ -103,6 +103,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4265354008438222}
+  - component: {fileID: 114302558135430878}
   - component: {fileID: 114025588481744064}
   m_Layer: 0
   m_Name: Q11
@@ -1874,3 +1875,35 @@ MonoBehaviour:
   - {fileID: 4287222655048470}
   goodPrefab: {fileID: 1948600405258664, guid: 88bf6e198b8f0874fb946eaa7265c3d1, type: 2}
   badPrefab: {fileID: 1796594533892592, guid: c58eea102c2c66649ab04810a6c38554, type: 2}
+--- !u!114 &114302558135430878
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1275953131879954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 132
+    i1: 12
+    i2: 161
+    i3: 210
+    i4: 11
+    i5: 206
+    i6: 217
+    i7: 116
+    i8: 26
+    i9: 1
+    i10: 1
+    i11: 155
+    i12: 6
+    i13: 80
+    i14: 107
+    i15: 147
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

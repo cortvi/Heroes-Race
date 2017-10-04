@@ -192,7 +192,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4841203352195296}
-  - component: {fileID: 95632055689378572}
+  - component: {fileID: 114619754705489004}
   m_Layer: 0
   m_Name: Q2
   m_TagString: Untagged
@@ -1798,23 +1798,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95632055689378572
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1389573247407342}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8e5bb7fd3ee30bc438bb2b9c4312fe05, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114305279274465462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1841,6 +1824,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1406241451572134, guid: 33db21e503b39dd499128a660e47d39a, type: 2}
   delay: 0
+--- !u!114 &114619754705489004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389573247407342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 14
+    i1: 98
+    i2: 90
+    i3: 13
+    i4: 9
+    i5: 191
+    i6: 67
+    i7: 180
+    i8: 89
+    i9: 182
+    i10: 175
+    i11: 223
+    i12: 94
+    i13: 201
+    i14: 255
+    i15: 127
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114689676123894228
 MonoBehaviour:
   m_ObjectHideFlags: 1

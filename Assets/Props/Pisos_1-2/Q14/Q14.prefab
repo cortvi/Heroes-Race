@@ -157,6 +157,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4461411056694244}
+  - component: {fileID: 114990720121836522}
   m_Layer: 0
   m_Name: Q14
   m_TagString: Untagged
@@ -1481,3 +1482,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1964585936153718, guid: a9cf30938e265e34a8d5ebe04ea5fd64, type: 2}
   delay: 0
+--- !u!114 &114990720121836522
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1328291677305720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 81
+    i1: 210
+    i2: 83
+    i3: 227
+    i4: 72
+    i5: 214
+    i6: 102
+    i7: 132
+    i8: 216
+    i9: 168
+    i10: 20
+    i11: 48
+    i12: 23
+    i13: 198
+    i14: 101
+    i15: 30
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

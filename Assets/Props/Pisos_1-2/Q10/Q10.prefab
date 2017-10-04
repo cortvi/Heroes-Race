@@ -380,6 +380,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4001526938844078}
+  - component: {fileID: 114847859815765636}
   m_Layer: 0
   m_Name: Q10
   m_TagString: Untagged
@@ -1644,6 +1645,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 6
   upInstead: 0
+--- !u!114 &114847859815765636
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1897413916946828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 147
+    i1: 148
+    i2: 128
+    i3: 184
+    i4: 113
+    i5: 71
+    i6: 23
+    i7: 212
+    i8: 216
+    i9: 112
+    i10: 38
+    i11: 95
+    i12: 210
+    i13: 243
+    i14: 249
+    i15: 195
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114892286140681786
 MonoBehaviour:
   m_ObjectHideFlags: 1

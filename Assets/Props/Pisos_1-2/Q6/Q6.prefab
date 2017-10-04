@@ -229,6 +229,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4262237889196874}
+  - component: {fileID: 114920969932174410}
   m_Layer: 0
   m_Name: Q6
   m_TagString: Untagged
@@ -2091,6 +2092,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1367485564773988, guid: 4a89c04c22323fe4a9387a594306a728, type: 2}
   delay: 0
+--- !u!114 &114920969932174410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1386037216521536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 10
+    i1: 32
+    i2: 133
+    i3: 102
+    i4: 64
+    i5: 38
+    i6: 96
+    i7: 228
+    i8: 155
+    i9: 99
+    i10: 93
+    i11: 57
+    i12: 207
+    i13: 90
+    i14: 192
+    i15: 226
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114946316764996960
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Internal;
 using UnityEngine.Networking;
 
-public class TowerGenerator : MonoBehaviour
+public class TowerGenerator : NetworkBehaviour
 {
 	public Transform[] levelsRoot;				// Los transforms de cada nivel
 	public GameObject[] qPrefabs;				// Los prefabs de los quesitos
@@ -68,7 +68,8 @@ public class TowerGenerator : MonoBehaviour
 					Q =
 					p==0 ?
 					Random.Range (03, 12) : // No throw
-					Random.Range (12, 16);  // Throw 
+					Random.Range (12, 16);  // Throw
+					yield return null;
 				}
 				while (tower[p][q-1] == Q);
 
@@ -95,6 +96,7 @@ public class TowerGenerator : MonoBehaviour
 					Q.GetComponent<AscensorSpawner> ().enabled = true;
 					levelsRoot[p+1].Rotate (Vector3.up, q*-40f);
 				}
+				NetworkServer.Spawn (Q);
 			}
 		} 
 		#endregion
@@ -102,7 +104,7 @@ public class TowerGenerator : MonoBehaviour
 
 	private void Start () 
 	{
-//		if (isServer)
+		if (isServer)
 			StartCoroutine ("GenerateTower");
 	}
 }
