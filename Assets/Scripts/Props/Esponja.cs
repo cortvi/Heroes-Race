@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Esponja : MonoBehaviour
 {
 	public float throwForce;
 	Animator anim;
+	NetworkAnimator animN;
 
 	public void ThrowPlayers()
 	{
@@ -28,14 +30,15 @@ public class Esponja : MonoBehaviour
 	{
 		if (col.gameObject.tag=="Player")
 		{
-			if (col.gameObject.GetComponent<Player> ().cannotWork) return;
+			if (col.gameObject.GetComponent<PlayerOnline> ().cannotWork) return;
 			if (Vector3.Distance (transform.parent.position, col.transform.GetChild(0).position)>0.35f) return;
-			if (anim.GetCurrentAnimatorStateInfo (0).IsName("None")) anim.SetTrigger ("Charge");
+			if (anim.GetCurrentAnimatorStateInfo (0).IsName("None")) animN.SetTrigger ("Charge");
 		}
 	}
 
 	private void Awake()
 	{
 		anim = transform.parent.GetComponent<Animator> ();
+		animN = transform.parent.GetComponent<NetworkAnimator> ();
 	}
 }

@@ -18,8 +18,8 @@ public class CantTouchThis : MonoBehaviour
 		r.angularVelocity = Vector3.zero;
 		r.AddForceAtPosition (vForce, transform.position, ForceMode.VelocityChange);
 
-		var p = t.GetComponent<Player> ();
-		p.anim.SetTrigger ("Hit");
+		var p = t.GetComponent<PlayerOnline> ();
+		p.animN.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.4f));
 	}
 

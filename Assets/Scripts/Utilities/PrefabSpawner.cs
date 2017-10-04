@@ -11,7 +11,11 @@ public class PrefabSpawner : MonoBehaviour
 
 	void Create ()
 	{
-		Instantiate (prefab, transform.position, transform.rotation);
+		var o = Instantiate (prefab, transform.position, transform.rotation);
+		if ( o.GetComponent<NetworkIdentity> () != null )
+			if (GetComponentInParent<NetworkIdentity> ().isServer)
+				NetworkServer.Spawn (o);
+
 		Destroy (gameObject);
 	}
 

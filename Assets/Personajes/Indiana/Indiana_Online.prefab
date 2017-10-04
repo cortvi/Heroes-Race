@@ -1509,6 +1509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 95454990605262360}
   cam: {fileID: 95656408778539722}
+  animN: {fileID: 114104100315578450}
+  camN: {fileID: 114763072499679328}
   shield: {fileID: 1484333882196106, guid: 599d021e510f38f45a5735c238744675, type: 2}
   jumpForce: 5
   charSpeed: 5
@@ -1530,14 +1532,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
+  m_SnapThreshold: 10
+  m_InterpolateRotation: 2
   m_InterpolateMovement: 1
 --- !u!114 &114625455057451166
 MonoBehaviour:
@@ -1609,7 +1611,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1003540975585530}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3fc1fa863910b5142bab4df47af5f56a, type: 3}
   m_Name: 

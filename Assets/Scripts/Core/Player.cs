@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
 	#region INTERNAL DATA
 	[Header ("References")]
-	public Animator anim;				// El Animator del personaje
+	public Animator anim;               // El Animator del personaje
 	public Animator cam;                // El Animator de la camara
 
 	[Header ("PU Refs")]

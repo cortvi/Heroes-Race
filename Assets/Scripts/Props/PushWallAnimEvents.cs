@@ -7,9 +7,9 @@ public class PushWallAnimEvents : MonoBehaviour
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
-		p.anim.SetTrigger ("Push");
-		p.anim.SetTrigger ("Hit");
+		var p = other.GetComponent<PlayerOnline> ();
+		p.animN.SetTrigger ("Push");
+		p.animN.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.1f, true));
 	}
 }

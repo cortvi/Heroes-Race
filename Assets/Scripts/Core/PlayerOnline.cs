@@ -10,6 +10,8 @@ public class PlayerOnline : NetworkBehaviour
 	[Header ("References")]
 	public Animator anim;				// El Animator del personaje
 	public Animator cam;                // El Animator de la camara
+	public NetworkAnimator animN;
+	public NetworkAnimator camN;
 
 	[Header ("PU Refs")]
 	public GameObject shield;
@@ -80,7 +82,7 @@ public class PlayerOnline : NetworkBehaviour
 			// luego habra que suavizarla (Additive animation?)
 			anim.transform.Rotate (Vector3.up, 180);
 			// Girar camara
-			cam.SetTrigger ("Turn");
+			camN.SetTrigger ("Turn");
 			currentDirection = dir;
 		}
 	}
@@ -95,7 +97,7 @@ public class PlayerOnline : NetworkBehaviour
 		if ( InputX.GetKeyDown ( PlayerActions.Jump ) && !OnAir && !cannotJump )
 		{
 			/// Trigger animaciones de salto
-			anim.SetTrigger ("Jump");
+			animN.SetTrigger ("Jump");
 		}
 	}
 	#endregion
@@ -144,7 +146,7 @@ public class PlayerOnline : NetworkBehaviour
 				if (OnAir)
 				{
 					OnAir = false;
-					anim.SetTrigger ( "Land" );
+					animN.SetTrigger ( "Land" );
 				}
 			break;
 		}
@@ -214,7 +216,7 @@ public class PlayerOnline : NetworkBehaviour
 		anim.applyRootMotion = true;
 		anim.transform.SetParent (hook);
 		yield return new WaitForSeconds (0.45f);
-		cam.SetTrigger ("GoDown");
+		camN.SetTrigger ("GoDown");
 		yield return new WaitForSeconds (0.6f);
 
 		OnAir=true;
