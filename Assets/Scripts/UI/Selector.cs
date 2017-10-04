@@ -31,8 +31,10 @@ public class Selector : NetworkBehaviour
 	public GameObject selected;         // Indicador de seleccion lista
 
 	[SyncVar] bool done;				// Seleccion lista?
-	[SyncVar] bool sliding;				// Animacion en marcha?
+	[SyncVar] bool sliding;             // Animacion en marcha?
 
+	[HideInInspector]
+	public Game owner;
 	RectTransform rect;
 	Animator anim;
 	#endregion
@@ -42,28 +44,34 @@ public class Selector : NetworkBehaviour
 	[Command]
 	void Cmd_Select( bool done ) 
 	{
-		// Mostrar/Ocultar indicador de seleccion hecha (servidor)
-		selected.SetActive (done);
+		/// Can't select same PJ twice
+		if (takenPJs[charId])
+		{
+			this.done = false;
+			return;
+		}
+
 		// Bloquear sliding
 		this.done = done;
+		// Mostrar/Ocultar indicador de seleccion hecha (servidor)
+		selected.SetActive (done);
 		// Mostrar/Ocultar indicador de seleccion hecha (cliente)
 		Rpc_Select (done);
+
+		/// Marcar personajes como (de)seleccionado
+		if (pj!=PJs.NONE) takenPJs[charId] = done;
+		/// Guardar seleccion en Game.cs
+		owner.pj = pj;
 
 		// Sumar/Restar a la suma de jugadores listos
 		playersDone += done ? +1 : -1;
 		if (playersDone == 3)
 		{
 			/// Cambiar en todas las recreativas a esta de TODOS LISTOS
-			UI.manager.currentScreen = UI.Pantallas.TodosListos;
+			UI.manager.currentScreen = UI.Pantallas.InGame;
 			SceneManager.LoadScene ("WaterTower");
 			NetworkManager.singleton.ServerChangeScene ("WaterTower");
 		}
-
-		/// Marcar personajes como (de)seleccionado
-		if (pj!=PJs.NONE) takenPJs[charId] = done;
-
-		/// Guardar seleccion en Game.cs
-		Networker.players[connectionToServer].pj = pj;
 	}
 	[ClientRpc]
 	void Rpc_Select( bool done ) 

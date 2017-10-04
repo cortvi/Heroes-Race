@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
 	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
-//		if ( !isClient || !hasAuthority) return;
+//		if (!hasAuthority) return;
 // Esta linea esta comentada
 // para trabajar con el
 // personaje sin red!
