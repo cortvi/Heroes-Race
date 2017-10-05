@@ -1468,6 +1468,7 @@ MonoBehaviour:
   runSpeedMul: 1.7
   powerUp: 0
   shielded: 0
+  owner: {fileID: 0}
   body: {fileID: 0}
   cannotWork: 0
   cannotJump: 0
@@ -1548,7 +1549,7 @@ MonoBehaviour:
   m_Target: {fileID: 4524356700640676}
   m_ChildIndex: 0
   m_SendInterval: 0.1
-  m_SyncRotationAxis: 2
+  m_SyncRotationAxis: 6
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 1
@@ -1572,7 +1573,7 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
-  m_InterpolateRotation: 1
+  m_InterpolateRotation: 3
   m_InterpolateMovement: 1
 --- !u!114 &114699590501791162
 MonoBehaviour:
@@ -1596,6 +1597,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 015d07a30c6c1a947964d0ca261b18d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targets:
+  - {fileID: 8400000, guid: 4021ede2be21086408286689c10f3750, type: 2}
+  - {fileID: 8400000, guid: 0a3c871ea222940469849e5b9da82c4f, type: 2}
+  - {fileID: 8400000, guid: c71ff4e0fb7c364428d44c72421df6fa, type: 2}
   upDown: 0
   currentLevel: 0
 --- !u!124 &124413695435863532

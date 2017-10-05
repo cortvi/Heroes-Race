@@ -23,6 +23,7 @@ public class Player : NetworkBehaviour
 	[HideInInspector] public PU powerUp;
 	[HideInInspector] public bool shielded;
 
+	[HideInInspector] public Game owner;
 	[HideInInspector] public Rigidbody body;	// El 'Rigidbody' que se encarga de algunas físicas del personaje
 	[HideInInspector] public bool cannotWork;	// Esta bloqueada la accion del jugador?
 	[HideInInspector] public bool cannotJump;   // Esta bloqueado el salto?
@@ -97,7 +98,6 @@ public class Player : NetworkBehaviour
 	#endregion
 
 	#region CALLBACKS
-	[ClientCallback]
 	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
@@ -120,7 +120,6 @@ public class Player : NetworkBehaviour
 		PUCheck ();
 	}
 
-	[ClientCallback]
 	private void OnCollisionEnter( Collision col ) 
 	{
 		/// Checks de colision

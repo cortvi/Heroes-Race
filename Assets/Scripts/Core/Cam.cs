@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 
 public class Cam : MonoBehaviour
 {
+	public RenderTexture[] targets;
+
 	[Range(-1f,1f)]
 	public float upDown;
 
@@ -25,10 +27,12 @@ public class Cam : MonoBehaviour
 
 	private void Start()
 	{
-		if (!transform.parent.GetComponent<NetworkIdentity> ().hasAuthority)
+		var nId = transform.parent.GetComponent<Player> ();
+		if (nId.isServer)
 		{
-			gameObject.SetActive (false);
-
+			GetComponent<Camera> ().targetTexture = targets[nId.owner.pj];
+			this.enabled = false;
 		}
+		if (!nId.hasAuthority) gameObject.SetActive (false);
 	}
 }

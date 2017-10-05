@@ -7,36 +7,11 @@ using UnityEngine.Networking;
 public class TowerGenerator : NetworkBehaviour
 {
 	public GameObject[] pjPrefabs;
-	public Transform[] levelsRoot;				// Los transforms de cada nivel
-	public GameObject[] qPrefabs;				// Los prefabs de los quesitos
-	// 00->entrada torre
-	// 16->quesito final
-
-	enum Qs 
-	{
-		// Especiales
-		Entrada,
-		Ascensores,
-		THE_END,
-		// No throw
-		_PiranasSaltarinas,
-		PiranasVolarinas,
-		_Cueva,
-		Squash,
-		BigPappa,
-		Slime,
-		_Pinchus,
-		Medusa,
-		Perla,
-		// Throw
-		_Pared,
-		_Hueco,
-		_Tentaculo,
-		Paredes
-	}
 
 	public IEnumerator GenerateTower ()
 	{
+		#region COMMENTED OUT
+/*
 		var tower = new int[4][];
 		tower[0] = new int[9];
 		tower[1] = new int[9];
@@ -44,8 +19,6 @@ public class TowerGenerator : NetworkBehaviour
 		tower[3] = new int[9];
 		yield return null;
 
-		#region COMMENTED OUT
-		/*
 		#region RANDOMIZER
 		for (var p=0; p!=4; p++)
 		{
@@ -111,8 +84,9 @@ public class TowerGenerator : NetworkBehaviour
 		foreach (var p in players)
 		{
 			var obj = Instantiate (pjPrefabs[p.pj]);
+			obj.GetComponent<Player> ().owner = p;
 			obj.transform.position = Vector3.up * 1.33f;
-			obj.transform.rotation = Quaternion.Euler (0f, 192.57f + p.pj, 0f);
+			obj.transform.rotation = Quaternion.Euler (0f, 192.57f - p.pj, 0f);
 			yield return new WaitUntil (()=> p.connectionToClient.isReady);
 			NetworkServer.SpawnWithClientAuthority (obj, p.gameObject);
 		}
