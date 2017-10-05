@@ -113,6 +113,7 @@ public class TowerGenerator : NetworkBehaviour
 			var obj = Instantiate (pjPrefabs[p.pj]);
 			obj.transform.position = Vector3.up * 1.33f;
 			obj.transform.rotation = Quaternion.Euler (0f, 192.57f + p.pj, 0f);
+			yield return new WaitUntil (()=> p.connectionToClient.isReady);
 			NetworkServer.SpawnWithClientAuthority (obj, p.gameObject);
 		}
 		#endregion

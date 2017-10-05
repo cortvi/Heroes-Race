@@ -96,10 +96,11 @@ public class Player : NetworkBehaviour
 	#endregion
 
 	#region CALLBACKS
+	[ClientCallback]
 	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
-		if (!isLocalPlayer) return;
+		if (!hasAuthority) return;
 		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
@@ -110,11 +111,22 @@ public class Player : NetworkBehaviour
 	private void Update() 
 	{
 		UpdateCapsule ();
-		if (!isLocalPlayer) return;
+		if (isServer || !hasAuthority) return;
 		if (cannotWork) return;
 
 		JumpCheck ();
 		PUCheck ();
+	}
+
+	[ClientCallback]
+	private void OnCollisionEnter( Collision col ) 
+	{
+		/// Checks de colision
+		if (col.gameObject.tag == "Floor" && OnAir)
+		{
+			OnAir = false;
+			anim.SetTrigger ("Land");
+		}
 	}
 
 	private void Awake() 
@@ -124,22 +136,6 @@ public class Player : NetworkBehaviour
 		body = GetComponent<Rigidbody> ();
 		body.centerOfMass = Vector3.zero;
 		SpeedMul = runSpeedMul;
-	} 
-
-	[ClientCallback]
-	private void OnCollisionEnter( Collision col ) 
-	{
-		/// Checks de colision
-		switch (col.gameObject.tag)
-		{
-			case "Floor":
-				if (OnAir)
-				{
-					OnAir = false;
-					anim.SetTrigger ( "Land" );
-				}
-			break;
-		}
 	}
 	#endregion
 
