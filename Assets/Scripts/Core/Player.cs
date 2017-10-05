@@ -60,8 +60,8 @@ public class Player : NetworkBehaviour
 		if (dir != 0)
 		{
 			Moving = true;
-			var force = anim.transform.forward * charSpeed * Time.deltaTime * -dir;
-			body.AddForceAtPosition (force, anim.transform.position);
+			var force = anim.transform.forward * charSpeed * -dir;
+			body.AddForceAtPosition (force, anim.transform.position, ForceMode.Acceleration);
 		}
 		else
 		{
