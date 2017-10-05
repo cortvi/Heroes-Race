@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 114114233466653218}
   - component: {fileID: 114577078150612714}
   - component: {fileID: 114491032888957244}
+  - component: {fileID: 114653628539446282}
   - component: {fileID: 95612495005203800}
   - component: {fileID: 114134899249915354}
   - component: {fileID: 114068319642028988}
@@ -1549,7 +1550,7 @@ MonoBehaviour:
   m_Target: {fileID: 4524356700640676}
   m_ChildIndex: 0
   m_SendInterval: 0.1
-  m_SyncRotationAxis: 6
+  m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 1
@@ -1566,7 +1567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.033333335
+  m_SendInterval: 0.06666667
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
@@ -1574,6 +1575,25 @@ MonoBehaviour:
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 5
   m_InterpolateRotation: 3
+  m_InterpolateMovement: 1
+--- !u!114 &114653628539446282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1329425656299250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 4889343199902602}
+  m_ChildIndex: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 0
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 1
   m_InterpolateMovement: 1
 --- !u!114 &114699590501791162
 MonoBehaviour:
