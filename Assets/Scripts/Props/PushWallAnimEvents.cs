@@ -8,8 +8,10 @@ public class PushWallAnimEvents : MonoBehaviour
 	{
 		if (other.tag!="Player") return;
 		var p = other.GetComponent<Player> ();
-		p.anim.SetTrigger ("Push");
-		p.anim.SetTrigger ("Hit");
+		if (!p.hasAuthority) return;
+
+		p.SetTrigger ("Push");
+		p.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.1f, true));
 	}
 }

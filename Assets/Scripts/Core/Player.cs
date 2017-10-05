@@ -8,7 +8,7 @@ public class Player : NetworkBehaviour
 {
 	#region INTERNAL DATA
 	[Header ("References")]
-	public Animator anim;				// El Animator del personaje
+	private Animator anim;				// El Animator del personaje
 	private Animator cam;				// El Animator de la camara
 
 	[Header ("PU Refs")]
@@ -31,27 +31,62 @@ public class Player : NetworkBehaviour
 	#endregion
 
 	#region ANIMATON PARAMS
-	// Multiplicador de velocidad de la animacion de
-	// movimiento del personaje
 	public float SpeedMul 
 	{
 		get { return anim.GetFloat ("SpeedMul"); } 
-		set { anim.SetFloat ("SpeedMul", value); }
+		set
+		{
+			anim.SetFloat ("SpeedMul", value);
+			Cmd_SetFloat ("SpeedMul", value);
+		}
 	}
-	// Si es TRUE, se activa la animacion de movimiento,
-	// si es FALSE, se detiene
 	public bool Moving 
 	{
 		get { return anim.GetBool ("Moving"); }
-		set { anim.SetBool ("Moving", value); }
+		set
+		{
+			anim.SetBool ("Moving", value);
+			Cmd_SetBool ("Moving", value);
+		}
 	}
-	// Si el personaje está, o no,
-	// el aire tras un salto.
-	public bool OnAir
+	public bool OnAir 
 	{
 		get { return anim.GetBool ("OnAir"); }
-		set { anim.SetBool ("OnAir", value); }
+		set
+		{
+			anim.SetBool ("OnAir", value);
+			Cmd_SetBool ("OnAir", value);
+		}
 	}
+
+	[Command] void Cmd_SetFloat ( string name, float value)  { anim.SetFloat (name, value); }
+	[Command] void Cmd_SetBool ( string name, bool value )  { anim.SetBool (name, value); }
+
+	public void SetTrigger ( string name ) 
+	{
+		anim.SetTrigger (name);
+		Cmd_SetTrigger (name);
+	}
+	[Command] void Cmd_SetTrigger ( string name ) { anim.SetTrigger (name); }
+
+	public void ResetTrigger ( string name ) 
+	{
+		Cmd_ResetTrigger (name);
+	}
+	[Command] void Cmd_ResetTrigger ( string name ) { anim.ResetTrigger (name); }
+
+	#region CAMERA ANIMATOR
+	public void TriggerCam( string trigger )
+	{
+		anim.SetTrigger (trigger);
+		Cmd_TriggerCam (trigger);
+	}
+
+	[Command] void Cmd_TriggerCam( string trigger ) 
+	{
+		cam.SetTrigger (trigger);
+	}
+	#endregion
 	#endregion
 
 	#region MOVEMENT
@@ -69,12 +104,13 @@ public class Player : NetworkBehaviour
 			Moving = false;
 		}
 
-		Cmd_Movement (body.angularVelocity);
+		Cmd_Movement (body.angularVelocity, body.velocity);
 	}
 	[Command]
-	void Cmd_Movement (Vector3 speed) 
+	void Cmd_Movement (Vector3 speed, Vector3 vel) 
 	{
 		body.angularVelocity = speed;
+		body.velocity = vel;
 	}
 	#endregion
 
@@ -142,12 +178,12 @@ public class Player : NetworkBehaviour
 	{
 		/// Referencias internas
 		cam = transform.GetChild (1).GetComponent<Animator> ();
+		anim = transform.GetChild (0).GetComponent<Animator> ();
 		playerCapsule = GetComponent<CapsuleCollider> ();
 		body = GetComponent<Rigidbody> ();
 		body.centerOfMass = Vector3.zero;
 		SpeedMul = runSpeedMul;
 	}
-
 
 	public override void OnStartAuthority () 
 	{
@@ -213,10 +249,10 @@ public class Player : NetworkBehaviour
 		cannotWork = true;
 		Moving = false;
 		yield return null;
-		anim.ResetTrigger ("Hit");
+		ResetTrigger ("Hit");
 		yield return new WaitForSeconds (t);
 		cannotWork = false;
-		anim.ResetTrigger ("Hit");
+		ResetTrigger ("Hit");
 	}
 
 	public IEnumerator Tentaculo ( Transform hook ) 
@@ -253,18 +289,5 @@ public class Player : NetworkBehaviour
 			playerCapsule.center = newCenter;
 		}
 	}
-
-	#region CAMERA ANIMATOR
-	public void TriggerCam ( string trigger )
-	{
-		anim.SetTrigger (trigger);
-		Cmd_TriggerCam (trigger);
-	}
-	[Command]
-	void Cmd_TriggerCam( string trigger )
-	{
-		cam.SetTrigger (trigger);
-	} 
-	#endregion
 	#endregion
 }

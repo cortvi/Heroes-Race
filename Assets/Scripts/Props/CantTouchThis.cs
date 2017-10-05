@@ -20,21 +20,21 @@ public class CantTouchThis : MonoBehaviour
 		r.AddForceAtPosition (vForce, transform.position, ForceMode.VelocityChange);
 
 		var p = t.GetComponent<Player> ();
-		p.anim.SetTrigger ("Hit");
+		p.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.4f));
 	}
 
 	private void OnCollisionEnter ( Collision col )
 	{
 		if (col.gameObject.tag!="Player") return;
-		if (!col.gameObject.GetComponent<NetworkIdentity> ().isLocalPlayer) return;
+		if (!col.gameObject.GetComponent<Player> ().hasAuthority) return;
 		Push (col.transform);
 	}
 
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		if (!other.GetComponent<NetworkIdentity> ().isLocalPlayer) return;
+		if (!other.GetComponent<Player> ().hasAuthority) return;
 		Push (other.transform);
 	}
 }

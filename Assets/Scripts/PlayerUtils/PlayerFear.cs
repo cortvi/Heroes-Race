@@ -8,7 +8,9 @@ public class PlayerFear : MonoBehaviour
 	{
 		if (other.tag!="Player") return;
 		var p = other.GetComponent<Player> ();
+		if (!p.hasAuthority) return;
+
 		p.StartCoroutine (p.BlockPlayer (1.8f));
-		p.anim.SetTrigger ("Fear");
+		p.SetTrigger ("Fear");
 	}
 }
