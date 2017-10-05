@@ -8,8 +8,8 @@ public class Player : NetworkBehaviour
 {
 	#region INTERNAL DATA
 	[Header ("References")]
-	public Animator anim;               // El Animator del personaje
-	public Animator cam;                // El Animator de la camara
+	public Animator anim;				// El Animator del personaje
+	private Animator cam;				// El Animator de la camara
 
 	[Header ("PU Refs")]
 	public GameObject shield;
@@ -84,7 +84,7 @@ public class Player : NetworkBehaviour
 			// luego habra que suavizarla (Additive animation?)
 			anim.transform.Rotate (Vector3.up, 180);
 			// Girar camara
-			cam.SetTrigger ("Turn");
+			TriggerCam ("Turn");
 			currentDirection = dir;
 		}
 	}
@@ -203,7 +203,7 @@ public class Player : NetworkBehaviour
 		anim.applyRootMotion = true;
 		anim.transform.SetParent (hook);
 		yield return new WaitForSeconds (0.45f);
-		cam.SetTrigger ("GoDown");
+		TriggerCam ("GoDown");
 		yield return new WaitForSeconds (0.6f);
 
 		OnAir=true;
@@ -228,5 +228,18 @@ public class Player : NetworkBehaviour
 			playerCapsule.center = newCenter;
 		}
 	}
+
+	#region CAMERA ANIMATOR
+	public void TriggerCam ( string trigger )
+	{
+		anim.SetTrigger (trigger);
+		Cmd_TriggerCam (trigger);
+	}
+	[Command]
+	void Cmd_TriggerCam( string trigger )
+	{
+		cam.SetTrigger (trigger);
+	} 
+	#endregion
 	#endregion
 }

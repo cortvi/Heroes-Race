@@ -25,7 +25,7 @@ public class Cam : MonoBehaviour
 	public void MoveLevel ( int dir ) 
 	{ currentLevel += dir; }
 
-	private void Start()
+	private void Start() 
 	{
 		var nId = transform.parent.GetComponent<NetworkIdentity> ();
 		if (nId.isServer)
@@ -34,7 +34,7 @@ public class Cam : MonoBehaviour
 			GetComponent<Camera> ().targetTexture = targets[id];
 			this.enabled = false;
 		}
-		else 
+		else
 		if (!nId.hasAuthority) gameObject.SetActive (false);
 	}
 }

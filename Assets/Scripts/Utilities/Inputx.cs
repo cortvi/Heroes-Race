@@ -51,6 +51,6 @@ public enum PlayerActions
 public enum DevActions 
 {
 	/// Hard-coded
-	NetworkHUD = KeyCode.Backslash
+	NetworkHUD = KeyCode.Exclaim
 }
 #endregion
