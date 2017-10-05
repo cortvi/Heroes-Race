@@ -131,13 +131,24 @@ public class Player : NetworkBehaviour
 		}
 	}
 
-	private void Awake() 
+	private void Start () 
 	{
 		/// Referencias internas
 		playerCapsule = GetComponent<CapsuleCollider> ();
 		body = GetComponent<Rigidbody> ();
 		body.centerOfMass = Vector3.zero;
 		SpeedMul = runSpeedMul;
+
+		/// Camera setup
+		cam = transform.GetChild (1).GetComponent<Animator> ();
+		if (isServer)
+		{
+			var c = cam.GetComponent<Cam> ();
+			cam.GetComponent<Camera> ().targetTexture = c.targets[owner.pj];
+			c.enabled = false;
+		}
+		else
+		if (isClient && !hasAuthority) cam.gameObject.SetActive (false);
 	}
 	#endregion
 
