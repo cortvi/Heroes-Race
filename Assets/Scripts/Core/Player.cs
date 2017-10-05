@@ -124,31 +124,34 @@ public class Player : NetworkBehaviour
 	private void OnCollisionEnter( Collision col ) 
 	{
 		/// Checks de colision
-		if (col.gameObject.tag == "Floor" && OnAir)
+		if ((col.gameObject.tag == "Floor" || col.gameObject.tag == "Player") && OnAir)
 		{
 			OnAir = false;
 			anim.SetTrigger ("Land");
 		}
 	}
 
-	private void Start () 
+	private void Awake () 
 	{
 		/// Referencias internas
+		cam = transform.GetChild (1).GetComponent<Animator> ();
 		playerCapsule = GetComponent<CapsuleCollider> ();
 		body = GetComponent<Rigidbody> ();
 		body.centerOfMass = Vector3.zero;
 		SpeedMul = runSpeedMul;
+	}
 
-		/// Camera setup
-		cam = transform.GetChild (1).GetComponent<Animator> ();
-		if (isServer)
-		{
-			var c = cam.GetComponent<Cam> ();
-			cam.GetComponent<Camera> ().targetTexture = c.targets[owner.pj];
-			c.enabled = false;
-		}
-		else
-		if (isClient && !hasAuthority) cam.gameObject.SetActive (false);
+	public override void OnStartClient () 
+	{
+		base.OnStartClient ();
+		if (!hasAuthority) cam.gameObject.SetActive (false);
+	}
+	public override void OnStartServer () 
+	{
+		base.OnStartServer ();
+		var c = cam.GetComponent<Cam> ();
+		cam.GetComponent<Camera> ().targetTexture = c.targets[owner.pj];
+		c.enabled = false;
 	}
 	#endregion
 
