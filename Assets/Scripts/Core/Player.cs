@@ -151,11 +151,8 @@ public class Player : NetworkBehaviour
 	public override void OnStartClient () 
 	{
 		base.OnStartClient ();
-		if (!isClient || !hasAuthority)
-		{
-			cam.GetComponent<Camera> ().enabled = false;
-			cam.GetComponent<AudioListener> ().enabled = false;
-		}
+		if (!isClient) return;
+		if (!hasAuthority) cam.gameObject.SetActive (false);
 	}
 	public override void OnStartServer () 
 	{
