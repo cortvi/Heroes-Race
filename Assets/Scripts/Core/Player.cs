@@ -148,16 +148,18 @@ public class Player : NetworkBehaviour
 		SpeedMul = runSpeedMul;
 	}
 
-	public override void OnStartClient () 
+
+	public override void OnStartAuthority () 
 	{
-		base.OnStartClient ();
+		base.OnStartAuthority ();
 		if (!isClient) return;
-		if (!hasAuthority) cam.gameObject.SetActive (false);
+		cam.gameObject.SetActive (true);
 	}
 	public override void OnStartServer () 
 	{
 		base.OnStartServer ();
 		if (!isServer) return;
+		cam.gameObject.SetActive (true);
 		var c = cam.GetComponent<Cam> ();
 		cam.GetComponent<Camera> ().targetTexture = c.targets[owner.pj];
 		c.enabled = false;

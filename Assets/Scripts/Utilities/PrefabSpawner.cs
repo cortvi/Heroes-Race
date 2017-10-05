@@ -13,9 +13,11 @@ public class PrefabSpawner : MonoBehaviour
 	{
 		if ( prefab.GetComponent<NetworkIdentity> () != null )
 		{
-			var o = Instantiate (prefab, transform.position, transform.rotation);
 			if (GetComponentInParent<NetworkIdentity> ().isServer)
+			{
+				var o = Instantiate (prefab, transform.position, transform.rotation);
 				NetworkServer.Spawn (o);
+			}
 		}
 		else Instantiate (prefab, transform.position, transform.rotation);
 
