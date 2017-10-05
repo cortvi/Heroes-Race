@@ -68,6 +68,13 @@ public class Player : NetworkBehaviour
 			body.angularVelocity = Vector3.zero;
 			Moving = false;
 		}
+
+		Cmd_Movement (body.angularVelocity);
+	}
+	[Command]
+	void Cmd_Movement (Vector3 speed) 
+	{
+		body.angularVelocity = speed;
 	}
 	#endregion
 
@@ -144,7 +151,11 @@ public class Player : NetworkBehaviour
 	public override void OnStartClient () 
 	{
 		base.OnStartClient ();
-		if (isClient && !hasAuthority) cam.gameObject.SetActive (false);
+		if (!isClient || !hasAuthority)
+		{
+			cam.GetComponent<Camera> ().enabled = false;
+			cam.GetComponent<AudioListener> ().enabled = false;
+		}
 	}
 	public override void OnStartServer () 
 	{
