@@ -25,6 +25,11 @@ public static class InputX
 
 		else return 0;
 	}
+
+	public static bool AnyKeyDown () 
+	{
+		return (GetKeyDown (PlayerActions.Jump) || GetKeyDown (PlayerActions.PowerUp));
+	}
 }
 
 #region KEYS
@@ -38,10 +43,7 @@ public enum PlayerActions
 	MoveLeft = KeyCode.A,
 	MoveRight = KeyCode.D,
 	Jump = KeyCode.Space,
-	Dash = KeyCode.Q,
-	Attack = KeyCode.W,
 	PowerUp = KeyCode.E,
-	GreenBtn = KeyCode.Return
 }
 
 /// Las teclas ( KeyCode ) que corresponden

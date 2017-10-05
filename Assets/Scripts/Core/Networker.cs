@@ -18,8 +18,6 @@ public class Networker : NetworkManager
 		var selectors = UI.manager.selectors;
 		var id = playerCount++;
 		selectors[id].GetComponent<NetworkIdentity> ().AssignClientAuthority (conn);
-		selectors[id].pj = ( PJs ) id;
-		selectors[id].current.sprite = UI.manager.personajes[id];
 		selectors[id].owner = player.GetComponent<Game> ();
 
 		/// Add player

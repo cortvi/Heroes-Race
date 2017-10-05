@@ -45,7 +45,7 @@ public class Selector : NetworkBehaviour
 	void Cmd_Select( bool done ) 
 	{
 		/// Can't select same PJ twice
-		if (takenPJs[charId])
+		if (takenPJs[charId] && done)
 		{
 			this.done = false;
 			return;
@@ -146,7 +146,7 @@ public class Selector : NetworkBehaviour
 			}
 
 			/// Seleccionar personaje
-			if (InputX.GetKeyDown (PlayerActions.GreenBtn))
+			if (InputX.AnyKeyDown ())
 			{
 				if (!done)
 				{

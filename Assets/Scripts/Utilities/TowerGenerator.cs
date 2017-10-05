@@ -42,7 +42,10 @@ public class TowerGenerator : NetworkBehaviour
 		tower[1] = new int[9];
 		tower[2] = new int[9];
 		tower[3] = new int[9];
+		yield return null;
 
+		#region COMMENTED OUT
+		/*
 		#region RANDOMIZER
 		for (var p=0; p!=4; p++)
 		{
@@ -100,23 +103,30 @@ public class TowerGenerator : NetworkBehaviour
 			}
 		}
 		#endregion
+*/
+		#endregion
 
 		#region SPAWN PLAYERS
 		var players = FindObjectsOfType<Game> ();
 		foreach (var p in players)
 		{
 			var obj = Instantiate (pjPrefabs[p.pj]);
-			obj.transform.position = Vector3.up * 1.25f;
-			obj.transform.rotation = Quaternion.Euler (0f, 202 + p.pj, 0f);
+			obj.transform.position = Vector3.up * 1.33f;
+			obj.transform.rotation = Quaternion.Euler (0f, 192.57f + p.pj, 0f);
 			NetworkServer.SpawnWithClientAuthority (obj, p.gameObject);
+			for (var i=0; i!=2; i++)
+			{
+				var conn = obj.GetComponent<NetworkIdentity> ().connectionToClient;
+				var nId = obj.transform.GetChild (i).GetComponent<NetworkIdentity> ();
+				nId.AssignClientAuthority (conn);
+			}
 		}
 		#endregion
 	}
 
 	private void Start () 
 	{
-		if (isServer)
-			StartCoroutine ("GenerateTower");
+		StartCoroutine ("GenerateTower");
 	}
 }
 

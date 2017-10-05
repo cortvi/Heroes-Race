@@ -30,7 +30,7 @@ public class Esponja : MonoBehaviour
 	{
 		if (col.gameObject.tag=="Player")
 		{
-			if (col.gameObject.GetComponent<PlayerOnline> ().cannotWork) return;
+			if (col.gameObject.GetComponent<Player> ().cannotWork) return;
 			if (Vector3.Distance (transform.parent.position, col.transform.GetChild(0).position)>0.35f) return;
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName("None")) animN.SetTrigger ("Charge");
 		}

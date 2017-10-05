@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
 	#region INTERNAL DATA
 	[Header ("References")]
@@ -90,13 +90,8 @@ public class Player : MonoBehaviour
 	#region JUMPING
 	void JumpCheck () 
 	{
-		/// Saltamos al presionar la tecla,
-		/// y si NO estamos ya en el aire
-		if ( InputX.GetKeyDown ( PlayerActions.Jump ) && !OnAir && !cannotJump )
-		{
-			/// Trigger animaciones de salto
-			anim.SetTrigger ("Jump");
-		}
+		if (!InputX.GetKeyDown (PlayerActions.Jump) || OnAir || cannotJump) return;
+		anim.SetTrigger ("Jump");
 	}
 	#endregion
 
@@ -104,11 +99,7 @@ public class Player : MonoBehaviour
 	private void FixedUpdate () 
 	{
 		/// Cada cliente conrtola SOLO su personaje
-//		if (!hasAuthority) return;
-// Esta linea esta comentada
-// para trabajar con el
-// personaje sin red!
-
+		if (!isLocalPlayer) return;
 		if (cannotWork) return;
 
 		var dir = InputX.GetMovement ();
@@ -118,13 +109,10 @@ public class Player : MonoBehaviour
 
 	private void Update() 
 	{
-		/// Cada cliente conrtola SOLO su personaje
-//		if ( !isClient || !hasAuthority) return;
-// Esta linea esta comentada
-// para trabajar con el
-// personaje sin red!
 		UpdateCapsule ();
+		if (!isLocalPlayer) return;
 		if (cannotWork) return;
+
 		JumpCheck ();
 		PUCheck ();
 	}
@@ -138,6 +126,7 @@ public class Player : MonoBehaviour
 		SpeedMul = runSpeedMul;
 	} 
 
+	[ClientCallback]
 	private void OnCollisionEnter( Collision col ) 
 	{
 		/// Checks de colision
@@ -158,12 +147,11 @@ public class Player : MonoBehaviour
 	void PUCheck ()
 	{
 		if (cannotWork || cannotJump || powerUp==PU.NONE) return;
-		if (InputX.GetKeyDown (PlayerActions.PowerUp))
-		{
-			StartCoroutine ("PU_" + powerUp.ToString ());
-			PowerUp.ShowPU (-1, true);
-			powerUp = PU.NONE;
-		}
+		if (!InputX.GetKeyDown (PlayerActions.PowerUp)) return;
+
+		StartCoroutine ("PU_" + powerUp.ToString ());
+		PowerUp.ShowPU (-1, true);
+		powerUp = PU.NONE;
 	}
 
 	IEnumerator PU_SpeedUp () 
@@ -172,23 +160,23 @@ public class Player : MonoBehaviour
 
 		SpeedMul *= mul;
 		charSpeed *= mul;
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (1.6f);
 		SpeedMul /= mul;
 		charSpeed /= mul;
 	}
-	IEnumerator PU_Shield () 
-	{
-		var obj = Instantiate (shield);
-		obj.transform.SetParent (anim.transform);
-		obj.transform.localPosition = Vector3.up * 0.358f;
-		shielded=true;
-
-		var endTime = Time.time + 3f;
-		while (Time.time<endTime && shielded) yield return null;
-
-		Destroy (obj);
-		shielded=false;
-	}
+//	IEnumerator PU_Shield () 
+//	{
+//		var obj = Instantiate (shield);
+//		obj.transform.SetParent (anim.transform);
+//		obj.transform.localPosition = Vector3.up * 0.358f;
+//		shielded=true;
+//
+//		var endTime = Time.time + 3f;
+//		while (Time.time<endTime && shielded) yield return null;
+//
+//		Destroy (obj);
+//		shielded=false;
+//	}
 //	IEnumerator PU_Bomb () 
 //	{
 //

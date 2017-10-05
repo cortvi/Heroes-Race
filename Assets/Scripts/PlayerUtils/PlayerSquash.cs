@@ -7,8 +7,8 @@ public class PlayerSquash : MonoBehaviour
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<PlayerOnline> ();
+		var p = other.GetComponent<Player> ();
 		p.StartCoroutine (p.BlockPlayer (1f));
-		p.animN.SetTrigger ("Squash");
+		p.anim.SetTrigger ("Squash");
 	}
 }

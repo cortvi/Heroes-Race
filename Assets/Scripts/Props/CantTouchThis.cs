@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class CantTouchThis : MonoBehaviour
 {
@@ -18,20 +19,22 @@ public class CantTouchThis : MonoBehaviour
 		r.angularVelocity = Vector3.zero;
 		r.AddForceAtPosition (vForce, transform.position, ForceMode.VelocityChange);
 
-		var p = t.GetComponent<PlayerOnline> ();
-		p.animN.SetTrigger ("Hit");
+		var p = t.GetComponent<Player> ();
+		p.anim.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.4f));
 	}
 
 	private void OnCollisionEnter ( Collision col )
 	{
 		if (col.gameObject.tag!="Player") return;
+		if (!col.gameObject.GetComponent<NetworkIdentity> ().isLocalPlayer) return;
 		Push (col.transform);
 	}
 
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
+		if (!other.GetComponent<NetworkIdentity> ().isLocalPlayer) return;
 		Push (other.transform);
 	}
 }
