@@ -22,7 +22,7 @@ public class PrefabSpawner : MonoBehaviour
 		Destroy (gameObject);
 	}
 
-	public void Awake() 
+	public void Start () 
 	{
 		Invoke ("Create", delay);
 	}
