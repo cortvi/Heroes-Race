@@ -778,10 +778,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114577078150612714, guid: 75edd8da86a74c140aeb13ee55d9cf4c,
-        type: 2}
-      propertyPath: m_SyncRotationAxis
-      value: 7
+    - target: {fileID: 1329425656299250, guid: 75edd8da86a74c140aeb13ee55d9cf4c, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75edd8da86a74c140aeb13ee55d9cf4c, type: 2}
