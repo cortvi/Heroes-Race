@@ -54,16 +54,21 @@ public class Player : MonoBehaviour
 	#endregion
 
 	#region MOVEMENT
+	public Vector3 TEST;
 	void Movement (float dir) 
 	{
 		if (dir != 0)
 		{
 			Moving = true;
-			/// Rotamos rigidbody para simular el movimiento circular
-			var q = Quaternion.Euler (0f, charSpeed * Time.fixedDeltaTime * -dir, 0f);
-			body.MoveRotation (body.rotation * q);
+			var speed = Vector3.up * charSpeed * -dir * Time.fixedDeltaTime;
+			body.angularVelocity = speed;
+
 		}
-		else Moving = false;
+		else
+		{
+			body.angularVelocity = Vector3.zero;
+			Moving = false;
+		}
 	}
 	#endregion
 
