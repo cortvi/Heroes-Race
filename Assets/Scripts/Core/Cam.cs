@@ -27,10 +27,11 @@ public class Cam : MonoBehaviour
 
 	private void Start()
 	{
-		var nId = transform.parent.GetComponent<Player> ();
+		var nId = transform.parent.GetComponent<NetworkIdentity> ();
 		if (nId.isServer)
 		{
-			GetComponent<Camera> ().targetTexture = targets[nId.owner.pj];
+			var id = nId.GetComponent<Player> ().owner.pj;
+			GetComponent<Camera> ().targetTexture = targets[id];
 			this.enabled = false;
 		}
 		else 
