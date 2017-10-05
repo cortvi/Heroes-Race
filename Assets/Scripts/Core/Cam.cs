@@ -33,6 +33,7 @@ public class Cam : MonoBehaviour
 			GetComponent<Camera> ().targetTexture = targets[nId.owner.pj];
 			this.enabled = false;
 		}
+		else 
 		if (!nId.hasAuthority) gameObject.SetActive (false);
 	}
 }

@@ -59,13 +59,15 @@ public class Player : NetworkBehaviour
 	{
 		if (dir != 0)
 		{
-			print ("Moving! :D");
 			Moving = true;
-			/// Rotamos rigidbody para simular el movimiento circular
-			var q = Quaternion.Euler (0f, charSpeed * Time.fixedDeltaTime * -dir, 0f);
-			body.MoveRotation (body.rotation * q);
+			var force = anim.transform.forward * charSpeed * Time.deltaTime * -dir;
+			body.AddForceAtPosition (force, anim.transform.position);
 		}
-		else Moving = false;
+		else
+		{
+			Moving = false;
+			body.angularVelocity = Vector3.zero;
+		}
 	}
 	#endregion
 
@@ -104,7 +106,6 @@ public class Player : NetworkBehaviour
 		if (!hasAuthority) return;
 		if (cannotWork) return;
 
-		print ("FixedUpdate");
 		var dir = InputX.GetMovement ();
 		Movement (dir);
 		Rotation (dir);
