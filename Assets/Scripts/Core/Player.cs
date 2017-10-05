@@ -60,13 +60,13 @@ public class Player : NetworkBehaviour
 		if (dir != 0)
 		{
 			Moving = true;
-			var force = anim.transform.forward * charSpeed * -dir;
-			body.AddForceAtPosition (force, anim.transform.position, ForceMode.Acceleration);
+			var speed = Vector3.up * charSpeed * -dir * Time.fixedDeltaTime;
+			body.angularVelocity = speed;
 		}
 		else
 		{
-			Moving = false;
 			body.angularVelocity = Vector3.zero;
+			Moving = false;
 		}
 	}
 	#endregion

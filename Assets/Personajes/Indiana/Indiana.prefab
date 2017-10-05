@@ -1465,8 +1465,8 @@ MonoBehaviour:
   cam: {fileID: 95656408778539722}
   shield: {fileID: 1484333882196106, guid: 599d021e510f38f45a5735c238744675, type: 2}
   jumpForce: 5
-  charSpeed: 5
-  runSpeedMul: 1.7
+  charSpeed: 8
+  runSpeedMul: 1.9
   powerUp: 0
   shielded: 0
   owner: {fileID: 0}
