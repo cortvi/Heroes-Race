@@ -114,12 +114,6 @@ public class TowerGenerator : NetworkBehaviour
 			obj.transform.position = Vector3.up * 1.33f;
 			obj.transform.rotation = Quaternion.Euler (0f, 192.57f + p.pj, 0f);
 			NetworkServer.SpawnWithClientAuthority (obj, p.gameObject);
-			for (var i=0; i!=2; i++)
-			{
-				var conn = obj.GetComponent<NetworkIdentity> ().connectionToClient;
-				var nId = obj.transform.GetChild (i).GetComponent<NetworkIdentity> ();
-				nId.AssignClientAuthority (conn);
-			}
 		}
 		#endregion
 	}

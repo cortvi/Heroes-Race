@@ -26,6 +26,9 @@ public class Cam : MonoBehaviour
 	private void Start()
 	{
 		if (!transform.parent.GetComponent<NetworkIdentity> ().hasAuthority)
+		{
 			gameObject.SetActive (false);
+
+		}
 	}
 }
