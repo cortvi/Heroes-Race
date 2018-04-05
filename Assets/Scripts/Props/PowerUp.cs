@@ -12,7 +12,7 @@ public class PowerUp : MonoBehaviour
 	{
 //		if (!ps) return;
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		if (p.powerUp!=PU.NONE) return;
 
 		var pu = (forcePU==PU.NONE ? (PU) Random.Range (1, 4) : forcePU);

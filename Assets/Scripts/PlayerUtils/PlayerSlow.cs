@@ -10,7 +10,7 @@ public class PlayerSlow : MonoBehaviour
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		p.charSpeed *= slowAmount;
 		p.SpeedMul *= slowAmount;
 	}
@@ -18,7 +18,7 @@ public class PlayerSlow : MonoBehaviour
 	private void OnTriggerExit( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		p.charSpeed /= slowAmount;
 		p.SpeedMul /= slowAmount;
 	}

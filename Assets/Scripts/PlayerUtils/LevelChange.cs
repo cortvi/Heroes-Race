@@ -9,7 +9,7 @@ public class LevelChange : MonoBehaviour
 	private void OnTriggerEnter ( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		p.cam.SetTrigger (down? "GoDown" : "GoUp");
 	}
 }

@@ -5,14 +5,14 @@ using UnityEngine;
 public static class InputX
 {
 	/// Funciones alternativas a la clase Input de Unity
-	public static bool GetKey ( PlayerActions action ) { return Input.GetKey (( KeyCode ) action); }
-	public static bool GetKey ( DevActions action ) { return Input.GetKey (( KeyCode ) action); }
+	public static bool GetKey ( PlayerActions action )	{ return Input.GetKey (( KeyCode ) action); }
+	public static bool GetKey ( DevActions action )		{ return Input.GetKey (( KeyCode ) action); }
 
-	public static bool GetKeyDown ( PlayerActions action ) { return Input.GetKeyDown (( KeyCode ) action); }
-	public static bool GetKeyDown ( DevActions action ) { return Input.GetKeyDown (( KeyCode ) action); }
+	public static bool GetKeyDown ( PlayerActions action )	{ return Input.GetKeyDown (( KeyCode ) action); }
+	public static bool GetKeyDown ( DevActions action )		{ return Input.GetKeyDown (( KeyCode ) action); }
 
-	public static bool GetKeyUp ( PlayerActions action ) { return Input.GetKeyUp (( KeyCode ) action); }
-	public static bool GetKeyUp ( DevActions action ) { return Input.GetKeyUp (( KeyCode ) action); }
+	public static bool GetKeyUp ( PlayerActions action )	 { return Input.GetKeyUp (( KeyCode ) action); }
+	public static bool GetKeyUp ( DevActions action )		{ return Input.GetKeyUp (( KeyCode ) action); }
 
 	public static float GetMovement () 
 	{

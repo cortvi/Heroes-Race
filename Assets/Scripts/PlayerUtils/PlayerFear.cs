@@ -7,7 +7,7 @@ public class PlayerFear : MonoBehaviour
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		p.StartCoroutine (p.BlockPlayer (1.8f));
 		p.anim.SetTrigger ("Fear");
 	}

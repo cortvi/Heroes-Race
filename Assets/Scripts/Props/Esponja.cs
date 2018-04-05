@@ -14,7 +14,7 @@ public class Esponja : MonoBehaviour
 		{
 			if (col.tag!="Player") continue;
 			var body = col.GetComponent<Rigidbody> ();
-			var p = col.GetComponent<Player> ();
+			var p = col.GetComponent<Character> ();
 			if (p.cannotWork) continue;
 
 			var jumpDir = transform.right * throwForce;
@@ -28,7 +28,7 @@ public class Esponja : MonoBehaviour
 	{
 		if (col.gameObject.tag=="Player")
 		{
-			if (col.gameObject.GetComponent<Player> ().cannotWork) return;
+			if (col.gameObject.GetComponent<Character> ().cannotWork) return;
 			if (Vector3.Distance (transform.parent.position, col.transform.GetChild(0).position)>0.35f) return;
 			if (anim.GetCurrentAnimatorStateInfo (0).IsName("None")) anim.SetTrigger ("Charge");
 		}

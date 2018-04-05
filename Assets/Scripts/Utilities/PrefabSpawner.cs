@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PrefabSpawner : MonoBehaviour
+public class PrefabSpawner : MonoBehaviour 
 {
-	/// El Prefab que colocar
+	/// El Prefab a colocar
 	public GameObject prefab;
 	public float delay;
 
-	void Create ()
+	IEnumerator Start () 
 	{
+		/// Wait Delay time
+		var mark = Time.time + delay;
+		while (Time.time <= mark) yield return null;
+
+		/// Replace this object by Prefab
 		Instantiate (prefab, transform.position, transform.rotation);
 		Destroy (gameObject);
-	}
-
-	public void Awake() 
-	{
-		Invoke ("Create", delay);
 	}
 }

@@ -4,8 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Networker : NetworkManager
+public class Networker : NetworkManager 
 {
+	#region DATA
+	/// Singleton
+	public static Networker main;
+	#endregion
+
 	#region SERVIDOR
 	/// Las conexiones con las recreativas
 	public static List<NetworkConnection> conns;
@@ -35,11 +40,19 @@ public class Networker : NetworkManager
 	#endregion
 
 	#region CALLBACKS
+
 	private void Awake() 
 	{
 		/// Inicializacion
 		conns = new List<NetworkConnection> (3);
 		players = new Dictionary<NetworkConnection, Game> (3);
+	}
+
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	public static void InitizalizeSingleton () 
+	{
+		print ("Is this unique..?");
+		main = Singleton.Spawn<Networker> ("Prefabs/Networker");
 	}
 	#endregion
 }

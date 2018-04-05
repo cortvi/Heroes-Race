@@ -10,7 +10,7 @@ public class PlayerDeny : MonoBehaviour
 	private void OnTriggerEnter( Collider other ) 
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		if (denyWork) p.cannotWork = true;
 		if (denyJump) p.cannotJump = true;
 	}
@@ -18,7 +18,7 @@ public class PlayerDeny : MonoBehaviour
 	private void OnTriggerExit( Collider other ) 
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		if (denyWork) p.cannotWork = false;
 		if (denyJump) p.cannotJump = false;
 	}

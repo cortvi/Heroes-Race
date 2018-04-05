@@ -7,7 +7,7 @@ public class PushWallAnimEvents : MonoBehaviour
 	private void OnTriggerEnter( Collider other )
 	{
 		if (other.tag!="Player") return;
-		var p = other.GetComponent<Player> ();
+		var p = other.GetComponent<Character> ();
 		p.anim.SetTrigger ("Push");
 		p.anim.SetTrigger ("Hit");
 		p.StartCoroutine (p.BlockPlayer (1.1f, true));

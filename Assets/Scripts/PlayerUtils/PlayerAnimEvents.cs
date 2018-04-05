@@ -14,9 +14,9 @@ public class PlayerAnimEvents : MonoBehaviour
 		player.OnAir = true;
 	}
 
-	Player player;
+	Character player;
 	private void Awake() 
 	{
-		player = transform.parent.GetComponent<Player> ();
+		player = transform.parent.GetComponent<Character> ();
 	}
 }
