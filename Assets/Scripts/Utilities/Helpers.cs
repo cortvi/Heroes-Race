@@ -1,8 +1,9 @@
-﻿public enum NetworkActor 
+﻿/// Lista de todos los personajes
+/// que se pueden seleccionar
+public enum Heroes 
 {
-	Offline,
-	Host,
-	Server,
-	Client,
-	ClientAuthorized
+	Espectador,
+	Indiana,
+	Harley,
+	Harry
 }

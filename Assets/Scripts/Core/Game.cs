@@ -28,14 +28,6 @@ public class Game : NetworkBehaviour
 		/// al cargar otros niveles
 		DontDestroyOnLoad (gameObject);
 
-		if (isClient)
-		{
-			// This way, any wrong call will generate
-			// a NullReferenceException
-			Networker.conns = null;
-			Networker.players = null;
-		}
-
 		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
 	}

@@ -36,6 +36,8 @@ public class TowerGenerator : MonoBehaviour
 
 	public IEnumerator GenerateTower ()
 	{
+		throw new System.NotImplementedException ();
+
 		var tower = new int[4][];
 		tower[0] = new int[9];
 		tower[1] = new int[9];
@@ -92,7 +94,7 @@ public class TowerGenerator : MonoBehaviour
 
 				if (( Qs ) tower[p][q] == Qs.Ascensores && q!=0)
 				{
-					Q.GetComponent<AscensorSpawner> ().enabled = true;
+//					Q.GetComponent<AscensorSpawner> ().enabled = true;
 					levelsRoot[p+1].Rotate (Vector3.up, q*-40f);
 				}
 			}

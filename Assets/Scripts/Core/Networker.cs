@@ -8,36 +8,41 @@ using UnityEngine.Networking.Match;
 public class Networker : NetworkManager 
 {
 	#region DATA
-	public static Networker main;				/// Singleton
+	public static Networker main;					/// Singleton
+	public static NetworkConnection localPlayer;	/// Own Client object
 
-	/// Las conexiones con las recreativas
-	public static List<NetworkConnection> conns;
-	public static Dictionary<NetworkConnection, Game> players;
+
+	/// True if dedicacted Server
+	public static bool IsServer 
+	{
+		get { return (NetworkServer.active && !NetworkServer.localClientActive); }
+	}
+
+	/// True if dedicated Client
+	public static bool IsClient 
+	{
+		get { return (NetworkClient.active && !NetworkServer.localClientActive); }
+	}
+
+	/// True if acting as both client and server
+	public static bool IsHost 
+	{
+		get { return NetworkServer.localClientActive; }
+	}
 	#endregion
 
 	#region SERVER
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 	{
-		/// Crea un nuevo objeto con el script Game.cs 
-		/// para la recreativa que se acaba de conectar
-		var player = Instantiate (playerPrefab) as GameObject;
-		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
+		var player = Instantiate (playerPrefab);
+		player.name = "["+conn.connectionId+"] Player";
 
-		/// Registrar la conexion de cada
-		/// player cuando se conecta
-		conns.Add (conn);
-		players.Add (conn, player.GetComponent<Game> ());
+		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
+		localPlayer = conn;
 	}
 	#endregion
 
 	#region CALLBACKS
-	private void Awake() 
-	{
-		/// Inicializacion
-		conns = new List<NetworkConnection> (3);
-		players = new Dictionary<NetworkConnection, Game> (3);
-	}
-
 	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	public static void InitizalizeSingleton () 
 	{
