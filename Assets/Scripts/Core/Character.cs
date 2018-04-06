@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Character : AdaptativeBehaviour
+public class Character : SmartNetBehaviour
 {
 	#region DATA
 	[Header ("References")]
@@ -133,10 +133,10 @@ public class Character : AdaptativeBehaviour
 	{
 		base.Awake ();
 		/// Referencias internas
-		playerCapsule = GetComponent<CapsuleCollider> ();
-		body = GetComponent<Rigidbody> ();
-		body.centerOfMass = Vector3.zero;
-		SpeedMul = runSpeedMul;
+//		playerCapsule = GetComponent<CapsuleCollider> ();
+//		body = GetComponent<Rigidbody> ();
+//		body.centerOfMass = Vector3.zero;
+//		SpeedMul = runSpeedMul;
 	} 
 
 	private void OnCollisionEnter( Collision col ) 

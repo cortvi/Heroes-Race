@@ -17,6 +17,6 @@ public class PlayerAnimEvents : MonoBehaviour
 	Character player;
 	private void Awake() 
 	{
-		player = transform.parent.GetComponent<Character> ();
+//		player = transform.parent.GetComponent<Character> ();
 	}
 }
