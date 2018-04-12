@@ -20,7 +20,7 @@ public class NetworkerEditor : Editor
 		editor.OnInspectorGUI ();
 
 		/// If Hosting, spawn a Hero to play it
-		if (!spawned && Networker.IsHost) 
+		if (!spawned && !Networker.IsServer) 
 		{
 			/// Draw a header
 			EditorGUILayout.LabelField ("Play as Hero", EditorStyles.boldLabel);
@@ -29,7 +29,7 @@ public class NetworkerEditor : Editor
 			heroToSpawn = (Heroes)EditorGUILayout.EnumPopup ("Hero to spawn", heroToSpawn);
 			if (GUILayout.Button ("Spawn & assign to host"))
 			{
-				Character.Spawn (heroToSpawn, Networker.localPlayer);
+				Game.player.Spawn (heroToSpawn);
 				spawned = true;
 			}
 		}

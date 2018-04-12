@@ -86,20 +86,5 @@ public class Character : NetworkBehaviour
 		var pos = capsule.center; pos.y = 0f;           /// Get capsule position, discard height
 		return driver.transform.TransformPoint (pos);   /// Return the position in world-space						
 	}
-
-	/// Spawns a hero & authorizes its owner
-	[Server] public static void Spawn ( Heroes heroToSpawn, NetworkConnection owner ) 
-	{
-		/// Instantiate Hero object
-		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + heroToSpawn.ToString ());
-		var hero = Instantiate (prefab);
-
-		/// Change parameters
-		hero.name = "["+owner.connectionId+"] " + heroToSpawn;
-		hero.identity = heroToSpawn;
-
-		/// Network spawn
-		NetworkServer.SpawnWithClientAuthority (hero.gameObject, owner);
-	}
 	#endregion
 }
