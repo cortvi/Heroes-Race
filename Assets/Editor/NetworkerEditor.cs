@@ -29,7 +29,7 @@ public class NetworkerEditor : Editor
 			heroToSpawn = (Heroes)EditorGUILayout.EnumPopup ("Hero to spawn", heroToSpawn);
 			if (GUILayout.Button ("Spawn & assign to host"))
 			{
-				Game.player.Spawn (heroToSpawn);
+				Game.player.SpawnHero (heroToSpawn);
 				spawned = true;
 			}
 		}

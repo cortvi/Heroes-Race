@@ -17,22 +17,22 @@ public class Game : NetworkBehaviour
 
 	#region HELPERS
 	/// Spawns a hero & authorizes this Client
-	[Command] private void Cmd_Spawn (Heroes heroToSpawn) 
+	[Command] private void Cmd_SpawnHero (Heroes heroToSpawn) 
 	{
 		/// Instantiate Hero object
 		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + heroToSpawn.ToString ());
 		var hero = Instantiate (prefab);
 
 		/// Change parameters
-		hero.name = "[" + connectionToClient.connectionId + "] " + heroToSpawn;
+		hero.name = "["+connectionToClient.connectionId+"] " + heroToSpawn;
 		hero.identity = heroToSpawn;
 
 		/// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
 	}
-	public void Spawn (Heroes heroToSpawn) 
+	public void SpawnHero (Heroes heroToSpawn) 
 	{
-		Cmd_Spawn (heroToSpawn);
+		Cmd_SpawnHero (heroToSpawn);
 	}
 	#endregion
 }

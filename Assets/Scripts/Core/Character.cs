@@ -10,7 +10,7 @@ using UnityEngine.Networking;
  * But the rigidbody and colliders that control its physic movement (angular rotation)
  * are separated, this is to ensure that networked movement is fluid. */
 
-public class Character : NetworkBehaviour
+public partial class Character : NetworkBehaviour
 {
 	#region DATA
 	public Heroes identity;
@@ -27,25 +27,27 @@ public class Character : NetworkBehaviour
 	#region LOCOMOTION
 	private void Movement () 
 	{
+		if (!hasAuthority) return;
+
 		/// Get A-D input
 		var input = Vector3.up;
 		input *= Input.GetAxis ("Horizontal");
 
 		/// Assign input to the player speed
-		movingSpeed = input * -speed;
+		movingSpeed = -(speed * input);
 	}
 
 	private void Rotation () 
 	{
-
+		
 	}
 
 	private void Move () 
 	{
-		/// Apply moving speed to the driver
-		driver.angularVelocity = movingSpeed * Time.deltaTime;
+		/// Apply motion over the Network
+		NetworkMove ();
 
-		/// Stick with it
+		/// Stick with the Driver
 		transform.position = ComputePosition ();
 		transform.rotation = driver.rotation;
 	}
@@ -54,37 +56,75 @@ public class Character : NetworkBehaviour
 	#region CALLBACKS
 	[ClientCallback] private void Update () 
 	{
-		if (!hasAuthority) return;
-
 		Movement ();
 		Rotation ();
 		Move ();
 	}
 
-	/// This is called ONLY on the local client owner of each player
-	[ClientCallback] public override void OnStartAuthority () 
+	/// Start is called AFTER authority is set
+	[ClientCallback] private void Start () 
 	{
-		base.OnStartAuthority ();
-
 		/// Spawn driver
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
-		var driver = Instantiate (prefab);
-		driver.name = identity + "_Driver";
+		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
 
-		/// Set up references
+		/// Set up
+		driver.name = identity + "_Driver";
+		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
-		this.driver = driver.GetComponent<Rigidbody> ();
-		this.driver.centerOfMass = Vector3.zero;
+
+		/// For other player objects, drivers are kinematic
+		/// and locomotion is networked and then interpolated
+		if (!hasAuthority)
+		{
+			driver.name.Insert (0, "[OTHER] ");
+			driver.isKinematic = true;
+		}
 	}
 	#endregion
 
 	#region HELPERS
-	/// Returns the WS position of this Hero,
-	/// based on its Driver
-	public Vector3 ComputePosition ()
+	/// Returns the final WS Driver position
+	private Vector3 ComputePosition ()
 	{
 		var pos = capsule.center; pos.y = 0f;           /// Get capsule position, discard height
 		return driver.transform.TransformPoint (pos);   /// Return the position in world-space						
 	}
 	#endregion
+}
+
+
+/// Network-adapted behaviour
+public partial class Character : NetworkBehaviour
+{
+	#region DATA
+	[SyncVar] private Quaternion driverState;
+
+	/// This way Driver motion is quickly updated
+	public override int GetNetworkChannel () 
+	{
+		return Channels.DefaultUnreliable;
+	}
+	#endregion
+
+	/// Moves the player along the Network
+	private void NetworkMove () 
+	{
+		/// Move locally with precision, and
+		/// propagates motion over the Network
+		if (hasAuthority)
+		{
+			driver.angularVelocity = movingSpeed * Time.deltaTime;
+			Cmd_PropagateMotion (driver.rotation);
+		}
+
+		/// Update networked Driver and let rigidbody interpolate it
+		else driver.MoveRotation (driverState);
+	}
+
+	[Command(channel=Channels.DefaultUnreliable)]
+	private void Cmd_PropagateMotion (Quaternion driverState) 
+	{
+		this.driverState = driverState;
+	}
 }

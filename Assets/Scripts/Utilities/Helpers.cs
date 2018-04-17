@@ -2,7 +2,8 @@
 /// que se pueden seleccionar
 public enum Heroes 
 {
-	Espectador,
+	Espectador = -1,
+	NONE,
 	Indiana,
 	Harley,
 	Harry
