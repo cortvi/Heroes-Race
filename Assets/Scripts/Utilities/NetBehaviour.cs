@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// Special class for objects that should be
+/// controlled by specific clients over the network
 public abstract class NetBehaviour : NetworkBehaviour 
 {
 	#region DATA
@@ -13,52 +15,53 @@ public abstract class NetBehaviour : NetworkBehaviour
 
 	/// True if object can be controlled by
 	/// the specific client it's checked on
-	public bool isLocal;
+	public bool? isLocal;
 
 	/// Network-shared name
 	[SyncVar] internal string netName;
 	#endregion
 
-	#region LOCAL AUTHORITY
+	#region MyRegion
 	/// When spawned on the net, objects should be marked as local for
 	/// each specific player in order for them to 
-	[TargetRpc] public void Target_SetLocal (NetworkConnection target) 
+	[TargetRpc] public void Target_SetLocal (NetworkConnection target)
 	{
 		/// Mark as local
 		isLocal = true;
 
 		/// Add to the dictionary
 		var type = GetType ();
-		if (localInstances.ContainsKey(type)) 
+		if (localInstances.ContainsKey (type))
 		{
 			if (Debug.isDebugBuild)
-				Debug.LogWarning ("Already exists an instance for type "+type+"!");
+				Debug.LogWarning ("Already exists an instance for type " + type + "!");
 			return;
 		}
 		else localInstances.Add (type, this);
 
 		/// Callback
 		OnSetLocal ();
-	}
+	} 
+	#endregion
 
+	#region CALLBACKS
 	/// Client-side custom callback
 	/// when object is marked as local
-	[Client] protected virtual void OnSetLocal () 
+	[Client] protected virtual void OnSetLocal ()
 	{
 		print ("1");
 		name = netName.Remove (0, 8);
 	}
 
-	protected virtual void Start () 
+	protected virtual IEnumerator Start () 
 	{
-		print ("2");
 		name = netName.Insert (0, "[OTHER] ");
-	}
+	} 
 	#endregion
 
 	#region HELPERS
 	/// Returns the scene object that has local Player authority of given type
-	[Client] public static T GetLocal<T> () where T : NetBehaviour
+	[Client] public static T GetLocal<T> () where T : NetBehaviour 
 	{
 		NetBehaviour local;
 		if (!localInstances.TryGetValue (typeof (T), out local))
