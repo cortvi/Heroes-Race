@@ -7,13 +7,11 @@ using UnityEngine.Networking;
 public class Game : NetworkBehaviour
 {
 	public static Game player;
-	[SyncVar] public Heroes playingAs;
 
 	#region CALLBACKS
 	[ClientCallback] private void Update () 
 	{
-		print ("test");
-		if (playingAs == 0 && Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.LeftControl))
+		if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.LeftControl))
 		{
 			SpawnHero (Heroes.Indiana);
 		}
@@ -22,7 +20,6 @@ public class Game : NetworkBehaviour
 	/// This will set the player object reference for each Client
 	public void Start () 
 	{
-		print (name + ":" + isLocalPlayer);
 		if (isLocalPlayer)
 			player = this;
 	} 
@@ -39,10 +36,10 @@ public class Game : NetworkBehaviour
 		/// Set up
 		hero.name = "["+connectionToClient.connectionId+"] " + heroToSpawn;
 		hero.identity = heroToSpawn;
-		playingAs = heroToSpawn;
 
 		/// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
+		hero.Target_SetLocal (connectionToClient);
 	}
 	public void SpawnHero (Heroes heroToSpawn) 
 	{

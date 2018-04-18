@@ -13,14 +13,13 @@ using UnityEngine.Networking;
 /* Movement works this way:
 * - Local Player gets input
 * - Input is passed to server
-* - Server moves server-side Player with physics
-* - Server-side Driver rotation is propagated
-* - Locally each player follows propagated motion with a kinematic interpolated rigidbody. */
+* - Server-side Driver is moved by physics
+* - Server-side Driver motion is propagated
+* - Client-side Players follow propagated motion with a kinematic rigidbody. */
 
 public partial class Character : NetworkBehaviour
 {
 	#region DATA
-	public Heroes identity;
 	public const float speed = 15.0f;
 
 	/// External references
@@ -39,9 +38,9 @@ public partial class Character : NetworkBehaviour
 
 	}
 
-	[ClientCallback] private void Movement () 
+	private void Movement () 
 	{
-		if (!hasAuthority) return;
+		if (!isLocal) return;
 
 		/// Get A-D input
 		var input = Vector3.up;
@@ -58,9 +57,6 @@ public partial class Character : NetworkBehaviour
 
 	private void Move () 
 	{
-		/// Apply motion over the Network
-		NetworkMove ();
-
 		/// Stick with the Driver
 		transform.position = ComputeDriverPosition ();
 		transform.rotation = driver.rotation;
@@ -70,7 +66,7 @@ public partial class Character : NetworkBehaviour
 	#region CALLBACKS
 	private void Update () 
 	{
-		Locomotion ();
+		Move ();
 	}
 
 	/// Start is called AFTER authority is set, both on client and server
@@ -87,11 +83,10 @@ public partial class Character : NetworkBehaviour
 
 		/// Client-side Player Drivers are kinematic
 		/// and locomotion is networked and then interpolated
-		if (!isServer) driver.isKinematic = true;
-		if (!IsLocalPlayer)
+		if (!isServer)
 		{
-			name.Insert (0, "[OTHER] ");
-			driver.name.Insert (0, "[OTHER] ");
+			capsule.enabled = false;
+			driver.isKinematic = true;
 		}
 	}
 	#endregion
@@ -106,65 +101,24 @@ public partial class Character : NetworkBehaviour
 	#endregion
 }
 
-/// Network-adapted locomotion
+/// Network-related behaviour
 public partial class Character : NetworkBehaviour
 {
-	public Vector3 Velocity 
-	{
-		get 
-		{
-			if (Networker.DedicatedClient)
-				throw new UnityException ("Trying to access character velocity from client!");
-			else
-				return _velocity;
-		}
-		set 
-		{
-			if (Networker.DedicatedClient)
-				throw new UnityException ("Trying to access character velocity from client!");
-			else
-			{
-				// TODO!
-			}
-		}
-	}
-	private Vector3 _velocity;
-
-	public bool IsLocalPlayer 
-	{
-		get { return (identity == Game.player.playingAs); }
-	}
-
-	/// ------------------------------------------
-
 	#region DATA
+	[SyncVar] public Heroes identity;
+	[SyncVar] public Vector3 Velocity;
 	[SyncVar] private Quaternion driverState;
 
-	/// This way Driver motion is quickly updated
-	public override int GetNetworkChannel () 
+	public bool isLocal;
+	/// When spawned on the net, each Player sets
+	/// his own hero as local, so they can control it
+	[TargetRpc] public void Target_SetLocal (NetworkConnection target) 
 	{
-		return Channels.DefaultUnreliable;
+		isLocal = true;
 	}
 	#endregion
 
-	/// Moves the player along the Network
-	private void NetworkMove () 
-	{
-		/// Move locally with precision, and
-		/// propagates motion over the Network
-		if (hasAuthority)
-		{
-//s			driver.angularVelocity = movingSpeed * Time.deltaTime;
-			Cmd_PropagateMotion (driver.rotation);
-		}
+	#region LOCOMOTION
 
-		/// Update networked Driver and let rigidbody interpolate it
-		else driver.MoveRotation (driverState);
-	}
-
-	[Command(channel=Channels.DefaultUnreliable)]
-	private void Cmd_PropagateMotion (Quaternion driverState) 
-	{
-		this.driverState = driverState;
-	}
+	#endregion
 }
