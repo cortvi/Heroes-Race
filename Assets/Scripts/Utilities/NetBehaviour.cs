@@ -45,12 +45,13 @@ public abstract class NetBehaviour : NetworkBehaviour
 	/// when object is marked as local
 	[Client] protected virtual void OnSetLocal () 
 	{
+		print ("1");
 		name = netName.Remove (0, 8);
-		print (netName.Remove (0, 8));
 	}
 
 	protected virtual void Start () 
 	{
+		print ("2");
 		name = netName.Insert (0, "[OTHER] ");
 	}
 	#endregion
