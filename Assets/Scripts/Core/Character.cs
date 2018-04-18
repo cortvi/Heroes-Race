@@ -10,17 +10,10 @@ using UnityEngine.Networking;
  * But the rigidbody and colliders that control its physic movement (angular rotation)
  * are separated, this is to ensure that networked movement is fluid. */
 
-/* Movement works this way:
-* - Local Player gets input
-* - Input is passed to server
-* - Server-side Driver is moved by physics
-* - Server-side Driver motion is propagated
-* - Client-side Players follow propagated motion with a kinematic rigidbody. */
-
-public partial class Character : NetworkBehaviour
+public partial class Character : NetBehaviour
 {
 	#region DATA
-	public const float speed = 15.0f;
+	public const float Speed = 15.0f;
 
 	/// External references
 	private Rigidbody driver;
@@ -28,31 +21,21 @@ public partial class Character : NetworkBehaviour
 	#endregion
 
 	#region LOCOMOTION
-	private void Locomotion () 
+	[ClientCallback] private void Motion () 
 	{
-		if (Networker.DedicatedClient) 
-		{
-
-		}
-//		Movement ();
-
-	}
-
-	private void Movement () 
-	{
+		/// Only recieve input
+		/// ONLY from local Player
 		if (!isLocal) return;
 
 		/// Get A-D input
 		var input = Vector3.up;
-		input *= Input.GetAxis ("Horizontal");
+		input *= -Input.GetAxis("Horizontal");
 
-		/// Assign input to the player speed
-		//movingSpeed = -(speed * input);
-	}
+		/// Move Character with physics
+		driver.angularVelocity = (input * Speed) * Time.deltaTime;
 
-	private void Rotation () 
-	{
-		
+		/// Send to server
+		Cmd_PropagateMotion (driver.rotation);
 	}
 
 	private void Move () 
@@ -66,12 +49,14 @@ public partial class Character : NetworkBehaviour
 	#region CALLBACKS
 	private void Update () 
 	{
+		Motion ();
 		Move ();
 	}
 
-	/// Start is called AFTER authority is set, both on client and server
-	private void Start () 
+	protected override void Start () 
 	{
+		base.Start ();
+
 		/// Spawn driver
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
@@ -81,9 +66,10 @@ public partial class Character : NetworkBehaviour
 		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
 
-		/// Client-side Player Drivers are kinematic
-		/// and locomotion is networked and then interpolated
-		if (!isServer)
+		/// Non-local Player Drivers are kinematic
+		/// and locomotion is networked and
+		/// then interpolated for the rest
+		if (!isLocal) 
 		{
 			capsule.enabled = false;
 			driver.isKinematic = true;
@@ -102,23 +88,31 @@ public partial class Character : NetworkBehaviour
 }
 
 /// Network-related behaviour
-public partial class Character : NetworkBehaviour
+public partial class Character : NetBehaviour
 {
 	#region DATA
 	[SyncVar] public Heroes identity;
-	[SyncVar] public Vector3 Velocity;
-	[SyncVar] private Quaternion driverState;
 
-	public bool isLocal;
-	/// When spawned on the net, each Player sets
-	/// his own hero as local, so they can control it
-	[TargetRpc] public void Target_SetLocal (NetworkConnection target) 
+	[SyncVar (hook = "OnChangedDriverState")]
+	private Quaternion driverState;
+	#endregion
+
+	/// Informs all Players that this Character is moving to given rotation
+	[Command] private void Cmd_PropagateMotion (Quaternion motion) 
 	{
-		isLocal = true;
+		driverState = motion;
 	}
-	#endregion
 
-	#region LOCOMOTION
+	/// Changes target motion for this non-local Character
+	private void OnChangedDriverState (Quaternion newState) 
+	{
+		Debug.LogError ("is this happening?");
 
-	#endregion
+		/// Only non-local players move this way
+		if (isLocal) return;
+		driver.MoveRotation (newState);
+
+		Debug.LogError (driver.isKinematic);
+		Debug.LogError (newState);
+	}
 }

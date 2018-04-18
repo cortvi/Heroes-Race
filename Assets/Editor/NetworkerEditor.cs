@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// [CustomEditor (typeof(Networker))]
+[CustomEditor (typeof(Networker))]
 public class NetworkerEditor : Editor
 {
 	private bool[] folds;
@@ -18,6 +18,7 @@ public class NetworkerEditor : Editor
 	{
 		/// Draw inherited inspector
 		editor.OnInspectorGUI ();
+		/*
 		if (!EditorApplication.isPlaying) return;
 
 		/// If Hosting, spawn a Hero to play it
@@ -30,10 +31,11 @@ public class NetworkerEditor : Editor
 			heroToSpawn = (Heroes)EditorGUILayout.EnumPopup ("Hero to spawn", heroToSpawn);
 			if (GUILayout.Button ("Spawn & assign to host"))
 			{
-				Game.player.SpawnHero (heroToSpawn);
+				NetBehaviour.GetLocal<Game> ().SpawnHero (heroToSpawn);
 				spawned = true;
 			}
 		}
+		*/
 	}
 
 	private void OnEnable () 

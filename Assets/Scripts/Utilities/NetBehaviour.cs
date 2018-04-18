@@ -8,14 +8,15 @@ public abstract class NetBehaviour : NetworkBehaviour
 {
 	#region DATA
 	/// When spawned, if local authority is set on 
-	private static Dictionary<Type, NetBehaviour> localInstances;
-
-	/// Network-shared name
-	[SyncVar] public string netName;
+	private static Dictionary<Type, NetBehaviour> localInstances
+			 = new Dictionary<Type, NetBehaviour> ();
 
 	/// True if object can be controlled by
 	/// the specific client it's checked on
 	public bool isLocal;
+
+	/// Network-shared name
+	[SyncVar] internal string netName;
 	#endregion
 
 	#region LOCAL AUTHORITY
@@ -28,7 +29,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 
 		/// Add to the dictionary
 		var type = GetType ();
-		if (localInstances.ContainsKey(type))
+		if (localInstances.ContainsKey(type)) 
 		{
 			if (Debug.isDebugBuild)
 				Debug.LogWarning ("Already exists an instance for type "+type+"!");
@@ -44,7 +45,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 	/// when object is marked as local
 	[Client] protected virtual void OnSetLocal () 
 	{
-		name = name.Remove (0, 8);
+		print ("hola...?");
+		name = netName.Remove (0, 8);
 	}
 
 	protected virtual void Start () 

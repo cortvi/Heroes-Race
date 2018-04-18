@@ -4,25 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class Game : NetworkBehaviour
+public class Game : NetBehaviour
 {
-	public static Game player;
-
 	#region CALLBACKS
-	[ClientCallback] private void Update () 
+	[ClientCallback]
+	private void Update () 
 	{
-		if (Input.GetKey(KeyCode.I) && Input.GetKeyDown(KeyCode.LeftControl))
-		{
-			SpawnHero (Heroes.Indiana);
-		}
+		if (Input.GetKeyDown (KeyCode.I) && Input.GetKey (KeyCode.LeftControl)) SpawnHero (Heroes.Indiana);
 	}
-
-	/// This will set the player object reference for each Client
-	public void Start () 
-	{
-		if (isLocalPlayer)
-			player = this;
-	} 
 	#endregion
 
 	#region HELPERS
@@ -34,7 +23,7 @@ public class Game : NetworkBehaviour
 		var hero = Instantiate (prefab);
 
 		/// Set up
-		hero.name = "["+connectionToClient.connectionId+"] " + heroToSpawn;
+		hero.netName = "["+connectionToClient.connectionId+"] " + heroToSpawn;
 		hero.identity = heroToSpawn;
 
 		/// Network spawn
