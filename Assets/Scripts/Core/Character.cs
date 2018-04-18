@@ -10,6 +10,13 @@ using UnityEngine.Networking;
  * But the rigidbody and colliders that control its physic movement (angular rotation)
  * are separated, this is to ensure that networked movement is fluid. */
 
+/* Movement works this way:
+* - Local Player gets input
+* - Input is passed to server
+* - Server moves server-side Player with physics
+* - Server-side Driver rotation is propagated
+* - Locally each player follows propagated motion with a kinematic interpolated rigidbody. */
+
 public partial class Character : NetworkBehaviour
 {
 	#region DATA
@@ -19,13 +26,20 @@ public partial class Character : NetworkBehaviour
 	/// External references
 	private Rigidbody driver;
 	private CapsuleCollider capsule;
-
-	/// Internal data
-	internal Vector3 movingSpeed;
 	#endregion
 
 	#region LOCOMOTION
-	private void Movement () 
+	private void Locomotion () 
+	{
+		if (Networker.DedicatedClient) 
+		{
+
+		}
+//		Movement ();
+
+	}
+
+	[ClientCallback] private void Movement () 
 	{
 		if (!hasAuthority) return;
 
@@ -34,7 +48,7 @@ public partial class Character : NetworkBehaviour
 		input *= Input.GetAxis ("Horizontal");
 
 		/// Assign input to the player speed
-		movingSpeed = -(speed * input);
+		//movingSpeed = -(speed * input);
 	}
 
 	private void Rotation () 
@@ -48,21 +62,19 @@ public partial class Character : NetworkBehaviour
 		NetworkMove ();
 
 		/// Stick with the Driver
-		transform.position = ComputePosition ();
+		transform.position = ComputeDriverPosition ();
 		transform.rotation = driver.rotation;
 	}
 	#endregion
 
 	#region CALLBACKS
-	[ClientCallback] private void Update () 
+	private void Update () 
 	{
-		Movement ();
-		Rotation ();
-		Move ();
+		Locomotion ();
 	}
 
-	/// Start is called AFTER authority is set
-	[ClientCallback] private void Start () 
+	/// Start is called AFTER authority is set, both on client and server
+	private void Start () 
 	{
 		/// Spawn driver
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
@@ -73,19 +85,20 @@ public partial class Character : NetworkBehaviour
 		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
 
-		/// For other player objects, drivers are kinematic
+		/// Client-side Player Drivers are kinematic
 		/// and locomotion is networked and then interpolated
-		if (!hasAuthority)
+		if (!isServer) driver.isKinematic = true;
+		if (!IsLocalPlayer)
 		{
+			name.Insert (0, "[OTHER] ");
 			driver.name.Insert (0, "[OTHER] ");
-			driver.isKinematic = true;
 		}
 	}
 	#endregion
 
 	#region HELPERS
 	/// Returns the final WS Driver position
-	private Vector3 ComputePosition ()
+	private Vector3 ComputeDriverPosition ()
 	{
 		var pos = capsule.center; pos.y = 0f;           /// Get capsule position, discard height
 		return driver.transform.TransformPoint (pos);   /// Return the position in world-space						
@@ -93,10 +106,37 @@ public partial class Character : NetworkBehaviour
 	#endregion
 }
 
-
-/// Network-adapted behaviour
+/// Network-adapted locomotion
 public partial class Character : NetworkBehaviour
 {
+	public Vector3 Velocity 
+	{
+		get 
+		{
+			if (Networker.DedicatedClient)
+				throw new UnityException ("Trying to access character velocity from client!");
+			else
+				return _velocity;
+		}
+		set 
+		{
+			if (Networker.DedicatedClient)
+				throw new UnityException ("Trying to access character velocity from client!");
+			else
+			{
+				// TODO!
+			}
+		}
+	}
+	private Vector3 _velocity;
+
+	public bool IsLocalPlayer 
+	{
+		get { return (identity == Game.player.playingAs); }
+	}
+
+	/// ------------------------------------------
+
 	#region DATA
 	[SyncVar] private Quaternion driverState;
 
@@ -114,7 +154,7 @@ public partial class Character : NetworkBehaviour
 		/// propagates motion over the Network
 		if (hasAuthority)
 		{
-			driver.angularVelocity = movingSpeed * Time.deltaTime;
+//s			driver.angularVelocity = movingSpeed * Time.deltaTime;
 			Cmd_PropagateMotion (driver.rotation);
 		}
 

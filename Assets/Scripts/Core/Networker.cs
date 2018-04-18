@@ -13,13 +13,13 @@ public class Networker : NetworkManager
 
 
 	/// True if dedicacted Server
-	public static bool IsServer 
+	public static bool DedicatedServer 
 	{
 		get { return (NetworkServer.active && !NetworkServer.localClientActive); }
 	}
 
 	/// True if dedicated Client
-	public static bool IsClient 
+	public static bool DedicatedClient 
 	{
 		get { return (NetworkClient.active && !NetworkServer.localClientActive); }
 	}

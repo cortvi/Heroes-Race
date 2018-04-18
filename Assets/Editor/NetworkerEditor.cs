@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[CustomEditor (typeof(Networker))]
+// [CustomEditor (typeof(Networker))]
 public class NetworkerEditor : Editor
 {
 	private bool[] folds;
@@ -18,9 +18,10 @@ public class NetworkerEditor : Editor
 	{
 		/// Draw inherited inspector
 		editor.OnInspectorGUI ();
+		if (!EditorApplication.isPlaying) return;
 
 		/// If Hosting, spawn a Hero to play it
-		if (!spawned && !Networker.IsServer) 
+		if (!spawned && !Networker.DedicatedServer) 
 		{
 			/// Draw a header
 			EditorGUILayout.LabelField ("Play as Hero", EditorStyles.boldLabel);
