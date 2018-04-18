@@ -45,8 +45,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 	/// when object is marked as local
 	[Client] protected virtual void OnSetLocal () 
 	{
-		print ("hola...?");
 		name = netName.Remove (0, 8);
+		print (netName.Remove (0, 8));
 	}
 
 	protected virtual void Start () 

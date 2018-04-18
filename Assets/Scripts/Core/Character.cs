@@ -101,18 +101,14 @@ public partial class Character : NetBehaviour
 	[Command] private void Cmd_PropagateMotion (Quaternion motion) 
 	{
 		driverState = motion;
+		driver.MoveRotation (driverState);
 	}
 
 	/// Changes target motion for this non-local Character
 	private void OnChangedDriverState (Quaternion newState) 
 	{
-		Debug.LogError ("is this happening?");
-
 		/// Only non-local players move this way
 		if (isLocal) return;
 		driver.MoveRotation (newState);
-
-		Debug.LogError (driver.isKinematic);
-		Debug.LogError (newState);
 	}
 }
