@@ -47,14 +47,19 @@ public abstract class NetBehaviour : NetworkBehaviour
 	#region CALLBACKS
 	/// Client-side custom callback
 	/// when object is marked as local
-	[Client] protected virtual void OnSetLocal ()
+	[Client] protected virtual void OnSetLocal () 
 	{
 		print ("1");
 		name = netName.Remove (0, 8);
 	}
 
-	protected virtual IEnumerator Start () 
+	protected virtual void Start () 
 	{
+		var id = GetComponent<NetworkIdentity> ();
+		print (name);
+		print (id.clientAuthorityOwner.connectionId);
+		print (connectionToClient.connectionId);
+		print (connectionToServer.connectionId);
 		name = netName.Insert (0, "[OTHER] ");
 	} 
 	#endregion
