@@ -57,7 +57,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 	{
 		var id = GetComponent<NetworkIdentity> ();
 		print (name);
-		print (id.clientAuthorityOwner.connectionId);
+		if (id.clientAuthorityOwner != null)
+			print (id.clientAuthorityOwner.connectionId);
 		print (connectionToClient.connectionId);
 		print (connectionToServer.connectionId);
 		name = netName.Insert (0, "[OTHER] ");
