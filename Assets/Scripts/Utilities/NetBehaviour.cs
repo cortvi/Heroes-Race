@@ -15,7 +15,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 
 	/// True if object can be controlled by
 	/// the specific client it's checked on
-	public bool? isLocal;
+	public bool isLocal;
 
 	/// Network-shared name
 	[SyncVar] internal string netName;
