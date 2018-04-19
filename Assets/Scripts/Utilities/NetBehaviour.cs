@@ -49,8 +49,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 	/// when object is marked as local
 	[Client] protected virtual void OnSetLocal () 
 	{
-		print ("1");
-		name = netName.Remove (0, 8);
+
 	}
 
 	protected virtual void Start () 
@@ -58,11 +57,11 @@ public abstract class NetBehaviour : NetworkBehaviour
 		var id = GetComponent<NetworkIdentity> ();
 		print (name);
 		if (id.clientAuthorityOwner != null)
-			print (id.clientAuthorityOwner.connectionId);
+			print ("Owner is:" + id.clientAuthorityOwner.connectionId);
 		if (connectionToClient != null)
-			print (connectionToClient.connectionId);
+			print ("My coon to client is:" + connectionToClient.connectionId);
 		if (connectionToServer != null)
-			print (connectionToServer.connectionId);
+			print ("My conn to server is:" + connectionToServer.connectionId);
 		name = netName.Insert (0, "[OTHER] ");
 	} 
 	#endregion
