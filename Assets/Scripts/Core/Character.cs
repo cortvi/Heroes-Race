@@ -96,7 +96,8 @@ public partial class Character : NetBehaviour
 	#endregion
 
 	/// Informs all Players that this Character is moving to given rotation
-	[Command] private void Cmd_Motion (float input) 
+	[Command (channel = Channels.DefaultUnreliable)]
+	private void Cmd_Motion (float input) 
 	{
 		/// Apply physics
 		var velocity = input * Speed * Time.deltaTime;
@@ -110,7 +111,8 @@ public partial class Character : NetBehaviour
 		};
 		Rpc_PropagateMotion (motion);
 	}
-	[ClientRpc] private void Rpc_PropagateMotion (DriverMotion motion) 
+	[ClientRpc (channel = Channels.DefaultUnreliable)]
+	private void Rpc_PropagateMotion (DriverMotion motion) 
 	{
 		driver.MovePosition (motion.position);
 		driver.MoveRotation (motion.rotation);
