@@ -59,8 +59,10 @@ public abstract class NetBehaviour : NetworkBehaviour
 		print (name);
 		if (id.clientAuthorityOwner != null)
 			print (id.clientAuthorityOwner.connectionId);
-		print (connectionToClient.connectionId);
-		print (connectionToServer.connectionId);
+		if (connectionToClient != null)
+			print (connectionToClient.connectionId);
+		if (connectionToServer != null)
+			print (connectionToServer.connectionId);
 		name = netName.Insert (0, "[OTHER] ");
 	} 
 	#endregion
