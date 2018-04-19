@@ -34,10 +34,9 @@ public class Networker : NetworkManager
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 	{
 		var player = Instantiate (playerPrefab).GetComponent<Game> ();
-		player.netName = "["+conn.connectionId+"] Player";
+		player.netName = "Player";
 
 		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-		player.Target_SetLocal (conn);
 	}
 	#endregion
 

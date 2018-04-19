@@ -1,4 +1,6 @@
-﻿/// Lista de todos los personajes
+﻿using System;
+
+/// Lista de todos los personajes
 /// que se pueden seleccionar
 public enum Heroes 
 {

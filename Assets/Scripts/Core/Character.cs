@@ -8,9 +8,9 @@ using UnityEngine.Networking;
  * are contained on a single GameObject.
  * 
  * But the rigidbody and colliders that control its physic movement (angular rotation)
- * are separated, this is to ensure that networked movement is fluid. */
+ * and such are separated, this is to ensure that networked movement is fluid. */
 
-public partial class Character : NetBehaviour
+public partial class Character 
 {
 	#region DATA
 	public const float Speed = 15.0f;
@@ -21,28 +21,20 @@ public partial class Character : NetBehaviour
 	#endregion
 
 	#region LOCOMOTION
+	/// Get input from local Client Player
 	[ClientCallback] private void Motion () 
 	{
-		/// Only recieve input
-		/// ONLY from local Player
-		if (!isLocal) return;
+		if (!hasAuthority) return;
 
-		/// Get A-D input
-		var input = Vector3.up;
-		input *= -Input.GetAxis("Horizontal");
-
-		/// Move Character with physics
-		driver.angularVelocity = (input * Speed) * Time.deltaTime;
-
-		/// Send to server
-		Cmd_PropagateMotion (driver.rotation);
+		/// Send A-D input to server
+		Cmd_Motion (-Input.GetAxis ("Horizontal"));
 	}
 
+	/// Stick with the Driver
 	private void Move () 
 	{
-		/// Stick with the Driver
 		transform.position = ComputeDriverPosition ();
-		transform.rotation = driver.rotation;
+		transform.rotation = driver.rotation; // ?? not really
 	}
 	#endregion
 
@@ -53,10 +45,9 @@ public partial class Character : NetBehaviour
 		Move ();
 	}
 
-	protected override void Start () 
+	/// Be sure authority is set
+	protected void Start () 
 	{
-		base.Start ();
-
 		/// Spawn driver
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
@@ -66,20 +57,22 @@ public partial class Character : NetBehaviour
 		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
 
-		/// Non-local Player Drivers are kinematic
-		/// and locomotion is networked and
-		/// then interpolated for the rest
-		if (!isLocal) 
+		if (!isServer) 
 		{
-			capsule.enabled = false;
+			/// Client-side Player Drivers are kinematic
+			/// and locomotion is networked and then interpolated
 			driver.isKinematic = true;
+
+			/// All collision checks and such
+			/// are checked ONLY Server-side
+			capsule.enabled = false;
 		}
 	}
 	#endregion
 
 	#region HELPERS
 	/// Returns the final WS Driver position
-	private Vector3 ComputeDriverPosition ()
+	private Vector3 ComputeDriverPosition () 
 	{
 		var pos = capsule.center; pos.y = 0f;           /// Get capsule position, discard height
 		return driver.transform.TransformPoint (pos);   /// Return the position in world-space						
@@ -87,28 +80,49 @@ public partial class Character : NetBehaviour
 	#endregion
 }
 
+/* Everything is processed this way:
+ * - Input is get locally from each client
+ * - This input is send to the server
+ * - In the server take place all the actual physics
+ * - All motion and interactions are propagated across the network */ 
+
 /// Network-related behaviour
 public partial class Character : NetBehaviour
 {
 	#region DATA
 	[SyncVar] public Heroes identity;
 
-	[SyncVar (hook = "OnChangedDriverState")]
-	private Quaternion driverState;
+	// net delta time....?
 	#endregion
 
 	/// Informs all Players that this Character is moving to given rotation
-	[Command] private void Cmd_PropagateMotion (Quaternion motion) 
+	[Command] private void Cmd_Motion (float input) 
 	{
-		driverState = motion;
-		driver.MoveRotation (driverState);
+		/// Apply physics
+		var velocity = input * Speed * Time.deltaTime;
+		driver.angularVelocity = velocity * Vector3.up;
+
+		/// Propagate motion to ALL Clients
+		var motion = new DriverMotion () 
+		{
+			position = driver.position,
+			rotation = driver.rotation
+		};
+		Rpc_PropagateMotion (motion);
+	}
+	[ClientRpc] private void Rpc_PropagateMotion (DriverMotion motion) 
+	{
+		driver.MovePosition (motion.position);
+		driver.MoveRotation (motion.rotation);
 	}
 
-	/// Changes target motion for this non-local Character
-	private void OnChangedDriverState (Quaternion newState) 
+	#region HELPERS
+	/// This struct encapsulates all data 
+	/// to be propagated about the character
+	[Serializable] public struct DriverMotion 
 	{
-		/// Only non-local players move this way
-		if (isLocal) return;
-		driver.MoveRotation (newState);
+		public Vector3 position;
+		public Quaternion rotation;
 	}
+	#endregion
 }

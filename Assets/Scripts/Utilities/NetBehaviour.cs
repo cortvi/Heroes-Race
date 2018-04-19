@@ -13,23 +13,52 @@ public abstract class NetBehaviour : NetworkBehaviour
 	private static Dictionary<Type, NetBehaviour> localInstances
 			 = new Dictionary<Type, NetBehaviour> ();
 
-	/// True if object can be controlled by
-	/// the specific client it's checked on
-	public bool isLocal;
-
 	/// Network-shared name
 	[SyncVar] internal string netName;
+
+	private NetworkIdentity id;
 	#endregion
 
-	#region MyRegion
-	/// When spawned on the net, objects should be marked as local for
-	/// each specific player in order for them to 
-	[TargetRpc] public void Target_SetLocal (NetworkConnection target)
+	#region CALLBACKS
+	private void Awake () 
 	{
-		/// Mark as local
-		isLocal = true;
+		id = GetComponent<NetworkIdentity> ();
+		UpdateName ();
+		OnAwake ();
+	}
+	protected virtual void OnAwake () { }
+	#endregion
 
-		/// Add to the dictionary
+	#region HELPERS
+	/// Updates the object name to
+	/// be the same across the network
+	public void UpdateName () 
+	{
+		if (isClient)
+		{
+			if (hasAuthority)	netName = netName.Insert (0, "[OWN] ");
+			else				netName = netName.Insert (0, "[OTHER] ");
+			netName = netName.Insert (0, "["+connectionToServer.connectionId+"]");
+		}
+		else if (isServer)
+		{
+			if (!id.serverOnly)
+			{
+				netName = netName.Insert (0, "[CLIENT] ");
+
+				var o = id.clientAuthorityOwner;
+				if (o != null) netName = netName.Insert (0, "["+o.connectionId+"]");
+			}
+			else netName = netName.Insert (0, "[SERVER] ");
+		}
+
+		/// Show on inspector
+		name = netName;
+	}
+
+	/// Tries to add this Instance to the dictionary
+	[Client] private void AddToDictionary () 
+	{
 		var type = GetType ();
 		if (localInstances.ContainsKey (type))
 		{
@@ -38,37 +67,10 @@ public abstract class NetBehaviour : NetworkBehaviour
 			return;
 		}
 		else localInstances.Add (type, this);
-
-		/// Callback
-		OnSetLocal ();
-	} 
-	#endregion
-
-	#region CALLBACKS
-	/// Client-side custom callback
-	/// when object is marked as local
-	[Client] protected virtual void OnSetLocal () 
-	{
-
 	}
 
-	protected virtual void Start () 
-	{
-		var id = GetComponent<NetworkIdentity> ();
-		print (name);
-		if (id.clientAuthorityOwner != null)
-			print ("Owner is:" + id.clientAuthorityOwner.connectionId);
-		if (connectionToClient != null)
-			print ("My coon to client is:" + connectionToClient.connectionId);
-		if (connectionToServer != null)
-			print ("My conn to server is:" + connectionToServer.connectionId);
-		name = netName.Insert (0, "[OTHER] ");
-	} 
-	#endregion
-
-	#region HELPERS
 	/// Returns the scene object that has local Player authority of given type
-	[Client] public static T GetLocal<T> () where T : NetBehaviour 
+	[Client] public static T GetLocal<T> () where T : NetBehaviour
 	{
 		NetBehaviour local;
 		if (!localInstances.TryGetValue (typeof (T), out local))

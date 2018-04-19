@@ -23,12 +23,11 @@ public class Game : NetBehaviour
 		var hero = Instantiate (prefab);
 
 		/// Set up
-		hero.netName = "["+connectionToClient.connectionId+"] " + heroToSpawn;
 		hero.identity = heroToSpawn;
+		hero.netName = heroToSpawn.ToString ();
 
 		/// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-		hero.Target_SetLocal (connectionToClient);
 	}
 	public void SpawnHero (Heroes heroToSpawn) 
 	{
