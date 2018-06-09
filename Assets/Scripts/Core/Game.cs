@@ -10,7 +10,8 @@ public class Game : NetBehaviour
 	[ClientCallback]
 	private void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.I) && Input.GetKey (KeyCode.LeftControl)) SpawnHero (Heroes.Indiana);
+		if (Input.GetKeyDown (KeyCode.I) && Input.GetKey (KeyCode.LeftControl))
+			SpawnHero (Heroes.Indiana);
 	}
 	#endregion
 

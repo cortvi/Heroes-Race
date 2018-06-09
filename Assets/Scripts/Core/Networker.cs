@@ -10,7 +10,6 @@ public class Networker : NetworkManager
 	#region DATA
 	public static Networker main;					/// Singleton
 
-
 	/// True if dedicacted Server
 	public static bool DedicatedServer 
 	{

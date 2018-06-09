@@ -67,6 +67,11 @@ public partial class Character
 			/// are checked ONLY Server-side
 			capsule.enabled = false;
 		}
+		else
+		if (isServer)
+		{
+			driver.interpolation = RigidbodyInterpolation.None;
+		}
 	}
 	#endregion
 
