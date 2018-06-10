@@ -9,14 +9,14 @@ public static class Extensions
 	private static object thisLock = new object ();
 	public static T SpawnSingleton<T> () where T : Behaviour
 	{
-		/// Keep it thread-safe
+		// Keep it thread-safe
 		lock (thisLock)
 		{
-			/// Be sure there isn't any other on scene
+			// Be sure there isn't any other on scene
 			var intruder = Object.FindObjectOfType<T> ();
 			if (intruder) throw new UnityException ("Requested type is already spawned on scene!");
 
-			/// Locate prefab
+			// Locate prefab
 			var prefab = Resources.Load<T> ("Prefabs/" + typeof (T).Name);
 			if (prefab != null)
 			{

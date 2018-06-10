@@ -3,26 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.Networking.Match;
+using UnityEngine.SceneManagement;
 
 public class Networker : NetworkManager 
 {
 	#region DATA
-	public static Networker main;					/// Singleton
+	public static Networker i;
 
-	/// True if dedicacted Server
 	public static bool DedicatedServer 
 	{
 		get { return (NetworkServer.active && !NetworkServer.localClientActive); }
 	}
-
-	/// True if dedicated Client
 	public static bool DedicatedClient 
 	{
 		get { return (NetworkClient.active && !NetworkServer.localClientActive); }
 	}
-
-	/// True if acting as both client and server
 	public static bool IsHost 
 	{
 		get { return NetworkServer.localClientActive; }
@@ -32,18 +27,33 @@ public class Networker : NetworkManager
 	#region SERVER
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 	{
+		// Spawn player object over the net
 		var player = Instantiate (playerPrefab).GetComponent<Game> ();
+		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 		player.netName = "Player";
 
-		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+		// Behaviour on what scene where at
+		string scene = SceneManager.GetActiveScene ().name;
+		if (scene == "Main") 
+		{
+			// Assign authority to selectors
+			var selectors = FindObjectsOfType<Selector> ();
+			selectors[conn.connectionId].id.AssignClientAuthority (conn);
+		}
+		else
+		if (scene == "Testing")
+		{
+			// spawn characters for testing the quesitos
+		}
 	}
 	#endregion
 
 	#region CALLBACKS
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	[RuntimeInitializeOnLoadMethod
+	(RuntimeInitializeLoadType.BeforeSceneLoad)]
 	public static void InitizalizeSingleton () 
 	{
-		main = Extensions.SpawnSingleton <Networker> ();
+		i = Extensions.SpawnSingleton <Networker> ();
 	}
 	#endregion
 }

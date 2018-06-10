@@ -6,33 +6,34 @@ using UnityEngine.Networking;
 
 public class Game : NetBehaviour
 {
-	#region CALLBACKS
-	[ClientCallback]
-	private void Update () 
+	#region DATA 
+	public enum Heroes 
 	{
-		if (Input.GetKeyDown (KeyCode.I) && Input.GetKey (KeyCode.LeftControl))
-			SpawnHero (Heroes.Indiana);
+		NONE = -1,
+		Espectador,
+		Indiana,
+		Harley,
+		Harry,
+
+		Count
 	}
+	internal Heroes playingAs;
 	#endregion
 
 	#region HELPERS
-	/// Spawns a hero & authorizes this Client
-	[Command] private void Cmd_SpawnHero (Heroes heroToSpawn) 
+	// Spawns a hero & authorizes calling Client
+	public void SpawnHero (Heroes heroToSpawn) 
 	{
-		/// Instantiate Hero object
+		// Instantiate Hero object
 		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + heroToSpawn.ToString ());
 		var hero = Instantiate (prefab);
 
-		/// Set up
+		// Set up
 		hero.identity = heroToSpawn;
 		hero.netName = heroToSpawn.ToString ();
 
-		/// Network spawn
+		// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-	}
-	public void SpawnHero (Heroes heroToSpawn) 
-	{
-		Cmd_SpawnHero (heroToSpawn);
 	}
 	#endregion
 }

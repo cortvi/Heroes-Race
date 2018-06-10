@@ -15,26 +15,26 @@ public partial class Character
 	#region DATA
 	public const float Speed = 15.0f;
 
-	/// External references
+	// External references
 	private Rigidbody driver;
 	private CapsuleCollider capsule;
 	#endregion
 
 	#region LOCOMOTION
-	/// Get input from local Client Player
 	[ClientCallback] private void Motion () 
 	{
 		if (!hasAuthority) return;
 
-		/// Send A-D input to server
+		// Get input from local Client Player to Server
 		Cmd_Motion (-Input.GetAxis ("Horizontal"));
 	}
 
-	/// Stick with the Driver
 	private void Move () 
 	{
+		// Stick with the Driver
 		transform.position = ComputeDriverPosition ();
-		transform.rotation = driver.rotation; // ?? not really
+		transform.rotation = driver.rotation; 
+		#warning rotation?? not really
 	}
 	#endregion
 
@@ -45,42 +45,40 @@ public partial class Character
 		Move ();
 	}
 
-	/// Be sure authority is set
+	// Be sure authority is set
 	protected void Start () 
 	{
-		/// Spawn driver
+		// Spawn driver
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
-
-		/// Set up
 		driver.name = identity + "_Driver";
 		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
 
-		if (!isServer) 
+		if (!isServer)
 		{
-			/// Client-side Player Drivers are kinematic
-			/// and locomotion is networked and then interpolated
+			// Client-side Player Drivers are kinematic
+			// and locomotion is networked and then interpolated
 			driver.isKinematic = true;
 
-			/// All collision checks and such
-			/// are checked ONLY Server-side
+			// All collision checks and such
+			// are checked ONLY Server-side
 			capsule.enabled = false;
 		}
 		else
 		if (isServer)
 		{
+			// Applying physics to an interpolated rigidbody is bad
 			driver.interpolation = RigidbodyInterpolation.None;
 		}
 	}
 	#endregion
 
 	#region HELPERS
-	/// Returns the final WS Driver position
 	private Vector3 ComputeDriverPosition () 
 	{
-		var pos = capsule.center; pos.y = 0f;           /// Get capsule position, discard height
-		return driver.transform.TransformPoint (pos);   /// Return the position in world-space						
+		var pos = capsule.center; pos.y = 0f;           // Get capsule position, discard height
+		return driver.transform.TransformPoint (pos);   // Return the position in world-space						
 	}
 	#endregion
 }
@@ -91,42 +89,43 @@ public partial class Character
  * - In the server take place all the actual physics
  * - All motion and interactions are propagated across the network */ 
 
-/// Network-related behaviour
+// Network-related behaviour
 public partial class Character : NetBehaviour
 {
 	#region DATA
-	[SyncVar] public Heroes identity;
-
-	// net delta time....?
+	[SyncVar]
+	internal Game.Heroes identity;
 	#endregion
 
-	/// Informs all Players that this Character is moving to given rotation
+	#region UTILS
 	[Command (channel = Channels.DefaultUnreliable)]
-	private void Cmd_Motion (float input) 
+	private void Cmd_Motion (float input)
 	{
-		/// Apply physics
+		// Apply physics
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
 
-		/// Propagate motion to ALL Clients
-		var motion = new DriverMotion () 
+		// Propagate motion to ALL Clients
+		var data = new DriverData ()
 		{
 			position = driver.position,
 			rotation = driver.rotation
 		};
-		Rpc_PropagateMotion (motion);
-	}
-	[ClientRpc (channel = Channels.DefaultUnreliable)]
-	private void Rpc_PropagateMotion (DriverMotion motion) 
-	{
-		driver.MovePosition (motion.position);
-		driver.MoveRotation (motion.rotation);
+		Rpc_PropagateMotion (data);
 	}
 
+	[ClientRpc (channel = Channels.DefaultUnreliable)]
+	private void Rpc_PropagateMotion (DriverData data)
+	{
+		driver.MovePosition (data.position);
+		driver.MoveRotation (data.rotation);
+	} 
+	#endregion
+
 	#region HELPERS
-	/// This struct encapsulates all data 
-	/// to be propagated about the character
-	[Serializable] public struct DriverMotion 
+	// This struct encapsulates all data 
+	// to be propagated about the character
+	[Serializable] public struct DriverData 
 	{
 		public Vector3 position;
 		public Quaternion rotation;

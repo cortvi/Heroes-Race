@@ -4,35 +4,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/// Special class for objects that should be
-/// controlled by specific clients over the network
+// Special class for objects that should be
+// controlled by specific clients over the network
 public abstract class NetBehaviour : NetworkBehaviour 
 {
 	#region DATA
-	/// When spawned, if local authority is set on 
+	// When spawned, if local authority is set on 
 	private static Dictionary<Type, NetBehaviour> localInstances
 			 = new Dictionary<Type, NetBehaviour> ();
 
-	/// Network-shared name
+	// Network-shared name
 	[SyncVar] internal string netName;
 
-	private NetworkIdentity id;
+	internal NetworkIdentity id;
 	#endregion
 
 	#region CALLBACKS
 	private void Awake () 
 	{
 		id = GetComponent<NetworkIdentity> ();
-		UpdateName ();
 		OnAwake ();
 	}
 	protected virtual void OnAwake () { }
+
+	public override void OnStartAuthority () 
+	{
+		base.OnStartAuthority ();
+		UpdateName ();
+	}
 	#endregion
 
 	#region HELPERS
-	/// Updates the object name to
-	/// be the same across the network
-	public void UpdateName () 
+	private void UpdateName () 
 	{
 		if (isClient)
 		{
@@ -40,7 +43,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 			else				netName = netName.Insert (0, "[OTHER] ");
 			netName = netName.Insert (0, "["+connectionToServer.connectionId+"]");
 		}
-		else if (isServer)
+		else
+		if (isServer)
 		{
 			if (!id.serverOnly)
 			{
@@ -52,11 +56,11 @@ public abstract class NetBehaviour : NetworkBehaviour
 			else netName = netName.Insert (0, "[SERVER] ");
 		}
 
-		/// Show on inspector
+		// Show on inspector
 		name = netName;
 	}
 
-	/// Tries to add this Instance to the dictionary
+	// Tries to add this Instance to the dictionary
 	[Client] private void AddToDictionary () 
 	{
 		var type = GetType ();
@@ -69,7 +73,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 		else localInstances.Add (type, this);
 	}
 
-	/// Returns the scene object that has local Player authority of given type
+	// Returns the scene object that has local Player authority of given type
 	[Client] public static T GetLocal<T> () where T : NetBehaviour
 	{
 		NetBehaviour local;
