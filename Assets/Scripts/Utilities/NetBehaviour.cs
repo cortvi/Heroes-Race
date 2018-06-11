@@ -42,7 +42,6 @@ public abstract class NetBehaviour : NetworkBehaviour
 		{
 			if (hasAuthority)	displayName = displayName.Insert (0, "[OWN] ");
 			else				displayName = displayName.Insert (0, "[OTHER] ");
-			displayName = displayName.Insert (0, "["+connectionToServer.connectionId+"]");
 		}
 		else
 		if (isServer) 
