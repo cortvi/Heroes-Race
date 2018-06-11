@@ -14,14 +14,16 @@ public class Selector : NetBehaviour
 	private void Start () 
 	{
 		// Correct position
-		transform.position = position;
+		(transform as RectTransform).localPosition = position;
+		Debug.Log ("Position restored", this);
 	}
 
 	protected override void OnAwake () 
 	{
 		// Cache position because it'll move
 		// when connected to server
-		position = transform.position;
+		position = (transform as RectTransform).localPosition;
+		Debug.Log ("Cached: " + position, this);
 	}
 	#endregion
 }
