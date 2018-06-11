@@ -30,7 +30,7 @@ public class Networker : NetworkManager
 		// Spawn player object over the net
 		var player = Instantiate (playerPrefab).GetComponent<Game> ();
 		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-		player.netName = "Player";
+		player.SetName ("Player");
 
 		// Behaviour on what scene where at
 		string scene = SceneManager.GetActiveScene ().name;

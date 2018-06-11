@@ -14,7 +14,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 			 = new Dictionary<Type, NetBehaviour> ();
 
 	// Network-shared name
-	[SyncVar] internal string netName;
+	[SyncVar (hook = "UpdateName")]
+	private string netName;
 
 	internal NetworkIdentity id;
 	#endregion
@@ -26,38 +27,37 @@ public abstract class NetBehaviour : NetworkBehaviour
 		OnAwake ();
 	}
 	protected virtual void OnAwake () { }
-
-	public override void OnStartAuthority () 
-	{
-		base.OnStartAuthority ();
-		UpdateName ();
-	}
 	#endregion
 
 	#region HELPERS
-	private void UpdateName () 
+	[Server] public void SetName (string name) 
 	{
-		if (isClient)
+		UpdateName (name);
+	}
+
+	private void UpdateName (string name) 
+	{
+		if (isClient) 
 		{
-			if (hasAuthority)	netName = netName.Insert (0, "[OWN] ");
-			else				netName = netName.Insert (0, "[OTHER] ");
-			netName = netName.Insert (0, "["+connectionToServer.connectionId+"]");
+			if (hasAuthority)	name = name.Insert (0, "[OWN] ");
+			else				name = name.Insert (0, "[OTHER] ");
+			name = name.Insert (0, "["+connectionToServer.connectionId+"]");
 		}
 		else
-		if (isServer)
+		if (isServer) 
 		{
 			if (!id.serverOnly)
 			{
-				netName = netName.Insert (0, "[CLIENT] ");
+				name = name.Insert (0, "[CLIENT] ");
 
 				var o = id.clientAuthorityOwner;
-				if (o != null) netName = netName.Insert (0, "["+o.connectionId+"]");
+				if (o != null) name = name.Insert (0, "["+o.connectionId+"]");
 			}
-			else netName = netName.Insert (0, "[SERVER] ");
+			else name = name.Insert (0, "[SERVER] ");
 		}
 
 		// Show on inspector
-		name = netName;
+		this.name = netName = name;
 	}
 
 	// Tries to add this Instance to the dictionary

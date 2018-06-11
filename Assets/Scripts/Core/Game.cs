@@ -22,7 +22,7 @@ public class Game : NetBehaviour
 
 	#region HELPERS
 	// Spawns a hero & authorizes calling Client
-	public void SpawnHero (Heroes heroToSpawn) 
+	[Server] public void SpawnHero (Heroes heroToSpawn) 
 	{
 		// Instantiate Hero object
 		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + heroToSpawn.ToString ());
@@ -30,7 +30,7 @@ public class Game : NetBehaviour
 
 		// Set up
 		hero.identity = heroToSpawn;
-		hero.netName = heroToSpawn.ToString ();
+		hero.SetName (heroToSpawn.ToString ());
 
 		// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
