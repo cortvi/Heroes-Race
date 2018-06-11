@@ -37,27 +37,29 @@ public abstract class NetBehaviour : NetworkBehaviour
 
 	private void UpdateName (string name) 
 	{
+		string displayName = name;
 		if (isClient) 
 		{
-			if (hasAuthority)	name = name.Insert (0, "[OWN] ");
-			else				name = name.Insert (0, "[OTHER] ");
-			name = name.Insert (0, "["+connectionToServer.connectionId+"]");
+			if (hasAuthority)	displayName = displayName.Insert (0, "[OWN] ");
+			else				displayName = displayName.Insert (0, "[OTHER] ");
+			displayName = displayName.Insert (0, "["+connectionToServer.connectionId+"]");
 		}
 		else
 		if (isServer) 
 		{
 			if (!id.serverOnly)
 			{
-				name = name.Insert (0, "[CLIENT] ");
+				displayName = displayName.Insert (0, "[CLIENT] ");
 
 				var o = id.clientAuthorityOwner;
-				if (o != null) name = name.Insert (0, "["+o.connectionId+"]");
+				if (o != null) displayName = displayName.Insert (0, "["+o.connectionId+"]");
 			}
-			else name = name.Insert (0, "[SERVER] ");
+			else displayName = displayName.Insert (0, "[SERVER-ONLY] ");
 		}
 
 		// Show on inspector
-		this.name = netName = name;
+		this.name = displayName;
+		netName = name;
 	}
 
 	// Tries to add this Instance to the dictionary

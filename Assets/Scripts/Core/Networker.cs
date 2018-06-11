@@ -38,7 +38,7 @@ public class Networker : NetworkManager
 		{
 			// Assign authority to selectors
 			var selectors = FindObjectsOfType<Selector> ();
-			selectors[conn.connectionId].id.AssignClientAuthority (conn);
+			selectors[conn.connectionId-1].id.AssignClientAuthority (conn);
 		}
 		else
 		if (scene == "Testing")
