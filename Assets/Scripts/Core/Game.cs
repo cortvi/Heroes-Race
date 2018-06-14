@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+// This is the "Local players" class
 public class Game : NetBehaviour
 {
 	#region DATA 
 	public enum Heroes 
 	{
 		NONE = -1,
+
 		Espectador,
 		Indiana,
 		Harley,

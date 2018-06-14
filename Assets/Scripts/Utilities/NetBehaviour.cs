@@ -9,15 +9,14 @@ using UnityEngine.Networking;
 public abstract class NetBehaviour : NetworkBehaviour 
 {
 	#region DATA
-	// When spawned, if local authority is set on 
-	private static Dictionary<Type, NetBehaviour> localInstances
-			 = new Dictionary<Type, NetBehaviour> ();
+	internal NetworkIdentity id;
 
 	// Network-shared name
 	[SyncVar (hook = "UpdateName")]
 	private string netName;
 
-	internal NetworkIdentity id;
+	// List of owned objects by type
+	private static Dictionary<Type, NetBehaviour> ownInstances = new Dictionary<Type, NetBehaviour> ();
 	#endregion
 
 	#region CALLBACKS
@@ -27,6 +26,16 @@ public abstract class NetBehaviour : NetworkBehaviour
 		OnAwake ();
 	}
 	protected virtual void OnAwake () { }
+
+	public sealed override void OnStartAuthority () 
+	{
+		// Register as own
+		if (isClient) AddToDictionary ();
+		// Correct name
+		if (isServer) SetName (netName);
+		OnSetAuthority ();
+	}
+	protected virtual void OnSetAuthority () { }
 	#endregion
 
 	#region HELPERS
@@ -34,7 +43,6 @@ public abstract class NetBehaviour : NetworkBehaviour
 	{
 		UpdateName (name);
 	}
-
 	private void UpdateName (string name) 
 	{
 		string displayName = name;
@@ -61,30 +69,22 @@ public abstract class NetBehaviour : NetworkBehaviour
 		netName = name;
 	}
 
-	// Tries to add this Instance to the dictionary
+	// Returns the scene object that has local Player authority of given type
+	[Client] public static T GetOwn<T> () where T : NetBehaviour
+	{
+		NetBehaviour own;
+		if (!ownInstances.TryGetValue (typeof (T), out own))
+		{
+			if (Debug.isDebugBuild)
+				Debug.LogWarning ("No own instance for type " + typeof (T) + " found.");
+			return null;
+		}
+		else return own as T;
+	}
 	[Client] private void AddToDictionary () 
 	{
 		var type = GetType ();
-		if (localInstances.ContainsKey (type))
-		{
-			if (Debug.isDebugBuild)
-				Debug.LogWarning ("Already exists an instance for type " + type + "!");
-			return;
-		}
-		else localInstances.Add (type, this);
-	}
-
-	// Returns the scene object that has local Player authority of given type
-	[Client] public static T GetLocal<T> () where T : NetBehaviour
-	{
-		NetBehaviour local;
-		if (!localInstances.TryGetValue (typeof (T), out local))
-		{
-			if (Debug.isDebugBuild)
-				Debug.LogWarning ("No local instance for method " + typeof (T) + " found.");
-			return null;
-		}
-		else return local as T;
+		ownInstances.Add (type, this);
 	}
 	#endregion
 }
