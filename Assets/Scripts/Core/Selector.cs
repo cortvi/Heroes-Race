@@ -20,6 +20,7 @@ public class Selector : NetBehaviour
 
 	private bool canMove;
 	private Vector3 iPosition;
+	private static int sceneIdFix;
 
 	// Reference values
 	private const float Offset = 387f;
@@ -124,6 +125,7 @@ public class Selector : NetBehaviour
 	{
 		// Cache position because it'll move when connected to server
 		iPosition = (transform as RectTransform).localPosition;
+		id.ForceSceneId (sceneIdFix++);
 	}
 	#endregion
 }
