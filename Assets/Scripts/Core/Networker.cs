@@ -39,7 +39,9 @@ public class Networker : NetworkManager
 			// Assign authority to selectors
 			int id = conn.connectionId - 1;
 			var selectors = FindObjectsOfType<Selector> ();
+																Debug.LogError ("what is this", selectors[id]);
 			selectors[id].id.AssignClientAuthority (conn);
+																Debug.LogError ("what is this 2.0", selectors[id]);
 			selectors[id].SetName ("Selector");
 		}
 		else

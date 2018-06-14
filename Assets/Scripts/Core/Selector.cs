@@ -30,7 +30,11 @@ public class Selector : NetBehaviour
 	{
 		if (!canMove) return;
 		int delta = (int) Input.GetAxisRaw ("Horizontal");
-		if (delta != 0) Cmd_MoveSelection (delta);
+		if (delta != 0) 
+		{
+			Cmd_MoveSelection (delta);
+			canMove = false;
+		}
 	}
 	[Command] private void Cmd_MoveSelection (int delta) 
 	{
@@ -56,10 +60,10 @@ public class Selector : NetBehaviour
 		(
 			pos.x,
 			Mathf.Lerp (Offset, -Offset * 4f, selection/5f),
-			Time.deltaTime * 3f
+			Time.deltaTime * 7f
 		);
 		// Check if carroussel is near enough for next movement
-		canMove = Mathf.Abs (pos.x - tValue) < 2f;
+		canMove = (Mathf.Abs (pos.x - tValue) < 1f);
 
 		pos.x = tValue;
 		carroussel.localPosition = pos;
