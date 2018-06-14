@@ -36,9 +36,8 @@ public class Networker : NetworkManager
 		string scene = SceneManager.GetActiveScene ().name;
 		if (scene == "Main") 
 		{
-			// Assign authority to selectors
-			int id = conn.connectionId - 1;
-			var selector = GameObject.Find ("Selector_" + id).GetComponent<Selector> ();
+			// Assign authority to selector
+			var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
 			selector.id.AssignClientAuthority (conn);
 			selector.SetName ("Selector");
 		}
