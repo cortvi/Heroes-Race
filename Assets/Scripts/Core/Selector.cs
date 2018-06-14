@@ -59,7 +59,7 @@ public class Selector : NetBehaviour
 		// Check if carroussel is near enough for next movement
 		canMove = Mathf.Abs (pos.x - tValue) < 2f;
 
-		pos.x = tValue;
+		pos.x = -tValue;
 		carroussel.localPosition = pos;
 	}
 
@@ -72,12 +72,15 @@ public class Selector : NetBehaviour
 		pos.x = -value;
 		carroussel.localPosition = pos;
 	}
+	#endregion
 
+	#region HELPERS
 	private void UpdateHero () 
 	{
-		if (selection == 0) selectedHero = Game.Heroes.Harry; else
+		if (selection == 0) selectedHero = Game.Heroes.Harry;
+		else
 		if (selection == 5) selectedHero = Game.Heroes.Espectador;
-		else				selectedHero = (Game.Heroes) (selection-1);
+		else selectedHero = (Game.Heroes)(selection - 1);
 	}
 
 	[ContextMenu ("Snap to selected")]
@@ -99,8 +102,9 @@ public class Selector : NetBehaviour
 	{
 		// Correct position
 		(transform as RectTransform).localPosition = iPosition;
+
 		// Show owner marks
-		if (hasAuthority) 
+		if (hasAuthority && isClient) 
 		{
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (false);

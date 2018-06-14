@@ -32,14 +32,15 @@ public abstract class NetBehaviour : NetworkBehaviour
 		// Register as own
 		if (isClient) AddToDictionary ();
 		// Correct name
-		if (isServer) SetName (netName);
+//		if (isServer) SetName (netName);
 		OnSetAuthority ();
 	}
 	protected virtual void OnSetAuthority () { }
 	#endregion
 
 	#region HELPERS
-	[Server] public void SetName (string name) 
+	[Server]
+	public void SetName (string name) 
 	{
 		UpdateName (name);
 	}

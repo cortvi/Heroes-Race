@@ -41,7 +41,6 @@ public class Networker : NetworkManager
 			var selectors = FindObjectsOfType<Selector> ();
 			selectors[id].id.AssignClientAuthority (conn);
 			selectors[id].SetName ("Selector");
-
 		}
 		else
 		if (scene == "Testing")
