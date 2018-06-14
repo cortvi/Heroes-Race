@@ -110,8 +110,9 @@ public class Selector : NetBehaviour
 
 	private void Start () 
 	{
-		// Correct position
+		// Correct position && SceneID
 		(transform as RectTransform).localPosition = iPosition;
+		id.ForceSceneId (sceneIdFix++);
 
 		// Show owner marks
 		if (hasAuthority && isClient) 
@@ -125,7 +126,6 @@ public class Selector : NetBehaviour
 	{
 		// Cache position because it'll move when connected to server
 		iPosition = (transform as RectTransform).localPosition;
-		id.ForceSceneId (sceneIdFix++);
 	}
 	#endregion
 }
