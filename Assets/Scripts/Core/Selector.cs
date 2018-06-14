@@ -20,7 +20,6 @@ public class Selector : NetBehaviour
 
 	private bool canMove;
 	private Vector3 iPosition;
-	private static int sceneIdFix;
 
 	// Reference values
 	private const float Offset = 387f;
@@ -112,7 +111,6 @@ public class Selector : NetBehaviour
 	{
 		// Correct position && SceneID
 		(transform as RectTransform).localPosition = iPosition;
-		id.ForceSceneId (sceneIdFix++);
 
 		// Show owner marks
 		if (hasAuthority && isClient) 
