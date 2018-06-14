@@ -53,13 +53,13 @@ public class Selector : NetBehaviour
 		float tValue = Mathf.Lerp 
 		(
 			pos.x,
-			(Offset*4f) * (selection/5f),
+			Mathf.Lerp (Offset, -Offset * 4f, selection/5f),
 			Time.deltaTime * 3f
 		);
 		// Check if carroussel is near enough for next movement
 		canMove = Mathf.Abs (pos.x - tValue) < 2f;
 
-		pos.x = -tValue;
+		pos.x = tValue;
 		carroussel.localPosition = pos;
 	}
 
@@ -107,7 +107,7 @@ public class Selector : NetBehaviour
 		if (hasAuthority && isClient) 
 		{
 			frame.sprite = goldenFrame;
-			anchor.gameObject.SetActive (false);
+			anchor.gameObject.SetActive (true);
 		}
 	}
 
