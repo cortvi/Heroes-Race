@@ -30,9 +30,9 @@ public class Selector : NetBehaviour
 	{
 		if (!canMove) return;
 		int delta = (int) Input.GetAxisRaw ("Horizontal");
-		Cmd_MoveSelection (delta);
+		if (delta != 0) Cmd_MoveSelection (delta);
 	}
-	[Command] private void Cmd_MoveSelection (int delta)
+	[Command] private void Cmd_MoveSelection (int delta) 
 	{
 		selection += delta;
 		if (selection < 0 || selection > 5)
@@ -100,7 +100,7 @@ public class Selector : NetBehaviour
 	private void Update () 
 	{
 		MoveCarroussel ();
-		if (hasAuthority) ReadInput ();
+		if (hasAuthority && isClient) ReadInput ();
 	}
 
 	private void Start () 
