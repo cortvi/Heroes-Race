@@ -52,7 +52,7 @@ public class Selector : NetBehaviour
 		var pos = carroussel.localPosition;
 		float tValue = Mathf.Lerp 
 		(
-			-Offset,
+			pos.x,
 			(Offset*4f) * (selection/5f),
 			Time.deltaTime * 3f
 		);

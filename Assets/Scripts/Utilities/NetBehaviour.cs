@@ -31,8 +31,6 @@ public abstract class NetBehaviour : NetworkBehaviour
 	{
 		// Register as own
 		if (isClient) AddToDictionary ();
-		// Correct name
-//		if (isServer) SetName (netName);
 		OnSetAuthority ();
 	}
 	protected virtual void OnSetAuthority () { }
