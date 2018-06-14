@@ -20,8 +20,6 @@ public class Selector : NetBehaviour
 	[SyncVar] public Game.Heroes selectedHero;
 
 	private bool canMove;
-
-	private SmartAnimator anim;
 	private Vector3 iPosition;
 
 	// Reference values
@@ -113,8 +111,6 @@ public class Selector : NetBehaviour
 	{
 		// Cache position because it'll move when connected to server
 		iPosition = (transform as RectTransform).localPosition;
-
-		anim = new SmartAnimator (GetComponent<Animator> ());
 	}
 	#endregion
 }
