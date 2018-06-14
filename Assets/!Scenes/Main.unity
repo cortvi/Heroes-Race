@@ -396,25 +396,6 @@ Prefab:
       propertyPath: m_Name
       value: Selector_1
       objectReference: {fileID: 0}
-    - target: {fileID: 114184906135542048, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: selectedHero
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114184906135542048, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: selection
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 224717664445295370, guid: 4db60f7b851782d4082208b2173e15e5,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: -387
-      objectReference: {fileID: 0}
-    - target: {fileID: 1917529665037650, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
   m_IsPrefabParent: 0

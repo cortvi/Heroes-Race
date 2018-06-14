@@ -15,9 +15,8 @@ public class Selector : NetBehaviour
 	[Space]
 
 	// This values indicates the literal value in the carrousel
-	[SyncVar] [Range (0f, 5f)] public int selection;
-	// This is the actual hero that represents
-	[SyncVar] public Game.Heroes selectedHero;
+	[SyncVar] [Range (0f, 5f)]
+	public int selection;
 
 	private bool canMove;
 	private Vector3 iPosition;
@@ -31,10 +30,12 @@ public class Selector : NetBehaviour
 	{
 		if (!canMove) return;
 		int delta = (int) Input.GetAxisRaw ("Horizontal");
+		Cmd_MoveSelection (delta);
+	}
+	[Command] private void Cmd_MoveSelection (int delta)
+	{
 		selection += delta;
-
-		// Bound check
-		if (selection < 0 || selection > 5) 
+		if (selection < 0 || selection > 5)
 		{
 			// Correct selection
 			if (selection == -1) selection = 4;
@@ -43,6 +44,7 @@ public class Selector : NetBehaviour
 
 			// Snap carroussel to opposite bounds
 			SnapCarroussel (selection / 5f);
+			Rpc_Snap (selection / 5f);
 		}
 		UpdateHero ();
 	}
@@ -63,6 +65,9 @@ public class Selector : NetBehaviour
 		carroussel.localPosition = pos;
 	}
 
+	[ClientRpc]
+	private void Rpc_Snap (float factor) 
+	{ SnapCarroussel (factor); }
 	private void SnapCarroussel (float factor) 
 	{
 		// Use a value [0, 1] to positionate the Carroussel
@@ -77,10 +82,10 @@ public class Selector : NetBehaviour
 	#region HELPERS
 	private void UpdateHero () 
 	{
-		if (selection == 0) selectedHero = Game.Heroes.Harry;
-		else
-		if (selection == 5) selectedHero = Game.Heroes.Espectador;
-		else selectedHero = (Game.Heroes)(selection - 1);
+//		if (selection == 0) selectedHero = Game.Heroes.Harry;
+//		else
+//		if (selection == 5) selectedHero = Game.Heroes.Espectador;
+//		else selectedHero = (Game.Heroes)(selection - 1);
 	}
 
 	[ContextMenu ("Snap to selected")]
