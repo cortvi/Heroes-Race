@@ -8,7 +8,7 @@ public class Selector : NetBehaviour
 {
 	#region DATA
 	[Header ("References")]
-	public RectTransform carroussel;
+	public RectTransform carousel;
 	public Sprite goldenFrame;
 	public Image frame;
 	public Image anchor;
@@ -16,7 +16,7 @@ public class Selector : NetBehaviour
 
 	// This values indicates the literal value in the carrousel
 	[SyncVar] [Range (0f, 5f)]
-	public int selection;
+	private int selection;
 
 	private bool canMove;
 	private Vector3 iPosition;
@@ -26,14 +26,15 @@ public class Selector : NetBehaviour
 	#endregion
 
 	#region UTILS
-	private void ReadInput () 
+	IEnumerator ReadInput () 
 	{
-		if (!canMove) return;
-		int delta = (int) Input.GetAxisRaw ("Horizontal");
-		if (delta != 0) 
+		while (true) 
 		{
-			Cmd_MoveSelection (delta);
-			canMove = false;
+			int delta = (int) Input.GetAxisRaw ("Horizontal");
+			if (delta != 0) Cmd_MoveSelection (delta);
+
+			// Avoid anuse of movement
+			yield return new WaitForSeconds (0.5f); 
 		}
 	}
 	[Command] private void Cmd_MoveSelection (int delta) 
@@ -46,40 +47,24 @@ public class Selector : NetBehaviour
 			else
 			if (selection == +6) selection = 1;
 
-			// Snap carroussel to opposite bounds
-			SnapCarroussel (selection / 5f);
+			// Snap carousel to opposite bounds
+			SnapCarousel (selection / 5f);
 			Rpc_Snap (selection / 5f);
 		}
 		UpdateHero ();
 	}
 
-	private void MoveCarroussel () 
-	{
-		var pos = carroussel.localPosition;
-		float tValue = Mathf.Lerp 
-		(
-			pos.x,
-			Mathf.Lerp (Offset, -Offset * 4f, selection/5f),
-			Time.deltaTime * 7f
-		);
-		// Check if carroussel is near enough for next movement
-//		canMove = (Mathf.Abs (pos.x - tValue) < 1f);
-
-		pos.x = tValue;
-		carroussel.localPosition = pos;
-	}
-
 	[ClientRpc]
 	private void Rpc_Snap (float factor) 
-	{ SnapCarroussel (factor); }
-	private void SnapCarroussel (float factor) 
+	{ SnapCarousel (factor); }
+	private void SnapCarousel (float factor) 
 	{
-		// Use a value [0, 1] to positionate the Carroussel
+		// Use a value [0, 1] to positionate the carousel
 		float value = Mathf.Lerp (-Offset, Offset * 4f, factor);
 
-		var pos = carroussel.localPosition;
+		var pos = carousel.localPosition;
 		pos.x = -value;
-		carroussel.localPosition = pos;
+		carousel.localPosition = pos;
 	}
 	#endregion
 
@@ -95,7 +80,7 @@ public class Selector : NetBehaviour
 	[ContextMenu ("Snap to selected")]
 	public void UpdateSelector () 
 	{
-		SnapCarroussel (selection / 5f);
+		SnapCarousel (selection / 5f);
 		UpdateHero ();
 	}
 	#endregion
@@ -103,8 +88,16 @@ public class Selector : NetBehaviour
 	#region CALLBACKS
 	private void Update () 
 	{
-		MoveCarroussel ();
-		if (hasAuthority && isClient) ReadInput ();
+		// Move carousel towards selection
+		var pos = carousel.localPosition;
+		float tValue = Mathf.Lerp
+		(
+			pos.x,
+			Mathf.Lerp (Offset, -Offset * 4f, selection / 5f),
+			Time.deltaTime * 7f
+		);
+		pos.x = tValue;
+		carousel.localPosition = pos;
 	}
 
 	private void Start () 
@@ -112,11 +105,13 @@ public class Selector : NetBehaviour
 		// Correct position && SceneID
 		(transform as RectTransform).localPosition = iPosition;
 
-		// Show owner marks
 		if (hasAuthority && isClient) 
 		{
+			// Show owner marks
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);
+			// Start reading movement input
+			StartCoroutine (ReadInput ());
 		}
 	}
 
