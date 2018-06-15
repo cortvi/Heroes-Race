@@ -63,7 +63,7 @@ public class Selector : NetBehaviour
 			Time.deltaTime * 7f
 		);
 		// Check if carroussel is near enough for next movement
-		canMove = (Mathf.Abs (pos.x - tValue) < 1f);
+//		canMove = (Mathf.Abs (pos.x - tValue) < 1f);
 
 		pos.x = tValue;
 		carroussel.localPosition = pos;
