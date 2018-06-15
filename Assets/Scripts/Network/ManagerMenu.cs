@@ -10,15 +10,20 @@ public class ManagerMenu : NetworkBehaviour
 	public Selector[] selectors;
 	#endregion
 
-	[ServerCallback]
-	private void Awake () 
+	#region CALLBACKS
+	[ClientCallback]
+	private void Awake ()
 	{
-		// Assign authority to selector
-		foreach (var p in Networker.players)
-		{
-			int id = p.connectionToClient.connectionId - 1;
-			selectors[id].id.AssignClientAuthority (p.connectionToClient);
-			selectors[id].SetName ("Selector");
-		}
+		// Ask for selector assignation
+		Cmd_AskForSelector ();
 	}
+
+	[Command]
+	private void Cmd_AskForSelector ()
+	{
+		int id = connectionToClient.connectionId - 1;
+		selectors[id].id.AssignClientAuthority (connectionToClient);
+		selectors[id].SetName ("Selector");
+	} 
+	#endregion
 }
