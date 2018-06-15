@@ -5,6 +5,14 @@ using UnityEngine.Networking;
 
 public static class Extensions 
 {
+	#region ANIMATORS
+	public static SmartAnimator GoSmart (this Animator a) 
+	{
+		var anim = new SmartAnimator (a);
+		return anim;
+	}
+	#endregion
+
 	#region BEHAVIOUR
 	private static object thisLock = new object ();
 	public static T SpawnSingleton<T> () where T : Behaviour
