@@ -9,6 +9,7 @@ public class Networker : NetworkManager
 {
 	#region DATA
 	public static Networker i;
+	public static List<Game> players;
 
 	public static bool DedicatedServer 
 	{
@@ -31,21 +32,7 @@ public class Networker : NetworkManager
 		var player = Instantiate (playerPrefab).GetComponent<Game> ();
 		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 		player.SetName ("Player");
-
-		// Behaviour on what scene where at
-		string scene = SceneManager.GetActiveScene ().name;
-		if (scene == "Main") 
-		{
-			// Assign authority to selector
-			var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
-			selector.id.AssignClientAuthority (conn);
-			selector.SetName ("Selector");
-		}
-		else
-		if (scene == "Testing")
-		{
-			// spawn characters for testing the quesitos
-		}
+		players.Add (player);
 	}
 	#endregion
 
@@ -55,6 +42,7 @@ public class Networker : NetworkManager
 	public static void InitizalizeSingleton () 
 	{
 		i = Extensions.SpawnSingleton <Networker> ();
+		players = new List<Game> (3);
 	}
 	#endregion
 }
