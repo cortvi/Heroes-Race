@@ -35,7 +35,7 @@ public class Selector : NetBehaviour
 			{
 				Cmd_MoveSelection (delta);
 				// Avoid anuse of movement
-				yield return new WaitForSeconds (0.5f); 
+				yield return new WaitForSeconds (0.3f);
 			}
 			yield return null;
 		}
@@ -46,9 +46,9 @@ public class Selector : NetBehaviour
 		if (selection < 0 || selection > 5)
 		{
 			// Correct selection
-			if (selection == -1) selection = 4;
+			if (selection == -1) selection = 3;
 			else
-			if (selection == +6) selection = 1;
+			if (selection == +6) selection = 2;
 
 			// Snap carousel to opposite bounds
 			SnapCarousel (selection / 5f);
