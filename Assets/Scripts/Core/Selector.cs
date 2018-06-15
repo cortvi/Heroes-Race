@@ -14,13 +14,8 @@ public class Selector : NetBehaviour
 	public Image anchor;
 	[Space]
 
-	// This values overrides Animator selection
-	[Range (0f, 5f)] public int _selection;
-	private int Selection 
-	{
-		get { return anim.GetInt ("Selection"); }
-		set { anim.SetInt ("Selection", value); }
-	}
+	// This values indicates the literal value in the carrousel
+	[SyncVar] [Range (0f, 5f)] public int selection;
 
 	private SmartAnimator anim;
 	private Vector3 iPosition;
@@ -34,37 +29,64 @@ public class Selector : NetBehaviour
 	{
 		while (true) 
 		{
+			if (Input.GetKeyDown (KeyCode.Return))
+			{
+				// Let player select the character
+				anim.SetBool ("Ready", true);
+				while (anim.GetBool ("Ready"))
+				{
+					// Block movement until it's been de-selected
+					if (Input.GetKeyDown (KeyCode.Return)) anim.SetBool ("Ready", false);
+					yield return null;
+				}
+			}
+
 			int delta = (int) Input.GetAxisRaw ("Horizontal");
 			if (delta != 0) 
 			{
-				MoveSelection (delta);
-				// Avoid abuse of movement
+				Cmd_MoveSelection (delta);
+				// Avoid anuse of movement
 				yield return new WaitForSeconds (0.3f);
 			}
 			yield return null;
 		}
 	}
-	private void MoveSelection (int delta) 
+	[Command] private void Cmd_MoveSelection (int delta) 
 	{
-		Selection += delta;
-		if (Selection < 0 || Selection > 5)
+		selection += delta;
+		if (selection < 0 || selection > 5)
 		{
 			// Correct selection
-			if (Selection == -1) 
+			if (selection == -1) 
 			{
-				Selection = 3;
+				selection = 3;
 				// Snap carousel to opposite bounds
-				anim.SetFloat ("Blend", 4f / 5f);
+				SnapCarousel (4f / 5f);
+				Rpc_Snap (4f / 5f);
 			}
 			else
-			if (Selection == +6) 
+			if (selection == +6) 
 			{
-				Selection = 2;
+				selection = 2;
 				// Snap carousel to opposite bounds
-				anim.SetFloat ("Blend", 1f / 5f);
+				SnapCarousel (1f / 5f);
+				Rpc_Snap (1f / 5f);
 			}
 		}
 		UpdateHero ();
+	}
+
+	[ClientRpc]
+	private void Rpc_Snap (float factor) 
+	{ SnapCarousel (factor); }
+	private void SnapCarousel (float factor) 
+	{
+		// Use a value [0, 1] to positionate the carousel
+		float value = Mathf.Lerp (-Offset, Offset * 4f, factor);
+
+		var pos = carousel.localPosition;
+		pos.x = -value;
+		carousel.localPosition = pos;
 	}
 	#endregion
 
@@ -76,15 +98,28 @@ public class Selector : NetBehaviour
 //		if (selection == 5) selectedHero = Game.Heroes.Espectador;
 //		else selectedHero = (Game.Heroes)(selection - 1);
 	}
+
+	[ContextMenu ("Snap to selected")]
+	public void UpdateSelector () 
+	{
+		SnapCarousel (selection / 5f);
+		UpdateHero ();
+	}
 	#endregion
 
 	#region CALLBACKS
 	private void Update () 
 	{
 		// Move carousel towards selection
-		float iPos = anim.GetFloat ("Blend");
-		float tPos = Mathf.Lerp (iPos, Selection / 5f, Time.deltaTime * 5f);
-		anim.SetFloat ("Blend", tPos);
+		var pos = carousel.localPosition;
+		float tValue = Mathf.Lerp
+		(
+			pos.x,
+			Mathf.Lerp (Offset, -Offset * 4f, selection / 5f),
+			Time.deltaTime * 7f
+		);
+		pos.x = tValue;
+		carousel.localPosition = pos;
 	}
 
 	private void Start () 
@@ -106,10 +141,7 @@ public class Selector : NetBehaviour
 	{
 		// Cache position because it'll move when connected to server
 		iPosition = (transform as RectTransform).localPosition;
-		// Prepare animator
 		anim = GetComponent<Animator> ().GoSmart ();
-		anim.SetFloat ("Blend", _selection / 5f);
-		anim.SetInt ("Selection", _selection);
 	}
 	#endregion
 }
