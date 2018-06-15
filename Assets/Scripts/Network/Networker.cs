@@ -33,15 +33,41 @@ public class Networker : NetworkManager
 		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 		player.SetName ("Player");
 		players.Add (player);
+
+		// Behaviour on what scene where at
+		string scene = SceneManager.GetActiveScene ().name;
+		if (scene == "Menu") 
+		{
+			// Assign authority to selector
+			var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
+			selector.id.AssignClientAuthority (conn);
+			selector.SetName ("Selector");
+		}
 	}
 	#endregion
 
 	#region CALLBACKS
-	[RuntimeInitializeOnLoadMethod
-	(RuntimeInitializeLoadType.BeforeSceneLoad)]
+	private void OnSceneLoad (Scene scene, LoadSceneMode mode) 
+	{
+		// nothing yet...
+	}
+
+	private void Awake () 
+	{
+		if (DedicatedServer)
+			SceneManager.sceneLoaded += OnSceneLoad;
+	}
+	private void OnDestroy () 
+	{
+		if (DedicatedServer)
+			SceneManager.sceneLoaded -= OnSceneLoad;
+	}
+
+	// Creates this object on every scene no matter where
+	[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 	public static void InitizalizeSingleton () 
 	{
-		i = Extensions.SpawnSingleton <Networker> ();
+		i = Extensions.SpawnSingleton<Networker> ();
 		players = new List<Game> (3);
 	}
 	#endregion
