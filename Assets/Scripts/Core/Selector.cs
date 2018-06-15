@@ -35,9 +35,10 @@ public class Selector : NetBehaviour
 				anim.SetBool ("Ready", true);
 				while (anim.GetBool ("Ready"))
 				{
-					// Block movement until it's been de-selected
-					if (Input.GetKeyDown (KeyCode.Return)) anim.SetBool ("Ready", false);
 					yield return null;
+					// Block movement until it's been de-selected
+					if (Input.GetKeyDown (KeyCode.Return))
+						anim.SetBool ("Ready", false);
 				}
 			}
 
