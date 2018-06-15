@@ -16,7 +16,7 @@ public class Selector : NetBehaviour
 
 	// This values indicates the literal value in the carrousel
 	[SyncVar] [Range (0f, 5f)]
-	private int selection;
+	public int selection;
 
 	private bool canMove;
 	private Vector3 iPosition;
@@ -31,10 +31,13 @@ public class Selector : NetBehaviour
 		while (true) 
 		{
 			int delta = (int) Input.GetAxisRaw ("Horizontal");
-			if (delta != 0) Cmd_MoveSelection (delta);
-
-			// Avoid anuse of movement
-			yield return new WaitForSeconds (0.5f); 
+			if (delta != 0) 
+			{
+				Cmd_MoveSelection (delta);
+				// Avoid anuse of movement
+				yield return new WaitForSeconds (0.5f); 
+			}
+			yield return null;
 		}
 	}
 	[Command] private void Cmd_MoveSelection (int delta) 
