@@ -46,13 +46,21 @@ public class Selector : NetBehaviour
 		if (selection < 0 || selection > 5)
 		{
 			// Correct selection
-			if (selection == -1) selection = 3;
+			if (selection == -1) 
+			{
+				selection = 3;
+				// Snap carousel to opposite bounds
+				SnapCarousel (4f / 5f);
+				Rpc_Snap (4f / 5f);
+			}
 			else
-			if (selection == +6) selection = 2;
-
-			// Snap carousel to opposite bounds
-			SnapCarousel (selection / 5f);
-			Rpc_Snap (selection / 5f);
+			if (selection == +6) 
+			{
+				selection = 2;
+				// Snap carousel to opposite bounds
+				SnapCarousel (1f / 5f);
+				Rpc_Snap (1f / 5f);
+			}
 		}
 		UpdateHero ();
 	}
