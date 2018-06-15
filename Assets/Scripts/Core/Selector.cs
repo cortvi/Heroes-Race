@@ -109,7 +109,7 @@ public class Selector : NetBehaviour
 		// Prepare animator
 		anim = GetComponent<Animator> ().GoSmart ();
 		anim.SetFloat ("Blend", _selection / 5f);
-		anim.SetFloat ("Selection", _selection);
+		anim.SetInt ("Selection", _selection);
 	}
 	#endregion
 }
