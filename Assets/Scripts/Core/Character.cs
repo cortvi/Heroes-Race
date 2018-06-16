@@ -16,7 +16,7 @@ public partial class Character
 	public const float Speed = 15.0f;
 
 	// External references
-	private Rigidbody driver;
+	internal Rigidbody driver;
 	private CapsuleCollider capsule;
 	#endregion
 
@@ -24,7 +24,6 @@ public partial class Character
 	[ClientCallback] private void Motion () 
 	{
 		if (!hasAuthority) return;
-
 		// Get input from local Client Player to Server
 		Cmd_Motion (-Input.GetAxis ("Horizontal"));
 	}
@@ -48,14 +47,14 @@ public partial class Character
 	// Be sure authority is set
 	protected void Start () 
 	{
-		// Spawn driver
+		// Spawn driver (both client and server)
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
 		driver.name = identity + "_Driver";
 		driver.centerOfMass = Vector3.zero;
 		capsule = driver.GetComponent<CapsuleCollider> ();
 
-		if (!isServer)
+		if (isClient)
 		{
 			// Client-side Player Drivers are kinematic
 			// and locomotion is networked and then interpolated
@@ -93,15 +92,14 @@ public partial class Character
 public partial class Character : NetBehaviour
 {
 	#region DATA
-	[SyncVar]
-	internal Game.Heroes identity;
+	[SyncVar] internal Game.Heroes identity;
 	#endregion
 
 	#region UTILS
 	[Command (channel = Channels.DefaultUnreliable)]
 	private void Cmd_Motion (float input)
 	{
-		// Apply physics
+		// Apply physics on Server
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
 
@@ -115,8 +113,9 @@ public partial class Character : NetBehaviour
 	}
 
 	[ClientRpc (channel = Channels.DefaultUnreliable)]
-	private void Rpc_PropagateMotion (DriverData data)
+	private void Rpc_PropagateMotion (DriverData data) 
 	{
+		#warning should check variation of movement maybe?
 		driver.MovePosition (data.position);
 		driver.MoveRotation (data.rotation);
 	} 
