@@ -47,13 +47,6 @@ public partial class Character
 	// Be sure authority is set
 	protected void Start () 
 	{
-		// Spawn driver (both client and server)
-		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
-		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
-		driver.name = identity + "_Driver";
-		driver.centerOfMass = Vector3.zero;
-		capsule = driver.GetComponent<CapsuleCollider> ();
-
 		if (isClient)
 		{
 			// Client-side Player Drivers are kinematic
@@ -70,6 +63,16 @@ public partial class Character
 			// Applying physics to an interpolated rigidbody is bad
 			driver.interpolation = RigidbodyInterpolation.None;
 		}
+	}
+
+	private void Awake () 
+	{
+		// Spawn Driver (both Client & Server)
+		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
+		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
+		driver.name = identity + "_Driver";
+		driver.centerOfMass = Vector3.zero;
+		capsule = driver.GetComponent<CapsuleCollider> ();
 	}
 	#endregion
 
