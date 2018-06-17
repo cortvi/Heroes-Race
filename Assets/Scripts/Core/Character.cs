@@ -15,11 +15,11 @@ public partial class Character
 	#region DATA
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
+	internal float movDir;
 
 	private CapsuleCollider capsule;
-	private float movDir;
 
-	public const float Speed = 15.0f;
+	public const float Speed = 10.0f;
 	#endregion
 
 	#region LOCOMOTION
@@ -40,7 +40,7 @@ public partial class Character
 		var q = Quaternion.LookRotation (faceDir);
 
 		// Lerp for smooth turns
-		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 7f);
+		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 	}
 
 	private void Move () 
@@ -48,6 +48,10 @@ public partial class Character
 		// Stick with the Driver
 		transform.position = ComputeDriverPosition ();
 	}
+	#endregion
+
+	#region SKILLS
+
 	#endregion
 
 	#region CALLBACKS
@@ -63,7 +67,9 @@ public partial class Character
 	{
 		if (isClient)
 		{
-			anim = GetComponent<Animator> ().GoSmart ();
+			// Initialize camera
+			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
+			cam.target = this;
 
 			// Client-side Player Drivers are kinematic
 			// and locomotion is networked and then interpolated
@@ -83,11 +89,14 @@ public partial class Character
 
 	private void Awake () 
 	{
-		// Spawn Driver (both Client & Server)
+		// Set up Driver (both Client & Server)
 		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
 		driver.name = identity + "_Driver";
 		driver.centerOfMass = Vector3.zero;
+
+		// Get references
+		anim = GetComponent<Animator> ().GoSmart ();
 		capsule = driver.GetComponent<CapsuleCollider> ();
 	}
 	#endregion
@@ -135,9 +144,9 @@ public partial class Character : NetBehaviour
 	[ClientRpc (channel = Channels.DefaultUnreliable)]
 	private void Rpc_PropagateMotion (DriverData data) 
 	{
-		if (Vector3.Distance (data.position, driver.position) > 0.01f)
+//		if (Vector3.Distance (data.position, driver.position) > 0.001f)
 			driver.MovePosition (data.position);
-		if (Quaternion.Angle (data.rotation, driver.rotation) > 1f)
+//		if (Quaternion.Angle (data.rotation, driver.rotation) > 0.0001f)
 			driver.MoveRotation (data.rotation);
 	} 
 	#endregion
