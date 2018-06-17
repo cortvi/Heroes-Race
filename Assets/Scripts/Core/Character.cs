@@ -135,9 +135,10 @@ public partial class Character : NetBehaviour
 	[ClientRpc (channel = Channels.DefaultUnreliable)]
 	private void Rpc_PropagateMotion (DriverData data) 
 	{
-		#warning should check variation of movement maybe?
-		driver.MovePosition (data.position);
-		driver.MoveRotation (data.rotation);
+		if (Vector3.Distance (data.position, driver.position) > 0.01f)
+			driver.MovePosition (data.position);
+		if (Quaternion.Angle (data.rotation, driver.rotation) > 1f)
+			driver.MoveRotation (data.rotation);
 	} 
 	#endregion
 
