@@ -13,9 +13,8 @@ public class ClientCamera : MonoBehaviour
 	#region UTILS
 	private void Move () 
 	{
-		var pos = transform.position;
 		// Transform offset based on the rotation of the target Character's driver
-		pos += target.driver.transform.TransformPoint (target.transform.position + offset);
+		var pos = target.driver.transform.TransformPoint (offset);
 		// Invert side-position based on moving direction
 		pos.x *= target.movDir > 0f ? +1f : -1f;
 		// Lerp for smooth follow

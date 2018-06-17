@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class Game : NetBehaviour
 {
 	#region DATA
-	internal Heroes playingAs;
+	[SyncVar] internal Heroes playingAs;
 	#endregion
 
 	#region HELPERS
