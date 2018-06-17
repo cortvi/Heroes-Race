@@ -13,27 +13,40 @@ using UnityEngine.Networking;
 public partial class Character 
 {
 	#region DATA
-	public const float Speed = 15.0f;
-
-	// External references
 	internal Rigidbody driver;
+	internal SmartAnimator anim;
+
 	private CapsuleCollider capsule;
+	private float movDir;
+
+	public const float Speed = 15.0f;
 	#endregion
 
 	#region LOCOMOTION
 	[ClientCallback] private void Motion () 
 	{
 		if (!hasAuthority) return;
-		// Get input from local Client Player to Server
-		Cmd_Motion (-Input.GetAxis ("Horizontal"));
+		movDir = -Input.GetAxis ("Horizontal");
+		anim.SetBool ("Moving", movDir != 0f);
+
+		// Get input from Client -> Server
+		Cmd_Motion (movDir);
+	}
+
+	private void Rotate () 
+	{
+		// Get signed facing direction
+		var faceDir = driver.transform.right * (movDir>0? 1f : -1f);
+		var q = Quaternion.LookRotation (faceDir);
+
+		// Lerp for smooth turns
+		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 7f);
 	}
 
 	private void Move () 
 	{
 		// Stick with the Driver
 		transform.position = ComputeDriverPosition ();
-		transform.rotation = driver.rotation; 
-		#warning rotation?? not really
 	}
 	#endregion
 
@@ -41,6 +54,7 @@ public partial class Character
 	private void Update () 
 	{
 		Motion ();
+		Rotate ();
 		Move ();
 	}
 
@@ -49,6 +63,8 @@ public partial class Character
 	{
 		if (isClient)
 		{
+			anim = GetComponent<Animator> ().GoSmart ();
+
 			// Client-side Player Drivers are kinematic
 			// and locomotion is networked and then interpolated
 			driver.isKinematic = true;
@@ -98,13 +114,14 @@ public partial class Character : NetBehaviour
 	[SyncVar] internal Game.Heroes identity;
 	#endregion
 
-	#region UTILS
+	#region LOCOMOTION
 	[Command (channel = Channels.DefaultUnreliable)]
-	private void Cmd_Motion (float input)
+	private void Cmd_Motion (float input) 
 	{
 		// Apply physics on Server
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
+		movDir = input;
 
 		// Propagate motion to ALL Clients
 		var data = new DriverData ()
