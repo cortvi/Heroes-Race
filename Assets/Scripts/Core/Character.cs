@@ -15,8 +15,6 @@ using UnityEngine.Networking;
 public partial class Character 
 {
 	#region DATA
-	public float interpolation;
-
 	internal float Speed = 10.0f;
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
@@ -25,7 +23,7 @@ public partial class Character
 	#endregion
 
 	#region LOCOMOTION
-	[ClientCallback] private void GetMotion () 
+	private void SendInput () 
 	{
 		if (!hasAuthority) return;
 		float input = -Input.GetAxis ("Horizontal");
@@ -34,32 +32,16 @@ public partial class Character
 		anim.SetBool ("Moving", input != 0f);
 
 		// Send from Client -> Server
-		Cmd_Motion (input);
+		Cmd_ProcessInput (input);
 	}
 
-	private void Rotation () 
+	private void SyncMotion () 
 	{
-		// Get signed facing direction
-//		var faceDir = driver.transform.right * (movDir>0? 1f : -1f);
-//		var q = Quaternion.LookRotation (faceDir);
-//
-//		// Lerp for smooth turns
-//		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
-	}
-
-	private void Move () 
-	{
-		if (isClient)
-		{
-			var lerp = Vector3.Lerp (transform.position, syncMotion.position, interpolation);
-			transform.position = lerp;
-		}
-		else
-		if (isServer) 
-		{
-			// Stick with the Driver
-			transform.position = ComputeDriverPosition ();
-		}
+		// Interpolated from values sent by Server
+		var pos = Vector3.Lerp (transform.position, syncPosition, positionInterpolation);
+		var rot = Quaternion.Slerp (transform.rotation, syncRotation, rotationInterpolation);
+		transform.position = pos;
+		transform.rotation = rot;
 	}
 	#endregion
 
@@ -68,11 +50,11 @@ public partial class Character
 	#endregion
 
 	#region CALLBACKS
+	[ClientCallback]
 	private void Update () 
 	{
-		GetMotion ();
-		Rotation ();
-		Move ();
+		SendInput ();
+		SyncMotion ();
 	}
 
 	// Be sure authority is set
@@ -85,7 +67,7 @@ public partial class Character
 //			cam.target = this;
 		}
 		else
-		if (isServer)
+		if (isServer) 
 		{
 			// Set up Driver (only present on Server)
 			var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
@@ -105,10 +87,24 @@ public partial class Character
 	#endregion
 
 	#region HELPERS
-	private Vector3 ComputeDriverPosition () 
+	private Vector3 ComputePosition () 
 	{
-		var pos = capsule.center; pos.y = 0f;           // Get capsule position, discard height
-		return driver.transform.TransformPoint (pos);   // Return the position in world-space						
+		// Get capsule position, discard height
+		var pos = capsule.center;
+		pos.y = 0f;
+
+		// Return the position in world-space
+		return driver.transform.TransformPoint (pos);						
+	}
+
+	private Quaternion ComputeRotation () 
+	{
+		// Get signed facing direction
+		var faceDir = driver.transform.right * (syncMovingDir>0? 1f : -1f);
+		var q = Quaternion.LookRotation (faceDir);
+
+		// Lerp rotation for smooth turns
+		return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 	}
 	#endregion
 }
@@ -125,23 +121,28 @@ public partial class Character : NetBehaviour
 {
 	#region DATA
 	[SyncVar] internal Game.Heroes identity;
-	[SyncVar] private MotionData syncMotion;
+	[SyncVar] internal float syncMovingDir;
+
+	[SyncVar] private Vector3 syncPosition;
+	[SyncVar] private Quaternion syncRotation;
+
+	[Range (0f, 1f)] public float positionInterpolation;
+	[Range (0f, 1f)] public float rotationInterpolation; 
 	#endregion
 
 	#region LOCOMOTION
 	[Command (channel=1)]
-	private void Cmd_Motion (float input) 
+	private void Cmd_ProcessInput (float input) 
 	{
-		// Apply physics on Server
+		// Apply physics
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
+		// Don't update facing direction if not moving!
+		if (input != 0) syncMovingDir = input;
 
 		// Propagate motion to ALL Clients
-		var motion = new MotionData () 
-		{
-			position = ComputeDriverPosition (),
-		};
-		syncMotion = motion;
+		transform.position = syncPosition = ComputePosition ();
+		transform.rotation = syncRotation = ComputeRotation ();
 	}
 	#endregion
 
