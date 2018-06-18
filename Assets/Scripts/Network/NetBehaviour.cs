@@ -22,6 +22,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 	#region CALLBACKS
 	private void Awake () 
 	{
+		print ("hola");
 		id = GetComponent<NetworkIdentity> ();
 		OnAwake ();
 	}
@@ -53,6 +54,7 @@ public abstract class NetBehaviour : NetworkBehaviour
 		else
 		if (isServer) 
 		{
+			print (id);
 			if (!id.serverOnly)
 			{
 				displayName = displayName.Insert (0, "[CLIENT] ");

@@ -27,18 +27,14 @@ public class ClientCamera : MonoBehaviour
 
 		// Lerp for smooth follow
 		transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
-	}
 
-	private void Rotate () 
-	{
 		#warning just a test
-//		transform.rotation = Quaternion.LookRotation (target);
+		transform.rotation = Quaternion.LookRotation (-forward);
 	}
 	#endregion
 
 	private void Update () 
 	{
 		Move ();
-		Rotate ();
 	}
 }
