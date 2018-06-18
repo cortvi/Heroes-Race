@@ -19,6 +19,7 @@ public class Game : NetBehaviour
 		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ());
 		var hero = Instantiate (prefab);
 		hero.identity = playingAs;
+		hero.Awake ();
 
 		// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);

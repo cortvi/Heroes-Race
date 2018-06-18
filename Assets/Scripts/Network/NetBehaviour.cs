@@ -20,9 +20,8 @@ public abstract class NetBehaviour : NetworkBehaviour
 	#endregion
 
 	#region CALLBACKS
-	private void Awake () 
+	public void Awake () 
 	{
-		print ("hola");
 		id = GetComponent<NetworkIdentity> ();
 		OnAwake ();
 	}
