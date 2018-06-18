@@ -8,39 +8,39 @@ using UnityEngine.Networking;
  * are contained on a single GameObject.
  * 
  * But the rigidbody and colliders that control its physic movement (angular rotation)
- * and such are separated, this is to ensure that networked movement is fluid. */
+ * and such are separated, this is to ensure that networked movement is fluid and exact. */
 
 public partial class Character 
 {
 	#region DATA
+	internal float Speed = 10.0f;
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
-	internal float movDir;
 
 	private CapsuleCollider capsule;
-
-	public const float Speed = 10.0f;
 	#endregion
 
 	#region LOCOMOTION
 	[ClientCallback] private void Motion () 
 	{
 		if (!hasAuthority) return;
-		movDir = -Input.GetAxis ("Horizontal");
-		anim.SetBool ("Moving", movDir != 0f);
+		float input = -Input.GetAxis ("Horizontal");
 
-		// Get input from Client -> Server
-		Cmd_Motion (movDir);
+		// Update animator
+		anim.SetBool ("Moving", input != 0f);
+
+		// Send from Client -> Server
+		Cmd_Motion (input);
 	}
 
 	private void Rotate () 
 	{
 		// Get signed facing direction
-		var faceDir = driver.transform.right * (movDir>0? 1f : -1f);
-		var q = Quaternion.LookRotation (faceDir);
-
-		// Lerp for smooth turns
-		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
+//		var faceDir = driver.transform.right * (movDir>0? 1f : -1f);
+//		var q = Quaternion.LookRotation (faceDir);
+//
+//		// Lerp for smooth turns
+//		transform.rotation = Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 	}
 
 	private void Move () 
@@ -120,7 +120,9 @@ public partial class Character
 public partial class Character : NetBehaviour
 {
 	#region DATA
-	[SyncVar] internal Game.Heroes identity;
+	[SyncVar]
+	internal Game.Heroes identity;
+	internal MovingState movingState;
 	#endregion
 
 	#region LOCOMOTION
@@ -130,13 +132,15 @@ public partial class Character : NetBehaviour
 		// Apply physics on Server
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
-		movDir = input;
+
+		// Always be facing a direction
+//		if (input != 0f) movDir = input;
 
 		// Propagate motion to ALL Clients
-		var data = new DriverData ()
+		var data = new DriverData () 
 		{
-			position = driver.position,
-			rotation = driver.rotation
+			position = driver.transform.position,
+			rotation = driver.transform.rotation
 		};
 		Rpc_PropagateMotion (data);
 	}
@@ -152,6 +156,14 @@ public partial class Character : NetBehaviour
 	#endregion
 
 	#region HELPERS
+	// Movement direction
+	public enum MovingState 
+	{
+		MovingLeft,
+		Stopped,
+		MovingRight
+	}
+
 	// This struct encapsulates all data 
 	// to be propagated about the character
 	[Serializable] public struct DriverData 
