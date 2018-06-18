@@ -15,6 +15,8 @@ using UnityEngine.Networking;
 public partial class Character 
 {
 	#region DATA
+	public float interpolation;
+
 	internal float Speed = 10.0f;
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
@@ -49,7 +51,7 @@ public partial class Character
 	{
 		if (isClient)
 		{
-			var lerp = Vector3.Lerp (transform.position, syncMotion.position, Time.deltaTime * 7f);
+			var lerp = Vector3.Lerp (transform.position, syncMotion.position, interpolation);
 			transform.position = lerp;
 		}
 		else
@@ -79,8 +81,8 @@ public partial class Character
 		if (isClient)
 		{
 			// Initialize camera
-			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
-			cam.target = this;
+//			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
+//			cam.target = this;
 		}
 		else
 		if (isServer)
@@ -118,7 +120,7 @@ public partial class Character
  * - All motion and interactions are propagated across the network */ 
 
 // Network-related behaviour
-[NetworkSettings (sendInterval = 0f)]
+[NetworkSettings (channel = 1, sendInterval = 0f)]
 public partial class Character : NetBehaviour
 {
 	#region DATA
