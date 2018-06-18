@@ -60,11 +60,11 @@ public partial class Character
 	// Be sure authority is set
 	protected void Start () 
 	{
-		if (isClient)
+		if (isClient) 
 		{
 			// Initialize camera
-//			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
-//			cam.target = this;
+			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
+			cam.target = this;
 		}
 		else
 		if (isServer) 

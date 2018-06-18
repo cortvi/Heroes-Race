@@ -13,19 +13,26 @@ public class ClientCamera : MonoBehaviour
 	#region UTILS
 	private void Move () 
 	{
-		// Invert side-position based on moving direction
-//		offset.x *= target.movDir > 0f ? +1f : -1f;
-		// Transform offset based on the rotation of the target Character's driver
-		var pos = target.driver.transform.TransformPoint (offset);
+		// Project position over XZ plane
+		var forward = target.transform.position;
+		forward.y = 0f;
+		forward.Normalize ();
+
+		// Compute the rotation matrix
+		var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
+
+		// Get the position and add the offset
+		var pos = target.transform.position;
+		pos += mat.MultiplyVector (offset);
+
 		// Lerp for smooth follow
 		transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
-		print (target.driver.name);
 	}
 
 	private void Rotate () 
 	{
 		#warning just a test
-		transform.rotation = Quaternion.LookRotation (-target.driver.transform.forward);
+//		transform.rotation = Quaternion.LookRotation (target);
 	}
 	#endregion
 
