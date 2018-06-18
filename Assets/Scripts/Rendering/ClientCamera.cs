@@ -31,7 +31,7 @@ public class ClientCamera : MonoBehaviour
 		// Project camera position for its rotation
 		var camForward = transform.position;
 		camForward.y = 0f;
-		transform.rotation = Quaternion.LookRotation (camForward.normalized);
+		transform.rotation = Quaternion.LookRotation (-camForward.normalized);
 	}
 	#endregion
 

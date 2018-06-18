@@ -62,11 +62,32 @@ public partial class Character
 	#endregion
 
 	#region CALLBACKS
-	[ClientCallback]
 	private void Update () 
 	{
-		SendInput ();
-		SyncMotion ();
+		if (isClient) 
+		{
+			SendInput ();
+			SyncMotion ();
+
+			CheckJump ();
+		}
+		else
+		if (isServer) 
+		{
+			// Propagate motion to ALL Clients
+			transform.position = syncPosition = ComputePosition ();
+			transform.rotation = syncRotation = ComputeRotation ();
+		}
+	}
+
+	private void FixedUpdate () 
+	{
+		if (isServer) 
+		{
+			// Apply physics
+			var velocity = input * Speed * Time.deltaTime;
+			driver.angularVelocity = velocity * Vector3.up;
+		}
 	}
 
 	// Be sure authority is set
@@ -91,7 +112,7 @@ public partial class Character
 		}
 	}
 
-	private void Awake () 
+	protected override void OnAwake () 
 	{
 		// Get references
 		anim = GetComponent<Animator> ().GoSmart ();
@@ -139,22 +160,20 @@ public partial class Character : NetBehaviour
 	[SyncVar] private Quaternion syncRotation;
 
 	[Range (0f, 1f)] public float positionInterpolation;
-	[Range (0f, 1f)] public float rotationInterpolation; 
+	[Range (0f, 1f)] public float rotationInterpolation;
+
+	private float input;
 	#endregion
 
 	#region LOCOMOTION
 	[Command (channel=1)]
 	private void Cmd_ProcessInput (float input) 
 	{
-		// Apply physics
-		var velocity = input * Speed * Time.deltaTime;
-		driver.angularVelocity = velocity * Vector3.up;
+		// Save input for physics
+		this.input = input;
+
 		// Don't update facing direction if not moving!
 		if (input != 0) syncMovingDir = input;
-
-		// Propagate motion to ALL Clients
-		transform.position = syncPosition = ComputePosition ();
-		transform.rotation = syncRotation = ComputeRotation ();
 	}
 	#endregion
 
