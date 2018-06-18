@@ -8,7 +8,9 @@ using UnityEngine.Networking;
  * are contained on a single GameObject.
  * 
  * But the rigidbody and colliders that control its physic movement (angular rotation)
- * and such are separated, this is to ensure that networked movement is fluid and exact. */
+ * and such are separated and only present in the Server.
+ * 
+ * Clients get their 3D data from the Server and is lerped for a fluid movement. */
 
 public partial class Character 
 {
@@ -21,7 +23,7 @@ public partial class Character
 	#endregion
 
 	#region LOCOMOTION
-	[ClientCallback] private void Motion () 
+	[ClientCallback] private void GetMotion () 
 	{
 		if (!hasAuthority) return;
 		float input = -Input.GetAxis ("Horizontal");
@@ -33,7 +35,7 @@ public partial class Character
 		Cmd_Motion (input);
 	}
 
-	private void Rotate () 
+	private void Rotation () 
 	{
 		// Get signed facing direction
 //		var faceDir = driver.transform.right * (movDir>0? 1f : -1f);
@@ -45,8 +47,17 @@ public partial class Character
 
 	private void Move () 
 	{
-		// Stick with the Driver
-		transform.position = ComputeDriverPosition ();
+		if (isClient)
+		{
+			var lerp = Vector3.Lerp (transform.position, syncMotion.position, Time.deltaTime * 7f);
+			transform.position = lerp;
+		}
+		else
+		if (isServer) 
+		{
+			// Stick with the Driver
+			transform.position = ComputeDriverPosition ();
+		}
 	}
 	#endregion
 
@@ -57,8 +68,8 @@ public partial class Character
 	#region CALLBACKS
 	private void Update () 
 	{
-		Motion ();
-		Rotate ();
+		GetMotion ();
+		Rotation ();
 		Move ();
 	}
 
@@ -70,34 +81,24 @@ public partial class Character
 			// Initialize camera
 			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
 			cam.target = this;
-
-			// Client-side Player Drivers are kinematic
-			// and locomotion is networked and then interpolated
-			driver.isKinematic = true;
-
-			// All collision checks and such
-			// are checked ONLY Server-side
-			capsule.enabled = false;
 		}
 		else
 		if (isServer)
 		{
-			// Applying physics to an interpolated rigidbody is bad
-			driver.interpolation = RigidbodyInterpolation.None;
+			// Set up Driver (only present on Server)
+			var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
+			driver = Instantiate (prefab).GetComponent<Rigidbody> ();
+			driver.name = identity + "_Driver";
+			driver.centerOfMass = Vector3.zero;
+
+			capsule = driver.GetComponent<CapsuleCollider> ();
 		}
 	}
 
 	private void Awake () 
 	{
-		// Set up Driver (both Client & Server)
-		var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
-		driver = Instantiate (prefab).GetComponent<Rigidbody> ();
-		driver.name = identity + "_Driver";
-		driver.centerOfMass = Vector3.zero;
-
 		// Get references
 		anim = GetComponent<Animator> ().GoSmart ();
-		capsule = driver.GetComponent<CapsuleCollider> ();
 	}
 	#endregion
 
@@ -117,59 +118,36 @@ public partial class Character
  * - All motion and interactions are propagated across the network */ 
 
 // Network-related behaviour
+[NetworkSettings (sendInterval = 0f)]
 public partial class Character : NetBehaviour
 {
 	#region DATA
-	[SyncVar]
-	internal Game.Heroes identity;
-	internal MovingState movingState;
+	[SyncVar] internal Game.Heroes identity;
+	[SyncVar] private MotionData syncMotion;
 	#endregion
 
 	#region LOCOMOTION
-	[Command (channel = Channels.DefaultUnreliable)]
+	[Command (channel=1)]
 	private void Cmd_Motion (float input) 
 	{
 		// Apply physics on Server
 		var velocity = input * Speed * Time.deltaTime;
 		driver.angularVelocity = velocity * Vector3.up;
 
-		// Always be facing a direction
-//		if (input != 0f) movDir = input;
-
 		// Propagate motion to ALL Clients
-		var data = new DriverData () 
+		var motion = new MotionData () 
 		{
-			position = driver.transform.position,
-			rotation = driver.transform.rotation
+			position = ComputeDriverPosition (),
 		};
-		Rpc_PropagateMotion (data);
+		syncMotion = motion;
 	}
-
-	[ClientRpc (channel = Channels.DefaultUnreliable)]
-	private void Rpc_PropagateMotion (DriverData data) 
-	{
-//		if (Vector3.Distance (data.position, driver.position) > 0.001f)
-			driver.MovePosition (data.position);
-//		if (Quaternion.Angle (data.rotation, driver.rotation) > 0.0001f)
-			driver.MoveRotation (data.rotation);
-	} 
 	#endregion
 
 	#region HELPERS
-	// Movement direction
-	public enum MovingState 
-	{
-		MovingLeft,
-		Stopped,
-		MovingRight
-	}
-
-	// This struct encapsulates all data 
-	// to be propagated about the character
-	[Serializable] public struct DriverData 
+	// Encapsulates all motion data to be propagated
+	[Serializable] public struct MotionData  
 	{
 		public Vector3 position;
-		public Quaternion rotation;
 	}
 	#endregion
 }
