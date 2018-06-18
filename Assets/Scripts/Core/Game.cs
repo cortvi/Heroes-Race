@@ -22,8 +22,6 @@ public class Game : NetBehaviour
 		// Set up
 		hero.identity = playingAs;
 		hero.SetName (playingAs.ToString ());
-		// Put player in start position
-		hero.driver.rotation = Quaternion.Euler (0f, 203.91f, 0f);
 
 		// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
