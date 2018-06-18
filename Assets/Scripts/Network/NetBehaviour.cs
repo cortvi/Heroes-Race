@@ -53,7 +53,6 @@ public abstract class NetBehaviour : NetworkBehaviour
 		else
 		if (isServer) 
 		{
-			print (id);
 			if (!id.serverOnly)
 			{
 				displayName = displayName.Insert (0, "[CLIENT] ");

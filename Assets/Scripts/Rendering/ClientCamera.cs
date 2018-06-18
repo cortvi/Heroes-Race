@@ -25,11 +25,13 @@ public class ClientCamera : MonoBehaviour
 		var pos = target.transform.position;
 		pos += mat.MultiplyVector (offset);
 
-		// Lerp for smooth follow
+		// Lerp for smooth position follow
 		transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
 
-		#warning just a test
-		transform.rotation = Quaternion.LookRotation (-forward);
+		// Project camera position for its rotation
+		var camForward = transform.position;
+		camForward.y = 0f;
+		transform.rotation = Quaternion.LookRotation (camForward.normalized);
 	}
 	#endregion
 

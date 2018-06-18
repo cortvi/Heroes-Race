@@ -46,7 +46,19 @@ public partial class Character
 	#endregion
 
 	#region SKILLS
+	private void CheckJump () 
+	{
+		if (Input.GetKeyDown (KeyCode.Space))
+		{
+			Cmd_Jump ();
+		}
+	}
 
+	[Command]
+	private void Cmd_Jump () 
+	{
+		driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
+	}
 	#endregion
 
 	#region CALLBACKS

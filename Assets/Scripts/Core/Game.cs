@@ -18,12 +18,11 @@ public class Game : NetBehaviour
 		// Instantiate Hero object
 		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ());
 		var hero = Instantiate (prefab);
+		hero.SetName (playingAs.ToString ());
 		hero.identity = playingAs;
-		hero.Awake ();
 
 		// Network spawn
 		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-		hero.SetName (playingAs.ToString ());
 	}
 
 	public enum Heroes 
