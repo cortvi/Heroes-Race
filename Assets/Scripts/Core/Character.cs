@@ -58,12 +58,6 @@ public partial class Character
 			Cmd_Jump ();
 		}
 	}
-
-	[Command]
-	private void Cmd_Jump () 
-	{
-		driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
-	}
 	#endregion
 
 	#region CALLBACKS
@@ -95,8 +89,7 @@ public partial class Character
 		}
 	}
 
-	// Be sure authority is set
-	protected override void OnStart () 
+	protected override void OnStart () // When authority is set 
 	{
 		if (isClient) 
 		{
@@ -179,6 +172,14 @@ public partial class Character : NetBehaviour
 
 		// Don't update facing direction if not moving!
 		if (input != 0) syncMovingDir = input;
+	}
+	#endregion
+
+	#region SKILLS
+	[Command]
+	private void Cmd_Jump () 
+	{
+		driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
 	}
 	#endregion
 
