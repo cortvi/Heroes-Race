@@ -360,55 +360,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.212
-      objectReference: {fileID: 0}
-    - target: {fileID: 4877848741272000, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1.1125824
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.7047291
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.057939306
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0.057939306
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7047291
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 4789808159067580, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -9.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 64694407676654890, guid: 30999a56a2426f847b01147902ec15b3,
-        type: 2}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1767802087975736, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954411569855144, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1729739782966520, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 30999a56a2426f847b01147902ec15b3, type: 2}
   m_IsPrefabParent: 0

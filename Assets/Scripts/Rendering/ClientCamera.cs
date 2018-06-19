@@ -14,7 +14,7 @@ public class ClientCamera : MonoBehaviour
 	private const float FloorHeigth = 5.2f;
 	#endregion
 
-	private void Update ()
+	private void Update () 
 	{
 		// Project position over XZ plane
 		var forward = target.transform.position;
@@ -30,18 +30,19 @@ public class ClientCamera : MonoBehaviour
 		(
 			actualOffset.x,
 			(target.movingDir > 0f) ? +offset.x : -offset.x,
-			Time.deltaTime * 3f
+			Time.deltaTime * 2f
 		);
 
-		// Get the position and add the offset
+		// Get the position & set the floor height
 		var pos = target.transform.position;
 		pos.y = floor * FloorHeigth;
+		// Add the offset
 		pos += mat.MultiplyVector (actualOffset);
 
-		// Lerp for smooth position follow
+		// Lerp the position for a smooth camera follow
 		transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
 
-		// Project camera position for its rotation
+		// Project camera position to get the orientation
 		var camForward = transform.position;
 		camForward.y = 0f;
 		transform.rotation = Quaternion.LookRotation (-camForward.normalized);

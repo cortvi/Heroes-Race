@@ -23,21 +23,19 @@ public partial class Character : NetBehaviour
 	public Game.Heroes identity;
 	internal float Speed = 10.0f;
 
-	internal Rigidbody driver;
 	internal SmartAnimator anim;
+	internal Rigidbody driver;
+	private CapsuleCollider capsule;
 
 	// Locomotion
 	internal float input;
 	internal float movingDir;
-	internal bool jumping;
-
-	private CapsuleCollider capsule;
 
 	// Air-Ground check
 	private BoxCollider box;
-//	private float leftFloorTime;
-//	private bool touchingFloorLastFrame;
-//	private const float GoOnAirThreshold = 0.3f;
+	private float leaveFloorTime;
+	private bool touchingFloorLastFrame = true;
+	private const float GoOnAirThreshold = 0.3f;
 	#endregion
 
 	#region LOCOMOTION
@@ -63,19 +61,44 @@ public partial class Character : NetBehaviour
 
 	private void CheckJump () 
 	{
-		if (jumping) return;
 		if (anim.GetBool ("OnAir")) return;
 		if (!Input.GetKeyDown (KeyCode.Space)) return;
+		// Can't jump if in any jump-stage
+		if (anim.IsInState ("BaseL.Air.Jumping") || anim.IsInState ("BaseL.Air.Landing")) return;
 
 		anim.SetTrigger ("Jump");
-		jumping = true;
 	}
 
 	private void CheckFloor () 
 	{
+		// Check against objects where the player can stand
 		bool check = Physics.CheckBox (transform.position, box.size / 2f, transform.rotation, 1<<8);
-		if (check && jumping) anim.SetTrigger ("Land");
-		anim.SetBool ("OnAir", check);
+		if (check) 
+		{
+			// Reset fall-check
+			touchingFloorLastFrame = true;
+
+			// If hit floor from air (and in mid-air animation), land character
+			if (anim.GetBool ("OnAir") && anim.IsInState ("BaseL.Air.Mid_Air")) 
+			{
+				anim.SetBool ("OnAir", false);
+				anim.SetTrigger ("Land");
+			}
+		}
+		else
+		// If already on-air, don't start timer
+		if (!anim.GetBool ("OnAir")) 
+		{
+			// Start timer
+			if (touchingFloorLastFrame)
+			{
+				leaveFloorTime = Time.time + GoOnAirThreshold;
+				touchingFloorLastFrame = false;
+			}
+			else
+			// Must stay on-air some time to start falling
+			if (Time.time > leaveFloorTime) anim.SetBool ("OnAir", true);
+		}
 	}
 	#endregion
 
@@ -123,8 +146,8 @@ public partial class Character : NetBehaviour
 			driver.centerOfMass = Vector3.zero;
 
 			// Get references
-			anim = GetComponent<Animator> ().GoSmart ();
-			capsule = GetComponent<CapsuleCollider> ();
+			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
+			capsule = driver.GetComponent<CapsuleCollider> ();
 			box = GetComponent<BoxCollider> ();
 		}
 		else 

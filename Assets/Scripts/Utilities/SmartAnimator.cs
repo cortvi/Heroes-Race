@@ -1,11 +1,15 @@
 ﻿/// Adapted from: https://gist.github.com/marsh12th/fdf06d19d3689b375411761e47befb4c#file-smartanimator-cs
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class SmartAnimator : Object
 {
 	#region DATA
 	public Animator Animator { get; private set; }
+	public NetworkAnimator NetAnimator { get; private set; }
+	private bool networked;
+
 	private Dictionary<string, Param<float>> floats;
 	private Dictionary<string, Param<bool>> bools;
 	private Dictionary<string, Param<int>> ints;
@@ -27,7 +31,7 @@ public class SmartAnimator : Object
 	/// Creates a wrapper around given Animator and makes a cache of all
 	/// its parameters for faster checks and modifications.
 	/// </summary>
-	public SmartAnimator (Animator animator)
+	public SmartAnimator (Animator animator, bool networked = false) 
 	{
 		// Null check
 		if (!animator)
@@ -42,6 +46,9 @@ public class SmartAnimator : Object
 		triggers = new Dictionary<string, int> ();
 
 		Animator = animator;
+		NetAnimator = animator.GetComponent<NetworkAnimator> ();
+		this.networked = networked;
+
 		// Loops through animator parameters
 		// Default (inspector) values are stored in the cache
 		// now and then updated with each Set function.
@@ -71,6 +78,15 @@ public class SmartAnimator : Object
 			else
 			if (p.type == AnimatorControllerParameterType.Trigger) triggers.Add (p.name, p.nameHash);
 		}
+	}
+
+	public bool IsInState (string name, bool trueInTransition = false, int layer = 0) 
+	{
+		if (Animator.IsInTransition (layer) && !trueInTransition)
+			return false;
+
+		var info = Animator.GetCurrentAnimatorStateInfo (layer);
+		return info.IsName (name);
 	}
 
 	#region GETTERS
@@ -171,7 +187,11 @@ public class SmartAnimator : Object
 		if (triggers.TryGetValue (id, out hash))
 		{
 			if (reset) Animator.ResetTrigger (hash);
-			else Animator.SetTrigger (hash);
+			else
+			{
+				if (networked)  NetAnimator.SetTrigger (hash);
+				else			Animator.SetTrigger (hash);
+			}
 		}
 		else Debug.LogError ("Can't find parameter!", this);
 	}

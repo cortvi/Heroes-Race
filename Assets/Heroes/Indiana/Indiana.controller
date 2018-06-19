@@ -38,19 +38,19 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: Push
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Fear
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Push
+  - m_Name: Scare
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -64,7 +64,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
+    m_Name: BaseL
     m_StateMachine: {fileID: 1107588292812634954}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -76,8 +76,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Squash Layer
-    m_StateMachine: {fileID: 1107334369884636758}
+    m_Name: HitL
+    m_StateMachine: {fileID: 1107596572967207628}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -88,7 +88,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Scare Layer
+    m_Name: ScareL
     m_StateMachine: {fileID: 1107968694511895758}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -100,8 +100,8 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Hit Layer
-    m_StateMachine: {fileID: 1107596572967207628}
+    m_Name: SquashL
+    m_StateMachine: {fileID: 1107334369884636758}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -222,7 +222,7 @@ AnimatorStateTransition:
   m_ExitTime: 0.020901399
   m_HasExitTime: 1
   m_HasFixedDuration: 1
-  m_InterruptionSource: 0
+  m_InterruptionSource: 1
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 --- !u!1101 &1101276952568036978
@@ -440,7 +440,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Fear
+    m_ConditionEvent: Scare
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102050062629158186}
@@ -604,7 +604,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Run
+  m_Name: Run
   m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
@@ -632,12 +632,12 @@ AnimatorState:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Landing
+  m_Name: Landing
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 1101253926396374810}
   - {fileID: 1101018214547796374}
+  - {fileID: 1101253926396374810}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -649,7 +649,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400004, guid: 8037b01d570907a479382e6fc707cff1, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: SpeedMul
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -659,7 +659,7 @@ AnimatorState:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Air
+  m_Name: Mid_Air
   m_Speed: 0.1
   m_CycleOffset: 0
   m_Transitions:
@@ -711,7 +711,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Hit
+  m_Name: Been_Hit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -763,7 +763,7 @@ AnimatorState:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Idle
+  m_Name: Idle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -869,7 +869,7 @@ AnimatorState:
   m_ObjectHideFlags: 3
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Indiana_Jump
+  m_Name: Jumping
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -895,7 +895,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Squash Layer
+  m_Name: SquashL
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102580069589682118}
@@ -916,7 +916,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 48, y: 60, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102580069589682118}
 --- !u!1107 &1107588292812634954
@@ -925,7 +925,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Base Layer
+  m_Name: BaseL
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102602592607586792}
@@ -941,9 +941,9 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 48, y: 24, z: 0}
+  m_AnyStatePosition: {x: 48, y: -36, z: 0}
   m_EntryPosition: {x: 48, y: 60, z: 0}
-  m_ExitPosition: {x: -144, y: 60, z: 0}
+  m_ExitPosition: {x: 48, y: 0, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102602592607586792}
 --- !u!1107 &1107596572967207628
@@ -952,7 +952,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Hit Layer
+  m_Name: HitL
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102465230573655564}
@@ -967,7 +967,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 48, y: 60, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102851534547245472}
 --- !u!1107 &1107717111857228008
@@ -976,26 +976,26 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Jumping
+  m_Name: Air
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102412599541603050}
-    m_Position: {x: 276, y: 96, z: 0}
+    m_Position: {x: 276, y: 108, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102976172959966672}
-    m_Position: {x: 24, y: 96, z: 0}
+    m_Position: {x: 24, y: 108, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102322022387363502}
-    m_Position: {x: 528, y: 96, z: 0}
+    m_Position: {x: 528, y: 108, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -144, y: 72, z: 0}
+  m_AnyStatePosition: {x: -312, y: 108, z: 0}
   m_EntryPosition: {x: -144, y: 108, z: 0}
-  m_ExitPosition: {x: -144, y: 36, z: 0}
-  m_ParentStateMachinePosition: {x: 264, y: -24, z: 0}
+  m_ExitPosition: {x: -312, y: 72, z: 0}
+  m_ParentStateMachinePosition: {x: 264, y: 0, z: 0}
   m_DefaultState: {fileID: 1102976172959966672}
 --- !u!1107 &1107968694511895758
 AnimatorStateMachine:
@@ -1003,7 +1003,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Scare Layer
+  m_Name: ScareL
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102626243952753350}
@@ -1018,6 +1018,6 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 48, y: 60, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102626243952753350}
