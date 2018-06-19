@@ -8,9 +8,9 @@ using UnityEngine.Networking;
  * are contained on a single GameObject.
  * 
  * But the rigidbody and colliders that control its physic movement (angular rotation)
- * and such are separated and only present in the Server.
+ * and such are separated and only on each Client locally.
  * 
- * Clients get their 3D data from the Server and is lerped for a fluid movement. */
+ * Other clients get their 3D data from the Server and it's lerped for a fluid movement. */
 
 public partial class Character 
 {
@@ -20,89 +20,89 @@ public partial class Character
 		get { return identity.ToString (); }
 	}
 
+	public Game.Heroes identity;
 	internal float Speed = 10.0f;
+
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
+
+	internal float syncMovingDir;
+	internal float input;
 
 	private CapsuleCollider capsule;
 	#endregion
 
 	#region LOCOMOTION
-	private void SendInput () 
+	private void CheckInput () 
 	{
 		if (!hasAuthority) return;
-		float input = -Input.GetAxis ("Horizontal");
+
+		// Save input for physics
+		input = -Input.GetAxis ("Horizontal");
+		// Don't update facing direction if not moving!
+		if (input != 0) syncMovingDir = input;
 
 		// Update animator
 		anim.SetBool ("Moving", input != 0f);
+	}
 
-		// Send from Client -> Server
-		Cmd_ProcessInput (input);
+	private void SyncMotion () 
+	{
+		// Positionate character based on Driver
+		transform.position = ComputePosition ();
+		transform.rotation = ComputeRotation ();
 	}
 	#endregion
 
 	#region SKILLS
 	private void CheckJump () 
 	{
-		if (Input.GetKeyDown (KeyCode.Space))
+		if (Input.GetKeyDown (KeyCode.Space)) 
 		{
-			Cmd_Jump ();
+			driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
 		}
 	}
 	#endregion
 
 	#region CALLBACKS
+	[ClientCallback]
 	private void Update () 
 	{
-		if (isClient) 
-		{
-			SendInput ();
-			CheckJump ();
-		}
-		else
-		if (isServer) 
-		{
-			// Propagate motion to ALL Clients
-			transform.position = ComputePosition ();
-			transform.rotation = ComputeRotation ();
-		}
+		if (!hasAuthority) return;
+
+		SyncMotion ();
+		CheckInput ();
+		CheckJump ();
 	}
 
+	[ClientCallback]
 	private void FixedUpdate () 
 	{
-		if (isServer) 
-		{
-			// Apply physics
-			var velocity = input * Speed * Time.deltaTime;
-			driver.angularVelocity = velocity * Vector3.up;
-		}
+		if (!hasAuthority) return;
+
+		// Apply physics
+		var velocity = input * Speed * Time.deltaTime;
+		driver.angularVelocity = velocity * Vector3.up;
 	}
 
-	protected override void OnStart () // When authority is set 
+	protected override void OnStart () 
 	{
-		if (isClient) 
+		if (isClient && hasAuthority) 
 		{
 			// Initialize camera
 			var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
 			cam.target = this;
-		}
-		else
-		if (isServer) 
-		{
-			// Set up Driver (only present on Server)
+
+			// Set up Driver (only present on local Client)
 			var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
 			driver = Instantiate (prefab).GetComponent<Rigidbody> ();
 			driver.name = identity + "_Driver";
 			driver.centerOfMass = Vector3.zero;
 
+			// Get references
+			anim = GetComponent<Animator> ().GoSmart ();
 			capsule = driver.GetComponent<CapsuleCollider> ();
 		}
-	}
-
-	protected override void OnAwake () 
-	{
-		// Get references
-		anim = GetComponent<Animator> ().GoSmart ();
 	}
 	#endregion
 
@@ -129,48 +129,9 @@ public partial class Character
 	#endregion
 }
 
-/* Everything is processed this way:
- * - Input is get locally from each client
- * - This input is send to the server
- * - In the server take place all the actual physics
- * - All motion and interactions are propagated across the network */ 
-
 // Network-related behaviour
 [NetworkSettings (channel = 1, sendInterval = 0f)]
 public partial class Character : NetBehaviour
 {
-	#region DATA
-	[SyncVar] public Game.Heroes identity;
-	[SyncVar] internal float syncMovingDir;
 
-	private float input;
-	#endregion
-
-	#region LOCOMOTION
-	[Command (channel=1)]
-	private void Cmd_ProcessInput (float input) 
-	{
-		// Save input for physics
-		this.input = input;
-
-		// Don't update facing direction if not moving!
-		if (input != 0) syncMovingDir = input;
-	}
-	#endregion
-
-	#region SKILLS
-	[Command]
-	private void Cmd_Jump () 
-	{
-		driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
-	}
-	#endregion
-
-	#region HELPERS
-	// Encapsulates all motion data to be propagated
-	[Serializable] public struct MotionData  
-	{
-		public Vector3 position;
-	}
-	#endregion
 }
