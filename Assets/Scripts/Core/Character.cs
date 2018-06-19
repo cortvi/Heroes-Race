@@ -12,7 +12,7 @@ using UnityEngine.Networking;
  * 
  * Other clients get their 3D data from the Server and it's lerped for a fluid movement. */
 
-public partial class Character 
+public partial class Character : NetBehaviour
 {
 	#region DATA
 	public override string SharedName 
@@ -26,8 +26,8 @@ public partial class Character
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
 
-	internal float syncMovingDir;
 	internal float input;
+	internal float movingDir;
 
 	private CapsuleCollider capsule;
 	#endregion
@@ -40,7 +40,7 @@ public partial class Character
 		// Save input for physics
 		input = -Input.GetAxis ("Horizontal");
 		// Don't update facing direction if not moving!
-		if (input != 0) syncMovingDir = input;
+		if (input != 0) movingDir = input;
 
 		// Update animator
 		anim.SetBool ("Moving", input != 0f);
@@ -57,10 +57,17 @@ public partial class Character
 	#region SKILLS
 	private void CheckJump () 
 	{
-		if (Input.GetKeyDown (KeyCode.Space)) 
-		{
-			driver.AddForce (Vector3.up * 4f, ForceMode.VelocityChange);
-		}
+		if (anim.GetBool ("OnAir")) return;
+		if (!Input.GetKeyDown (KeyCode.Space)) return;
+
+		anim.SetTrigger ("Jump");
+	}
+
+	// Animation event
+	[ClientCallback] private void Jump () 
+	{
+		driver.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
+		anim.SetBool ("OnAir", true);
 	}
 	#endregion
 
@@ -120,18 +127,11 @@ public partial class Character
 	private Quaternion ComputeRotation () 
 	{
 		// Get signed facing direction
-		var faceDir = driver.transform.right * (syncMovingDir>0? 1f : -1f);
+		var faceDir = driver.transform.right * (movingDir>0? 1f : -1f);
 		var q = Quaternion.LookRotation (faceDir);
 
 		// Lerp rotation for smooth turns
 		return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 	}
 	#endregion
-}
-
-// Network-related behaviour
-[NetworkSettings (channel = 1, sendInterval = 0f)]
-public partial class Character : NetBehaviour
-{
-
 }

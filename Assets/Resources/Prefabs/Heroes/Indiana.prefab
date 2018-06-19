@@ -1315,11 +1315,11 @@ MonoBehaviour:
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
-  m_MovementTheshold: 0.0001
+  m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 4
   m_InterpolateRotation: 0.15
-  m_InterpolateMovement: 0.3
+  m_InterpolateMovement: 0.5
 --- !u!114 &114693947125162498
 MonoBehaviour:
   m_ObjectHideFlags: 1
