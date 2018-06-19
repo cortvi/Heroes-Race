@@ -11,7 +11,7 @@ public class ClientCamera : MonoBehaviour
 	#endregion
 
 	#region UTILS
-	private void Move () 
+	private void ComputeMotion () 
 	{
 		// Project position over XZ plane
 		var forward = target.transform.position;
@@ -20,6 +20,9 @@ public class ClientCamera : MonoBehaviour
 
 		// Compute the rotation matrix
 		var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
+
+		// Invert side-offset based on moving direction
+		offset.x *= (target.syncMovingDir > 0f)? +1f : -1f;
 
 		// Get the position and add the offset
 		var pos = target.transform.position;
@@ -37,6 +40,6 @@ public class ClientCamera : MonoBehaviour
 
 	private void Update () 
 	{
-		Move ();
+		ComputeMotion ();
 	}
 }
