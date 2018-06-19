@@ -26,10 +26,18 @@ public partial class Character : NetBehaviour
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
 
+	// Locomotion
 	internal float input;
 	internal float movingDir;
+	internal bool jumping;
 
 	private CapsuleCollider capsule;
+
+	// Air-Ground check
+	private BoxCollider box;
+//	private float leftFloorTime;
+//	private bool touchingFloorLastFrame;
+//	private const float GoOnAirThreshold = 0.3f;
 	#endregion
 
 	#region LOCOMOTION
@@ -52,18 +60,26 @@ public partial class Character : NetBehaviour
 		transform.position = ComputePosition ();
 		transform.rotation = ComputeRotation ();
 	}
-	#endregion
 
-	#region SKILLS
 	private void CheckJump () 
 	{
+		if (jumping) return;
 		if (anim.GetBool ("OnAir")) return;
 		if (!Input.GetKeyDown (KeyCode.Space)) return;
 
 		anim.SetTrigger ("Jump");
+		jumping = true;
 	}
 
-	// Animation event
+	private void CheckFloor () 
+	{
+		bool check = Physics.CheckBox (transform.position, box.size / 2f, transform.rotation, 1<<8);
+		if (check && jumping) anim.SetTrigger ("Land");
+		anim.SetBool ("OnAir", check);
+	}
+	#endregion
+
+	#region ANIMATION EVENTS
 	[ClientCallback] private void Jump () 
 	{
 		driver.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
@@ -76,7 +92,7 @@ public partial class Character : NetBehaviour
 	private void Update () 
 	{
 		if (!hasAuthority) return;
-
+		CheckFloor ();
 		SyncMotion ();
 		CheckInput ();
 		CheckJump ();
@@ -108,7 +124,15 @@ public partial class Character : NetBehaviour
 
 			// Get references
 			anim = GetComponent<Animator> ().GoSmart ();
-			capsule = driver.GetComponent<CapsuleCollider> ();
+			capsule = GetComponent<CapsuleCollider> ();
+			box = GetComponent<BoxCollider> ();
+		}
+		else 
+		{
+			// On not-ownwer Clients & Server
+			// Enable this simple collider to allow interactions
+			// between players & with the environment
+			GetComponent<CapsuleCollider> ().enabled = true;
 		}
 	}
 	#endregion
