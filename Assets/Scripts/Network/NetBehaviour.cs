@@ -12,66 +12,45 @@ public abstract class NetBehaviour : NetworkBehaviour
 	internal NetworkIdentity id;
 
 	// Network-shared name
-	[SyncVar (hook = "UpdateName")]
-	private string netName;
+	public abstract string SharedName { get; }
 
 	// List of owned objects by type
 	private static Dictionary<Type, NetBehaviour> ownInstances = new Dictionary<Type, NetBehaviour> ();
 	#endregion
 
 	#region CALLBACKS
-	public void Awake () 
+	public void Start () 
 	{
-		id = GetComponent<NetworkIdentity> ();
-		OnAwake ();
+		OnStart ();
 	}
-	protected virtual void OnAwake () { }
+	protected virtual void OnStart () { }
 
 	public sealed override void OnStartAuthority () 
 	{
-		// Register as own
-		if (isClient) AddToDictionary ();
-		OnSetAuthority ();
+		// Register as own & update name
+		if (isClient)
+		{
+			UpdateName ();
+			AddToDictionary ();
+		}
+		OnAuthoritySet ();
 	}
-	protected virtual void OnSetAuthority () { }
+	protected virtual void OnAuthoritySet () { }
+
+	public void Awake () 
+	{
+		id = GetComponent<NetworkIdentity> ();
+		UpdateName ();
+		OnAwake ();
+	}
+	protected virtual void OnAwake () { }
 	#endregion
 
 	#region HELPERS
-	[Server]
-	public void SetName (string name) 
-	{
-		UpdateName (name);
-	}
-	private void UpdateName (string name) 
-	{
-		string displayName = name;
-		if (isClient) 
-		{
-			if (hasAuthority)	displayName = displayName.Insert (0, "[OWN] ");
-			else				displayName = displayName.Insert (0, "[OTHER] ");
-		}
-		else
-		if (isServer) 
-		{
-			if (!id.serverOnly)
-			{
-				displayName = displayName.Insert (0, "[CLIENT] ");
-
-				var o = id.clientAuthorityOwner;
-				if (o != null) displayName = displayName.Insert (0, "["+o.connectionId+"]");
-			}
-			else displayName = displayName.Insert (0, "[SERVER-ONLY] ");
-		}
-
-		// Show on inspector
-		this.name = displayName;
-		netName = name;
-	}
-
-	// Returns the scene object that has local Player authority of given type
 	[Client] public static T GetOwn<T> () where T : NetBehaviour
 	{
 		NetBehaviour own;
+		// Returns the scene object that has local Player authority of given type
 		if (!ownInstances.TryGetValue (typeof (T), out own))
 		{
 			if (Debug.isDebugBuild)
@@ -84,6 +63,30 @@ public abstract class NetBehaviour : NetworkBehaviour
 	{
 		var type = GetType ();
 		ownInstances.Add (type, this);
+	}
+
+	private void UpdateName () 
+	{
+		string name = SharedName;
+		if (isClient) 
+		{
+			if (hasAuthority)	name = name.Insert (0, "[OWN] ");
+			else				name = name.Insert (0, "[OTHER] ");
+		}
+		else
+		if (isServer) 
+		{
+			if (!id.serverOnly)
+			{
+				name = name.Insert (0, "[CLIENT] ");
+
+				var o = id.clientAuthorityOwner;
+				if (o != null) name = name.Insert (0, "["+o.connectionId+"]");
+			}
+			else name = name.Insert (0, "[SERVER-ONLY] ");
+		}
+		// Show on inspector
+		this.name = name;
 	}
 	#endregion
 }

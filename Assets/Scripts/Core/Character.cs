@@ -15,6 +15,11 @@ using UnityEngine.Networking;
 public partial class Character 
 {
 	#region DATA
+	public override string SharedName 
+	{
+		get { return identity.ToString (); }
+	}
+
 	internal float Speed = 10.0f;
 	internal Rigidbody driver;
 	internal SmartAnimator anim;
@@ -91,7 +96,7 @@ public partial class Character
 	}
 
 	// Be sure authority is set
-	protected void Start () 
+	protected override void OnStart () 
 	{
 		if (isClient) 
 		{
@@ -153,7 +158,7 @@ public partial class Character
 public partial class Character : NetBehaviour
 {
 	#region DATA
-	[SyncVar] internal Game.Heroes identity;
+	[SyncVar] public Game.Heroes identity;
 	[SyncVar] internal float syncMovingDir;
 
 	[SyncVar] private Vector3 syncPosition;

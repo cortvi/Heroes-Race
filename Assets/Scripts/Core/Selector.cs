@@ -7,6 +7,11 @@ using UnityEngine.Networking;
 public class Selector : NetBehaviour 
 {
 	#region DATA
+	public override string SharedName 
+	{
+		get { return "Selector"; }
+	}
+
 	[Header ("References")]
 	public RectTransform carousel;
 	public Sprite goldenFrame;
@@ -123,7 +128,7 @@ public class Selector : NetBehaviour
 		carousel.localPosition = pos;
 	}
 
-	private void Start () 
+	protected override void OnStart () 
 	{
 		// Correct position && SceneID
 		(transform as RectTransform).localPosition = iPosition;
@@ -133,6 +138,7 @@ public class Selector : NetBehaviour
 			// Show owner marks
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);
+
 			// Start reading movement input
 			StartCoroutine (ReadInput ());
 		}

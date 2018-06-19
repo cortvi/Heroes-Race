@@ -1309,6 +1309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac8727c464626478b2f0978baaac8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  netName: Indiana
+  identity: 1
   positionInterpolation: 0.15
   rotationInterpolation: 0.15
 --- !u!114 &114706650489439810

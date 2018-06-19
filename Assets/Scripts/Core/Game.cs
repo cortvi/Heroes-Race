@@ -9,22 +9,14 @@ using UnityEngine.SceneManagement;
 public class Game : NetBehaviour
 {
 	#region DATA
+	public override string SharedName 
+	{
+		get { return "Player"; }
+	}
 	[SyncVar] internal Heroes playingAs;
 	#endregion
 
 	#region HELPERS
-	[Server] public void SpawnHero () 
-	{
-		// Instantiate Hero object
-		var prefab = Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ());
-		var hero = Instantiate (prefab);
-		hero.identity = playingAs;
-
-		// Network spawn
-		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-		hero.SetName (playingAs.ToString ());
-	}
-
 	public enum Heroes 
 	{
 		NONE = -1,
@@ -35,6 +27,13 @@ public class Game : NetBehaviour
 		Harry,
 
 		Count
+	}
+
+	[Server] public void SpawnHero () 
+	{
+		// Instantiate Hero object & propagate over the Net
+		var hero = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ()));
+		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
 	}
 	#endregion
 }

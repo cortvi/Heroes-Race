@@ -28,10 +28,10 @@ public class Networker : NetworkManager
 	#region SERVER
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 	{
+
 		// Spawn player object over the net
 		var player = Instantiate (playerPrefab).GetComponent<Game> ();
 		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-		player.SetName ("Player");
 		players.Add (player);
 
 		#region SCENE BEHAVIOUR
@@ -42,7 +42,6 @@ public class Networker : NetworkManager
 			// Assign authority to selector
 			var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
 			selector.id.AssignClientAuthority (conn);
-			selector.SetName ("Selector");
 		}
 		else
 		// If bypassing the Selection Menu
