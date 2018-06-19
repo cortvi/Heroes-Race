@@ -39,15 +39,6 @@ public partial class Character
 		// Send from Client -> Server
 		Cmd_ProcessInput (input);
 	}
-
-	private void SyncMotion () 
-	{
-		// Interpolated from values sent by Server
-		var pos = Vector3.Lerp (transform.position, syncPosition, positionInterpolation);
-		var rot = Quaternion.Slerp (transform.rotation, syncRotation, rotationInterpolation);
-		transform.position = pos;
-		transform.rotation = rot;
-	}
 	#endregion
 
 	#region SKILLS
@@ -66,16 +57,14 @@ public partial class Character
 		if (isClient) 
 		{
 			SendInput ();
-			SyncMotion ();
-
 			CheckJump ();
 		}
 		else
 		if (isServer) 
 		{
 			// Propagate motion to ALL Clients
-			transform.position = syncPosition = ComputePosition ();
-			transform.rotation = syncRotation = ComputeRotation ();
+			transform.position = ComputePosition ();
+			transform.rotation = ComputeRotation ();
 		}
 	}
 
@@ -153,12 +142,6 @@ public partial class Character : NetBehaviour
 	#region DATA
 	[SyncVar] public Game.Heroes identity;
 	[SyncVar] internal float syncMovingDir;
-
-	[SyncVar] private Vector3 syncPosition;
-	[SyncVar] private Quaternion syncRotation;
-
-	[Range (0f, 1f)] public float positionInterpolation;
-	[Range (0f, 1f)] public float rotationInterpolation;
 
 	private float input;
 	#endregion

@@ -21,18 +21,16 @@ public abstract class NetBehaviour : NetworkBehaviour
 	#region CALLBACKS
 	public void Start () 
 	{
+		// Once authority is set
+		UpdateName ();
 		OnStart ();
 	}
 	protected virtual void OnStart () { }
 
 	public sealed override void OnStartAuthority () 
 	{
-		// Register as own & update name
-		if (isClient)
-		{
-			UpdateName ();
-			AddToDictionary ();
-		}
+		// Register as own on Client
+		if (isClient) AddToDictionary ();
 		OnAuthoritySet ();
 	}
 	protected virtual void OnAuthoritySet () { }
@@ -40,7 +38,6 @@ public abstract class NetBehaviour : NetworkBehaviour
 	public void Awake () 
 	{
 		id = GetComponent<NetworkIdentity> ();
-		UpdateName ();
 		OnAwake ();
 	}
 	protected virtual void OnAwake () { }
