@@ -14,8 +14,7 @@ namespace HeroesRace
 		internal NetworkIdentity id;
 
 		// Network-shared name
-		public virtual string SharedName 
-		{ get { return name; } }
+		public abstract string SharedName { get; }
 
 		// List of owned objects by type
 		private static Dictionary<Type, NetBehaviour> ownInstances = new Dictionary<Type, NetBehaviour> ();

@@ -9,6 +9,11 @@ namespace HeroesRace
 	public class Selector : NetBehaviour
 	{
 		#region DATA
+		public override string SharedName 
+		{
+			get { return "Selector"; }
+		}
+
 		[Header ("References")]
 		public RectTransform carousel;
 		public Sprite goldenFrame;
