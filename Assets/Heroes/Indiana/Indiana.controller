@@ -64,7 +64,7 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: BaseL
+    m_Name: Locomotion
     m_StateMachine: {fileID: 1107588292812634954}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -76,7 +76,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: HitL
+    m_Name: Hitting
     m_StateMachine: {fileID: 1107596572967207628}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -88,7 +88,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: ScareL
+    m_Name: Scaring
     m_StateMachine: {fileID: 1107968694511895758}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -100,7 +100,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: SquashL
+    m_Name: Squashing
     m_StateMachine: {fileID: 1107334369884636758}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -895,7 +895,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SquashL
+  m_Name: Squashing
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102580069589682118}
@@ -925,7 +925,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: BaseL
+  m_Name: Locomotion
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102602592607586792}
@@ -952,7 +952,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: HitL
+  m_Name: Hitting
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102465230573655564}
@@ -1003,7 +1003,7 @@ AnimatorStateMachine:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ScareL
+  m_Name: Scaring
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102626243952753350}

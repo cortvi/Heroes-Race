@@ -150,9 +150,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224941310068608280}
   - component: {fileID: 222661195907746500}
+  - component: {fileID: 114900092767347084}
   - component: {fileID: 114717900196278928}
   - component: {fileID: 95942578396299228}
-  - component: {fileID: 114900092767347084}
   - component: {fileID: 114184906135542048}
   m_Layer: 5
   m_Name: Selector
@@ -333,7 +333,7 @@ MonoBehaviour:
   goldenFrame: {fileID: 21300000, guid: 42524bd22260b37408983675a44374ad, type: 3}
   frame: {fileID: 114808987646051638}
   anchor: {fileID: 114976182072902620}
-  _selection: 0
+  selection: 2
 --- !u!114 &114215981550341254
 MonoBehaviour:
   m_ObjectHideFlags: 1

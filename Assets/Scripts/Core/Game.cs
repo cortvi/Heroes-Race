@@ -5,35 +5,39 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-// This is the "Local players" class
-public class Game : NetBehaviour
+namespace HeroesRace 
 {
-	#region DATA
-	public override string SharedName 
+	// This is the "Local players" class
+	public class Game : NetBehaviour
 	{
-		get { return "Player"; }
-	}
-	[SyncVar] internal Heroes playingAs;
-	#endregion
+		#region DATA
+		public override string SharedName 
+		{
+			get { return "Player"; }
+		}
+		[SyncVar] internal Heroes playingAs;
+		#endregion
 
-	#region HELPERS
-	public enum Heroes 
-	{
-		NONE = -1,
+		#region HELPERS
+		public enum Heroes
+		{
+			NONE = -1,
 
-		Espectador,
-		Indiana,
-		Harley,
-		Harry,
+			Espectador,
+			Indiana,
+			Harley,
+			Harry,
 
-		Count
-	}
+			Count
+		}
 
-	[Server] public void SpawnHero () 
-	{
-		// Instantiate Hero object & propagate over the Net
-		var hero = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ()));
-		NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-	}
-	#endregion
+		[Server]
+		public void SpawnHero ()
+		{
+			// Instantiate Hero object & propagate over the Net
+			var hero = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ()));
+			NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
+		}
+		#endregion
+	} 
 }

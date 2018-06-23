@@ -4,151 +4,140 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class Selector : NetBehaviour 
+namespace HeroesRace 
 {
-	#region DATA
-	public override string SharedName 
+	public class Selector : NetBehaviour
 	{
-		get { return "Selector"; }
-	}
+		#region DATA
+		[Header ("References")]
+		public RectTransform carousel;
+		public Sprite goldenFrame;
+		public Image frame;
+		public Image anchor;
+		[Space]
 
-	[Header ("References")]
-	public RectTransform carousel;
-	public Sprite goldenFrame;
-	public Image frame;
-	public Image anchor;
-	[Space]
+		[Tooltip ("Indiana is 2")]
+		// This values indicates the literal value in the carrousel
+		[Range (0f, 5f)] public int initialSelection;
 
-	// This values indicates the literal value in the carrousel
-	[SyncVar] [Range (0f, 5f)] public int selection;
+		private SmartAnimator anim;
+		private Vector3 cachePosition;
 
-	private SmartAnimator anim;
-	private Vector3 iPosition;
+		private static int SelectorsReady;
+		private const float Offset = 387f;
+		private const float MaxSelection = 5f;
+		#endregion
 
-	// Reference values
-	private const float Offset = 387f;
-	#endregion
-
-	#region UTILS
-	IEnumerator ReadInput () 
-	{
-		while (true) 
+		#region UTILS
+		[Client] IEnumerator ReadInput () 
 		{
-			if (Input.GetKeyDown (KeyCode.Return))
+			while (true)
 			{
-				// Let player select the character
-				anim.SetBool ("Ready", true);
-				while (anim.GetBool ("Ready"))
+				#region SELECTOR READY
+				if (Input.GetKeyDown (KeyCode.Return)) 
 				{
-					yield return null;
-					// Block movement until it's been de-selected
-					if (Input.GetKeyDown (KeyCode.Return))
-						anim.SetBool ("Ready", false);
+					// Let player select the character
+					anim.SetBool ("Ready", true);
+					while (anim.GetBool ("Ready")) 
+					{
+
+						// Block movement until it's been de-selected
+						if (Input.GetKeyDown (KeyCode.Return))
+						{
+							anim.SetBool ("Ready", false);
+						}
+					}
+				}
+				#endregion
+
+				#region SELECTOR MOVEMENT
+				int delta = (int)Input.GetAxisRaw ("Horizontal");
+				if (delta != 0)
+				{
+					MoveSelection (delta);
+					// Avoid abuse of movement
+					yield return new WaitForSeconds (0.3f);
+				}
+				yield return null; 
+				#endregion
+			}
+		}
+
+		private void MoveSelection (int delta) 
+		{
+			int selection = anim.IncrementInt ("Selection", delta);
+			// Correct selection & snap carousel to opposite bounds
+			if (selection < 0 || selection > 5) 
+			{
+				if (selection == -1) 
+				{
+					SnapCarousel (4);
+					anim.SetInt ("Selection", 3);
+				}
+				else
+				if (selection == +6) 
+				{
+					SnapCarousel (1);
+					anim.SetInt ("Selection", 2);
 				}
 			}
-
-			int delta = (int) Input.GetAxisRaw ("Horizontal");
-			if (delta != 0) 
-			{
-				Cmd_MoveSelection (delta);
-				// Avoid anuse of movement
-				yield return new WaitForSeconds (0.3f);
-			}
-			yield return null;
+			UpdateHero ();
 		}
-	}
-	[Command] private void Cmd_MoveSelection (int delta) 
-	{
-		selection += delta;
-		if (selection < 0 || selection > 5)
+		#endregion
+
+		#region CALLBACKS
+		private void Update () 
 		{
-			// Correct selection
-			if (selection == -1) 
-			{
-				selection = 3;
-				// Snap carousel to opposite bounds
-				SnapCarousel (4f / 5f);
-				Rpc_Snap (4f / 5f);
-			}
-			else
-			if (selection == +6) 
-			{
-				selection = 2;
-				// Snap carousel to opposite bounds
-				SnapCarousel (1f / 5f);
-				Rpc_Snap (1f / 5f);
-			}
+			// Move carousel towards selection
+			int selection = anim.GetInt ("Selection");
+			float iValue = anim.GetFloat ("Blend");
+			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
+			anim.SetFloat ("Blend", tValue);
 		}
-		UpdateHero ();
-	}
 
-	[ClientRpc]
-	private void Rpc_Snap (float factor) 
-	{ SnapCarousel (factor); }
-	private void SnapCarousel (float factor) 
-	{
-		// Use a value [0, 1] to positionate the carousel
-		float value = Mathf.Lerp (-Offset, Offset * 4f, factor);
-
-		var pos = carousel.localPosition;
-		pos.x = -value;
-		carousel.localPosition = pos;
-	}
-	#endregion
-
-	#region HELPERS
-	private void UpdateHero () 
-	{
-//		if (selection == 0) selectedHero = Game.Heroes.Harry;
-//		else
-//		if (selection == 5) selectedHero = Game.Heroes.Espectador;
-//		else selectedHero = (Game.Heroes)(selection - 1);
-	}
-
-	[ContextMenu ("Snap to selected")]
-	public void UpdateSelector () 
-	{
-		SnapCarousel (selection / 5f);
-		UpdateHero ();
-	}
-	#endregion
-
-	#region CALLBACKS
-	private void Update () 
-	{
-		// Move carousel towards selection
-		var pos = carousel.localPosition;
-		float tValue = Mathf.Lerp
-		(
-			pos.x,
-			Mathf.Lerp (Offset, -Offset * 4f, selection / 5f),
-			Time.deltaTime * 7f
-		);
-		pos.x = tValue;
-		carousel.localPosition = pos;
-	}
-
-	protected override void OnStart () 
-	{
-		// Correct position && SceneID
-		(transform as RectTransform).localPosition = iPosition;
-
-		if (hasAuthority && isClient) 
+		protected override void OnStart () 
 		{
-			// Show owner marks
-			frame.sprite = goldenFrame;
-			anchor.gameObject.SetActive (true);
+			// Correct position && SceneID
+			(transform as RectTransform).localPosition = cachePosition;
 
-			// Start reading movement input
-			StartCoroutine (ReadInput ());
+			if (hasAuthority && isClient)
+			{
+				// Show owner marks
+				frame.sprite = goldenFrame;
+				anchor.gameObject.SetActive (true);
+
+				// Start reading movement input
+				StartCoroutine (ReadInput ());
+			}
 		}
-	}
 
-	protected override void OnAwake () 
-	{
-		// Cache position because it'll move when connected to server
-		iPosition = (transform as RectTransform).localPosition;
-		anim = GetComponent<Animator> ().GoSmart ();
+		protected override void OnAwake () 
+		{
+			// Cache position because it'll move when connected to server
+			cachePosition = (transform as RectTransform).localPosition;
+			anim = GetComponent<Animator> ().GoSmart (networked: true);
+
+			// This will be overriden later by the net,
+			// but this way it looks right at first
+			SnapCarousel (initialSelection);
+		}
+		#endregion
+
+		#region HELPERS
+		private void SnapCarousel (int selection) 
+		{
+			float factor = selection / MaxSelection;
+			anim.SetInt ("Selection", selection);
+			anim.SetFloat ("Blend", factor);
+		}
+
+		private void UpdateHero () 
+		{
+			//		if (selection == 0) selectedHero = Game.Heroes.Harry;
+			//		else
+			//		if (selection == 5) selectedHero = Game.Heroes.Espectador;
+			//		else selectedHero = (Game.Heroes)(selection - 1);
+		}
+		#endregion
 	}
-	#endregion
 }

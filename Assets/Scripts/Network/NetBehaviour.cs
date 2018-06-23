@@ -4,86 +4,91 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// Special class for objects that should be
-// controlled by specific clients over the network
-public abstract class NetBehaviour : NetworkBehaviour 
+namespace HeroesRace 
 {
-	#region DATA
-	internal NetworkIdentity id;
-
-	// Network-shared name
-	public abstract string SharedName { get; }
-
-	// List of owned objects by type
-	private static Dictionary<Type, NetBehaviour> ownInstances = new Dictionary<Type, NetBehaviour> ();
-	#endregion
-
-	#region CALLBACKS
-	public void Start () 
+	// Special class for objects that should be
+	// controlled by specific clients over the network
+	public abstract class NetBehaviour : NetworkBehaviour
 	{
-		// Once authority is set
-		UpdateName ();
-		OnStart ();
-	}
-	protected virtual void OnStart () { }
+		#region DATA
+		internal NetworkIdentity id;
 
-	public sealed override void OnStartAuthority () 
-	{
-		// Register as own on Client
-		if (isClient) AddToDictionary ();
-		OnAuthoritySet ();
-	}
-	protected virtual void OnAuthoritySet () { }
+		// Network-shared name
+		public virtual string SharedName 
+		{ get { return name; } }
 
-	public void Awake () 
-	{
-		id = GetComponent<NetworkIdentity> ();
-		OnAwake ();
-	}
-	protected virtual void OnAwake () { }
-	#endregion
+		// List of owned objects by type
+		private static Dictionary<Type, NetBehaviour> ownInstances = new Dictionary<Type, NetBehaviour> ();
+		#endregion
 
-	#region HELPERS
-	[Client] public static T GetOwn<T> () where T : NetBehaviour
-	{
-		NetBehaviour own;
-		// Returns the scene object that has local Player authority of given type
-		if (!ownInstances.TryGetValue (typeof (T), out own))
+		#region CALLBACKS
+		public void Start () 
 		{
-			if (Debug.isDebugBuild)
-				Debug.LogWarning ("No own instance for type " + typeof (T) + " found.");
-			return null;
+			// Once authority is set
+			UpdateName ();
+			OnStart ();
 		}
-		else return own as T;
-	}
-	[Client] private void AddToDictionary () 
-	{
-		var type = GetType ();
-		ownInstances.Add (type, this);
-	}
+		protected virtual void OnStart () { }
 
-	private void UpdateName () 
-	{
-		string name = SharedName;
-		if (isClient) 
+		public sealed override void OnStartAuthority () 
 		{
-			if (hasAuthority)	name = name.Insert (0, "[OWN] ");
-			else				name = name.Insert (0, "[OTHER] ");
+			UpdateName ();
+			// Register as own on Client
+			if (isClient) AddToDictionary ();
+			OnAuthoritySet ();
 		}
-		else
-		if (isServer) 
+		protected virtual void OnAuthoritySet () { }
+
+		public void Awake () 
 		{
-			if (!id.serverOnly)
+			id = GetComponent<NetworkIdentity> ();
+			OnAwake ();
+		}
+		protected virtual void OnAwake () { }
+		#endregion
+
+		#region HELPERS
+		[Client] public static T GetOwn<T> () where T : NetBehaviour
+		{
+			NetBehaviour own;
+			// Returns the scene object that has local Player authority of given type
+			if (!ownInstances.TryGetValue (typeof (T), out own))
 			{
-				name = name.Insert (0, "[CLIENT] ");
-
-				var o = id.clientAuthorityOwner;
-				if (o != null) name = name.Insert (0, "["+o.connectionId+"]");
+				if (Debug.isDebugBuild)
+					Debug.LogWarning ("No own instance for type " + typeof (T) + " found.");
+				return null;
 			}
-			else name = name.Insert (0, "[SERVER-ONLY] ");
+			else return own as T;
 		}
-		// Show on inspector
-		this.name = name;
-	}
-	#endregion
+		[Client] private void AddToDictionary ()
+		{
+			var type = GetType ();
+			ownInstances.Add (type, this);
+		}
+
+		public void UpdateName () 
+		{
+			string name = SharedName;
+			if (isClient)
+			{
+				if (hasAuthority) name = name.Insert (0, "[OWN] ");
+				else name = name.Insert (0, "[OTHER] ");
+			}
+			else
+			if (isServer)
+			{
+				if (!id.serverOnly)
+				{
+					name = name.Insert (0, "[CLIENT] ");
+
+					var o = id.clientAuthorityOwner;
+					if (o != null) name = name.Insert (0, "[" + o.connectionId + "]");
+				}
+				else name = name.Insert (0, "[SERVER-ONLY] ");
+			}
+			// Show on inspector
+			this.name = name;
+		}
+		#endregion
+	} 
 }

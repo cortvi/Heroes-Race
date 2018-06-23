@@ -5,80 +5,84 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class Networker : NetworkManager 
+namespace HeroesRace 
 {
-	#region DATA
-	public static Networker i;
-	public static List<Game> players;
-
-	public static bool DedicatedServer 
+	public class Networker : NetworkManager
 	{
-		get { return (NetworkServer.active && !NetworkServer.localClientActive); }
-	}
-	public static bool DedicatedClient 
-	{
-		get { return (NetworkClient.active && !NetworkServer.localClientActive); }
-	}
-	public static bool IsHost 
-	{
-		get { return NetworkServer.localClientActive; }
-	}
-	#endregion
+		#region DATA
+		public static Networker i;
+		public static List<Game> players;
 
-	#region SERVER
-	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
-	{
-
-		// Spawn player object over the net
-		var player = Instantiate (playerPrefab).GetComponent<Game> ();
-		NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-		players.Add (player);
-
-		#region SCENE BEHAVIOUR
-		// Behaviour on what scene where at
-		string scene = SceneManager.GetActiveScene ().name;
-		if (scene == "Menu")
+		public static bool DedicatedServer
 		{
-			// Assign authority to selector
-			var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
-			selector.id.AssignClientAuthority (conn);
+			get { return (NetworkServer.active && !NetworkServer.localClientActive); }
 		}
-		else
-		// If bypassing the Selection Menu
-		if (scene == "Tower") 
+		public static bool DedicatedClient
 		{
-			// Spawn a different hero for each player & start
-			var asignedHero = (Game.Heroes) conn.connectionId;
-			player.playingAs = asignedHero;
-			player.SpawnHero ();
-		} 
+			get { return (NetworkClient.active && !NetworkServer.localClientActive); }
+		}
+		public static bool IsHost
+		{
+			get { return NetworkServer.localClientActive; }
+		}
 		#endregion
-	}
-	#endregion
 
-	#region CALLBACKS
-	private void OnSceneLoad (Scene scene, LoadSceneMode mode) 
-	{
-		// nothing yet...
-	}
+		#region SERVER
+		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
+		{
 
-	private void Awake () 
-	{
-		if (DedicatedServer)
-			SceneManager.sceneLoaded += OnSceneLoad;
-	}
-	private void OnDestroy () 
-	{
-		if (DedicatedServer)
-			SceneManager.sceneLoaded -= OnSceneLoad;
-	}
+			// Spawn player object over the net
+			var player = Instantiate (playerPrefab).GetComponent<Game> ();
+			NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+			players.Add (player);
 
-	// Creates this object on every scene no matter where
-	[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-	public static void InitizalizeSingleton () 
-	{
-		i = Extensions.SpawnSingleton<Networker> ();
-		players = new List<Game> (3);
-	}
-	#endregion
+			#region SCENE BEHAVIOUR
+			// Behaviour on what scene where at
+			string scene = SceneManager.GetActiveScene ().name;
+			if (scene == "Menu")
+			{
+				// Assign authority to selector
+				var selector = GameObject.Find ("[CLIENT] Selector_" + conn.connectionId).GetComponent<Selector> ();
+				selector.id.AssignClientAuthority (conn);
+//				selector.UpdateName ();
+			}
+			else
+			// If bypassing the Selection Menu
+			if (scene == "Tower")
+			{
+				// Spawn a different hero for each player & start
+				var asignedHero = (Game.Heroes)conn.connectionId;
+				player.playingAs = asignedHero;
+				player.SpawnHero ();
+			}
+			#endregion
+		}
+		#endregion
+
+		#region CALLBACKS
+		private void OnSceneLoad (Scene scene, LoadSceneMode mode)
+		{
+			// nothing yet...
+		}
+
+		private void Awake ()
+		{
+			if (DedicatedServer)
+				SceneManager.sceneLoaded += OnSceneLoad;
+		}
+		private void OnDestroy ()
+		{
+			if (DedicatedServer)
+				SceneManager.sceneLoaded -= OnSceneLoad;
+		}
+
+		// Creates this object on every scene no matter where
+		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
+		public static void InitizalizeSingleton ()
+		{
+			i = Extensions.SpawnSingleton<Networker> ();
+			players = new List<Game> (3);
+		}
+		#endregion
+	} 
 }
