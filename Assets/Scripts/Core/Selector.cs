@@ -15,7 +15,6 @@ namespace HeroesRace
 		}
 
 		[Header ("References")]
-		public RectTransform carousel;
 		public Sprite goldenFrame;
 		public Image frame;
 		public Image anchor;
