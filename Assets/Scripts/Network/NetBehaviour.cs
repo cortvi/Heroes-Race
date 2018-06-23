@@ -65,7 +65,7 @@ namespace HeroesRace
 			ownInstances.Add (type, this);
 		}
 
-		public void UpdateName () 
+		public void UpdateName ()   
 		{
 			string name = SharedName;
 			if (isClient)
@@ -78,10 +78,13 @@ namespace HeroesRace
 			{
 				if (!id.serverOnly)
 				{
-					name = name.Insert (0, "[CLIENT] ");
-
 					var o = id.clientAuthorityOwner;
-					if (o != null) name = name.Insert (0, "[" + o.connectionId + "]");
+					if (o != null) 
+					{
+						name = name.Insert (0, "[CLIENT] ");
+						name = name.Insert (0, "[" + o.connectionId + "]");
+					}
+					else return;
 				}
 				else name = name.Insert (0, "[SERVER-ONLY] ");
 			}
