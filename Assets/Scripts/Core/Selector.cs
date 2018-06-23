@@ -28,8 +28,7 @@ namespace HeroesRace
 		private Vector3 cachePosition;
 
 		private static int SelectorsReady;
-		private const float Offset = 387f;
-		private const float SelectionCount = 6f;
+		private const float MaxSelection = 5f;
 		#endregion
 
 		#region UTILS
@@ -79,7 +78,7 @@ namespace HeroesRace
 					anim.SetInt ("Selection", 3);
 				}
 				else
-				if (selection == +6) 
+				if (selection == 6) 
 				{
 					SnapCarousel (1);
 					anim.SetInt ("Selection", 2);
@@ -95,8 +94,9 @@ namespace HeroesRace
 			// Move carousel towards selection
 			int selection = anim.GetInt ("Selection");
 			float iValue = anim.GetFloat ("Blend");
-			float tValue = Mathf.Lerp (iValue, selection / SelectionCount, Time.deltaTime * 7f);
-			anim.SetFloat ("Blend", tValue);
+			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
+			print (tValue);
+			print (anim.SetFloat ("Blend", tValue));
 		}
 
 		protected override void OnStart () 
@@ -127,7 +127,7 @@ namespace HeroesRace
 		#region HELPERS
 		private void SnapCarousel (int selection) 
 		{
-			float factor = selection / SelectionCount;
+			float factor = selection / MaxSelection;
 			anim.SetInt ("Selection", selection);
 			anim.SetFloat ("Blend", factor);
 		}
