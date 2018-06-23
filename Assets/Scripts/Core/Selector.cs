@@ -29,7 +29,7 @@ namespace HeroesRace
 
 		private static int SelectorsReady;
 		private const float Offset = 387f;
-		private const float MaxSelection = 5f;
+		private const float SelectionCount = 6f;
 		#endregion
 
 		#region UTILS
@@ -95,7 +95,7 @@ namespace HeroesRace
 			// Move carousel towards selection
 			int selection = anim.GetInt ("Selection");
 			float iValue = anim.GetFloat ("Blend");
-			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
+			float tValue = Mathf.Lerp (iValue, selection / SelectionCount, Time.deltaTime * 7f);
 			anim.SetFloat ("Blend", tValue);
 		}
 
@@ -127,7 +127,7 @@ namespace HeroesRace
 		#region HELPERS
 		private void SnapCarousel (int selection) 
 		{
-			float factor = selection / MaxSelection;
+			float factor = selection / SelectionCount;
 			anim.SetInt ("Selection", selection);
 			anim.SetFloat ("Blend", factor);
 		}
