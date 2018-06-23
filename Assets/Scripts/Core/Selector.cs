@@ -95,8 +95,6 @@ namespace HeroesRace
 			int selection = anim.GetInt ("Selection");
 			float iValue = anim.GetFloat ("Blend");
 			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
-			print (tValue);
-			print (anim.SetFloat ("Blend", tValue));
 		}
 
 		protected override void OnStart () 
@@ -121,6 +119,9 @@ namespace HeroesRace
 			// Cache position because it'll move when connected to server
 			cachePosition = (transform as RectTransform).localPosition;
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
+
+			// Stop "Blend" from being networkd
+			anim.NetAnimator.SetParameterAutoSend (1, false);
 		}
 		#endregion
 
