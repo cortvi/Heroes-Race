@@ -42,7 +42,7 @@ namespace HeroesRace
 			if (scene == "Menu")
 			{
 				// Assign authority to selector
-				var selector = GameObject.Find ("[CLIENT] Selector_" + conn.connectionId).GetComponent<Selector> ();
+				var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
 				selector.id.AssignClientAuthority (conn);
 //				selector.UpdateName ();
 			}
