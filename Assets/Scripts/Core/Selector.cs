@@ -95,6 +95,7 @@ namespace HeroesRace
 			int selection = anim.GetInt ("Selection");
 			float iValue = anim.GetFloat ("Blend");
 			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
+			anim.SetFloat ("Blend", tValue);
 		}
 
 		protected override void OnStart () 
