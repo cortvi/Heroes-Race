@@ -39,16 +39,16 @@ namespace HeroesRace
 			#region SCENE BEHAVIOUR
 			// Behaviour on what scene where at
 			string scene = SceneManager.GetActiveScene ().name;
-			if (scene == "Menu")
+			if (scene == "Menu") 
 			{
 				// Assign authority to selector
 				var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
 				selector.id.AssignClientAuthority (conn);
-//				selector.UpdateName ();
+				selector.UpdateName ();
 			}
 			else
 			// If bypassing the Selection Menu
-			if (scene == "Tower")
+			if (scene == "Tower") 
 			{
 				// Spawn a different hero for each player & start
 				var asignedHero = (Game.Heroes)conn.connectionId;

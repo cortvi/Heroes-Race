@@ -105,6 +105,7 @@ namespace HeroesRace
 			// Correct position && SceneID
 			(transform as RectTransform).localPosition = cachePosition;
 
+			SnapCarousel (initialSelection);
 			if (hasAuthority && isClient)
 			{
 				// Show owner marks
@@ -121,10 +122,6 @@ namespace HeroesRace
 			// Cache position because it'll move when connected to server
 			cachePosition = (transform as RectTransform).localPosition;
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-
-			// This will be overriden later by the net,
-			// but this way it looks right at first
-			SnapCarousel (initialSelection);
 		}
 		#endregion
 
