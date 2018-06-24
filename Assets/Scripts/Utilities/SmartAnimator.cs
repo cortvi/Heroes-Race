@@ -11,6 +11,7 @@ namespace HeroesRace
 		public Animator Animator { get; private set; }
 		public NetworkAnimator NetAnimator { get; private set; }
 		private readonly bool isNetworked;
+		private bool? drivenByNetwork;
 
 		// These dictionaries store the cached values for all the parameters
 		private Dictionary<string, Param<float>> floats;
@@ -23,6 +24,7 @@ namespace HeroesRace
 		{
 			public int hashName;
 			public bool isDrivenByCurve;
+//			public bool isDrivenBytNetwork;
 			public TParam value;
 
 			public static implicit operator TParam (Param<TParam> param)
@@ -57,30 +59,47 @@ namespace HeroesRace
 			 * Default (inspector) values are stored in the cache,
 			 * then updated with each Set function.
 			 * This way we never have to call Animator.Get() */
-			foreach (var p in animator.parameters)
+			for (int i=0; i!=animator.parameterCount; i++)
 			{
+				var p = animator.parameters[i];
 				if (p.type == AnimatorControllerParameterType.Float)
 				{
 					bool drivenByCurve = animator.IsParameterControlledByCurve (p.nameHash);
-					var param = new Param<float> { hashName = p.nameHash, value = p.defaultFloat, isDrivenByCurve = drivenByCurve };
+					var param = new Param<float>
+					{
+						hashName = p.nameHash,
+						value = p.defaultFloat,
+						isDrivenByCurve = drivenByCurve
+					};
 					floats.Add (p.name, param);
 				}
 				else
 				if (p.type == AnimatorControllerParameterType.Bool)
 				{
 					bool drivenByCurve = animator.IsParameterControlledByCurve (p.nameHash);
-					var param = new Param<bool> { hashName = p.nameHash, value = p.defaultBool, isDrivenByCurve = drivenByCurve };
+					var param = new Param<bool>
+					{
+						hashName = p.nameHash,
+						value = p.defaultBool,
+						isDrivenByCurve = drivenByCurve
+					};
 					bools.Add (p.name, param);
 				}
 				else
 				if (p.type == AnimatorControllerParameterType.Int)
 				{
 					bool drivenByCurve = animator.IsParameterControlledByCurve (p.nameHash);
-					var param = new Param<int> { hashName = p.nameHash, value = p.defaultInt, isDrivenByCurve = drivenByCurve };
+					var param = new Param<int>
+					{
+						hashName = p.nameHash,
+						value = p.defaultInt,
+						isDrivenByCurve = drivenByCurve
+					};
 					ints.Add (p.name, param);
 				}
 				else
-				if (p.type == AnimatorControllerParameterType.Trigger) triggers.Add (p.name, p.nameHash);
+				if (p.type == AnimatorControllerParameterType.Trigger)
+					triggers.Add (p.name, p.nameHash);
 			}
 		}
 
@@ -92,7 +111,28 @@ namespace HeroesRace
 
 			var info = Animator.GetCurrentAnimatorStateInfo (layer);
 			return info.IsName (name);
-		} 
+		}
+
+		private bool DrivenByNetwork () 
+		{
+			if (drivenByNetwork == null) 
+			{
+				if (isNetworked) 
+				{
+					if (NetAnimator.isServer && NetAnimator.connectionToClient != null)
+						drivenByNetwork = NetAnimator.localPlayerAuthority;
+					else
+					if (NetAnimator.isClient && NetAnimator.connectionToServer != null)
+						drivenByNetwork = NetAnimator.hasAuthority;
+
+					// If connections are NULL means
+					// network hasn't been initialized yet
+					else return false;
+				}
+				else drivenByNetwork = false;
+			}
+			return (bool) drivenByNetwork;
+		}
 		#endregion
 
 		#region GETTERS
@@ -105,8 +145,10 @@ namespace HeroesRace
 			Param<bool> cache;
 			if (bools.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve) return Animator.GetBool (cache.hashName);
-				else return cache;
+				if (cache.isDrivenByCurve || DrivenByNetwork ())
+					return Animator.GetBool (cache.hashName);
+				else
+					return cache;
 			}
 			else
 			{
@@ -119,8 +161,10 @@ namespace HeroesRace
 			Param<float> cache;
 			if (floats.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve) return Animator.GetFloat (cache.hashName);
-				else return cache;
+				if (cache.isDrivenByCurve || DrivenByNetwork ())
+					return Animator.GetFloat (cache.hashName);
+				else
+					return cache;
 			}
 			else
 			{
@@ -133,8 +177,10 @@ namespace HeroesRace
 			Param<int> cache;
 			if (ints.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve) return Animator.GetInteger (cache.hashName);
-				else return cache;
+				if (cache.isDrivenByCurve || DrivenByNetwork ())
+					return Animator.GetInteger (cache.hashName);
+				else
+					return cache;
 			}
 			else
 			{
