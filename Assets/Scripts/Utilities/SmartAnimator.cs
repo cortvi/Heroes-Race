@@ -52,9 +52,11 @@ namespace HeroesRace
 			triggers = new Dictionary<string, int> ();
 
 			Animator = animator;
-			NetAnimator = animator.GetComponent<NetworkAnimator> ();
-			isNetworked = networked;
-			IsDrivenByNetwork ();
+			if (networked) 
+			{
+				NetAnimator = animator.GetComponent<NetworkAnimator> ();
+				isNetworked = true;
+			}
 
 			/* Loops through animator parameters:
 			 * Default (inspector) values are stored in the cache,
@@ -120,19 +122,17 @@ namespace HeroesRace
 			{
 				if (isNetworked) 
 				{
-					if (NetAnimator.isServer && NetAnimator.connectionToClient != null)
+					if (NetAnimator.isServer)
 						drivenByNetwork = NetAnimator.localPlayerAuthority;
 					else
-					if (NetAnimator.isClient && NetAnimator.connectionToServer != null)
+					if (NetAnimator.isClient)
 						drivenByNetwork = !NetAnimator.hasAuthority;
 
-					// If connections are NULL, it means
-					// Network hasn't been initialized yet
+					// Otherwise Network hasn't been initialized yet
 					else return false;
 				}
 				else drivenByNetwork = false;
 			}
-			Debug.Log (drivenByNetwork);
 			return (bool) drivenByNetwork;
 		}
 		#endregion
