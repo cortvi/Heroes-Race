@@ -47,7 +47,7 @@ namespace HeroesRace
 
 				// Move selector
 				int delta = (int)Input.GetAxisRaw ("Horizontal");
-				if (delta != 0)
+				if (!anim.GetBool ("Ready") && delta != 0)
 				{
 					MoveSelection (delta);
 					// Avoid abuse of movement
@@ -79,13 +79,12 @@ namespace HeroesRace
 			{
 				Target_SetReady (id.clientAuthorityOwner, true, true);
 				// Start loading actual game scene!
-
-				// Test that hero is read correctly
-				print (ReadHero ());
 			}
-
 			// Just allow ready-state update on Client animator
 			else Target_SetReady (id.clientAuthorityOwner, state, false);
+
+			// Test that hero is read correctly
+			print (ReadHero ());
 		}
 		[TargetRpc] private void Target_SetReady (NetworkConnection target, bool state, bool block) 
 		{
