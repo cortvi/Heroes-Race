@@ -41,7 +41,7 @@ namespace HeroesRace
 			{
 				Target_SetReady (id.clientAuthorityOwner, state: true, block: true);
 				#warning in the future, make the scene change smoother!
-				Networker.i.ServerChangeScene ("Tower");
+				Networker.i.GoToTower ();
 			}
 			// Just allow ready-state update on Client animator
 			else Target_SetReady (id.clientAuthorityOwner, state, block: false);

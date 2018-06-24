@@ -56,37 +56,6 @@ namespace HeroesRace
 			}
 			#endregion
 		}
-
-		public override void ServerChangeScene (string newSceneName) 
-		{
-			if (newSceneName == "Tower")
-			{
-				// Read all the selected heroes
-				Game.Heroes[] heroes = new Game.Heroes[3];
-				for (int i=0; i!=players.Count; i++)
-				{
-					var selector = GameObject.Find ("[" + (i+1) + "][CLIENT] Selector");
-					heroes[i] = selector.GetComponent<Selector> ().ReadHero ();
-				}
-
-				// Save hero selection
-				for (int i = 0; i != players.Count; i++)
-					players[i].playingAs = heroes[i];
-			}
-			// Finally change scene
-			base.ServerChangeScene (newSceneName);
-		}
-
-		public override void OnServerReady (NetworkConnection conn) 
-		{
-			print (networkSceneName);
-			base.OnClientNotReady (conn);
-			if (networkSceneName == "Tower") 
-			{
-				// Spawn all heroes with authorization
-				foreach (var p in players) p.SpawnHero ();
-			}
-		}
 		#endregion
 
 		#region CALLBACKS
@@ -96,6 +65,34 @@ namespace HeroesRace
 		{
 			i = Extensions.SpawnSingleton<Networker> ();
 			players = new List<Game> (3);
+		}
+		#endregion
+
+		#region HELPERS
+		public void GoToTower () 
+		{
+			// Read all the selected heroes
+			Game.Heroes[] heroes = new Game.Heroes[3];
+			for (int i = 0; i != players.Count; i++)
+			{
+				var selector = GameObject.Find ("[" + (i + 1) + "][CLIENT] Selector");
+				heroes[i] = selector.GetComponent<Selector> ().ReadHero ();
+			}
+			// Save hero selection
+			for (int i = 0; i != players.Count; i++)
+				players[i].playingAs = heroes[i];
+			
+			// Change scene
+			StartCoroutine (LoadTower ());
+		}
+		private IEnumerator LoadTower () 
+		{
+			ServerChangeScene ("Tower");
+			// Wait until ALL players are ready
+			yield return new WaitUntil (()=> players.All (p => p.id.connectionToClient.isReady));
+
+			// Spawn all heroes with authorization
+			foreach (var p in players) p.SpawnHero ();
 		}
 		#endregion
 	} 
