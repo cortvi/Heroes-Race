@@ -38,15 +38,14 @@ namespace HeroesRace
 			Count
 		}
 
-		[Server] public void SpawnHero (Heroes hero) 
+		[Server] public void SpawnHero () 
 		{
 			// Instantiate Hero object
-			var go = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + hero.ToString ()));
-			go.identity = hero;
-			playingAs = hero;
+			var hero = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ()));
+			hero.identity = playingAs;
 
 			// Propagate over the Net
-			NetworkServer.SpawnWithClientAuthority (go.gameObject, connectionToClient);
+			NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
 		}
 		#endregion
 	} 
