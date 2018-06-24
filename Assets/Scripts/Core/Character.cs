@@ -17,7 +17,7 @@ namespace HeroesRace
 	public sealed class Character : NetBehaviour
 	{
 		#region DATA
-		public override string SharedName
+		public override string SharedName 
 		{
 			get { return identity.ToString (); }
 		}

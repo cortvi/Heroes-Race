@@ -18,6 +18,13 @@ namespace HeroesRace
 		[SyncVar] internal Heroes playingAs;
 		#endregion
 
+		#region CALLBACKS
+		protected override void OnAwake () 
+		{
+			DontDestroyOnLoad (this);
+		}
+		#endregion
+
 		#region HELPERS
 		public enum Heroes 
 		{
@@ -33,9 +40,12 @@ namespace HeroesRace
 
 		[Server] public void SpawnHero (Heroes hero) 
 		{
-			playingAs = hero;
-			// Instantiate Hero object & propagate over the Net
+			// Instantiate Hero object
 			var go = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + hero.ToString ()));
+			go.identity = hero;
+			playingAs = hero;
+
+			// Propagate over the Net
 			NetworkServer.SpawnWithClientAuthority (go.gameObject, connectionToClient);
 		}
 		#endregion

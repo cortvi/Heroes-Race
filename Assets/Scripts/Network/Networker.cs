@@ -70,7 +70,7 @@ namespace HeroesRace
 			base.ServerChangeScene (newSceneName);
 
 			// Spawn the heroes
-			for (int i=0; i!=players.Count; i++)
+			for (int i = 0; i != players.Count; i++)
 				players[i].SpawnHero (heroes[i]);
 		}
 
