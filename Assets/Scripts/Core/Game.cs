@@ -19,7 +19,7 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		public enum Heroes
+		public enum Heroes 
 		{
 			NONE = -1,
 
@@ -31,12 +31,12 @@ namespace HeroesRace
 			Count
 		}
 
-		[Server]
-		public void SpawnHero ()
+		[Server] public void SpawnHero (Heroes hero) 
 		{
+			playingAs = hero;
 			// Instantiate Hero object & propagate over the Net
-			var hero = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + playingAs.ToString ()));
-			NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
+			var go = Instantiate (Resources.Load<Character> ("Prefabs/Heroes/" + hero.ToString ()));
+			NetworkServer.SpawnWithClientAuthority (go.gameObject, connectionToClient);
 		}
 		#endregion
 	} 

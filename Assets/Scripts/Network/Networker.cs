@@ -37,7 +37,7 @@ namespace HeroesRace
 			players.Add (player);
 
 			#region SCENE BEHAVIOUR
-			// Behaviour on what scene where at
+			// Behaviour based on what scene we start at
 			string scene = SceneManager.GetActiveScene ().name;
 			if (scene == "Menu") 
 			{
@@ -47,33 +47,31 @@ namespace HeroesRace
 				selector.UpdateName ();
 			}
 			else
-			// If bypassing the Selection Menu
+			// If bypassing the Selection menu
 			if (scene == "Tower") 
 			{
 				// Spawn a different hero for each player & start
 				var asignedHero = (Game.Heroes)conn.connectionId;
-				player.playingAs = asignedHero;
-				player.SpawnHero ();
+				player.SpawnHero (asignedHero);
 			}
 			#endregion
 		}
 		#endregion
 
 		#region CALLBACKS
-		private void OnSceneLoad (Scene scene, LoadSceneMode mode)
+		public override void ServerChangeScene (string newSceneName) 
 		{
-			// nothing yet...
-		}
+			// Read all the selected heroes
+			Game.Heroes[] heroes = new Game.Heroes[3];
+			var selectors = FindObjectsOfType<Selector> ();
+			for (int i=0; i!=3; i++) heroes[i] = selectors[i].ReadHero ();
 
-		private void Awake ()
-		{
-			if (DedicatedServer)
-				SceneManager.sceneLoaded += OnSceneLoad;
-		}
-		private void OnDestroy ()
-		{
-			if (DedicatedServer)
-				SceneManager.sceneLoaded -= OnSceneLoad;
+			// Actually change scene
+			base.ServerChangeScene (newSceneName);
+
+			// Spawn the heroes
+			for (int i=0; i!=players.Count; i++)
+				players[i].SpawnHero (heroes[i]);
 		}
 
 		// Creates this object on every scene no matter where
