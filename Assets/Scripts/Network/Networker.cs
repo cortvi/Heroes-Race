@@ -51,13 +51,13 @@ namespace HeroesRace
 			if (scene == "Tower") 
 			{
 				// Spawn a different hero for each player & start
-				var asignedHero = (Game.Heroes)conn.connectionId;
-				player.SpawnHero (asignedHero);
+				player.playingAs = (Game.Heroes)conn.connectionId;
+				player.SpawnHero ();
 			}
 			#endregion
 		}
 
-		[Server] public override void ServerChangeScene (string newSceneName) 
+		public override void ServerChangeScene (string newSceneName) 
 		{
 			if (newSceneName == "Tower")
 			{
