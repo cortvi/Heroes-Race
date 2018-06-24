@@ -36,24 +36,16 @@ namespace HeroesRace
 		{
 			while (true)
 			{
-				#region SELECTOR READY
+				// Let player select the character
 				if (Input.GetKeyDown (KeyCode.Return)) 
 				{
-					// Let player select the character
-					anim.SetBool ("Ready", true);
-					while (anim.GetBool ("Ready")) 
-					{
-
-						// Block movement until it's been de-selected
-						if (Input.GetKeyDown (KeyCode.Return))
-						{
-							anim.SetBool ("Ready", false);
-						}
-					}
+					// Query an status update &
+					// stop interaction until it's answered
+					Cmd_SetReady (!anim.GetBool ("Ready"));
+					yield break;
 				}
-				#endregion
 
-				#region SELECTOR MOVEMENT
+				// Move selector
 				int delta = (int)Input.GetAxisRaw ("Horizontal");
 				if (delta != 0)
 				{
@@ -62,7 +54,6 @@ namespace HeroesRace
 					yield return new WaitForSeconds (0.3f);
 				}
 				yield return null; 
-				#endregion
 			}
 		}
 
@@ -77,6 +68,38 @@ namespace HeroesRace
 				if (selection == 6) anim.SetInt ("Selection", 2);
 			}
 			UpdateHero ();
+		}
+		#endregion
+
+		#region NETWORK COMMUNICATION
+		[Command] private void Cmd_SetReady (bool state) 
+		{
+			SelectorsReady += (state? +1 : -1);
+			#warning Need to change this to 3 for final version / LAN testing
+			if (SelectorsReady == 2) 
+			{
+				Target_SetReady (connectionToClient, true, true);
+				// Start loading actual game scene!
+			}
+
+			// Just allow ready-state update on Client animator
+			else Target_SetReady (connectionToClient, state, false);
+		}
+		[TargetRpc] private void Target_SetReady (NetworkConnection target, bool state, bool block) 
+		{
+			anim.SetBool ("Ready", state);
+			// Start reading movement input again
+			if (!block) StartCoroutine (ReadInput ());
+		}
+
+		[Command] private void Cmd_EnableAnimator () 
+		{
+			anim.Animator.enabled = true;
+			Rpc_EnableAnimator ();
+		}
+		[ClientRpc] private void Rpc_EnableAnimator () 
+		{
+			anim.Animator.enabled = true;
 		}
 		#endregion
 
@@ -108,16 +131,6 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		[Command] private void Cmd_EnableAnimator () 
-		{
-			anim.Animator.enabled = true;
-			Rpc_EnableAnimator ();
-		}
-		[ClientRpc] private void Rpc_EnableAnimator () 
-		{
-			anim.Animator.enabled = true;
-		}
-
 		private void UpdateHero () 
 		{
 			//		if (selection == 0) selectedHero = Game.Heroes.Harry;
