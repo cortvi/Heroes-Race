@@ -67,7 +67,6 @@ namespace HeroesRace
 				else
 				if (selection == 6) anim.SetInt ("Selection", 2);
 			}
-			UpdateHero ();
 		}
 		#endregion
 
