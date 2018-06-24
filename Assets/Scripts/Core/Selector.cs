@@ -92,6 +92,7 @@ namespace HeroesRace
 				frame.sprite = goldenFrame;
 				anchor.gameObject.SetActive (true);
 				anim.SetInt ("Selection", initialSelection);
+				Cmd_EnableAnimator ();
 
 				// Start reading movement input
 				StartCoroutine (ReadInput ());
@@ -107,6 +108,16 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
+		[Command] private void Cmd_EnableAnimator () 
+		{
+			anim.Animator.enabled = true;
+			Rpc_EnableAnimator ();
+		}
+		[ClientRpc] private void Rpc_EnableAnimator () 
+		{
+			anim.Animator.enabled = true;
+		}
+
 		private void UpdateHero () 
 		{
 			//		if (selection == 0) selectedHero = Game.Heroes.Harry;
