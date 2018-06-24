@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4130329765641320}
   m_Layer: 0
-  m_Name: CATRigHub001
+  m_Name: Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4843997300309790}
   - component: {fileID: 136585225459618384}
-  - component: {fileID: 65783843456953724}
   - component: {fileID: 114706650489439810}
   - component: {fileID: 114199275838101276}
   - component: {fileID: 95394458214118070}
@@ -373,7 +372,7 @@ GameObject:
   - component: {fileID: 4554154396167284}
   - component: {fileID: 137872073031124222}
   m_Layer: 0
-  m_Name: Object002
+  m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,16 +573,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1781710860757170
+--- !u!1 &1815196629958360
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4351920560803504}
+  - component: {fileID: 4763881084048230}
+  - component: {fileID: 65086007043939124}
   m_Layer: 0
-  m_Name: Character001
+  m_Name: Ground_Checker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -874,19 +874,6 @@ Transform:
   m_Father: {fileID: 4012125299926042}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4351920560803504
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1781710860757170}
-  m_LocalRotation: {x: 0.5000001, y: -0.5000001, z: -0.49999988, w: 0.49999988}
-  m_LocalPosition: {x: -0.0018024456, y: 0, z: 0.0076255808}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4843997300309790}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4359926511897356
 Transform:
   m_ObjectHideFlags: 1
@@ -993,7 +980,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4843997300309790}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4562082251945462
 Transform:
@@ -1094,6 +1081,19 @@ Transform:
   m_Father: {fileID: 4933792901367532}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4763881084048230
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1815196629958360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4843997300309790}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4770183000671108
 Transform:
   m_ObjectHideFlags: 1
@@ -1170,12 +1170,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1329425656299250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.990795, y: 1.189, z: -28.177135}
+  m_LocalPosition: {x: -4.379617, y: 1.065345, z: -29.822348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4130329765641320}
-  - {fileID: 4351920560803504}
   - {fileID: 4554154396167284}
+  - {fileID: 4763881084048230}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1265,12 +1265,12 @@ Transform:
   m_Father: {fileID: 4806979615464588}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &65783843456953724
+--- !u!65 &65086007043939124
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1329425656299250}
+  m_GameObject: {fileID: 1815196629958360}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
@@ -1327,11 +1327,11 @@ MonoBehaviour:
   m_TransformSyncMode: 1
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
+  m_RotationSyncCompression: 1
   m_SyncSpin: 0
-  m_MovementTheshold: 0.001
+  m_MovementTheshold: 0.01
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 4
+  m_SnapThreshold: 5
   m_InterpolateRotation: 0.15
   m_InterpolateMovement: 0.5
 --- !u!114 &114693947125162498
