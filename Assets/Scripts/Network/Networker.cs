@@ -77,22 +77,14 @@ namespace HeroesRace
 			base.ServerChangeScene (newSceneName);
 		}
 
-		// Recieved on the server when Client is ready for new scene
-		public void ClientReady (NetworkMessage networkMessage) 
+		public override void OnClientNotReady (NetworkConnection conn) 
 		{
+			base.OnClientNotReady (conn);
 			if (networkSceneName == "Tower") 
 			{
 				// Spawn all heroes with authorization
 				foreach (var p in players) p.SpawnHero ();
 			}
-		}
-		#endregion
-
-		#region CLIENT
-		public override void OnClientSceneChanged (NetworkConnection conn) 
-		{
-			base.OnClientSceneChanged (conn);
-			ClientScene.Ready (conn);
 		}
 		#endregion
 
@@ -102,7 +94,6 @@ namespace HeroesRace
 		public static void InitizalizeSingleton () 
 		{
 			i = Extensions.SpawnSingleton<Networker> ();
-			NetworkServer.RegisterHandler (MsgType.Ready, i.ClientReady);
 			players = new List<Game> (3);
 		}
 		#endregion
