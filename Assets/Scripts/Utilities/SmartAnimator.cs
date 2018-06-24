@@ -123,14 +123,15 @@ namespace HeroesRace
 						drivenByNetwork = NetAnimator.localPlayerAuthority;
 					else
 					if (NetAnimator.isClient && NetAnimator.connectionToServer != null)
-						drivenByNetwork = NetAnimator.hasAuthority;
+						drivenByNetwork = !NetAnimator.hasAuthority;
 
-					// If connections are NULL means
-					// network hasn't been initialized yet
+					// If connections are NULL, it means
+					// Network hasn't been initialized yet
 					else return false;
 				}
 				else drivenByNetwork = false;
 			}
+			Debug.Log (drivenByNetwork);
 			return (bool) drivenByNetwork;
 		}
 		#endregion
