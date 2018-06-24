@@ -78,12 +78,15 @@ namespace HeroesRace
 			#warning Need to change this to 3 for final version / LAN testing
 			if (SelectorsReady == 2) 
 			{
-				Target_SetReady (connectionToClient, true, true);
+				Target_SetReady (id.clientAuthorityOwner, true, true);
 				// Start loading actual game scene!
+
+				// Test that hero is read correctly
+				print (ReadHero ());
 			}
 
 			// Just allow ready-state update on Client animator
-			else Target_SetReady (connectionToClient, state, false);
+			else Target_SetReady (id.clientAuthorityOwner, state, false);
 		}
 		[TargetRpc] private void Target_SetReady (NetworkConnection target, bool state, bool block) 
 		{
@@ -131,12 +134,18 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		private void UpdateHero () 
+		private Game.Heroes ReadHero () 
 		{
-			//		if (selection == 0) selectedHero = Game.Heroes.Harry;
-			//		else
-			//		if (selection == 5) selectedHero = Game.Heroes.Espectador;
-			//		else selectedHero = (Game.Heroes)(selection - 1);
+			Game.Heroes hero;
+
+			// Translate selection into a Hero
+			int selection = anim.GetInt ("Selection");
+			if (selection == 0) hero = Game.Heroes.Harry;
+			else
+			if (selection == 5) hero = Game.Heroes.Espectador;
+			else hero = (Game.Heroes)(selection - 1);
+
+			return hero;
 		}
 		#endregion
 	}
