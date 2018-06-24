@@ -77,9 +77,9 @@ namespace HeroesRace
 			base.ServerChangeScene (newSceneName);
 		}
 
-		public override void OnClientNotReady (NetworkConnection conn) 
+		public override void OnServerReady (NetworkConnection conn) 
 		{
-			print ("yooooooo");
+			print (networkSceneName);
 			base.OnClientNotReady (conn);
 			if (networkSceneName == "Tower") 
 			{
