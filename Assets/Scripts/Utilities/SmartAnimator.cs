@@ -54,6 +54,7 @@ namespace HeroesRace
 			Animator = animator;
 			NetAnimator = animator.GetComponent<NetworkAnimator> ();
 			isNetworked = networked;
+			IsDrivenByNetwork ();
 
 			/* Loops through animator parameters:
 			 * Default (inspector) values are stored in the cache,
@@ -113,7 +114,7 @@ namespace HeroesRace
 			return info.IsName (name);
 		}
 
-		private bool DrivenByNetwork () 
+		private bool IsDrivenByNetwork () 
 		{
 			if (drivenByNetwork == null) 
 			{
@@ -146,7 +147,7 @@ namespace HeroesRace
 			Param<bool> cache;
 			if (bools.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve || DrivenByNetwork ())
+				if (cache.isDrivenByCurve || IsDrivenByNetwork ())
 					return Animator.GetBool (cache.hashName);
 				else
 					return cache;
@@ -162,7 +163,7 @@ namespace HeroesRace
 			Param<float> cache;
 			if (floats.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve || DrivenByNetwork ())
+				if (cache.isDrivenByCurve || IsDrivenByNetwork ())
 					return Animator.GetFloat (cache.hashName);
 				else
 					return cache;
@@ -178,7 +179,7 @@ namespace HeroesRace
 			Param<int> cache;
 			if (ints.TryGetValue (id, out cache))
 			{
-				if (cache.isDrivenByCurve || DrivenByNetwork ())
+				if (cache.isDrivenByCurve || IsDrivenByNetwork ())
 					return Animator.GetInteger (cache.hashName);
 				else
 					return cache;
