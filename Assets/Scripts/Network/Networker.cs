@@ -65,7 +65,7 @@ namespace HeroesRace
 			Game.Heroes[] heroes = new Game.Heroes[3];
 			for (int i=0; i!=players.Count; i++)
 			{
-				var selector = GameObject.Find ("["+i+"] [CLIENT] Selector");
+				var selector = GameObject.Find ("["+i+"][CLIENT] Selector");
 				heroes[i] = selector.GetComponent<Selector> ().ReadHero ();
 			}
 
