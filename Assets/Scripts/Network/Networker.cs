@@ -28,7 +28,7 @@ namespace HeroesRace
 		#endregion
 
 		#region SERVER
-		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
+		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
 
 			// Spawn player object over the net
@@ -63,8 +63,11 @@ namespace HeroesRace
 		{
 			// Read all the selected heroes
 			Game.Heroes[] heroes = new Game.Heroes[3];
-			var selectors = FindObjectsOfType<Selector> ();
-			for (int i=0; i!=3; i++) heroes[i] = selectors[i].ReadHero ();
+			for (int i=0; i!=players.Count; i++)
+			{
+				var selector = GameObject.Find ("["+i+"] [CLIENT] Selector");
+				heroes[i] = selector.GetComponent<Selector> ().ReadHero ();
+			}
 
 			// Actually change scene
 			base.ServerChangeScene (newSceneName);
