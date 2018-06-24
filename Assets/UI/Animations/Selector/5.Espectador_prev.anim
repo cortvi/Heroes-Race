@@ -5,7 +5,7 @@ AnimationClip:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: 5.Espectador (prev)
+  m_Name: 5.Espectador_prev
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0

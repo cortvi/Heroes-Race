@@ -329,11 +329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06231d77d4964cb4e9bfbdc30e487f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carousel: {fileID: 224717664445295370}
   goldenFrame: {fileID: 21300000, guid: 42524bd22260b37408983675a44374ad, type: 3}
   frame: {fileID: 114808987646051638}
   anchor: {fileID: 114976182072902620}
-  selection: 2
+  initialSelection: 0
 --- !u!114 &114215981550341254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,7 +465,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95942578396299228}
-  m_ParameterSendBits: 7
+  m_ParameterSendBits: 5
   param0: 
   param1: 
   param2: 

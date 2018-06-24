@@ -72,43 +72,26 @@ namespace HeroesRace
 			// Correct selection & snap carousel to opposite bounds
 			if (selection < 0 || selection > 5) 
 			{
-				if (selection == -1) 
-				{
-					SnapCarousel (4);
-					anim.SetInt ("Selection", 3);
-				}
+				if (selection == -1) anim.SetInt ("Selection", 3);
 				else
-				if (selection == 6) 
-				{
-					SnapCarousel (1);
-					anim.SetInt ("Selection", 2);
-				}
+				if (selection == 6) anim.SetInt ("Selection", 2);
 			}
 			UpdateHero ();
 		}
 		#endregion
 
 		#region CALLBACKS
-		private void Update () 
-		{
-			// Move carousel towards selection
-			int selection = anim.GetInt ("Selection");
-			float iValue = anim.GetFloat ("Blend");
-			float tValue = Mathf.Lerp (iValue, selection / MaxSelection, Time.deltaTime * 7f);
-			anim.SetFloat ("Blend", tValue);
-		}
-
 		protected override void OnStart () 
 		{
 			// Correct position && SceneID
 			(transform as RectTransform).localPosition = cachePosition;
 
-			SnapCarousel (initialSelection);
+			// Show owner marks
 			if (hasAuthority && isClient)
 			{
-				// Show owner marks
 				frame.sprite = goldenFrame;
 				anchor.gameObject.SetActive (true);
+				anim.SetInt ("Selection", initialSelection);
 
 				// Start reading movement input
 				StartCoroutine (ReadInput ());
@@ -120,20 +103,10 @@ namespace HeroesRace
 			// Cache position because it'll move when connected to server
 			cachePosition = (transform as RectTransform).localPosition;
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-
-			// Stop "Blend" from being networkd
-			anim.NetAnimator.SetParameterAutoSend (1, false);
 		}
 		#endregion
 
 		#region HELPERS
-		private void SnapCarousel (int selection) 
-		{
-			float factor = selection / MaxSelection;
-			anim.SetInt ("Selection", selection);
-			anim.SetFloat ("Blend", factor);
-		}
-
 		private void UpdateHero () 
 		{
 			//		if (selection == 0) selectedHero = Game.Heroes.Harry;
