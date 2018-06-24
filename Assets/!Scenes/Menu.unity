@@ -224,6 +224,11 @@ Prefab:
       propertyPath: initialSelection
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: m_ParameterSendBits
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
   m_IsPrefabParent: 0
@@ -337,6 +342,11 @@ Prefab:
         type: 2}
       propertyPath: initialSelection
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: m_ParameterSendBits
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
@@ -524,7 +534,7 @@ Prefab:
     - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_ParameterSendBits
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
