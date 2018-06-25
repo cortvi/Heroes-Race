@@ -12,9 +12,10 @@ namespace HeroesRace
 	* But the rigidbody and colliders that control its physic movement (angular rotation)
 	* and such are separated and only on each Client locally.
 	* 
-	* Other clients get their 3D data from the Server and it's lerped for a fluid movement. */
+	* Other Clients get their 3D data from the Server and it's lerped for a fluid movement.
+	* Server don't get to use physics at all. */
 
-	public sealed class Character : NetBehaviour
+	public sealed class Character : NetBehaviour 
 	{
 		#region DATA
 		public override string SharedName 
@@ -25,6 +26,7 @@ namespace HeroesRace
 		public Game.Heroes identity;
 		internal float Speed = 10.0f;
 
+		internal CCStack cc;
 		internal SmartAnimator anim;
 		internal Rigidbody driver;
 		private CapsuleCollider capsule;
@@ -65,31 +67,30 @@ namespace HeroesRace
 		{
 			if (anim.GetBool ("OnAir")) return;
 			if (!Input.GetKeyDown (KeyCode.Space)) return;
-			// Can't jump if in any jump-stage
-			if (anim.IsInState ("BaseL.Air.Jumping") || anim.IsInState ("BaseL.Air.Landing")) return;
 
 			anim.SetTrigger ("Jump");
+			anim.SetBool ("OnAir", true);
 		}
 
 		private void CheckFloor () 
 		{
 			// Check against objects where the player can stand
-			bool check = Physics.CheckBox (transform.position, box.size / 2f, transform.rotation, 1 << 8);
+			bool check = Physics.CheckBox (transform.position, box.size / 2f, transform.rotation, 1<<8);
 			if (check)
 			{
 				// Reset fall-check
 				touchingFloorLastFrame = true;
 
 				// If hit floor from air (and in mid-air animation), land character
-				if (anim.GetBool ("OnAir") && anim.IsInState ("BaseL.Air.Mid_Air"))
+				if (anim.GetBool ("OnAir") && anim.IsInState ("Locomotion.Air.Mid_Air")) 
 				{
-					anim.SetBool ("OnAir", false);
 					anim.SetTrigger ("Land");
+					anim.SetBool ("OnAir", false);
 				}
 			}
 			else
 			// If already on-air, don't start timer
-			if (!anim.GetBool ("OnAir"))
+			if (!anim.GetBool ("OnAir")) 
 			{
 				// Start timer
 				if (touchingFloorLastFrame)
@@ -98,7 +99,7 @@ namespace HeroesRace
 					touchingFloorLastFrame = false;
 				}
 				else
-				// Must stay on-air some time to start falling
+				// Must stay on-air some time before starting falling
 				if (Time.time > leaveFloorTime) anim.SetBool ("OnAir", true);
 			}
 		}
@@ -106,10 +107,9 @@ namespace HeroesRace
 
 		#region ANIMATION EVENTS
 		[ClientCallback]
-		private void Jump ()
+		private void Jump () 
 		{
 			driver.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
-			anim.SetBool ("OnAir", true);
 		}
 		#endregion
 
@@ -118,6 +118,8 @@ namespace HeroesRace
 		private void Update () 
 		{
 			if (!hasAuthority) return;
+			cc.Update ();
+
 			CheckFloor ();
 			SyncMotion ();
 			CheckInput ();
@@ -136,29 +138,29 @@ namespace HeroesRace
 
 		protected override void OnStart () 
 		{
-			if (isClient && hasAuthority)
+			if (isClient)
 			{
-				// Initialize camera
-				var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
-				cam.target = this;
+				if (hasAuthority) 
+				{
+					// Initialize camera to focus local Client
+					var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
+					cam.target = this;
 
-				// Set up Driver (only present on local Client)
-				var prefab = Resources.Load<GameObject> ("Prefabs/Character_Driver");
-				driver = Instantiate (prefab).GetComponent<Rigidbody> ();
-				driver.name = identity + "_Driver";
-				driver.centerOfMass = Vector3.zero;
+					// Set up Driver (only present on local Client)
+					var prefab = Resources.Load<Rigidbody> ("Prefabs/Character_Driver");
+					driver = Instantiate (prefab);
+					driver.name = identity + "_Driver";
+					driver.centerOfMass = Vector3.zero;
 
-				// Get references
-				anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
-				capsule = driver.GetComponent<CapsuleCollider> ();
-				box = GetComponent<BoxCollider> ();
-			}
-			else
-			{
-				// On not-ownwer Clients & Server
-				// Enable this simple collider to allow interactions
-				// between players & with the environment
-				GetComponent<CapsuleCollider> ().enabled = true;
+					// Get references
+					cc = new CCStack (this);
+					anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
+					capsule = driver.GetComponent<CapsuleCollider> ();
+					box = GetComponentInChildren<BoxCollider> ();
+				}
+				// On not-ownwer Clients:
+				// Enable this simple collider to allow interactions between players 
+				else GetComponent<CapsuleCollider> ().enabled = true;
 			}
 		}
 		#endregion

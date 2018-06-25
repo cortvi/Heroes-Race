@@ -12,19 +12,6 @@ namespace HeroesRace
 		#region DATA
 		public static Networker i;
 		public static List<Game> players;
-
-		public static bool DedicatedServer
-		{
-			get { return (NetworkServer.active && !NetworkServer.localClientActive); }
-		}
-		public static bool DedicatedClient
-		{
-			get { return (NetworkClient.active && !NetworkServer.localClientActive); }
-		}
-		public static bool IsHost
-		{
-			get { return NetworkServer.localClientActive; }
-		}
 		#endregion
 
 		#region SERVER
@@ -68,7 +55,7 @@ namespace HeroesRace
 		}
 		#endregion
 
-		#region HELPERS
+		#region TOWER LOADING
 		public void GoToTower () 
 		{
 			// Read all the selected heroes

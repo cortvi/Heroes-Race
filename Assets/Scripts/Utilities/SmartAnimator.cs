@@ -7,7 +7,7 @@ namespace HeroesRace
 {
 	public class SmartAnimator 
 	{
-		#region DATA
+		#region DATA + CTOR
 		public Animator Animator { get; private set; }
 		public NetworkAnimator NetAnimator { get; private set; }
 		private readonly bool isNetworked;
@@ -30,16 +30,15 @@ namespace HeroesRace
 			public static implicit operator TParam (Param<TParam> param)
 			{ return param.value; }
 		}
-		#endregion
 
 		/// <summary>
 		/// Creates a wrapper around given Animator and makes a cache of all
 		/// its parameters for faster checks and modifications.
 		/// </summary>
-		public SmartAnimator (Animator animator, bool networked = false) 
+		public SmartAnimator (Animator animator, bool networked = false)
 		{
 			// Null check
-			if (!animator) 
+			if (!animator)
 			{
 				Debug.LogError ("Provided Animator is null!");
 				return;
@@ -52,7 +51,7 @@ namespace HeroesRace
 			triggers = new Dictionary<string, int> ();
 
 			Animator = animator;
-			if (networked) 
+			if (networked)
 			{
 				NetAnimator = animator.GetComponent<NetworkAnimator> ();
 				isNetworked = true;
@@ -62,7 +61,7 @@ namespace HeroesRace
 			 * Default (inspector) values are stored in the cache,
 			 * then updated with each Set function.
 			 * This way we never have to call Animator.Get() */
-			for (int i=0; i!=animator.parameterCount; i++)
+			for (int i = 0; i != animator.parameterCount; i++)
 			{
 				var p = animator.parameters[i];
 				if (p.type == AnimatorControllerParameterType.Float)
@@ -105,11 +104,12 @@ namespace HeroesRace
 					triggers.Add (p.name, p.nameHash);
 			}
 		}
+		#endregion
 
 		#region UTILS
-		public bool IsInState (string name, bool trueInTransition = false, int layer = 0)
+		public bool IsInState (string name, bool countTransition = false, int layer = 0) 
 		{
-			if (Animator.IsInTransition (layer) && !trueInTransition)
+			if (Animator.IsInTransition (layer) && !countTransition) 
 				return false;
 
 			var info = Animator.GetCurrentAnimatorStateInfo (layer);
@@ -260,8 +260,10 @@ namespace HeroesRace
 				if (reset) Animator.ResetTrigger (hash);
 				else
 				{
-					if (isNetworked) NetAnimator.SetTrigger (hash);
-					else Animator.SetTrigger (hash);
+					if (isNetworked && !IsDrivenByNetwork())
+						NetAnimator.SetTrigger (hash);
+					else
+						Animator.SetTrigger (hash);
 				}
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
