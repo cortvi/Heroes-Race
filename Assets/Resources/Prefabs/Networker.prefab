@@ -20,7 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4126708341468980}
   - component: {fileID: 114778062108741916}
-  - component: {fileID: 114202373041095850}
+  - component: {fileID: 114560941297562058}
+  - component: {fileID: 114514207010496540}
+  - component: {fileID: 114418240987071494}
   m_Layer: 0
   m_Name: Networker
   m_TagString: Untagged
@@ -41,7 +43,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114202373041095850
+--- !u!114 &114418240987071494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206144601181214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac965f30fae00d64ea71687df08a07b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 8
+--- !u!114 &114514207010496540
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206144601181214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e8145e60c5f7a4e923a9a9ef1be174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BroadcastPort: 7778
+  m_BroadcastKey: 2222
+  m_BroadcastVersion: 1
+  m_BroadcastSubVersion: 1
+  m_BroadcastInterval: 1000
+  m_UseNetworkManager: 0
+  m_BroadcastData: PIE
+  m_ShowGUI: 0
+  m_OffsetX: -6
+  m_OffsetY: 0
+--- !u!114 &114560941297562058
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -53,7 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  showGUI: 1
+  showGUI: 0
   offsetX: 0
   offsetY: 0
 --- !u!114 &114778062108741916
@@ -70,17 +105,17 @@ MonoBehaviour:
   m_NetworkPort: 7777
   m_ServerBindToIP: 0
   m_ServerBindAddress: 
-  m_NetworkAddress: 192.168.1.135
+  m_NetworkAddress: 
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
   m_ScriptCRCCheck: 1
-  m_MaxDelay: 0.01
+  m_MaxDelay: 0.02
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 1822593414515006, guid: ff4c352cf0fc1ed48bd5f0a523d27e78,
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: '!Zero'
+  m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1329425656299250, guid: 6e950cfc4c319a14ba4447990f2b5b3f, type: 2}
@@ -131,7 +166,7 @@ MonoBehaviour:
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0
-  m_MaxBufferedPackets: 16
+  m_MaxBufferedPackets: 32
   m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443

@@ -32,33 +32,35 @@ namespace HeroesRace
 		#endregion
 
 		#region NETWORK COMMUNICATION
-		[Command] private void Cmd_SetReady (bool state) 
+		[Command]
+		private void Cmd_SetReady (bool state) 
 		{
 			SelectorsReady += (state? +1 : -1);
-
-			#warning Need to change this to 3 for final version / LAN testing
-			if (SelectorsReady == 1) 
+			if (SelectorsReady == Net.usersNeeded) 
 			{
 				Target_SetReady (id.clientAuthorityOwner, state: true, block: true);
 				#warning in the future, make the scene change smoother!
-				Networker.i.GoToTower ();
+				Net.worker.GoToTower ();
 			}
 			// Just allow ready-state update on Client animator
 			else Target_SetReady (id.clientAuthorityOwner, state, block: false);
 		}
-		[TargetRpc] private void Target_SetReady (NetworkConnection target, bool state, bool block) 
+		[TargetRpc]
+		private void Target_SetReady (NetworkConnection target, bool state, bool block) 
 		{
 			anim.SetBool ("Ready", state);
 			// Start reading movement input again
 			if (!block) StartCoroutine (ReadInput ());
 		}
 
-		[Command] private void Cmd_EnableAnimator () 
+		[Command]
+		private void Cmd_EnableAnimator () 
 		{
 			anim.Animator.enabled = true;
 			Rpc_EnableAnimator ();
 		}
-		[ClientRpc] private void Rpc_EnableAnimator () 
+		[ClientRpc]
+		private void Rpc_EnableAnimator () 
 		{
 			anim.Animator.enabled = true;
 		}
@@ -129,16 +131,16 @@ namespace HeroesRace
 			}
 		}
 
-		public Game.Heroes ReadHero () 
+		public Heroes ReadHero () 
 		{
-			Game.Heroes hero;
+			Heroes hero;
 
 			// Translate selection into a Hero
 			int selection = anim.GetInt ("Selection");
-			if (selection == 0) hero = Game.Heroes.Harry;
+			if (selection == 0) hero = Heroes.Harry;
 			else
-			if (selection == 5) hero = Game.Heroes.Espectador;
-			else hero = (Game.Heroes)(selection - 1);
+			if (selection == 5) hero = Heroes.Espectador;
+			else hero = (Heroes)(selection - 1);
 
 			return hero;
 		}

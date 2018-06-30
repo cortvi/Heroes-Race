@@ -10,7 +10,7 @@ namespace HeroesRace
 		public int floor;
 		public Vector3 offset = new Vector3 (2.78f, 2.93f, 9.63f);
 
-		internal Character target;
+		internal Hero target;
 		private Vector3 actualOffset;
 
 		private const float FloorHeigth = 5.2f;

@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public static class Extensions
+	public static class Extensions 
 	{
 		#region ANIMATORS
 		public static SmartAnimator GoSmart (this Animator a, bool networked = false) 
@@ -19,7 +19,7 @@ namespace HeroesRace
 
 		#region BEHAVIOUR
 		private static object thisLock = new object ();
-		public static T SpawnSingleton<T> () where T : Behaviour
+		public static T SpawnSingleton<T> (string name) where T : Behaviour 
 		{
 			// Keep it thread-safe
 			lock (thisLock)
@@ -29,13 +29,12 @@ namespace HeroesRace
 				if (intruder) throw new UnityException ("Requested type is already spawned on scene!");
 
 				// Locate prefab
-				var prefab = Resources.Load<T> ("Prefabs/" + typeof (T).Name);
+				var prefab = Resources.Load<T> ("Prefabs/" + name);
 				if (prefab != null)
 				{
 					var go = UnityEngine.Object.Instantiate (prefab);
-					go.name = "[Singleton] " + typeof (T).Name;
 					UnityEngine.Object.DontDestroyOnLoad (go);
-
+					go.name = "[Singleton] " + name;
 					return go;
 				}
 				else throw new UnityException ("Prefab asset not found!");

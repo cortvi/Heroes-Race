@@ -15,7 +15,7 @@ namespace HeroesRace
 	* Other Clients get their 3D data from the Server and it's lerped for a fluid movement.
 	* Server don't get to use physics at all. */
 
-	public sealed class Character : NetBehaviour 
+	public sealed class Hero : NetBehaviour 
 	{
 		#region DATA
 		public override string SharedName 
@@ -23,7 +23,7 @@ namespace HeroesRace
 			get { return identity.ToString (); }
 		}
 
-		public Game.Heroes identity;
+		public Heroes identity;
 		internal float Speed = 10.0f;
 
 		internal CCStack cc;
@@ -186,5 +186,17 @@ namespace HeroesRace
 			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 		}
 		#endregion
-	} 
+	}
+
+	public enum Heroes 
+	{
+		NONE = -1,
+
+		Espectador,
+		Indiana,
+		Harley,
+		Harry,
+
+		Count
+	}
 }
