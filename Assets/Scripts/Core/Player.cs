@@ -42,16 +42,20 @@ namespace HeroesRace
 
 		public User (Player player, int id, string ip) 
 		{
-			ID = id; IP = ip;
-			AssignPlayer (player);
+			ID = id;
+			IP = ip;
+			Player = player;
 		} 
 		#endregion
 
 		#region UTILS
-		public void AssignPlayer (Player player) 
+		public void SceneChange (string scene) 
 		{
-			Player = player;
-			// Here authority should be re-set for the new player
+			if (scene == "Selection") 
+			{
+				Selector = GameObject.Find ("Selector_" + ID).GetComponent<Selector> ();
+				Selector.id.AssignClientAuthority (Player.connectionToClient);
+			}
 		}
 
 		public void SpawnHero (Heroes hero) 

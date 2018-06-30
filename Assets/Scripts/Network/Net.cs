@@ -41,6 +41,13 @@ namespace HeroesRace
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 			}
 		}
+
+		public override void OnServerSceneChanged (string sceneName) 
+		{
+			// Notify Users that scene has changed
+			base.OnServerSceneChanged (sceneName);
+			users.ForEach (u=> u.SceneChange (networkSceneName));
+		}
 		#endregion
 
 		#region CALLBACKS
@@ -87,7 +94,7 @@ namespace HeroesRace
 		{
 			/*
 			// Behaviour based on what scene we start at
-			if (scene == "Menu")
+			if (scene == "Selection")
 			{
 				// Assign authority to selector
 				var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();

@@ -73,9 +73,9 @@ MonoBehaviour:
   m_BroadcastInterval: 1000
   m_UseNetworkManager: 0
   m_BroadcastData: PIE
-  m_ShowGUI: 0
+  m_ShowGUI: 1
   m_OffsetX: -6
-  m_OffsetY: 0
+  m_OffsetY: 15
 --- !u!114 &114560941297562058
 MonoBehaviour:
   m_ObjectHideFlags: 1

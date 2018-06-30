@@ -62,7 +62,7 @@ namespace HeroesRace
 						name = name.Insert (0, "CLIENT] ");
 						name = name.Insert (0, "[" + o.connectionId + ":");
 					}
-					else return;
+					else name = name.Insert (0, "[CLIENT]");
 				}
 				else name = name.Insert (0, "[SERVER-ONLY] ");
 			}

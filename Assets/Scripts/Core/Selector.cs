@@ -67,7 +67,8 @@ namespace HeroesRace
 		#endregion
 
 		#region CALLBACKS
-		[Client] IEnumerator ReadInput () 
+		[Client]
+		IEnumerator ReadInput () 
 		{
 			while (true)
 			{
@@ -92,22 +93,25 @@ namespace HeroesRace
 			}
 		}
 
+		[ClientCallback]
+		protected override void OnAuthoritySet () 
+		{
+			// Show owner marks
+			frame.sprite = goldenFrame;
+			anchor.gameObject.SetActive (true);
+
+			// Start animator
+			anim.SetInt ("Selection", initialSelection);
+			Cmd_EnableAnimator ();
+
+			// Start reading movement input
+			StartCoroutine (ReadInput ());
+		}
+
 		protected override void OnStart () 
 		{
-			// Correct position && SceneID
+			// Correct position
 			(transform as RectTransform).localPosition = cachePosition;
-
-			// Show owner marks
-			if (hasAuthority && isClient)
-			{
-				frame.sprite = goldenFrame;
-				anchor.gameObject.SetActive (true);
-				anim.SetInt ("Selection", initialSelection);
-				Cmd_EnableAnimator ();
-
-				// Start reading movement input
-				StartCoroutine (ReadInput ());
-			}
 		}
 
 		protected override void OnAwake () 
