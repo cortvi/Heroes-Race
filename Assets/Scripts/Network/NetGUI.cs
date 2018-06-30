@@ -27,7 +27,7 @@ namespace HeroesRace
 					GUILayout.Label ("Clients connected: " + Net.users.Count);
 					if (GUILayout.Button ("Go to selection"))
 					{
-						Net.worker.ServerChangeScene ("Menu");
+						Net.worker.ServerChangeScene ("Selection");
 					}
 					else
 					if (GUILayout.Button ("Go to tower"))
