@@ -53,7 +53,7 @@ namespace HeroesRace
 		{
 			if (scene == "Selection") 
 			{
-				Selector = GameObject.Find ("Selector_" + ID).GetComponent<Selector> ();
+				Selector = GameObject.Find ("[CLIENT] Selector_" + ID).GetComponent<Selector> ();
 				Selector.id.AssignClientAuthority (Player.connectionToClient);
 			}
 		}

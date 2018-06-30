@@ -7,7 +7,6 @@ namespace HeroesRace
 {
 	public class NetGUI : NetworkDiscovery 
 	{
-		private bool ready;
 		private void OnGUI () 
 		{
 			if (!showGUI) return;
@@ -16,19 +15,14 @@ namespace HeroesRace
 			#region CONNECTION CONTROL
 			if (isServer)
 			{
-				if (!ready)
-				{
-					GUILayout.Label ("Awaiting clients...");
-					if (Net.users.Count == Net.UsersNeeded) ready = true;
-				}
+				if (Net.users.Count == Net.UsersNeeded) GUILayout.Label ("Awaiting clients...");
 				else
 				{
 					GUILayout.Label ("All clients connected.");
 					GUILayout.Label ("Clients connected: " + Net.users.Count);
-					if (GUILayout.Button ("Go to selection"))
-					{
-						Net.worker.ServerChangeScene ("Selection");
-					}
+
+					// Scene managing options
+					if (GUILayout.Button ("Go to selection")) Net.worker.ServerChangeScene ("Selection");
 					else
 					if (GUILayout.Button ("Go to tower"))
 					{
