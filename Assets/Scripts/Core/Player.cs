@@ -44,11 +44,7 @@ namespace HeroesRace
 		{
 			ID = id; IP = ip;
 			AssignPlayer (player);
-		}
-
-		public User ()
-		{
-		}
+		} 
 		#endregion
 
 		#region UTILS
