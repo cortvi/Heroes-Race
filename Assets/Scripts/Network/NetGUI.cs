@@ -21,11 +21,11 @@ namespace HeroesRace
 			*/
 		}
 
-		private void OnGUI () 
+		private void OnGUIs () 
 		{
 			GUILayout.BeginArea (new Rect (10f, 10f, 200f, 100f));
 			// If not chosen a net-role yet
-			if (!Net.isClient && !Net.isServer)
+			if (!Net.isClient && !Net.isServer) 
 			{
 				if (isClient) GUILayout.Label ("Searching server...");
 				else
