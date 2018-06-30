@@ -57,6 +57,7 @@ namespace HeroesRace
 					Initialize ();
 					StartAsServer ();
 
+					Net.users = new List<User> ();
 					Net.worker.StartServer ();
 					Net.isServer = true;
 				}
