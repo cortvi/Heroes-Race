@@ -9,10 +9,9 @@ namespace HeroesRace
 	{
 		public override void OnReceivedBroadcast (string fromAddress, string data) 
 		{
-//			fromAddress = fromAddress.Replace (":", "").Replace ("f", "");
+			fromAddress = fromAddress.Replace (":", "").Replace ("f", "");
 			Net.worker.networkAddress = fromAddress;
-			Net.worker.StartClient ();
-//			StopBroadcast ();
+			if (Net.worker.client == null) Net.worker.StartClient ();
 		}
 
 		private void OnGUI () 
@@ -21,7 +20,15 @@ namespace HeroesRace
 			// If not chosen a net-role yet
 			if (!Net.isClient && !Net.isServer) 
 			{
-				if (isClient) GUILayout.Label ("Searching server...");
+				if (isClient)
+				{
+					GUILayout.Label ("Searching server...");
+					if (Net.worker.client != null)
+					{
+						GUILayout.Label ("Status: " + Net.worker.client.isConnected);
+						GUILayout.Label ("Server IP: " + Net.worker.client.serverIp); 
+					}
+				}
 				else
 				if (isServer)
 				{
@@ -33,8 +40,8 @@ namespace HeroesRace
 				{
 					if (GUILayout.Button ("Start server"))
 					{
-//						Net.users = new List<User> (3);
-//						Net.worker.StartServer ();
+						Net.users = new List<User> (3);
+						Net.worker.StartServer ();
 
 						Initialize ();
 						StartAsServer ();
