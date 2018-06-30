@@ -32,7 +32,7 @@ namespace HeroesRace
 				if (isServer)
 				{
 					GUILayout.Label ("Awaiting clients...");
-					GUILayout.Label ("Clients connected: " + Net.users.Count);
+					GUILayout.Label ("Clients connected: ");// + Net.users.Count);
 				}
 				#region START BROADCASTING
 				else
