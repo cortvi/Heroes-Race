@@ -9,12 +9,10 @@ namespace HeroesRace
 	{
 		public override void OnReceivedBroadcast (string fromAddress, string data) 
 		{
-			fromAddress = fromAddress.Replace (":", "").Replace ("f", "");
+//			fromAddress = fromAddress.Replace (":", "").Replace ("f", "");
 			Net.worker.networkAddress = fromAddress;
-			var c = Net.worker.StartClient ();
-			StopBroadcast ();
-			print (fromAddress);
-			print (c.isConnected);
+			Net.worker.StartClient ();
+//			StopBroadcast ();
 		}
 
 		private void OnGUI () 
@@ -35,8 +33,8 @@ namespace HeroesRace
 				{
 					if (GUILayout.Button ("Start server"))
 					{
-						Net.users = new List<User> (3);
-						Net.worker.StartServer ();
+//						Net.users = new List<User> (3);
+//						Net.worker.StartServer ();
 
 						Initialize ();
 						StartAsServer ();

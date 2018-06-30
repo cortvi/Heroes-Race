@@ -36,7 +36,7 @@ namespace HeroesRace
 		private void Cmd_SetReady (bool state) 
 		{
 			SelectorsReady += (state? +1 : -1);
-			if (SelectorsReady == Net.usersNeeded) 
+			if (SelectorsReady == Net.UsersNeeded) 
 			{
 				Target_SetReady (id.clientAuthorityOwner, state: true, block: true);
 				#warning in the future, make the scene change smoother!

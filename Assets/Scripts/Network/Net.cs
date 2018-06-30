@@ -16,7 +16,7 @@ namespace HeroesRace
 		public static bool isServer;
 		public static bool isClient;
 
-		public const int usersNeeded = 1;
+		public const int UsersNeeded = 2;
 		#endregion
 
 		#region SERVER
@@ -34,8 +34,8 @@ namespace HeroesRace
 				int id = conn.connectionId;
 				users.Add (new User (player, id, conn.address));
 
-				// Stop broadcasting and start the game when all ready
-				if (!isServer && users.Count == usersNeeded)
+				// When all ready, stop broadcasting & start the game
+				if (!isServer && users.Count == UsersNeeded)
 				{
 					isServer = true;
 					// do something, idk
@@ -62,7 +62,7 @@ namespace HeroesRace
 		#endregion
 
 		#region CLIENT
-		public override void OnClientConnect (NetworkConnection conn)
+		public override void OnClientConnect (NetworkConnection conn) 
 		{
 			print ("lul");
 			base.OnClientConnect (conn);
