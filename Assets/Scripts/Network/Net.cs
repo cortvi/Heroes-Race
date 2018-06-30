@@ -16,7 +16,7 @@ namespace HeroesRace
 		public static bool isServer;
 		public static bool isClient;
 
-		public const int UsersNeeded = 2;
+		public const int UsersNeeded = 1;
 		#endregion
 
 		#region SERVER
