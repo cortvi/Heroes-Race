@@ -22,24 +22,16 @@ namespace HeroesRace
 		#region SERVER
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			// Check if Player if it's the first time the player connects
-			var assignedUser = users.FirstOrDefault (u => u.IP == conn.address);
+			// Check if it's the first time the player connects
+			var assignedUser = users.FirstOrDefault (u=> u.IP == conn.address);
 			if (assignedUser == null) 
 			{
 				// Spawn player object over the net
 				var player = Instantiate (playerPrefab).GetComponent<Player> ();
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 
-				// Otherwise create a new persistent User for that player
-				int id = conn.connectionId;
-				users.Add (new User (player, id, conn.address));
-
-				// When all ready, stop broadcasting & start the game
-				if (!isServer && users.Count == UsersNeeded)
-				{
-					isServer = true;
-					// do something, idk
-				}
+				// Create a new persistent User for that player
+				users.Add (new User (player, conn.connectionId, conn.address));
 			}
 			else 
 			{
@@ -48,29 +40,6 @@ namespace HeroesRace
 				var player = assignedUser.Player;
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 			}
-		}
-
-		public override void OnServerConnect (NetworkConnection conn) 
-		{
-			base.OnServerConnect (conn);
-		}
-
-		public override void OnServerDisconnect (NetworkConnection conn) 
-		{
-			base.OnServerDisconnect (conn);
-		}
-		#endregion
-
-		#region CLIENT
-		public override void OnClientConnect (NetworkConnection conn) 
-		{
-			print ("lul");
-			base.OnClientConnect (conn);
-		}
-
-		public override void OnClientDisconnect (NetworkConnection conn) 
-		{
-			base.OnClientDisconnect (conn);
 		}
 		#endregion
 

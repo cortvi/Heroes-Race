@@ -17,26 +17,29 @@ namespace HeroesRace
 		#endregion
 
 		#region CALLBACKS
+		// --- Start wrapper ---
+		protected virtual void OnStart () { }
 		public void Start () 
 		{
 			OnStart ();
 		}
-		protected virtual void OnStart () { }
 
+		// --- Authority wrapper ---
+		protected virtual void OnAuthoritySet () { } 
 		public sealed override void OnStartAuthority () 
 		{
 			UpdateName ();
 			OnAuthoritySet ();
 		}
-		protected virtual void OnAuthoritySet () { } 
 
+		// --- Awake wrapper ---
+		protected virtual void OnAwake () { } 
 		public void Awake () 
 		{
 			id = GetComponent<NetworkIdentity> ();
 			UpdateName ();
 			OnAwake ();
 		}
-		protected virtual void OnAwake () { } 
 		#endregion
 
 		#region HELPERS
@@ -46,7 +49,7 @@ namespace HeroesRace
 			if (Net.isClient)
 			{
 				if (hasAuthority) name = name.Insert (0, "[OWN] ");
-				else name = name.Insert (0, "[OTHER] ");
+				else			  name = name.Insert (0, "[OTHER] ");
 			}
 			else
 			if (Net.isServer)
@@ -56,8 +59,8 @@ namespace HeroesRace
 					var o = id.clientAuthorityOwner;
 					if (o != null) 
 					{
-						name = name.Insert (0, "[CLIENT] ");
-						name = name.Insert (0, "[" + o.connectionId + "]:");
+						name = name.Insert (0, "CLIENT] ");
+						name = name.Insert (0, "[" + o.connectionId + ":");
 					}
 					else return;
 				}
