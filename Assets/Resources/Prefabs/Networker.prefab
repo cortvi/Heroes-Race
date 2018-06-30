@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77e8145e60c5f7a4e923a9a9ef1be174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BroadcastPort: 7778
+  m_BroadcastPort: 47777
   m_BroadcastKey: 2222
   m_BroadcastVersion: 1
   m_BroadcastSubVersion: 1
