@@ -60,8 +60,12 @@ namespace HeroesRace
 			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
 			{
 				Selector[] selectors;
-				while ((selectors = FindObjectsOfType<Selector> ()) == null)
+				do
+				{
+					selectors = FindObjectsOfType<Selector> ();
 					yield return null;
+				}
+				while (selectors == null || selectors.Length == 0);
 
 				 // Once selectors are enabled and accesible
 				var selector = selectors[ID - 1];
