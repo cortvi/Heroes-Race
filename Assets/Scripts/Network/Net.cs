@@ -11,7 +11,8 @@ namespace HeroesRace
 	{
 		#region DATA
 		public static Net worker;
-		public static List<User> users;
+		public static List<Player> players;
+		public static Player me;
 
 		public static bool isServer;
 		public static bool isClient;
@@ -25,23 +26,21 @@ namespace HeroesRace
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
 			// Check if it's the first time the player connects
-			var assignedUser = users.FirstOrDefault (u=> u.IP == conn.address);
-			if (assignedUser == null) 
+			var player = players.FirstOrDefault (p=> p.data.IP == conn.address);
+			if (player == null)
 			{
-				// Spawn player object over the net
-				var player = Instantiate (playerPrefab).GetComponent<Player> ();
+				// Create a new persistent Player object
+				print ("Creating new persistent Player");
+				player = Instantiate (playerPrefab).GetComponent<Player> ();
+				player.SetData (conn.connectionId, conn.address);
+
+				// Spawn it over the net
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-
-				// Create a new persistent User for that player
-				users.Add (new User (player, conn.connectionId, conn.address));
+				players.Add (player);
 			}
-			else 
+			else
 			{
-				print ("Player reconnecting");
-
-				// In case they're just reconnecting, just re-assign local-player authority
-				if (!conn.isReady)
-					NetworkServer.AddPlayerForConnection (conn, assignedUser.Player.gameObject, playerControllerId);
+				print ("Re-connecting Player...");
 			}
 		}
 
@@ -54,14 +53,12 @@ namespace HeroesRace
 		public override void OnServerReady (NetworkConnection conn) 
 		{
 			base.OnServerReady (conn);
-			// Notify users that the scene is ready on both sides
-			if (users.Count != 0) users[clientsReady++].SceneReady ();
-		}
-
-		public override void OnServerDisconnect (NetworkConnection conn) 
-		{
-			clientsReady--;
-//			base.OnServerDisconnect (conn);
+			if (players.Count != 0) 
+			{
+				// Notify Players that the scene is ready on both sides
+				var player = players.First(p=> p.connectionToClient == conn);
+				player.SceneReady ();
+			}
 		}
 		#endregion
 

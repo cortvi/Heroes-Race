@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,61 +16,47 @@ namespace HeroesRace
 		{
 			get { return "Player"; }
 		}
+
+		[SyncVar] public Data data;
 		#endregion
 
 		#region CALLBACKS
 		protected override void OnAwake () 
 		{
 			DontDestroyOnLoad (this);
+			if (Net.isClient && isLocalPlayer)
+			{
+				print ("Local player set");
+				Net.me = this;
+			}
 		}
 		#endregion
-	}
 
-	/* This class contains the local objects authored
-	 * by each player. Even if they disconnect, objects remain and
-	 * their local authority will be re-set when connected again.
-	 *
-	 * Users are persistent, since when created, IP address is stored,
-	 * so that when reconnected same User is assigned.*/
-	public class User 
-	{
-		#region DATA + CTOR
-		public readonly int ID;
-		public readonly string IP;
-
-		public Player Player { get; private set; }
-		public Selector Selector { get; private set; }
-		public Hero Hero { get; private set; }
-
-		public User (Player player, int id, string ip) 
-		{
-			ID = id;
-			IP = ip;
-			Player = player;
-		} 
-		#endregion
-
-		#region UTILS
+		#region HELPERS
 		public void SceneReady () 
 		{
-			if (Net.networkSceneName == "Selection" && !Selector) 
+			if (Net.networkSceneName == "Selection" && !data.selector) 
 			{
-				Selector = GameObject.Find ("[CLIENT] Selector").GetComponent<Selector> ();
-				Selector.id.AssignClientAuthority (Player.connectionToClient);
+				var selector = FindObjectsOfType<Selector> ()[data.ID - 1];
+				selector.id.AssignClientAuthority (connectionToClient);
+				data.selector = selector.gameObject;
 			}
 		}
 
-		public void SpawnHero (Heroes hero) 
+		public void SetData (int id, string ip) 
 		{
-			/*
-			// Instantiate Hero object
-			var go = Object.Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + hero.ToString ()));
-			hero.identity = playingAs;
-
-			// Propagate over the Net
-			NetworkServer.SpawnWithClientAuthority (hero.gameObject, connectionToClient);
-			*/
+			data.ID = id;
+			data.IP = ip;
 		}
 		#endregion
+
+		[Serializable]
+		public struct Data 
+		{
+			public int ID;
+			public string IP;
+			public GameObject hero;
+			public GameObject selector;
+		}
 	}
 }
