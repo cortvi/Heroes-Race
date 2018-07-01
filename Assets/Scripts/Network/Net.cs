@@ -46,7 +46,7 @@ namespace HeroesRace
 
 		public override void OnServerReady (NetworkConnection conn) 
 		{
-			NetworkServer.SetClientReady (conn);
+//			NetworkServer.SetClientReady (conn);
 			if (players.Count != 0) 
 			{
 				// Notify Players that the scene is ready on both sides
@@ -84,7 +84,7 @@ namespace HeroesRace
 		#region CLIENT
 		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			// Set players ready
+			print (conn.isReady);
 			ClientScene.Ready (conn);
 		}
 
