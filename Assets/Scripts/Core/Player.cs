@@ -52,9 +52,19 @@ namespace HeroesRace
 		#region HELPERS
 		private void SceneReady (Scene scene, LoadSceneMode mode) 
 		{
+			// Made coroutine to ensure conditions are met
+			StartCoroutine (SceneLogic ());
+		}
+		IEnumerator SceneLogic () 
+		{
 			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
 			{
-				var selector = FindObjectsOfType<Selector> ()[ID - 1];
+				Selector[] selectors;
+				while ((selectors = FindObjectsOfType<Selector> ()) == null)
+					yield return null;
+
+				 // Once selectors are enabled and accesible
+				var selector = selectors[ID - 1];
 				selector.id.AssignClientAuthority (connectionToClient);
 				data.selector = selector.netId;
 				selector.UpdateName ();
