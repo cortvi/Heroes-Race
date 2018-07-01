@@ -35,6 +35,7 @@ namespace HeroesRace
 
 				// Spawn it over the net
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+				player.UpdateName ();
 				players.Add (player);
 			}
 			else
@@ -46,7 +47,7 @@ namespace HeroesRace
 
 		public override void OnServerReady (NetworkConnection conn) 
 		{
-//			NetworkServer.SetClientReady (conn);
+			NetworkServer.SetClientReady (conn);
 			if (players.Count != 0) 
 			{
 				// Notify Players that the scene is ready on both sides
@@ -84,8 +85,7 @@ namespace HeroesRace
 		#region CLIENT
 		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			print (conn.isReady);
-			ClientScene.Ready (conn);
+			ClientScene.Ready (client.connection);
 		}
 
 		public override void OnStartClient (NetworkClient client) 
