@@ -16,6 +16,10 @@ namespace HeroesRace
 		{
 			get { return "Player"; }
 		}
+		public string IP 
+		{
+			get { return connectionToClient.address; }
+		}
 		public int ID 
 		{
 			get { return connectionToClient.connectionId; }

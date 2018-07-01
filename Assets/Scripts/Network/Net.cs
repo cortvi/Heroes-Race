@@ -26,7 +26,7 @@ namespace HeroesRace
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
 			// Check if it's the first time the player connects
-			var player = players.FirstOrDefault (p=> p.ID == conn.connectionId);
+			var player = players.FirstOrDefault (p=> p.IP == conn.address);
 			if (player == null) 
 			{
 				// Create a new persistent Player object
@@ -40,8 +40,10 @@ namespace HeroesRace
 			}
 			else
 			{
+				// Re-associate player with the new connection
 				print ("Player " + conn.connectionId + " reconnected!");
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+				player.UpdateName ();
 			}
 		}
 
@@ -53,13 +55,9 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
-			NetworkServer.SpawnObjects ();
-			if (players.Count != 0) 
-			{
-				// Notify Players that the scene is ready
-				players.ForEach (p=> p.SceneReady ());
-				print ("Notifying players that scene has changed");
-			}
+			// Notify Players that the scene is ready
+			print ("Notifying players that scene has changed");
+			players.ForEach (p=> p.SceneReady ());
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 

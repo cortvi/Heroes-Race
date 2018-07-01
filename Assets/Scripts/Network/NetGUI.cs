@@ -39,6 +39,7 @@ namespace HeroesRace
 				if (Net.worker.client != null) 
 				{
 					GUILayout.Label ("Connected to server");
+					GUILayout.Label ("ID: " + Net.worker.client.connection.connectionId);
 					GUILayout.Label ("Ready status: " + ClientScene.ready);
 					if (GUILayout.Button ("[X] STOP CLIENT")) Net.worker.StopClient ();
 				}
