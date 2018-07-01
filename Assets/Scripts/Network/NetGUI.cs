@@ -13,7 +13,7 @@ namespace HeroesRace
 			GUILayout.BeginArea (new Rect (10f, 10f, 200f, 100f));
 
 			#region CONNECTION CONTROL
-			if (isServer)
+			if (NetworkServer.active) 
 			{
 				if (Net.players.Count != Net.UsersNeeded) 
 				{
@@ -26,19 +26,25 @@ namespace HeroesRace
 					GUILayout.Label ("Clients connected: " + Net.players.Count);
 
 					// Scene managing options
-					if (GUILayout.Button ("Go to selection")) Net.worker.ServerChangeScene ("Selection");
+					if (GUILayout.Button ("Go to selection"))
+						Net.worker.ServerChangeScene ("Selection");
 					else
-					if (GUILayout.Button ("Go to tower")) ;
+					if (GUILayout.Button ("Go to tower"))
+						Net.worker.ServerChangeScene ("Tower");
 				}
 			}
 			else
-			if (isClient)
+			if (NetworkClient.active) 
 			{
-				if (Net.worker.client != null)
+				if (Net.worker.client != null) 
 				{
 					GUILayout.Label ("Connected to server");
 					GUILayout.Label ("Ready status: " + ClientScene.ready);
-					if (GUILayout.Button ("[X] STOP CLIENT")) Net.worker.StopClient ();
+					if (GUILayout.Button ("[X] STOP CLIENT"))
+					{
+						Net.worker.StopClient ();
+						Net.isClient = false;
+					}
 				}
 				else GUILayout.Label ("Searching server...");
 			} 
@@ -51,8 +57,7 @@ namespace HeroesRace
 				{
 					Initialize ();
 					StartAsServer ();
-
-					Net.players = new List<Player> (3);
+					
 					Net.worker.StartServer ();
 					Net.isServer = true;
 				}

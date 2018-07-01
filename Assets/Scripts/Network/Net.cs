@@ -27,7 +27,7 @@ namespace HeroesRace
 		{
 			// Check if it's the first time the player connects
 			var player = players.FirstOrDefault (p=> p.data.IP == conn.address);
-			if (player == null)
+			if (player == null) 
 			{
 				// Create a new persistent Player object
 				print ("Creating new persistent Player");
@@ -41,12 +41,13 @@ namespace HeroesRace
 			else
 			{
 				print ("Re-connecting Player...");
+				// how do I re-authorize...?
 			}
 		}
 
 		public override void OnServerReady (NetworkConnection conn) 
 		{
-			base.OnServerReady (conn);
+			NetworkServer.SetClientReady (conn);
 			if (players.Count != 0) 
 			{
 				// Notify Players that the scene is ready on both sides
@@ -62,17 +63,22 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
-			clientsReady = 0;
-			base.OnServerSceneChanged (sceneName);
+			base.ServerChangeScene (sceneName);
+			// do something else? (=> this is actually kind of a loop)
+		}
+
+		public override void OnStopServer () 
+		{
+			base.OnStopServer ();
+			players.Clear ();
 		}
 		#endregion
 
-		#region CALLBACKS
-		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-		public static void InitizalizeSingleton () 
+		#region CLIENT
+		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			// Creates a persistent Net-worker no matter the scene
-			worker = Extensions.SpawnSingleton<Net> ("Networker");
+			// Set players ready
+			ClientScene.Ready (conn);
 		}
 		#endregion
 
@@ -107,6 +113,14 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
+		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
+		public static void InitizalizeSingleton () 
+		{
+			// Creates a persistent Net-worker no matter the scene
+			worker = Extensions.SpawnSingleton<Net> ("Networker");
+			players = new List<Player> (3);
+		}
+
 		private void SceneLogic () 
 		{
 			/*
