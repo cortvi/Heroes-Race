@@ -56,6 +56,13 @@ namespace HeroesRace
 		}
 		#endregion
 
+		#region CLIENT
+		public override void OnServerDisconnect (NetworkConnection conn) 
+		{
+			base.OnServerDisconnect (conn);
+		}
+		#endregion
+
 		#region CALLBACKS
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void InitizalizeSingleton () 
