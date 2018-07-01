@@ -28,10 +28,7 @@ namespace HeroesRace
 					// Scene managing options
 					if (GUILayout.Button ("Go to selection")) Net.worker.ServerChangeScene ("Selection");
 					else
-					if (GUILayout.Button ("Go to tower"))
-					{
-
-					}
+					if (GUILayout.Button ("Go to tower")) ;
 				}
 			}
 			else
@@ -40,7 +37,7 @@ namespace HeroesRace
 				if (Net.worker.client != null)
 				{
 					GUILayout.Label ("Connected to server");
-					GUILayout.Label ("Status: " + Net.worker.client.isConnected);
+					GUILayout.Label ("Ready status: " + ClientScene.ready);
 					GUILayout.Label ("Server IP: " + Net.worker.client.serverIp);
 				}
 				else GUILayout.Label ("Searching server...");

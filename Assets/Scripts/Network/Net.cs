@@ -17,6 +17,8 @@ namespace HeroesRace
 		public static bool isClient;
 
 		public const int UsersNeeded = 1;
+
+		private int clientsReady;
 		#endregion
 
 		#region SERVER
@@ -41,12 +43,25 @@ namespace HeroesRace
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 			}
 		}
+
+		public override void OnServerSceneChanged (string sceneName) 
+		{
+			clientsReady = 0;
+			base.OnServerSceneChanged (sceneName);
+		}
+
+		private void ClientReady (NetworkMessage msg) 
+		{
+			if (++clientsReady == UsersNeeded)
+				NetworkServer.SpawnObjects ();
+		}
 		#endregion
 
 		#region CLIENT
 		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			ClientScene.Ready (conn);
+			base.OnClientSceneChanged (conn);
+//			ClientScene.Ready (conn);
 		}
 		#endregion
 
@@ -56,6 +71,7 @@ namespace HeroesRace
 		{
 			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
+			NetworkServer.RegisterHandler (MsgType.Ready, worker.ClientReady);
 		}
 		#endregion
 
