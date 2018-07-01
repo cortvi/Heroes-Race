@@ -32,7 +32,7 @@ namespace HeroesRace
 		[ClientCallback]
 		protected override void OnAuthoritySet () 
 		{
-			print ("Local Player set");
+			print ("Local Player set!");
 			Net.me = this;
 		}
 
@@ -57,8 +57,9 @@ namespace HeroesRace
 		}
 		IEnumerator SceneLogic () 
 		{
-			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
+			if (Net.networkSceneName == "Selection") 
 			{
+				print ("Asssigning a Selctor to Player " + ID);
 				Selector[] selectors;
 				do
 				{

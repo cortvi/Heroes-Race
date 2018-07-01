@@ -51,7 +51,6 @@ namespace HeroesRace
 		{
 			base.ServerChangeScene (newSceneName);
 			// do something else? (=> this is actually kind of a loop)
-			print ("is this a loop?");
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 

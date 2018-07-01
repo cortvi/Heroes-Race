@@ -70,7 +70,7 @@ namespace HeroesRace
 		[Client]
 		IEnumerator ReadInput () 
 		{
-			while (true)
+			while (true) 
 			{
 				// Let player select the character
 				if (Input.GetKeyDown (KeyCode.Return))
