@@ -35,11 +35,12 @@ namespace HeroesRace
 		#region HELPERS
 		public void SceneReady () 
 		{
-			if (Net.networkSceneName == "Selection" && !data.selector) 
+			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
 			{
 				var selector = FindObjectsOfType<Selector> ()[data.ID - 1];
 				selector.id.AssignClientAuthority (connectionToClient);
-				data.selector = selector.gameObject;
+				data.selector = selector.netId;
+				selector.UpdateName ();
 			}
 		}
 
@@ -55,8 +56,8 @@ namespace HeroesRace
 		{
 			public int ID;
 			public string IP;
-			public GameObject hero;
-			public GameObject selector;
+			public NetworkInstanceId hero;
+			public NetworkInstanceId selector;
 		}
 	}
 }

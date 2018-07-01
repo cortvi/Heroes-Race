@@ -44,12 +44,6 @@ namespace HeroesRace
 			}
 		}
 
-		public override void OnServerSceneChanged (string sceneName) 
-		{
-			clientsReady = 0;
-			base.OnServerSceneChanged (sceneName);
-		}
-
 		public override void OnServerReady (NetworkConnection conn) 
 		{
 			base.OnServerReady (conn);
@@ -59,6 +53,17 @@ namespace HeroesRace
 				var player = players.First(p=> p.connectionToClient == conn);
 				player.SceneReady ();
 			}
+		}
+
+		public override void OnServerDisconnect (NetworkConnection conn) 
+		{
+			// Don't remove owned objects
+		}
+
+		public override void OnServerSceneChanged (string sceneName) 
+		{
+			clientsReady = 0;
+			base.OnServerSceneChanged (sceneName);
 		}
 		#endregion
 
