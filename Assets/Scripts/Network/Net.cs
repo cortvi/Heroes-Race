@@ -51,13 +51,7 @@ namespace HeroesRace
 		{
 			base.ServerChangeScene (newSceneName);
 			// do something else? (=> this is actually kind of a loop)
-		}
-
-		public override void OnServerSceneChanged (string sceneName) 
-		{
-			// Notify Players that the scene is ready
-			print ("Notifying players that scene has changed");
-			players.ForEach (p=> p.SceneReady ());
+			print ("is this a loop?");
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 

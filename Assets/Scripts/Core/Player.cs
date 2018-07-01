@@ -39,11 +39,18 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			DontDestroyOnLoad (this);
+			if (Net.isServer)
+				SceneManager.sceneLoaded += SceneReady;
+		}
+		private void OnDestroy () 
+		{
+			if (Net.isServer)
+				SceneManager.sceneLoaded -= SceneReady;
 		}
 		#endregion
 
 		#region HELPERS
-		public void SceneReady () 
+		private void SceneReady (Scene scene, LoadSceneMode mode) 
 		{
 			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
 			{
