@@ -51,16 +51,7 @@ namespace HeroesRace
 		public override void OnServerReady (NetworkConnection conn) 
 		{
 			base.OnServerReady (conn);
-			if (++clientsReady == UsersNeeded)
-				NetworkServer.SpawnObjects ();
-		}
-		#endregion
-
-		#region CLIENT
-		public override void OnClientSceneChanged (NetworkConnection conn) 
-		{
-			base.OnClientSceneChanged (conn);
-//			ClientScene.Ready (conn);
+			users[clientsReady++].SceneReady ();
 		}
 		#endregion
 
