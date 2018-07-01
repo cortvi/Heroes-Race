@@ -44,7 +44,7 @@ namespace HeroesRace
 		public User (Player player, int id, string ip) 
 		{
 			ID = id; IP = ip; Player = player;
-			NetworkServer.RegisterHandler (MsgType.Ready, SceneReady);
+//			NetworkServer.RegisterHandler (MsgType.Ready, SceneReady);
 		} 
 		#endregion
 
