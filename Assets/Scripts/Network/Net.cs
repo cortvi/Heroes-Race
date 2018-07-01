@@ -37,10 +37,8 @@ namespace HeroesRace
 			}
 			else 
 			{
-				// In case they're just reconnecting,
-				// just re-assign local-player authority
-				var player = assignedUser.Player;
-				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+				// In case they're just reconnecting, just re-assign local-player authority
+				NetworkServer.AddPlayerForConnection (conn, assignedUser.Player.gameObject, playerControllerId);
 			}
 		}
 
@@ -50,8 +48,9 @@ namespace HeroesRace
 			base.OnServerSceneChanged (sceneName);
 		}
 
-		private void ClientReady (NetworkMessage msg) 
+		public override void OnServerReady (NetworkConnection conn) 
 		{
+			base.OnServerReady (conn);
 			if (++clientsReady == UsersNeeded)
 				NetworkServer.SpawnObjects ();
 		}
@@ -71,7 +70,6 @@ namespace HeroesRace
 		{
 			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
-			NetworkServer.RegisterHandler (MsgType.Ready, worker.ClientReady);
 		}
 		#endregion
 
