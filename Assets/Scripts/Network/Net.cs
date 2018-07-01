@@ -45,28 +45,26 @@ namespace HeroesRace
 			}
 		}
 
-		public override void OnServerReady (NetworkConnection conn) 
+		public override void ServerChangeScene (string newSceneName) 
 		{
-			NetworkServer.SetClientReady (conn);
+			base.ServerChangeScene (newSceneName);
+			// do something else? (=> this is actually kind of a loop)
+		}
+
+		public override void OnServerSceneChanged (string sceneName) 
+		{
 			if (players.Count != 0) 
 			{
-				// Notify Players that the scene is ready on both sides
-				var player = players.First(p=> p.connectionToClient == conn);
-				player.SceneReady ();
+				// Notify Players that the scene is ready
+				players.ForEach (p=> p.SceneReady ());
+				print ("Notifying players that scene has changed");
 			}
-			print ("Player " + conn.connectionId + " is ready now");
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Don't remove owned objects
 			print ("Player " + conn.connectionId + " disconnected from server!");
-		}
-
-		public override void OnServerSceneChanged (string sceneName) 
-		{
-			base.ServerChangeScene (sceneName);
-			// do something else? (=> this is actually kind of a loop)
 		}
 
 		public override void OnStartServer () 
