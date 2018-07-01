@@ -37,8 +37,11 @@ namespace HeroesRace
 			}
 			else 
 			{
+				print ("Player reconnecting");
+
 				// In case they're just reconnecting, just re-assign local-player authority
-				NetworkServer.AddPlayerForConnection (conn, assignedUser.Player.gameObject, playerControllerId);
+				if (!conn.isReady)
+					NetworkServer.AddPlayerForConnection (conn, assignedUser.Player.gameObject, playerControllerId);
 			}
 		}
 
@@ -59,13 +62,6 @@ namespace HeroesRace
 		{
 			clientsReady--;
 //			base.OnServerDisconnect (conn);
-		}
-		#endregion
-
-		#region CLIENT
-		public override void OnClientDisconnect (NetworkConnection conn) 
-		{
-//			base.OnClientDisconnect (conn);
 		}
 		#endregion
 
