@@ -51,10 +51,9 @@ namespace HeroesRace
 		#region UTILS
 		private void SceneReady (NetworkMessage message) 
 		{
-			Debug.Log (message.ReadMessage<ReadyMessage> ());
 			if (Net.networkSceneName == "Selection") 
 			{
-				Selector = GameObject.Find ("[CLIENT] Selector_" + ID).GetComponent<Selector> ();
+				Selector = GameObject.Find ("[CLIENT] Selector").GetComponent<Selector> ();
 				Selector.id.AssignClientAuthority (Player.connectionToClient);
 			}
 		}
