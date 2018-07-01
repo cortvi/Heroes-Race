@@ -44,7 +44,7 @@ namespace HeroesRace
 		public User (Player player, int id, string ip) 
 		{
 			ID = id; IP = ip; Player = player;
-//			NetworkServer.RegisterHandler (MsgType.Ready, SceneReady);
+			NetworkServer.RegisterHandler (MsgType.Ready, SceneReady);
 		} 
 		#endregion
 
@@ -53,8 +53,8 @@ namespace HeroesRace
 		{
 			if (Net.networkSceneName == "Selection") 
 			{
-				Selector = GameObject.Find ("[CLIENT] Selector").GetComponent<Selector> ();
-				Selector.id.AssignClientAuthority (Player.connectionToClient);
+//				Selector = GameObject.Find ("[CLIENT] Selector").GetComponent<Selector> ();
+//				Selector.id.AssignClientAuthority (Player.connectionToClient);
 			}
 		}
 
