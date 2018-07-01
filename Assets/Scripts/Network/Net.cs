@@ -26,13 +26,12 @@ namespace HeroesRace
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
 			// Check if it's the first time the player connects
-			var player = players.FirstOrDefault (p=> p.data.IP == conn.address);
+			var player = players.FirstOrDefault (p=> p.connectionToClient == conn);
 			if (player == null) 
 			{
 				// Create a new persistent Player object
 				print ("Creating new persistent Player");
 				player = Instantiate (playerPrefab).GetComponent<Player> ();
-				player.SetData (conn.connectionId, conn.address);
 
 				// Spawn it over the net
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
@@ -54,11 +53,13 @@ namespace HeroesRace
 				var player = players.First(p=> p.connectionToClient == conn);
 				player.SceneReady ();
 			}
+			print ("Player " + conn.connectionId + " is ready now");
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Don't remove owned objects
+			print ("Player " + conn.connectionId + " disconnected from server!");
 		}
 
 		public override void OnServerSceneChanged (string sceneName) 
@@ -67,9 +68,15 @@ namespace HeroesRace
 			// do something else? (=> this is actually kind of a loop)
 		}
 
+		public override void OnStartServer () 
+		{
+			base.OnStartServer ();
+			isServer = true;
+		}
 		public override void OnStopServer () 
 		{
 			base.OnStopServer ();
+			isServer = false;
 			players.Clear ();
 		}
 		#endregion
@@ -79,6 +86,17 @@ namespace HeroesRace
 		{
 			// Set players ready
 			ClientScene.Ready (conn);
+		}
+
+		public override void OnStartClient (NetworkClient client) 
+		{
+			base.OnStartClient (client);
+			isClient = true;
+		}
+		public override void OnStopClient () 
+		{
+			base.OnStopClient ();
+			isClient = false;
 		}
 		#endregion
 

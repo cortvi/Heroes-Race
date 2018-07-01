@@ -34,17 +34,13 @@ namespace HeroesRace
 				}
 			}
 			else
-			if (NetworkClient.active) 
+			if (isClient) 
 			{
 				if (Net.worker.client != null) 
 				{
 					GUILayout.Label ("Connected to server");
 					GUILayout.Label ("Ready status: " + ClientScene.ready);
-					if (GUILayout.Button ("[X] STOP CLIENT"))
-					{
-						Net.worker.StopClient ();
-						Net.isClient = false;
-					}
+					if (GUILayout.Button ("[X] STOP CLIENT")) Net.worker.StopClient ();
 				}
 				else GUILayout.Label ("Searching server...");
 			} 
@@ -53,20 +49,17 @@ namespace HeroesRace
 			#region START BROADCASTING
 			else
 			{
-				if (GUILayout.Button ("Start server"))
+				if (GUILayout.Button ("Start server")) 
 				{
 					Initialize ();
 					StartAsServer ();
-					
 					Net.worker.StartServer ();
-					Net.isServer = true;
 				}
 				else
-				if (GUILayout.Button ("Start client"))
+				if (GUILayout.Button ("Start client")) 
 				{
 					Initialize ();
 					StartAsClient ();
-					Net.isClient = true;
 				}
 			} 
 			#endregion

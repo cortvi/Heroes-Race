@@ -16,19 +16,25 @@ namespace HeroesRace
 		{
 			get { return "Player"; }
 		}
+		public int ID 
+		{
+			get { return connectionToClient.connectionId; }
+		}
 
 		[SyncVar] public Data data;
 		#endregion
 
 		#region CALLBACKS
+		[ClientCallback]
+		protected override void OnAuthoritySet () 
+		{
+			print ("Local Player set");
+			Net.me = this;
+		}
+
 		protected override void OnAwake () 
 		{
 			DontDestroyOnLoad (this);
-			if (Net.isClient && isLocalPlayer)
-			{
-				print ("Local player set");
-				Net.me = this;
-			}
 		}
 		#endregion
 
@@ -37,25 +43,17 @@ namespace HeroesRace
 		{
 			if (Net.networkSceneName == "Selection" && data.selector.IsEmpty ()) 
 			{
-				var selector = FindObjectsOfType<Selector> ()[data.ID - 1];
+				var selector = FindObjectsOfType<Selector> ()[ID - 1];
 				selector.id.AssignClientAuthority (connectionToClient);
 				data.selector = selector.netId;
 				selector.UpdateName ();
 			}
-		}
-
-		public void SetData (int id, string ip) 
-		{
-			data.ID = id;
-			data.IP = ip;
 		}
 		#endregion
 
 		[Serializable]
 		public struct Data 
 		{
-			public int ID;
-			public string IP;
 			public NetworkInstanceId hero;
 			public NetworkInstanceId selector;
 		}
