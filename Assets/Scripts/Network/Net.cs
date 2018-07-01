@@ -41,12 +41,12 @@ namespace HeroesRace
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 			}
 		}
+		#endregion
 
-		public override void OnServerSceneChanged (string sceneName) 
+		#region CLIENT
+		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			// Notify Users that scene has changed
-			base.OnServerSceneChanged (sceneName);
-			users.ForEach (u=> u.SceneChange (networkSceneName));
+			ClientScene.Ready (conn);
 		}
 		#endregion
 

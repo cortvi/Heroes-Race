@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.NetworkSystem;
 using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
@@ -42,16 +43,16 @@ namespace HeroesRace
 
 		public User (Player player, int id, string ip) 
 		{
-			ID = id;
-			IP = ip;
-			Player = player;
+			ID = id; IP = ip; Player = player;
+			NetworkServer.RegisterHandler (MsgType.Ready, SceneReady);
 		} 
 		#endregion
 
 		#region UTILS
-		public void SceneChange (string scene) 
+		private void SceneReady (NetworkMessage message) 
 		{
-			if (scene == "Selection") 
+			Debug.Log (message.ReadMessage<ReadyMessage> ());
+			if (Net.networkSceneName == "Selection") 
 			{
 				Selector = GameObject.Find ("[CLIENT] Selector_" + ID).GetComponent<Selector> ();
 				Selector.id.AssignClientAuthority (Player.connectionToClient);
