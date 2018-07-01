@@ -38,7 +38,7 @@ namespace HeroesRace
 				{
 					GUILayout.Label ("Connected to server");
 					GUILayout.Label ("Ready status: " + ClientScene.ready);
-					GUILayout.Label ("Server IP: " + Net.worker.client.serverIp);
+					if (GUILayout.Button ("[X] STOP CLIENT")) Net.worker.StopClient ();
 				}
 				else GUILayout.Label ("Searching server...");
 			} 

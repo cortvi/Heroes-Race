@@ -54,12 +54,18 @@ namespace HeroesRace
 			// Notify users that the scene is ready on both sides
 			if (users.Count != 0) users[clientsReady++].SceneReady ();
 		}
+
+		public override void OnServerDisconnect (NetworkConnection conn) 
+		{
+			clientsReady--;
+//			base.OnServerDisconnect (conn);
+		}
 		#endregion
 
 		#region CLIENT
-		public override void OnServerDisconnect (NetworkConnection conn) 
+		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
-			base.OnServerDisconnect (conn);
+//			base.OnClientDisconnect (conn);
 		}
 		#endregion
 
