@@ -51,7 +51,8 @@ namespace HeroesRace
 		public override void OnServerReady (NetworkConnection conn) 
 		{
 			base.OnServerReady (conn);
-			users[clientsReady++].SceneReady ();
+			// Notify users that the scene is ready on both sides
+			if (users.Count != 0) users[clientsReady++].SceneReady ();
 		}
 		#endregion
 
