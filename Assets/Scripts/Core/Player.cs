@@ -11,29 +11,17 @@ namespace HeroesRace
 	// This is the "Local players" class
 	public class Player : NetBehaviour 
 	{
-		#region DATA
 		public override string SharedName 
 		{
 			get { return "Player"; }
 		}
-		public string IP 
-		{
-			get { return connectionToClient.address; }
-		}
-		public int ID 
-		{
-			get { return connectionToClient.connectionId; }
-		}
-
-		[SyncVar] public Data data;
-		#endregion
 
 		#region CALLBACKS
 		[ClientCallback]
 		protected override void OnAuthoritySet () 
 		{
 			print ("Local Player set!");
-			Net.me = this;
+//			Net.me = this;
 		}
 
 		protected override void OnAwake () 
@@ -41,16 +29,39 @@ namespace HeroesRace
 			DontDestroyOnLoad (this);
 		}
 		#endregion
+	}
 
-		#region HELPERS
+	/* This class holds persistent data for each Player
+	 * when they connect for the first time. This way
+	 * they disconnect and re-connect, authority will 
+	 * restored for all owned objects. */
+	public class User 
+	{
+		#region DATA + CTOR
+		public readonly int ID;
+		public string IP 
+		{
+			get { return Conn.address; }
+		}
 
+		public NetworkConnection Conn 
+		{
+			get { return Player.connectionToClient; }
+		}
+		public Player Player { get; private set; }
+		public bool ready;
+
+		public User (Player player) 
+		{
+			Player = player;
+			ID = player.connectionToClient.connectionId;
+		}
 		#endregion
 
-		[Serializable]
-		public struct Data 
+		public void AssignPlayer (Player player) 
 		{
-			public NetworkInstanceId hero;
-			public NetworkInstanceId selector;
+			Player = player;
+			// Here I should re-authorize objects
 		}
 	}
 }

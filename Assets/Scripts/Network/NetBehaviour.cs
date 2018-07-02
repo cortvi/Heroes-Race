@@ -12,7 +12,6 @@ namespace HeroesRace
 		#region DATA
 		// Network-shared name
 		public abstract string SharedName { get; }
-
 		internal NetworkIdentity id;
 		#endregion
 
@@ -59,10 +58,11 @@ namespace HeroesRace
 					var o = id.clientAuthorityOwner;
 					if (o != null) 
 					{
+						int id = Net.users.Find (u=> u.IP == o.address).ID;
 						name = name.Insert (0, "CLIENT] ");
-						name = name.Insert (0, "[" + o.connectionId + ":");
+						name = name.Insert (0, "[" + id + ":");
 					}
-					else name = name.Insert (0, "[CLIENT] ");
+					else name = name.Insert (0, "[-CLIENT-] ");
 				}
 				else name = name.Insert (0, "[SERVER-ONLY] ");
 			}

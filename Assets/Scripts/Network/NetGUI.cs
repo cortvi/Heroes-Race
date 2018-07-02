@@ -15,15 +15,15 @@ namespace HeroesRace
 			#region CONNECTION CONTROL
 			if (NetworkServer.active) 
 			{
-				if (Net.players.Count != Net.UsersNeeded) 
+				if (Net.users.Count != Net.UsersNeeded) 
 				{
 					GUILayout.Label ("Awaiting clients...");
-					GUILayout.Label ("Clients connected: " + Net.players.Count);
+					GUILayout.Label ("Clients connected: " + Net.users.Count);
 				}
 				else
 				{
 					GUILayout.Label ("All clients connected.");
-					GUILayout.Label ("Clients connected: " + Net.players.Count);
+					GUILayout.Label ("Clients connected: " + Net.users.Count);
 
 					// Scene managing options
 					if (GUILayout.Button ("Go to selection"))

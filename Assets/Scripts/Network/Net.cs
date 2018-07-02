@@ -11,59 +11,63 @@ namespace HeroesRace
 	{
 		#region DATA
 		public static Net worker;
-		public static List<Player> players;
-		public static Player me;
+		public static List<User> users;
+//		public static Player me;
 
 		public static bool isServer;
 		public static bool isClient;
 
 		public const int UsersNeeded = 1;
-
-		private int clientsReady;
+		public int ClientsReady 
+		{
+			get { return users.Count (u => u.ready); }
+		}
 		#endregion
 
 		#region SERVER
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
+			// Spawn Player object over the net
+			var player = Instantiate (playerPrefab).GetComponent<Player> ();
+			NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
+
 			// Check if it's the first time the player connects
-			var player = players.FirstOrDefault (p=> p.IP == conn.address);
-			if (player == null) 
+			var user = users.FirstOrDefault (u => u.IP == conn.address);
+			if (user == null)
 			{
 				// Create a new persistent Player object
-				print ("Creating new persistent Player");
-				player = Instantiate (playerPrefab).GetComponent<Player> ();
+				print ("Creating new persistent User");
+				user = new User (player);
+				users.Add (user);
+			}
+			else print ("Player " + user.ID + " just reconnected!");
 
-				// Spawn it over the net
-				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-				players.Add (player);
-			}
-			else
-			{
-				// Re-associate player with the new connection
-				print ("Player " + conn.connectionId + " reconnected!");
-				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-				player.UpdateName ();
-			}
+			// Assign Player to the User
+			user.AssignPlayer (player);
 		}
 
 		public override void OnServerReady (NetworkConnection conn) 
 		{
 			base.OnServerReady (conn);
-			if (++clientsReady == UsersNeeded)
-				SceneLogic ();
+			print ("Does this happend before Player object spawn..?");
 		}
 
 		public override void ServerChangeScene (string newSceneName) 
 		{
-			clientsReady = 0;
+			// Set all users un-ready
+			users.ForEach (u => u.ready = false);
 			base.ServerChangeScene (newSceneName);
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
-			// Don't remove owned objects
-			print ("Player " + conn.connectionId + " disconnected from server!");
-			clientsReady--;
+			// Set user un-ready
+			var user = users.Find (u => u.IP == conn.address);
+			print ("Player " + user.ID + " disconnected from server!");
+			user.ready = false;
+
+			// This will destroy the user Player object
+			base.OnServerDisconnect (conn);
 		}
 
 		public override void OnStartServer () 
@@ -75,7 +79,7 @@ namespace HeroesRace
 		{
 			base.OnStopServer ();
 			isServer = false;
-			players.Clear ();
+			users.Clear ();
 		}
 		#endregion
 
@@ -89,16 +93,15 @@ namespace HeroesRace
 		public override void OnClientNotReady (NetworkConnection conn) 
 		{
 			// was this enforcing auto-reconnect?
+			//nope.
 		}
 
 		public override void OnStartClient (NetworkClient client) 
 		{
-			base.OnStartClient (client);
 			isClient = true;
 		}
 		public override void OnStopClient () 
 		{
-			base.OnStopClient ();
 			isClient = false;
 		}
 		#endregion
@@ -144,8 +147,8 @@ namespace HeroesRace
 		#region HELPERS
 		public void SceneReady (Scene scene, LoadSceneMode mode) 
 		{
-			if (isClient)
-				ClientScene.Ready (me.connectionToServer);
+			if (isClient && !client.connection.isReady)
+				ClientScene.Ready (client.connection);
 		}
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -154,20 +157,20 @@ namespace HeroesRace
 			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			SceneManager.sceneLoaded += worker.SceneReady;
-			players = new List<Player> (3);
+			users = new List<User> (3);
 		}
 
-		private void SceneLogic ()  
+		private void SceneLogic () 
 		{
 			// Behaviour based on what scene we start at
 			if (networkSceneName == "Selection") 
 			{
 				print ("Assigning authority to Selectors");
 				var selectors = FindObjectsOfType<Selector> ();
-				foreach (var p in players)
+				foreach (var u in users) 
 				{
-					var selector = selectors[p.ID - 1];
-					selector.id.AssignClientAuthority (p.connectionToClient);
+					var selector = selectors[u.ID - 1];
+					selector.id.AssignClientAuthority (u.Player.connectionToClient);
 					selector.UpdateName ();
 				}
 			}
