@@ -38,11 +38,8 @@ namespace HeroesRace
 	public class User 
 	{
 		#region DATA + CTOR
-		public readonly int ID;
-		public string IP 
-		{
-			get { return Conn.address; }
-		}
+		public int ID { get; private set; }
+		public string IP { get; private set; }
 
 		public NetworkConnection Conn 
 		{
@@ -51,10 +48,10 @@ namespace HeroesRace
 		public Player Player { get; private set; }
 		public bool ready;
 
-		public User (Player player) 
+		public User (NetworkConnection conn) 
 		{
-			Player = player;
-			ID = player.connectionToClient.connectionId;
+			ID = conn.connectionId;
+			IP = conn.address;
 		}
 		#endregion
 
@@ -63,6 +60,7 @@ namespace HeroesRace
 		{
 			Player = player;
 			// Here I should re-authorize objects
+
 		}
 
 		public void SceneReady () 
