@@ -14,7 +14,6 @@ namespace HeroesRace
 	* 
 	* Other Clients get their 3D data from the Server and it's lerped for a fluid movement.
 	* Server don't get to use physics at all. */
-
 	public sealed class Hero : NetBehaviour 
 	{
 		#region DATA
@@ -23,11 +22,15 @@ namespace HeroesRace
 			get { return identity.ToString (); }
 		}
 
+		// Settings
 		public Heroes identity;
 		internal float Speed = 10.0f;
 
+		// Helpers
 		internal CCStack cc;
 		internal SmartAnimator anim;
+
+		// References
 		internal Rigidbody driver;
 		private CapsuleCollider capsule;
 
@@ -166,7 +169,7 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		private Vector3 ComputePosition ()
+		private Vector3 ComputePosition () 
 		{
 			// Get capsule position, discard height
 			var pos = capsule.center;
@@ -176,7 +179,7 @@ namespace HeroesRace
 			return driver.transform.TransformPoint (pos);
 		}
 
-		private Quaternion ComputeRotation ()
+		private Quaternion ComputeRotation () 
 		{
 			// Get signed facing direction
 			var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);

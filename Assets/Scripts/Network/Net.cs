@@ -12,7 +12,7 @@ namespace HeroesRace
 		#region DATA
 		public static Net worker;
 		public static List<User> users;
-//		public static Player me;
+		public static Player me;
 
 		public static bool isServer;
 		public static bool isClient;
@@ -98,6 +98,7 @@ namespace HeroesRace
 		}
 		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
+			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO
 //			base.OnClientDisconnect (conn);
 			// was this causing automatic re-connecting?
 		}
@@ -112,37 +113,19 @@ namespace HeroesRace
 		}
 		#endregion
 
-		#region TOWER LOADING
-		public void GoToTower () 
-		{
-		/*
-			// Read all the selected heroes
-			Player.Heroes[] heroes = new Player.Heroes[3];
-			for (int i = 0; i != players.Count; i++)
-			{
-				var selector = GameObject.Find ("[" + (i + 1) + "][CLIENT] Selector");
-				heroes[i] = selector.GetComponent<Selector> ().ReadHero ();
-			}
-			// Save hero selection
-			for (int i = 0; i != players.Count; i++)
-				players[i].playingAs = heroes[i];
-			
-			// Change scene
-			StartCoroutine (LoadTower ());
-		}
-		private IEnumerator LoadTower () 
-		{
-			ServerChangeScene ("Tower");
-			// Wait until ALL players are ready
-			yield return new WaitUntil (()=> players.All (p => p.id.connectionToClient.isReady));
-
-			// Spawn all heroes with authorization
-			foreach (var p in players) p.SpawnHero ();
-		*/
-		}
-		#endregion
-
 		#region HELPERS
+		public static void GoToTower () 
+		{
+			// Read all the selected heroes
+			for (int i = 0; i != UsersNeeded; i++)
+			{
+				var selector = FindObjectsOfType<Selector> ()[i];
+				users[i].playingAs = selector.ReadHero ();
+			}
+			// Change scene
+			worker.ServerChangeScene ("Tower");
+		}
+
 		private IEnumerator WaitUsers () 
 		{
 			// Wait until Users report as ready
