@@ -43,15 +43,7 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		[Command]
-		public void Cmd_AssignSelector () 
-		{
-			print ("Asssigning a Selctor to Player " + ID);
-			var selector = FindObjectsOfType<Selector> ()[ID - 1];
-			selector.id.AssignClientAuthority (connectionToClient);
-			data.selector = selector.netId;
-			selector.UpdateName ();
-		}
+
 		#endregion
 
 		[Serializable]

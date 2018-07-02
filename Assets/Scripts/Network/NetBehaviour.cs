@@ -30,6 +30,7 @@ namespace HeroesRace
 		public sealed override void OnStartAuthority () 
 		{
 			OnAuthoritySet ();
+			UpdateName ();
 		}
 
 		// --- Awake wrapper ---

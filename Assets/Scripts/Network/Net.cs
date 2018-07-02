@@ -46,16 +46,24 @@ namespace HeroesRace
 			}
 		}
 
+		public override void OnServerReady (NetworkConnection conn) 
+		{
+			base.OnServerReady (conn);
+			if (++clientsReady == UsersNeeded)
+				SceneLogic ();
+		}
+
 		public override void ServerChangeScene (string newSceneName) 
 		{
+			clientsReady = 0;
 			base.ServerChangeScene (newSceneName);
-			// do something else? (=> this is actually kind of a loop)
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Don't remove owned objects
 			print ("Player " + conn.connectionId + " disconnected from server!");
+			clientsReady--;
 		}
 
 		public override void OnStartServer () 
@@ -72,6 +80,17 @@ namespace HeroesRace
 		#endregion
 
 		#region CLIENT
+		public override void OnClientSceneChanged (NetworkConnection conn) 
+		{
+			// This calls ClientScene.Ready
+			// Instead, I'm calling it with a delegate to the SceneManager
+		}
+
+		public override void OnClientNotReady (NetworkConnection conn) 
+		{
+			// was this enforcing auto-reconnect?
+		}
+
 		public override void OnStartClient (NetworkClient client) 
 		{
 			base.OnStartClient (client);
@@ -81,6 +100,14 @@ namespace HeroesRace
 		{
 			base.OnStopClient ();
 			isClient = false;
+		}
+		#endregion
+
+		#region CALLBACKS
+		private void OnDestroy () 
+		{
+			print ("Networker destroyed!");
+			SceneManager.sceneLoaded -= SceneReady;
 		}
 		#endregion
 
@@ -115,33 +142,41 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
+		public void SceneReady (Scene scene, LoadSceneMode mode) 
+		{
+			if (isClient)
+				ClientScene.Ready (me.connectionToServer);
+		}
+
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void InitizalizeSingleton () 
 		{
 			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
+			SceneManager.sceneLoaded += worker.SceneReady;
 			players = new List<Player> (3);
 		}
 
-		private void SceneLogic () 
+		private void SceneLogic ()  
 		{
-			/*
 			// Behaviour based on what scene we start at
-			if (scene == "Selection")
+			if (networkSceneName == "Selection") 
 			{
-				// Assign authority to selector
-				var selector = GameObject.Find ("Selector_" + conn.connectionId).GetComponent<Selector> ();
-				selector.id.AssignClientAuthority (conn);
-				selector.UpdateName ();
+				print ("Assigning authority to Selectors");
+				var selectors = FindObjectsOfType<Selector> ();
+				foreach (var p in players)
+				{
+					var selector = selectors[p.ID - 1];
+					selector.id.AssignClientAuthority (p.connectionToClient);
+					selector.UpdateName ();
+				}
 			}
 			else
 			// If bypassing the Selection menu
-			if (scene == "Tower")
+			if (networkSceneName == "Tower") 
 			{
-				// Spawn a different hero for each player & start
-
+				// Spawn a different hero for each player & start !
 			}
-			*/
 		}
 		#endregion
 	} 
