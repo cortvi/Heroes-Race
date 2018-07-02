@@ -22,13 +22,13 @@ namespace HeroesRace
 		public void Start () 
 		{
 			OnStart ();
+			UpdateName ();
 		}
 
 		// --- Authority wrapper ---
 		protected virtual void OnAuthoritySet () { } 
 		public sealed override void OnStartAuthority () 
 		{
-			UpdateName ();
 			OnAuthoritySet ();
 		}
 
@@ -37,7 +37,6 @@ namespace HeroesRace
 		public void Awake () 
 		{
 			id = GetComponent<NetworkIdentity> ();
-			UpdateName ();
 			OnAwake ();
 		}
 		#endregion

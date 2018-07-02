@@ -35,7 +35,6 @@ namespace HeroesRace
 
 				// Spawn it over the net
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-				player.UpdateName ();
 				players.Add (player);
 			}
 			else
@@ -73,11 +72,6 @@ namespace HeroesRace
 		#endregion
 
 		#region CLIENT
-		public override void OnClientSceneChanged (NetworkConnection conn) 
-		{
-			ClientScene.Ready (conn);
-		}
-
 		public override void OnStartClient (NetworkClient client) 
 		{
 			base.OnStartClient (client);

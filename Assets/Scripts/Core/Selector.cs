@@ -96,6 +96,8 @@ namespace HeroesRace
 		[ClientCallback]
 		protected override void OnAuthoritySet () 
 		{
+			print (Net.me.data.selector.Value);
+
 			// Show owner marks
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);
@@ -112,6 +114,8 @@ namespace HeroesRace
 		{
 			// Correct position
 			(transform as RectTransform).localPosition = cachePosition;
+
+			if (Net.isClient) Net.me.Cmd_AssignSelector ();
 		}
 
 		protected override void OnAwake () 

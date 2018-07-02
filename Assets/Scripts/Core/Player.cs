@@ -39,41 +39,18 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			DontDestroyOnLoad (this);
-			if (Net.isServer)
-				SceneManager.sceneLoaded += SceneReady;
-		}
-		private void OnDestroy () 
-		{
-			if (Net.isServer)
-				SceneManager.sceneLoaded -= SceneReady;
 		}
 		#endregion
 
 		#region HELPERS
-		private void SceneReady (Scene scene, LoadSceneMode mode) 
+		[Command]
+		public void Cmd_AssignSelector () 
 		{
-			// Made coroutine to ensure conditions are met
-			StartCoroutine (SceneLogic ());
-		}
-		IEnumerator SceneLogic () 
-		{
-			if (Net.networkSceneName == "Selection") 
-			{
-				print ("Asssigning a Selctor to Player " + ID);
-				Selector[] selectors;
-				do
-				{
-					selectors = FindObjectsOfType<Selector> ();
-					yield return null;
-				}
-				while (selectors == null || selectors.Length == 0);
-
-				 // Once selectors are enabled and accesible
-				var selector = selectors[ID - 1];
-				selector.id.AssignClientAuthority (connectionToClient);
-				data.selector = selector.netId;
-				selector.UpdateName ();
-			}
+			print ("Asssigning a Selctor to Player " + ID);
+			var selector = FindObjectsOfType<Selector> ()[ID - 1];
+			selector.id.AssignClientAuthority (connectionToClient);
+			data.selector = selector.netId;
+			selector.UpdateName ();
 		}
 		#endregion
 
