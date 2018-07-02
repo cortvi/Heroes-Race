@@ -44,6 +44,7 @@ namespace HeroesRace
 
 			// Assign Player to the User
 			user.AssignPlayer (player);
+			user.ready = true;
 		}
 
 		public override void ServerChangeScene (string newSceneName) 
@@ -51,6 +52,13 @@ namespace HeroesRace
 			// Set all users un-ready
 			users.ForEach (u => u.ready = false);
 			base.ServerChangeScene (newSceneName);
+		}
+
+		public override void OnServerReady (NetworkConnection conn) 
+		{
+			base.OnServerReady (conn);
+			var user = users.FirstOrDefault (u => u.IP == conn.address);
+			if (user != null) user.ready = true;
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -141,20 +149,29 @@ namespace HeroesRace
 		#region HELPERS
 		public void SceneReady (Scene scene, LoadSceneMode mode) 
 		{
-			// Set client as Ready!
-			if (isClient && !client.connection.isReady)
-				ClientScene.Ready (client.connection);
-			else
-			if (isServer) StartCoroutine (WaitReadyState ());
+			StartCoroutine (ReadyState ());
 		}
-		IEnumerator WaitReadyState () 
+		IEnumerator ReadyState () 
 		{
-			// Wait until all Player are ready
-			while (ClientsReady != UsersNeeded)
-				yield return null;
+			if (isServer) 
+			{
+				// Wait until all Player are ready
+				while (ClientsReady != UsersNeeded)
+					yield return null;
 
-			// Notify all Users
-			users.ForEach (u => u.SceneReady ());
+				// Notify all Users
+				users.ForEach (u => u.SceneReady ()); 
+			}
+			else
+			if (isClient) 
+			{
+				// Wait until connection is free
+				while (client.connection.isReady)
+					yield return null;
+
+				// Set it ready again
+				ClientScene.Ready (client.connection);
+			}
 		}
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
