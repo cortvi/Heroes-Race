@@ -65,7 +65,7 @@ namespace HeroesRace
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Set user un-ready
-			var user = users.Find (u => u.IP == conn.address);
+			var user = users.Find (u => u.Conn.connectionId == conn.connectionId);
 			print ("Player " + user.ID + " disconnected from server!");
 			user.ready = false;
 
