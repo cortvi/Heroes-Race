@@ -46,12 +46,6 @@ namespace HeroesRace
 			user.AssignPlayer (player);
 		}
 
-		public override void OnServerReady (NetworkConnection conn) 
-		{
-			base.OnServerReady (conn);
-			print ("Does this happend before Player object spawn..?");
-		}
-
 		public override void ServerChangeScene (string newSceneName) 
 		{
 			// Set all users un-ready
@@ -86,8 +80,8 @@ namespace HeroesRace
 		#region CLIENT
 		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			// This calls ClientScene.Ready
-			// Instead, I'm calling it with a delegate to the SceneManager
+			// This was calling ClientScene.Ready,
+			// instead, I'm calling it with a delegate to the SceneManager
 		}
 
 		public override void OnClientNotReady (NetworkConnection conn) 
@@ -147,8 +141,20 @@ namespace HeroesRace
 		#region HELPERS
 		public void SceneReady (Scene scene, LoadSceneMode mode) 
 		{
+			// Set client as Ready!
 			if (isClient && !client.connection.isReady)
 				ClientScene.Ready (client.connection);
+			else
+			if (isServer) StartCoroutine (WaitReadyState ());
+		}
+		IEnumerator WaitReadyState () 
+		{
+			// Wait until all Player are ready
+			while (ClientsReady != UsersNeeded)
+				yield return null;
+
+			// Notify all Users
+			users.ForEach (u => u.SceneReady ());
 		}
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -158,28 +164,6 @@ namespace HeroesRace
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			SceneManager.sceneLoaded += worker.SceneReady;
 			users = new List<User> (3);
-		}
-
-		private void SceneLogic () 
-		{
-			// Behaviour based on what scene we start at
-			if (networkSceneName == "Selection") 
-			{
-				print ("Assigning authority to Selectors");
-				var selectors = FindObjectsOfType<Selector> ();
-				foreach (var u in users) 
-				{
-					var selector = selectors[u.ID - 1];
-					selector.id.AssignClientAuthority (u.Player.connectionToClient);
-					selector.UpdateName ();
-				}
-			}
-			else
-			// If bypassing the Selection menu
-			if (networkSceneName == "Tower") 
-			{
-				// Spawn a different hero for each player & start !
-			}
 		}
 		#endregion
 	} 

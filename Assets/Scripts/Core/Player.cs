@@ -58,10 +58,30 @@ namespace HeroesRace
 		}
 		#endregion
 
+		#region UTILS
 		public void AssignPlayer (Player player) 
 		{
 			Player = player;
 			// Here I should re-authorize objects
 		}
+
+		public void SceneReady () 
+		{
+			// Behaviour based on what scene we start at
+			if (Net.networkSceneName == "Selection")
+			{
+				Player.print ("Assigning authority to Selectors");
+				var selector = UnityEngine.Object.FindObjectsOfType<Selector> ()[ID - 1];
+				selector.id.AssignClientAuthority (Player.connectionToClient);
+				selector.UpdateName ();
+			}
+			else
+			// If bypassing the Selection menu
+			if (Net.networkSceneName == "Tower") 
+			{
+				// Spawn a different hero for each player & start !
+			}
+		}
+		#endregion
 	}
 }
