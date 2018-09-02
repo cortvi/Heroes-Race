@@ -39,9 +39,8 @@ namespace HeroesRace
 			if (SelectorsReady == Net.UsersNeeded) 
 			{
 				Target_SetReady (id.clientAuthorityOwner, state: true, block: true);
-				#warning in the future, make the scene change smoother!
-				Net.GoToTower ();
-			}
+				GoToTower ();
+            }
 			// Just allow ready-state update on Client animator
 			else Target_SetReady (id.clientAuthorityOwner, state, block: false);
 		}
@@ -147,7 +146,21 @@ namespace HeroesRace
 			else hero = (Heroes)(selection - 1);
 
 			return hero;
-		}
-		#endregion
-	}
+		} 
+
+        [Server]
+		#warning in the future, make the scene change smoother!
+        public static void GoToTower () 
+        {
+			// Read all the selected heroes
+			for (int i = 0; i != Net.UsersNeeded; i++)
+            {
+                var selector = FindObjectsOfType<Selector> ()[i];
+                Net.users[i].playingAs = selector.ReadHero ();
+            }
+            // Change scene
+            Net.worker.ServerChangeScene ("Tower");
+        }
+        #endregion
+    }
 }
