@@ -20,9 +20,9 @@ namespace HeroesRace
 		public Image anchor;
 		[Space]
 
-		[Tooltip ("Indiana is 2")]
-		// This values indicates the literal value in the carrousel
-		[Range (0f, 5f)] public int initialSelection;
+		[Range (0f, 5f)]
+        [Tooltip ("Indiana is 2")]
+        public int initialSelection;
 
 		private SmartAnimator anim;
 		private Vector3 cachePosition;

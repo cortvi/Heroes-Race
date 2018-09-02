@@ -114,18 +114,6 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		public static void GoToTower () 
-		{
-			// Read all the selected heroes
-			for (int i = 0; i != UsersNeeded; i++)
-			{
-				var selector = FindObjectsOfType<Selector> ()[i];
-				users[i].playingAs = selector.ReadHero ();
-			}
-			// Change scene
-			worker.ServerChangeScene ("Tower");
-		}
-
 		private IEnumerator WaitUsers () 
 		{
 			// Wait until Users report as ready

@@ -36,7 +36,7 @@ namespace HeroesRace
 		public void AssignPlayer (Player player) 
 		{
 			Player = player;
-			// Here I should re-authorize objects
+			// Here I should re-authorize objects..?
 
 		}
 
