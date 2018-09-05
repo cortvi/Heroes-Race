@@ -92,13 +92,13 @@ namespace HeroesRace
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			// Default implementation (?)
 			ClientScene.Ready (conn);
 			ClientScene.AddPlayer (0);
+			// Is this the default implementation?
 		}
 		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
-			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO
+			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO (se re-conecta automaticamente)
 //			base.OnClientDisconnect (conn);
 			// was this causing automatic re-connecting?
 		}

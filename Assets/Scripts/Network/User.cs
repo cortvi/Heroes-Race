@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 namespace HeroesRace 
 {
 	/* This class holds persistent data for each Player
-* when they connect for the first time. This way
-* they disconnect and re-connect, authority will 
-* restored for all owned objects. */
+     * when they connect for the first time. This way when
+     * they disconnect and re-connect, authority will be
+     * restored for all owned objects. */
 	public class User
 	{
 		#region DATA + CTOR
