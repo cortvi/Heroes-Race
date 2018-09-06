@@ -69,7 +69,7 @@ namespace HeroesRace
 
 		public override void OnReceivedBroadcast (string fromAddress, string data) 
 		{
-            print ("Server found");
+            Log.Info ("Server found");
 			Net.worker.networkAddress = fromAddress;
 			if (Net.worker.client == null) Net.worker.StartClient ();
 		}

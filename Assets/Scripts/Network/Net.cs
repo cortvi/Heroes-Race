@@ -53,7 +53,7 @@ namespace HeroesRace
 			if (user == null)
 			{
 				// Create a new persistent Player object
-				print ("Creating new persistent User");
+				Log.Debug ("Creating new persistent User");
 				user = new User (conn);
 				users.Add (user);
 			}
@@ -66,7 +66,7 @@ namespace HeroesRace
 		{
 			// Set user un-ready
 			var user = users.Find (u => u.Conn.connectionId == conn.connectionId);
-			print ("Player " + user.ID + " disconnected from server!");
+			Log.Debug ("Player " + user.ID + " disconnected from server!");
 			user.ready = false;
 
 			//TOD=> Handle object destruction
@@ -92,8 +92,8 @@ namespace HeroesRace
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			ClientScene.Ready (conn);
-			ClientScene.AddPlayer (0);
+			Log.Debug ("Client connected!");
+			ClientScene.AddPlayer (conn, 0);
 			// Is this the default implementation?
 		}
 		public override void OnClientDisconnect (NetworkConnection conn) 
@@ -106,6 +106,7 @@ namespace HeroesRace
 		public override void OnStartClient (NetworkClient client) 
 		{
 			isClient = true;
+			base.OnStartClient (client);
 		}
 		public override void OnStopClient () 
 		{
@@ -120,7 +121,7 @@ namespace HeroesRace
 			while (ClientsReady != UsersNeeded)
 				yield return null;
 
-			print ("Notifying users of scene change!");
+			Log.Debug ("Notifying users of scene change!");
 			users.ForEach (u => u.SceneReady ());
 		}
 
@@ -130,6 +131,9 @@ namespace HeroesRace
 			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			users = new List<User> (3);
+
+			// Level of logging:
+			Log.logLevel = Log.LogType.Debug;
 		}
 		#endregion
 	} 
