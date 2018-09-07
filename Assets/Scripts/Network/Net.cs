@@ -53,7 +53,7 @@ namespace HeroesRace
 			if (user == null)
 			{
 				// Create a new persistent Player object
-				Log.Debug ("Creating new persistent User");
+				Log.LowDebug ("Creating new persistent User");
 				user = new User (conn);
 				users.Add (user);
 			}
@@ -87,12 +87,14 @@ namespace HeroesRace
 		#region CLIENT
 		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
+			Log.LowDebug ("Scene changed, making connection ready!");
 			ClientScene.Ready (conn);
 		}
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			Log.Debug ("Client connected!");
+			Log.LowDebug ("Connected to Server, creating player!");
+			ClientScene.Ready (conn);
 			ClientScene.AddPlayer (conn, 0);
 			// Is this the default implementation?
 		}
@@ -121,7 +123,7 @@ namespace HeroesRace
 			while (ClientsReady != UsersNeeded)
 				yield return null;
 
-			Log.Debug ("Notifying users of scene change!");
+			Log.LowDebug ("Notifying users of scene change!");
 			users.ForEach (u => u.SceneReady ());
 		}
 
@@ -133,7 +135,7 @@ namespace HeroesRace
 			users = new List<User> (3);
 
 			// Level of logging:
-			Log.logLevel = Log.LogType.Debug;
+			Log.logLevel = Log.LogType.DeepDebug;
 		}
 		#endregion
 	} 

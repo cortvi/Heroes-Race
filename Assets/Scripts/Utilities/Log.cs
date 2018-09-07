@@ -9,7 +9,8 @@ internal static class Log
 	{
 		None,
 		Info,
-		Debug
+		Debug,
+		DeepDebug
 	}
 	public static LogType logLevel;
 
@@ -24,6 +25,13 @@ internal static class Log
 	public static void Debug (object msg, Object o = null) 
 	{
 		if (logLevel >= LogType.Debug)
+			UnityEngine.Debug.Log (msg, o);
+	}
+
+	[Conditional ("UNITY_EDITOR")]
+	public static void LowDebug (object msg, Object o = null) 
+	{
+		if (logLevel >= LogType.DeepDebug)
 			UnityEngine.Debug.Log (msg, o);
 	}
 }
