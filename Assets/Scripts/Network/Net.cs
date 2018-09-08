@@ -49,6 +49,7 @@ namespace HeroesRace
 	// Server
 	public partial class Net 
 	{
+		// holasi tal bueno.....
 		public static List<User> users;
 
 		public int UsersReady 
@@ -106,6 +107,8 @@ namespace HeroesRace
 		}
 		#endregion
 
+
+		 // y pues aqui tmb voy a poner cosas. esk va asi esto.
 		#region HELPERS
 		private IEnumerator WaitUsers () 
 		{
