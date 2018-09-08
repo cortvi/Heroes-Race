@@ -11,6 +11,9 @@ namespace HeroesRace
 	// Common
 	public partial class Net : NetworkManager 
 	{
+
+		// y claro, a saber esot como va
+
 		public const int UsersNeeded = 1;
 
 		public static Net worker;
@@ -119,6 +122,8 @@ namespace HeroesRace
 	// Client
 	public partial class Net 
 	{
+
+		 // pues nose veas, no? la cosa es que estoy editando a la vez
 		public static Player me;
 
 		public override void OnClientConnect (NetworkConnection conn) 
