@@ -22,7 +22,7 @@ namespace HeroesRace
 			Log.logLevel = Log.LogType.DeepDebug;
 
 			// Read config:
-			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "config.txt");
+			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
 			if (config[0] == "client") 
 			{
 				isClient = true;
