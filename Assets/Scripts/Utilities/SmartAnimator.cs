@@ -126,7 +126,7 @@ namespace HeroesRace
 						drivenByNetwork = NetAnimator.localPlayerAuthority;
 					else
 					if (NetAnimator.isClient)
-						drivenByNetwork = !NetAnimator.hasAuthority;
+						drivenByNetwork = ! NetAnimator.hasAuthority;
 
 					// Otherwise Network hasn't been initialized yet
 					else return false;

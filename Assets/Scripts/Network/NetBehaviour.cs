@@ -9,41 +9,46 @@ namespace HeroesRace
 	// Wrapper class for networked objects
 	public abstract class NetBehaviour : NetworkBehaviour 
 	{
-		#region DATA
-		// Network-shared name
-		public abstract string SharedName { get; }
+		public string SharedName { get; private set; }
 		internal NetworkIdentity id;
-		#endregion
 
 		#region CALLBACKS
-		// --- Start wrapper ---
-		protected virtual void OnStart () { }
+		// ——— Start wrapper ———
+		[ClientCallback] protected virtual void OnClientStart () { }
+		[ServerCallback] protected virtual void OnServerStart () { }
 		public void Start () 
 		{
-			OnStart ();
+			OnClientStart ();
+			OnServerStart ();
 			UpdateName ();
 		}
 
-		// --- Authority wrapper ---
-		protected virtual void OnAuthoritySet () { } 
+		// ——— Authority wrapper ———
+		[ClientCallback] protected virtual void OnClientAuthority () { } 
+		[ServerCallback] protected virtual void OnServerAuthority () { }
 		public sealed override void OnStartAuthority () 
 		{
-			OnAuthoritySet ();
+			OnClientAuthority ();
+			OnServerAuthority ();
 			UpdateName ();
-
 		}
 
-		// --- Awake wrapper ---
-		protected virtual void OnAwake () { } 
+		// ——— Awake wrapper ———
+		protected virtual void OnAwake () { }
+		[ClientCallback] protected virtual void OnClientAwake () { }
+		[ServerCallback] protected virtual void OnServerAwake () { }
 		public void Awake () 
 		{
 			id = GetComponent<NetworkIdentity> ();
+			SharedName = name;
+
 			OnAwake ();
+			OnClientAwake ();
+			OnServerAwake ();
 		}
 		#endregion
 
-		#region HELPERS
-		public void UpdateName () 
+		internal void UpdateName () 
 		{
 			string name = SharedName;
 			if (Net.isClient)
@@ -61,7 +66,7 @@ namespace HeroesRace
 					{
 						int id = Net.users.Find (u=> u.IP == o.address).ID;
 						name = name.Insert (0, "CLIENT] ");
-						name = name.Insert (0, "[" + id + ":");
+						name = name.Insert (0, "["+id+":");
 					}
 					else name = name.Insert (0, "[-CLIENT-] ");
 				}
@@ -70,6 +75,5 @@ namespace HeroesRace
 			// Show on inspector
 			this.name = name;
 		}
-		#endregion
 	} 
 }

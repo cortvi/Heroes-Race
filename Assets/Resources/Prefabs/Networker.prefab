@@ -20,8 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4126708341468980}
   - component: {fileID: 114778062108741916}
-  - component: {fileID: 114560941297562058}
-  - component: {fileID: 114514207010496540}
   - component: {fileID: 114418240987071494}
   m_Layer: 0
   m_Name: Networker
@@ -55,42 +53,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggleKey: 8
---- !u!114 &114514207010496540
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1206144601181214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77e8145e60c5f7a4e923a9a9ef1be174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_BroadcastPort: 47777
-  m_BroadcastKey: 2222
-  m_BroadcastVersion: 1
-  m_BroadcastSubVersion: 1
-  m_BroadcastInterval: 1000
-  m_UseNetworkManager: 1
-  m_BroadcastData: PIE
-  m_ShowGUI: 1
-  m_OffsetX: -6
-  m_OffsetY: 15
---- !u!114 &114560941297562058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1206144601181214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  showGUI: 0
-  offsetX: 0
-  offsetY: 0
 --- !u!114 &114778062108741916
 MonoBehaviour:
   m_ObjectHideFlags: 1

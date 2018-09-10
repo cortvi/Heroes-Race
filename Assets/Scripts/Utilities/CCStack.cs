@@ -7,7 +7,7 @@ namespace HeroesRace
 {
 	public class CCStack 
 	{
-		#region DATA + CTOR
+		#region DATA + CTOR + IDXER
 		private readonly NetBehaviour owner;
 		private readonly Dictionary<string, CCs> collection;
 		private CCs summary;
@@ -17,14 +17,14 @@ namespace HeroesRace
 			this.owner = owner;
 			collection = new Dictionary<string, CCs> ();
 		}
+
+		public bool this[CCs cc] 
+		{
+			get { return summary.HasFlag (cc); }
+		}
 		#endregion
 
 		#region UTILS
-		public bool Check (CCs cc) 
-		{
-			return summary.HasFlag (cc);
-		}
-
 		public void Update () 
 		{
 			summary = CCs.None;
@@ -62,7 +62,7 @@ namespace HeroesRace
 		Rotating	= 1<< 1, 
 		Jumping		= 1<< 2,
 
-		// Specials
+		// ——— Specials ———
 		Locomotion = Moving | Rotating | Jumping,
 		None = 0
 	}

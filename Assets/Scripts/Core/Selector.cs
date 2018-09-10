@@ -9,11 +9,6 @@ namespace HeroesRace
 	public class Selector : NetBehaviour 
 	{
 		#region DATA
-		public override string SharedName 
-		{
-			get { return "Selector"; }
-		}
-
 		[Header ("References")]
 		public Sprite goldenFrame;
 		public Image frame;
@@ -92,6 +87,7 @@ namespace HeroesRace
 			}
 		}
 
+		/*
 		[ClientCallback]
 		protected override void OnAuthoritySet () 
 		{
@@ -119,6 +115,7 @@ namespace HeroesRace
 			cachePosition = (transform as RectTransform).localPosition;
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
 		}
+		*/
 		#endregion
 
 		#region HELPERS

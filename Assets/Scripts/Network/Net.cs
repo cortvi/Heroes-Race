@@ -8,91 +8,55 @@ using System.IO;
 
 namespace HeroesRace 
 {
-	// Common
-	public partial class Net : NetworkManager 
+	public partial class /* COMMON */ Net : NetworkManager 
 	{
-
-		// y claro, a saber esot como va
-
-		public const int UsersNeeded = 1;
-
 		public static Net worker;
-		public static bool isServer;
 		public static bool isClient;
+		public static bool isServer;
+		public static int UsersNeeded { get; private set; }
 
-		[RuntimeInitializeOnLoadMethod 
-		(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		public static void InitizalizeSingleton () 
+		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
+		public static void EntryPoint () 
 		{
-			// Creates a persistent Net-worker no matter the scene
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
-
-			// Level of logging:
 			Log.logLevel = Log.LogType.DeepDebug;
 
 			// Read config:
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "config.txt");
-			if (config[0] == "client")
+			if (config[0] == "client") 
 			{
 				isClient = true;
 				worker.networkAddress = config[1];
 				worker.StartClient ();
+				Log.LowDebug ("This mahcine is now a client");
 			}
 			else
+			if (config[0] == "server") 
 			{
 				isServer = true;
-				users = new List<User> (3);
+				worker.StartServer ();
+				Log.LowDebug ("This mahcine is now the server");
+
+				UsersNeeded = int.Parse (config[1]);
+				users = new List<User> (UsersNeeded);
 			}
+			else Log.Info ("Can't understand config file!");
 		}
 	}
 
-	// Server
-	public partial class Net 
+	public partial class /* SERVER */ Net 
 	{
-		// holasi tal bueno.....
 		public static List<User> users;
-
 		public int UsersReady 
 		{
-			get { return users.Count (u => u.ready); }
+			get { return users.Count (u => u.Conn.isReady); }
 		}
 
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			// Spawn Player object over the net
-			var player = Instantiate (playerPrefab).GetComponent<Player> ();
-			NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
-
-			// Assign Player to the User
-			var user = users.Find (u => u.IP == conn.address);
-			user.AssignPlayer (player);
-			user.ready = true;
-		}
-
-		public override void OnServerReady (NetworkConnection conn) 
-		{
-			// If it's the first time the Player connects
-			var user = users.FirstOrDefault (u => u.IP == conn.address);
-			if (user == null)
-			{
-				// Create a new persistent Player object
-				Log.LowDebug ("Creating new persistent User");
-				user = new User (conn);
-				users.Add (user);
-			}
-			// Set User are ready!
-			else user.ready = true;
-			NetworkServer.SetClientReady (conn);
-		}
-		public override void ServerChangeScene (string newSceneName) 
-		{
-			// Set all users un-ready
-			users.ForEach (u => u.ready = false);
-			base.ServerChangeScene (newSceneName);
-
-			// Wait until all players are ready
-			StartCoroutine (WaitUsers ());
+			// Spawned Player GO depends on scene,
+			// for now testing not spawning at all
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -100,15 +64,12 @@ namespace HeroesRace
 			// Set user un-ready
 			var user = users.Find (u => u.Conn.connectionId == conn.connectionId);
 			Log.Debug ("Player " + user.ID + " disconnected from server!");
-			user.ready = false;
 
 			//TOD=> Handle object destruction
 
 		}
 		#endregion
 
-
-		 // y pues aqui tmb voy a poner cosas. esk va asi esto.
 		#region HELPERS
 		private IEnumerator WaitUsers () 
 		{
@@ -122,13 +83,11 @@ namespace HeroesRace
 		#endregion
 	}
 
-	// Client
-	public partial class Net 
+	public partial class /* CLIENT */ Net 
 	{
-
-		 // pues nose veas, no? la cosa es que estoy editando a la vez
 		public static Player me;
 
+		/* Commented out for now because I just dont know TBH
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
 			Log.LowDebug ("Connected to Server, creating player!");
@@ -136,18 +95,14 @@ namespace HeroesRace
 			ClientScene.Ready (conn);
 			ClientScene.AddPlayer (conn, 0);
 //			base.OnClientConnect (conn);
-		}
+		}*/
+
+
 		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
 			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO (se re-conecta automaticamente)
 //			base.OnClientDisconnect (conn);
 			// was this causing automatic re-connecting?
-		}
-
-		public override void OnClientSceneChanged (NetworkConnection conn) 
-		{
-			Log.LowDebug ("Scene changed, making connection ready!");
-			ClientScene.Ready (conn);
 		}
 	}
 }

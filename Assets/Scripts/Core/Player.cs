@@ -7,24 +7,12 @@ using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
 {
-	// This is the "Local players" class
-	public class Player : NetBehaviour 
+	public class /* CLIENT-ONLY */ Player : NetBehaviour 
 	{
-		public override string SharedName 
-		{
-			get { return "Player"; }
-		}
-
 		#region CALLBACKS
-		[ClientCallback]
-		protected override void OnAuthoritySet () 
+		protected override void OnClientAuthority () 
 		{
-			print ("Local Player set!");
 			Net.me = this;
-		}
-
-		protected override void OnAwake () 
-		{
 			DontDestroyOnLoad (this);
 		}
 		#endregion

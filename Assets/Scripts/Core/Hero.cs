@@ -4,41 +4,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/* The Hero mesh & animator, as well as this script,
+* are contained on a single GameObject.
+* 
+* The rigidbody and colliders that control its physic movement (angular rotation)
+* and such are separated in a Driver GameObject and only present on the Server.
+* 
+* All the Clients get their 3D data from the Server, then it's lerped for a fluid movement.
+* No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	/* The Hero mesh & animator, as well as this script,
-	* are contained on a single GameObject.
-	* 
-	* But the rigidbody and colliders that control its physic movement (angular rotation)
-	* and such are separated and only on each Client locally.
-	* 
-	* Other Clients get their 3D data from the Server and it's lerped for a fluid movement.
-	* Server don't get to use physics at all. */
-	public sealed class Hero : NetBehaviour 
+	public sealed partial class /* COMMON */ Hero : NetBehaviour 
+	{
+
+	}
+
+	public sealed partial class /* SERVER */ Hero 
 	{
 		#region DATA
-		public override string SharedName 
-		{
-			get { return identity.ToString (); }
-		}
+		// ——— Settings ———
+		internal Heroes identity;
+		internal float speed = 10.0f;
 
-		// Settings
-		public Heroes identity;
-		internal float Speed = 10.0f;
-
-		// Helpers
+		// ——— Helpers ———
 		internal CCStack cc;
 		internal SmartAnimator anim;
 
-		// References
+		// ——— References ———
 		internal Rigidbody driver;
 		private CapsuleCollider capsule;
 
-		// Locomotion
+		// ——— Locomotion ———
 		internal float input;
 		internal float movingDir;
 
-		// Air-Ground check
+		// ——— Air-Ground check ———
 		private BoxCollider box;
 		private float leaveFloorTime;
 		private bool touchingFloorLastFrame = true;
@@ -120,13 +120,15 @@ namespace HeroesRace
 		[ClientCallback]
 		private void Update () 
 		{
-			if (!hasAuthority) return;
-			cc.Update ();
-
-			CheckFloor ();
-			SyncMotion ();
-			CheckInput ();
-			CheckJump ();
+			if (isServer) 
+			{
+				cc.Update ();
+				CheckFloor ();
+				SyncMotion ();
+			}
+			else
+			if (isClient && hasAuthority)
+				CheckInput ();
 		}
 
 		[ClientCallback]
@@ -135,36 +137,33 @@ namespace HeroesRace
 			if (!hasAuthority) return;
 
 			// Apply physics
-			var velocity = input * Speed * Time.deltaTime;
+			var velocity = input * speed * Time.deltaTime;
 			driver.angularVelocity = velocity * Vector3.up;
 		}
 
-		protected override void OnStart () 
+		protected override void OnClientStart () 
 		{
-			if (isClient)
+			if (hasAuthority) 
 			{
-				if (hasAuthority) 
-				{
-					// Initialize camera to focus local Client
-					var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
-					cam.target = this;
+				// Initialize camera to focus local Client
+				var cam = Camera.main.gameObject.AddComponent<ClientCamera> ();
+				cam.target = this;
 
-					// Set up Driver (only present on local Client)
-					var prefab = Resources.Load<Rigidbody> ("Prefabs/Character_Driver");
-					driver = Instantiate (prefab);
-					driver.name = identity + "_Driver";
-					driver.centerOfMass = Vector3.zero;
+				// Set up Driver (only present on local Client)
+				var prefab = Resources.Load<Rigidbody> ("Prefabs/Character_Driver");
+				driver = Instantiate (prefab);
+				driver.name = identity + "_Driver";
+				driver.centerOfMass = Vector3.zero;
 
-					// Get references
-					cc = new CCStack (this);
-					anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
-					capsule = driver.GetComponent<CapsuleCollider> ();
-					box = GetComponentInChildren<BoxCollider> ();
-				}
-				// On not-ownwer Clients:
-				// Enable this simple collider to allow interactions between players 
-				else GetComponent<CapsuleCollider> ().enabled = true;
+				// Get references
+				cc = new CCStack (this);
+				anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
+				capsule = driver.GetComponent<CapsuleCollider> ();
+				box = GetComponentInChildren<BoxCollider> ();
 			}
+			// On not-ownwer Clients:
+			// Enable this simple collider to allow interactions between players 
+			else GetComponent<CapsuleCollider> ().enabled = true;
 		}
 		#endregion
 

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4718208399693392}
   - component: {fileID: 54310029202075614}
   - component: {fileID: 136561939393860450}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Character_Driver
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1275139642247520}
   serializedVersion: 2
-  m_Mass: 45
+  m_Mass: 42
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
