@@ -11,8 +11,6 @@ namespace HeroesRace
 	public partial class /* COMMON */ Net : NetworkManager 
 	{
 		public static Net worker;
-		public static bool isClient;
-		public static bool isServer;
 		public static int UsersNeeded { get; private set; }
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -22,10 +20,9 @@ namespace HeroesRace
 			Log.logLevel = Log.LogType.DeepDebug;
 
 			// Read config:
-			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
+			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "config.txt");
 			if (config[0] == "client") 
 			{
-				isClient = true;
 				worker.networkAddress = config[1];
 				worker.StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
@@ -33,7 +30,6 @@ namespace HeroesRace
 			else
 			if (config[0] == "server") 
 			{
-				isServer = true;
 				worker.StartServer ();
 				Log.LowDebug ("This mahcine is now the server");
 
@@ -47,7 +43,7 @@ namespace HeroesRace
 	public partial class /* SERVER */ Net 
 	{
 		public static List<User> users;
-		public int UsersReady 
+		public int UsersReadyCount 
 		{
 			get { return users.Count (u => u.Conn.isReady); }
 		}
@@ -59,10 +55,19 @@ namespace HeroesRace
 			// for now testing not spawning at all
 		}
 
+		public override void OnServerConnect (NetworkConnection conn) 
+		{
+			// Check if it's the first time the player connects
+			var user = users.FirstOrDefault (u => u.IP == conn.address);
+			if (user == null) users.Add (new User (conn));
+			else user.Conn = conn;
+
+			base.OnServerConnect (conn);
+		}
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Set user un-ready
-			var user = users.Find (u => u.Conn.connectionId == conn.connectionId);
+			var user = users.Find (u=> u.IP == conn.address);
 			Log.Debug ("Player " + user.ID + " disconnected from server!");
 
 			//TOD=> Handle object destruction
@@ -74,7 +79,7 @@ namespace HeroesRace
 		private IEnumerator WaitUsers () 
 		{
 			// Wait until Users report as ready
-			while (UsersReady != UsersNeeded) 
+			while (UsersReadyCount != UsersNeeded) 
 				yield return null;
 
 			Log.LowDebug ("Notifying users of scene change!");
@@ -85,8 +90,6 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Net 
 	{
-		public static Player me;
-
 		/* Commented out for now because I just dont know TBH
 		public override void OnClientConnect (NetworkConnection conn) 
 		{

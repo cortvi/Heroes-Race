@@ -13,19 +13,15 @@ namespace HeroesRace
 	{
 		#region DATA + CTOR
 		public readonly int ID;
-		public string IP { get; private set; }
-		public NetworkConnection Conn 
-		{
-			get { return Player.connectionToClient; }
-		}
-
-		public Player Player { get; set; }
+		public readonly string IP;
+		public NetworkConnection Conn;
 		public Heroes playingAs;
 
 		public User (NetworkConnection fromConn) 
 		{
-			IP = fromConn.address;
-			ID = fromConn.connectionId;
+			Conn = fromConn;
+			IP = Conn.address;
+			ID = Conn.connectionId;
 			playingAs = Heroes.NONE;
 		}
 		#endregion
@@ -36,10 +32,7 @@ namespace HeroesRace
 		{
 			if (Net.networkSceneName == "Selection") 
 			{
-				Log.Debug ("Assigning authority to Selectors");
-				var selector = Object.FindObjectsOfType<Selector> ()[ID - 1];
-				selector.id.AssignClientAuthority (Player.connectionToClient);
-				selector.UpdateName ();
+				//=> TODO
 			}
 			else
 			if (Net.networkSceneName == "Tower") 
@@ -48,9 +41,7 @@ namespace HeroesRace
 				if (playingAs == Heroes.NONE)
 					playingAs = (Heroes) ID;
 
-				// Spawn hero over the net
-				var prefab = Resources.Load ("Prefabs/Heroes/" + playingAs);
-				NetworkServer.Spawn (Object.Instantiate (prefab) as GameObject);
+				//=> TODO
 			}
 		}
 		#endregion

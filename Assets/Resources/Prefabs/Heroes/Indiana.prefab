@@ -162,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ac8727c464626478b2f0978baaac8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  identity: 1
 --- !u!114 &114706650489439810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,7 +193,7 @@ MonoBehaviour:
     i14: 91
     i15: 63
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!137 &137872073031124222
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
