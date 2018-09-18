@@ -17,6 +17,9 @@ namespace HeroesRace
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void EntryPoint () 
 		{
+			// for testing:
+			return;
+
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			Log.logLevel = Log.LogType.DeepDebug;
 
@@ -24,7 +27,7 @@ namespace HeroesRace
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
 			if (config[0] == "client") 
 			{
-				worker.networkAddress = config[1];
+				worker.networkAddress = config[1].Trim ();
 				worker.StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
 			}
@@ -100,21 +103,20 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Net 
 	{
-		/* Commented out for now because I just dont know TBH
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			Log.LowDebug ("Connected to Server, creating player!");
+//			ClientScene.Ready (conn);
+//			ClientScene.AddPlayer (conn, 0);
 
-			ClientScene.Ready (conn);
-			ClientScene.AddPlayer (conn, 0);
-//			base.OnClientConnect (conn);
-		}*/
+			Log.LowDebug ("Connected to Server!");
+			base.OnClientConnect (conn);
+		}
 
 
 		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
 			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO (se re-conecta automaticamente)
-//			base.OnClientDisconnect (conn);
+			base.OnClientDisconnect (conn);
 			// was this causing automatic re-connecting?
 		}
 	}
