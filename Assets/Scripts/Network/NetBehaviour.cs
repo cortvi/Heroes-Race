@@ -15,51 +15,54 @@ namespace HeroesRace
 		#region CALLBACKS
 		// ——— Start wrapper ———
 		protected virtual void OnStart () { }
-		[ClientCallback] protected virtual void OnClientStart () { }
-		[ServerCallback] protected virtual void OnServerStart () { }
+		protected virtual void OnClientStart () { }
+		protected virtual void OnServerStart () { }
 		public void Start () 
 		{
 			OnStart ();
-			OnClientStart ();
-			OnServerStart ();
-			UpdateName ();
+			if (NetworkClient.active) OnClientStart ();
+			else
+			if (NetworkServer.active) OnServerStart ();
 		}
 
 		// ——— Authority wrapper ———
-		[ClientCallback] protected virtual void OnClientAuthority () { } 
-		[ServerCallback] protected virtual void OnServerAuthority () { }
+		protected virtual void OnClientAuthority () { } 
+		protected virtual void OnServerAuthority () { }
 		public sealed override void OnStartAuthority () 
 		{
-			OnClientAuthority ();
-			OnServerAuthority ();
+			if (NetworkClient.active) OnClientAuthority ();
+			else
+			if (NetworkServer.active) OnServerAuthority ();
 			UpdateName ();
 		}
 
 		// ——— Awake wrapper ———
 		protected virtual void OnAwake () { }
-		[ClientCallback] protected virtual void OnClientAwake () { }
-		[ServerCallback] protected virtual void OnServerAwake () { }
+		protected virtual void OnClientAwake () { }
+		protected virtual void OnServerAwake () { }
 		public void Awake () 
 		{
 			id = GetComponent<NetworkIdentity> ();
 			SharedName = name;
+			UpdateName ();
 
 			OnAwake ();
-			OnClientAwake ();
-			OnServerAwake ();
+			if (NetworkClient.active) OnClientAwake ();
+			else
+			if (NetworkServer.active) OnServerAwake ();
 		}
 		#endregion
 
 		internal void UpdateName () 
 		{
 			string name = SharedName;
-			if (id.isClient)
+			if (NetworkClient.active)
 			{
 				if (hasAuthority) name = name.Insert (0, "[OWN] ");
 				else			  name = name.Insert (0, "[OTHER] ");
 			}
 			else
-			if (id.isServer)
+			if (NetworkServer.active)
 			{
 				if (!id.serverOnly)
 				{
