@@ -17,9 +17,6 @@ namespace HeroesRace
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void EntryPoint () 
 		{
-			// for testing:
-			return;
-
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			Log.logLevel = Log.LogType.DeepDebug;
 
