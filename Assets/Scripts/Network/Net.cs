@@ -72,7 +72,6 @@ namespace HeroesRace
 				player = Instantiate (prefab) as GameObject;
 				player.GetComponent<Hero> ().owner = user;
 			}
-
 			// Player objects are destroyed between scenes, so no need to call Replace
 			NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 		}

@@ -28,7 +28,6 @@ namespace HeroesRace
 			if (NetworkServer.active)
 			{
 				anim = GetComponent<Animator> ().GoSmart (networked: true);
-
 				if (heroesLocked == null)
 					// This dictionary will tell if a Hero is already picked
 					heroesLocked = new Dictionary<Heroes, bool> 
@@ -38,8 +37,6 @@ namespace HeroesRace
 						{ Heroes.Harry, false }
 					};
 			}
-			else anim.SetInt ("Selection", initialSelection);
-
 			// Cache position because it'll move when connected to Server
 			cachePosition = (transform as RectTransform).localPosition;
 		}
