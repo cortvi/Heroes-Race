@@ -86,7 +86,7 @@ MonoBehaviour:
   m_NetworkAddress: 
   m_DontDestroyOnLoad: 1
   m_RunInBackground: 1
-  m_ScriptCRCCheck: 1
+  m_ScriptCRCCheck: 0
   m_MaxDelay: 0.02
   m_LogLevel: 2
   m_PlayerPrefab: {fileID: 0}
