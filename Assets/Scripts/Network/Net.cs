@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using System.IO;
+using System;
 
 namespace HeroesRace 
 {
@@ -51,14 +52,35 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			// Spawned Player GO depends on scene,
-			// for now testing not spawning at all
+			GameObject player = null;
+			var user = users.Find (u => u.IP == conn.address);
+			if (networkSceneName == "Selection") 
+			{
+				var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
+				player = FindObjectsOfType<Selector> ().First (check).gameObject;
+				// Is the selector gonna replicate over the network??
+			}
+			else
+			if (networkSceneName == "Tower") 
+			{
+				// If bypassing selection menu
+				if (user.playingAs == Heroes.NONE)
+					user.playingAs = (Heroes) user.ID;
+
+				// Spawn Heroes and use it as the player
+				var prefab = Resources.Load ("Perfabs/Heroes/" + user.playingAs);
+				player = Instantiate (prefab) as GameObject;
+				player.GetComponent<Hero> ().owner = user;
+			}
+
+			// Player objects are destroyed between scenes, so no need to call Replace
+			NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 
 		{
 			// Check if it's the first time the player connects
-			var user = users.FirstOrDefault (u => u.IP == conn.address);
+			var user = users.FirstOrDefault (u=> u.IP == conn.address);
 			if (user == null) users.Add (new User (conn));
 			else user.Conn = conn;
 
@@ -72,18 +94,6 @@ namespace HeroesRace
 
 			//TOD=> Handle object destruction
 
-		}
-		#endregion
-
-		#region HELPERS
-		private IEnumerator WaitUsers () 
-		{
-			// Wait until Users report as ready
-			while (UsersReadyCount != UsersNeeded) 
-				yield return null;
-
-			Log.LowDebug ("Notifying users of scene change!");
-			users.ForEach (u => u.SceneReady ());
 		}
 		#endregion
 	}

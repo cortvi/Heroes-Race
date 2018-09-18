@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public class Selector : NetBehaviour 
+	public partial class /* COMMON */ Selector : NetBehaviour 
 	{
 		#region DATA
 		[Header ("References")]
@@ -16,136 +16,97 @@ namespace HeroesRace
 		[Space]
 
 		[Range (0f, 5f)]
-        [Tooltip ("Indiana is 2")]
-        public int initialSelection;
+		[Tooltip ("Indiana is 2")]
+		public int initialSelection;
 
-		private SmartAnimator anim;
 		private Vector3 cachePosition;
-
-		private static int SelectorsReady;
-		private const float MaxSelection = 5f;
-		#endregion
-
-		#region NETWORK COMMUNICATION
-		[Command]
-		private void Cmd_SetReady (bool state) 
-		{
-			SelectorsReady += (state? +1 : -1);
-			if (SelectorsReady == Net.UsersNeeded) 
-			{
-				Target_SetReady (id.clientAuthorityOwner, state: true, block: true);
-				GoToTower ();
-            }
-			// Just allow ready-state update on Client animator
-			else Target_SetReady (id.clientAuthorityOwner, state, block: false);
-		}
-		[TargetRpc]
-		private void Target_SetReady (NetworkConnection target, bool state, bool block) 
-		{
-			anim.SetBool ("Ready", state);
-			// Start reading movement input again
-			if (!block) StartCoroutine (ReadInput ());
-		}
-
-		[Command]
-		private void Cmd_EnableAnimator () 
-		{
-			anim.Animator.enabled = true;
-			Rpc_EnableAnimator ();
-		}
-		[ClientRpc]
-		private void Rpc_EnableAnimator () 
-		{
-			anim.Animator.enabled = true;
-		}
 		#endregion
 
 		#region CALLBACKS
-		[Client]
-		IEnumerator ReadInput () 
+		protected override void OnAwake () 
 		{
-			while (true) 
+			if (NetworkServer.active)
 			{
-				// Let player select the character
-				if (Input.GetKeyDown (KeyCode.Return))
-				{
-					// Query an status update &
-					// stop interaction until it's answered
-					Cmd_SetReady (!anim.GetBool ("Ready"));
-					yield break;
-				}
+				anim = GetComponent<Animator> ().GoSmart (networked: true);
 
-				// Move selector
-				int delta = (int)Input.GetAxisRaw ("Horizontal");
-				if (delta != 0 && !anim.GetBool ("Ready"))
-				{
-					MoveSelection (delta);
-					// Avoid abuse of movement
-					yield return new WaitForSeconds (0.3f);
-				}
-				yield return null;
+				if (heroesLocked == null)
+					// This dictionary will tell if a Hero is already picked
+					heroesLocked = new Dictionary<Heroes, bool> 
+					{
+						{ Heroes.Indiana, false },
+						{ Heroes.Harley, false },
+						{ Heroes.Harry, false }
+					};
 			}
-		}
+			else anim.SetInt ("Selection", initialSelection);
 
-		/*
-		[ClientCallback]
-		protected override void OnAuthoritySet () 
-		{
-			// Show owner marks
-			frame.sprite = goldenFrame;
-			anchor.gameObject.SetActive (true);
-
-			// Start animator
-			anim.SetInt ("Selection", initialSelection);
-			Cmd_EnableAnimator ();
-
-			// Start reading movement input
-			StartCoroutine (ReadInput ());
+			// Cache position because it'll move when connected to Server
+			cachePosition = (transform as RectTransform).localPosition;
 		}
 
 		protected override void OnStart () 
 		{
-			// Correct position
+			// Recover original position in case it's been moved by the Server
 			(transform as RectTransform).localPosition = cachePosition;
 		}
+		#endregion
+	}
 
-		protected override void OnAwake () 
+	public partial class /* SERVER */ Selector 
+	{
+		#region DATA
+		private SmartAnimator anim;
+		private const float MaxSelection = 5f;
+
+		private static int SelectorsReady;
+		private static Dictionary<Heroes, bool> heroesLocked;
+		#endregion
+
+		#region SELECTOR MOTION
+		[Command]
+		private void Cmd_Input (int delta) 
 		{
-			// Cache position because it'll move when connected to server
-			cachePosition = (transform as RectTransform).localPosition;
-			anim = GetComponent<Animator> ().GoSmart (networked: true);
+			// Won't move selection if locked OR already moving
+			if (anim.GetBool("Ready") || anim.Animator.IsInTransition (0))
+				return;
+
+			int selection = anim.IncrementInt ("Selection", delta);
+			// Correct selection & snap carousel to opposite bounds
+			if (selection == -1) anim.SetInt ("Selection", 3);
+			else
+			if (selection == 6) anim.SetInt ("Selection", 2);
 		}
-		*/
+
+		[Command]
+		private void Cmd_SwitchReady () 
+		{
+			// Can't switch ready if moving carrousel
+			if (anim.Animator.IsInTransition (0))
+				return;
+
+			// Flip the ready state
+			bool ready = anim.GetBool ("Ready");
+			ready = !ready;
+			anim.SetBool ("Ready", !ready);
+			SelectorsReady += (ready? +1 : -1);
+
+
+			if (SelectorsReady == Net.UsersNeeded)
+				GoToTower ();
+		}
 		#endregion
 
 		#region HELPERS
-		private void MoveSelection (int delta) 
-		{
-			int selection = anim.IncrementInt ("Selection", delta);
-			// Correct selection & snap carousel to opposite bounds
-			if (selection < 0 || selection > 5)
-			{
-				if (selection == -1) anim.SetInt ("Selection", 3);
-				else
-				if (selection == 6) anim.SetInt ("Selection", 2);
-			}
-		}
-
 		public Heroes ReadHero () 
 		{
-			Heroes hero;
-
 			// Translate selection into a Hero
 			int selection = anim.GetInt ("Selection");
-			if (selection == 0) hero = Heroes.Harry;
+			if (selection == 0) return Heroes.Harry;
 			else
-			if (selection == 5) hero = Heroes.Espectador;
-			else hero = (Heroes)(selection - 1);
-
-			return hero;
+			if (selection == 5) return Heroes.Espectador;
+			else return (Heroes)(selection - 1);
 		} 
 
-        [Server]
 		#warning in the future, make the scene change smoother!
         public static void GoToTower () 
         {
@@ -160,4 +121,28 @@ namespace HeroesRace
         }
         #endregion
     }
+
+	public partial class /* CLIENT */ Selector 
+	{
+		[ClientCallback]
+		private void Update () 
+		{
+			if (!isLocalPlayer) return;
+			float input = Input.GetAxis ("Horizontal");
+
+			// Send carrousel movement 
+			if (input != 0) Cmd_Input (Mathf.CeilToInt (input));
+			else
+			// Set READY using any-key except axis
+			if (Input.GetAxis ("Vertical") == 0f
+			&& Input.anyKeyDown) Cmd_SwitchReady ();
+		}
+
+		protected override void OnClientAuthority () 
+		{
+			// Show owner marks
+			frame.sprite = goldenFrame;
+			anchor.gameObject.SetActive (true);
+		}
+	}
 }

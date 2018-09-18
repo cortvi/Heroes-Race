@@ -1,3 +1,2 @@
-client
-[server-ip]
-test
+server
+1

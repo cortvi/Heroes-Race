@@ -1,4 +1,4 @@
-﻿/// Adapted from: https://gist.github.com/marsh12th/fdf06d19d3689b375411761e47befb4c#file-smartanimator-cs
+﻿/// Adapted from: https://gist.github.com/cortvi/fdf06d19d3689b375411761e47befb4c#file-smartanimator-cs
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,7 +35,7 @@ namespace HeroesRace
 		/// Creates a wrapper around given Animator and makes a cache of all
 		/// its parameters for faster checks and modifications.
 		/// </summary>
-		public SmartAnimator (Animator animator, bool networked = false)
+		public SmartAnimator (Animator animator, bool networked = false) 
 		{
 			// Null check
 			if (!animator)
@@ -59,8 +59,8 @@ namespace HeroesRace
 
 			/* Loops through animator parameters:
 			 * Default (inspector) values are stored in the cache,
-			 * then updated with each Set function.
-			 * This way we never have to call Animator.Get() */
+			 * then updated with each Set function. This way
+			 * we never have to call Animator.Get */
 			for (int i = 0; i != animator.parameterCount; i++)
 			{
 				var p = animator.parameters[i];
@@ -260,10 +260,8 @@ namespace HeroesRace
 				if (reset) Animator.ResetTrigger (hash);
 				else
 				{
-					if (isNetworked && !IsDrivenByNetwork())
-						NetAnimator.SetTrigger (hash);
-					else
-						Animator.SetTrigger (hash);
+					if (isNetworked) NetAnimator.SetTrigger (hash);
+					else Animator.SetTrigger (hash);
 				}
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);

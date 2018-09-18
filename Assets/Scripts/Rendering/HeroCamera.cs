@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HeroesRace 
 {
-	public class ClientCamera : MonoBehaviour 
+	public class HeroCamera : MonoBehaviour 
 	{
 		#region DATA
 		public int floor;
@@ -26,7 +26,7 @@ namespace HeroesRace
 			// Compute the rotation matrix
 			var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
 
-			// Invert side-offset based on moving direction
+			// Lerp side-offset based on moving direction more smoothly
 			actualOffset = new Vector3 (actualOffset.x, offset.y, offset.z);
 			actualOffset.x = Mathf.Lerp
 			(
@@ -34,11 +34,10 @@ namespace HeroesRace
 				(target.movingDir > 0f) ? +offset.x : -offset.x,
 				Time.deltaTime * 2f
 			);
-
-			// Get the position & set the floor height
+			
+			// Get the final position (+floor height)
 			var pos = target.transform.position;
 			pos.y = floor * FloorHeigth;
-			// Add the offset
 			pos += mat.MultiplyVector (actualOffset);
 
 			// Lerp the position for a smooth camera follow

@@ -14,10 +14,12 @@ namespace HeroesRace
 
 		#region CALLBACKS
 		// ——— Start wrapper ———
+		protected virtual void OnStart () { }
 		[ClientCallback] protected virtual void OnClientStart () { }
 		[ServerCallback] protected virtual void OnServerStart () { }
 		public void Start () 
 		{
+			OnStart ();
 			OnClientStart ();
 			OnServerStart ();
 			UpdateName ();
@@ -51,13 +53,13 @@ namespace HeroesRace
 		internal void UpdateName () 
 		{
 			string name = SharedName;
-			if (Net.isClient)
+			if (id.isClient)
 			{
 				if (hasAuthority) name = name.Insert (0, "[OWN] ");
 				else			  name = name.Insert (0, "[OTHER] ");
 			}
 			else
-			if (Net.isServer)
+			if (id.isServer)
 			{
 				if (!id.serverOnly)
 				{

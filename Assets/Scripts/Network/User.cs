@@ -25,26 +25,6 @@ namespace HeroesRace
 			playingAs = Heroes.NONE;
 		}
 		#endregion
-
-		#region UTILS
-		// Behaviour based on what scene we're at
-		public void SceneReady () 
-		{
-			if (Net.networkSceneName == "Selection") 
-			{
-				//=> TODO
-			}
-			else
-			if (Net.networkSceneName == "Tower") 
-			{
-				// If bypassing selection menu
-				if (playingAs == Heroes.NONE)
-					playingAs = (Heroes) ID;
-
-				//=> TODO
-			}
-		}
-		#endregion
 	}
 }
 
