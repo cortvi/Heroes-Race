@@ -42,7 +42,7 @@ namespace HeroesRace
 			// Blend the animator space for all instances
 			float blend = anim.GetFloat ("Blend");
 			float target = anim.GetInt ("Selection") / SelectionMax;
-			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 5f);
+			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 7f);
 			anim.SetFloat ("Blend", lerp);
 
 			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.025f;
