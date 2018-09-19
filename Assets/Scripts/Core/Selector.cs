@@ -32,17 +32,17 @@ namespace HeroesRace
 			if (isLocalPlayer) 
 			{
 				float input = Input.GetAxis ("Horizontal");
-				if (input != 0f) Cmd_Input (Mathf.CeilToInt (input));
+				if (input != 0f) Cmd_Input (input>0f? +1 : -1);
 
 				// Set READY using any-key except axis
-				if (Input.GetAxis ("Vertical") == 0f
-				&& Input.anyKeyDown) Cmd_SwitchReady ();
+//				if (Input.GetAxis ("Vertical") == 0f
+//				&& Input.anyKeyDown) Cmd_SwitchReady ();
 			}
 
 			// Blend the animator space for all instances
 			float blend = anim.GetFloat ("Blend");
 			float target = anim.GetInt ("Selection") / SelectionMax;
-			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 3f);
+			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 5f);
 			anim.SetFloat ("Blend", lerp);
 
 			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.05f;
