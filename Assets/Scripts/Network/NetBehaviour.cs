@@ -30,10 +30,10 @@ namespace HeroesRace
 		protected virtual void OnServerAuthority () { }
 		public sealed override void OnStartAuthority () 
 		{
+			UpdateName ();
 			if (NetworkClient.active) OnClientAuthority ();
 			else
 			if (NetworkServer.active) OnServerAuthority ();
-			UpdateName ();
 		}
 
 		// ——— Awake wrapper ———

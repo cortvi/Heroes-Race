@@ -9,6 +9,7 @@ namespace HeroesRace
 	public partial class /* COMMON */ Selector : NetBehaviour 
 	{
 		#region DATA
+		// ——— Inspector data ———
 		[Header ("References")]
 		public Sprite goldenFrame;
 		public Image frame;
@@ -19,24 +20,48 @@ namespace HeroesRace
 		[Tooltip ("Indiana is 2")]
 		public int initialSelection;
 
+		// ——— Helpers ———
+		private SmartAnimator anim;
+		private const float SelectionMax = ((int)Heroes.Count + 1f);
 		private Vector3 cachePosition;
 		#endregion
 
 		#region CALLBACKS
+		private void Update () 
+		{
+			if (isLocalPlayer) 
+			{
+				float input = Input.GetAxis ("Horizontal");
+				if (input != 0f) Cmd_Input (Mathf.CeilToInt (input));
+
+				// Set READY using any-key except axis
+				if (Input.GetAxis ("Vertical") == 0f
+				&& Input.anyKeyDown) Cmd_SwitchReady ();
+			}
+
+			// Blend the animator space for all instances
+			float blend = anim.GetFloat ("Blend");
+			float target = anim.GetInt ("Selection") / SelectionMax;
+			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 3f);
+			anim.SetFloat ("Blend", lerp);
+
+			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.05f;
+		}
+
 		protected override void OnAwake () 
 		{
-			if (NetworkServer.active)
+			if (NetworkServer.active && heroesLocked == null) 
 			{
-				anim = GetComponent<Animator> ().GoSmart (networked: true);
-				if (heroesLocked == null)
-					// This dictionary will tell if a Hero is already picked
-					heroesLocked = new Dictionary<Heroes, bool> 
-					{
-						{ Heroes.Indiana, false },
-						{ Heroes.Harley, false },
-						{ Heroes.Harry, false }
-					};
+				// This dictionary will tell if a Hero is already picked
+				heroesLocked = new Dictionary<Heroes, bool> 
+				{
+					{ Heroes.Indiana, false },
+					{ Heroes.Harley, false },
+					{ Heroes.Harry, false }
+				};
 			}
+			anim = GetComponent<Animator> ().GoSmart (networked: true);
+
 			// Cache position because it'll move when connected to Server
 			cachePosition = (transform as RectTransform).localPosition;
 		}
@@ -52,11 +77,9 @@ namespace HeroesRace
 	public partial class /* SERVER */ Selector 
 	{
 		#region DATA
-		private SmartAnimator anim;
-		private const float MaxSelection = 5f;
-
 		private static int SelectorsReady;
 		private static Dictionary<Heroes, bool> heroesLocked;
+		private bool closeEnough;
 		#endregion
 
 		#region SELECTOR MOTION
@@ -64,14 +87,25 @@ namespace HeroesRace
 		private void Cmd_Input (int delta) 
 		{
 			// Won't move selection if locked OR already moving
-			if (anim.GetBool("Ready") || anim.Animator.IsInTransition (0))
+			if (anim.GetBool("Ready") || !closeEnough) 
 				return;
 
 			int selection = anim.IncrementInt ("Selection", delta);
-			// Correct selection & snap carousel to opposite bounds
-			if (selection == -1) anim.SetInt ("Selection", 3);
+			// Correct carrousel if out of bounds
+			if (selection == -1)
+			{
+				anim.SetInt ("Selection", (int)SelectionMax - 2);
+				anim.SetFloat ("Blend", (SelectionMax - 1f) / SelectionMax);
+			}
 			else
-			if (selection == 6) anim.SetInt ("Selection", 2);
+			if (selection == 6)
+			{
+				anim.SetInt ("Selection", 2);
+				anim.SetFloat ("Blend", 1f / SelectionMax);
+			}
+			
+			// Animator is owned by the client, so send the new Selection
+			Rpc_Move (selection);
 		}
 
 		[Command]
@@ -88,7 +122,7 @@ namespace HeroesRace
 			SelectorsReady += (ready? +1 : -1);
 
 
-			if (SelectorsReady == Net.UsersNeeded)
+			if (SelectorsReady == Net.UsersNeeded) 
 				GoToTower ();
 		}
 		#endregion
@@ -115,28 +149,37 @@ namespace HeroesRace
             }
             // Change scene
             Net.worker.ServerChangeScene ("Tower");
+			Log.Debug ("Heroes saved, now going to Tower map!");
         }
         #endregion
     }
 
 	public partial class /* CLIENT */ Selector 
 	{
-		[ClientCallback]
-		private void Update () 
+		#region SELECTOR MOTION
+		[ClientRpc]
+		private void Rpc_Move (int newSelection) 
 		{
-			if (!isLocalPlayer) return;
-			float input = Input.GetAxis ("Horizontal");
-
-			// Send carrousel movement 
-			if (input != 0) Cmd_Input (Mathf.CeilToInt (input));
+			// Correct carrousel if out of bounds
+			if (newSelection == -1)
+			{
+				anim.SetInt ("Selection", (int)SelectionMax - 2);
+				anim.SetFloat ("Blend", (SelectionMax - 1f) / SelectionMax);
+			}
 			else
-			// Set READY using any-key except axis
-			if (Input.GetAxis ("Vertical") == 0f
-			&& Input.anyKeyDown) Cmd_SwitchReady ();
+			if (newSelection == 6)
+			{
+				anim.SetInt ("Selection", 2);
+				anim.SetFloat ("Blend", 1f / SelectionMax);
+			}
+			else anim.SetInt ("Selection", newSelection);
 		}
+		#endregion
 
 		protected override void OnClientAuthority () 
 		{
+			if (!isLocalPlayer) return;
+
 			// Show owner marks
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);

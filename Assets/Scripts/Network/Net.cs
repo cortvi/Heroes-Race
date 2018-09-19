@@ -103,17 +103,14 @@ namespace HeroesRace
 		{
 //			ClientScene.Ready (conn);
 //			ClientScene.AddPlayer (conn, 0);
-
 			Log.LowDebug ("Connected to Server!");
-			base.OnClientConnect (conn);
 		}
-
 
 		public override void OnClientDisconnect (NetworkConnection conn) 
 		{
 			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO (se re-conecta automaticamente)
-			base.OnClientDisconnect (conn);
 			// was this causing automatic re-connecting?
+			base.OnClientDisconnect (conn);
 		}
 	}
 }

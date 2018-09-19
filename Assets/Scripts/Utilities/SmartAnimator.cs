@@ -7,7 +7,7 @@ namespace HeroesRace
 {
 	public class SmartAnimator 
 	{
-		#region DATA + CTOR
+		#region DATA
 		public Animator Animator { get; private set; }
 		public NetworkAnimator NetAnimator { get; private set; }
 		private readonly bool isNetworked;
@@ -144,6 +144,7 @@ namespace HeroesRace
 
 		public bool GetBool (string id) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<bool> cache;
 			if (bools.TryGetValue (id, out cache))
 			{
@@ -157,9 +158,18 @@ namespace HeroesRace
 				Debug.LogError ("Can't find parameter, returning false", Animator);
 				return false;
 			}
+			#else
+			Param<bool> cache = bools[id];
+			if (cache.isDrivenByCurve || IsDrivenByNetwork ())
+				return Animator.GetBool (cache.hashName);
+			else
+				return cache;
+			#endif
 		}
+
 		public float GetFloat (string id) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<float> cache;
 			if (floats.TryGetValue (id, out cache))
 			{
@@ -173,9 +183,19 @@ namespace HeroesRace
 				Debug.LogError ("Can't find parameter, returning -1", Animator);
 				return -1f;
 			}
+			#else
+			// wrong on porpouse, if error hits, this works!!
+			Param<floatf> cache = floats[id];
+			if (cache.isDrivenByCurve || IsDrivenByNetwork ())
+				return Animator.GetFloat (cache.hashName);
+			else
+				return cache;
+			#endif
 		}
+
 		public int GetInt (string id) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<int> cache;
 			if (ints.TryGetValue (id, out cache))
 			{
@@ -189,8 +209,15 @@ namespace HeroesRace
 				Debug.LogError ("Can't find parameter, returning -1", Animator);
 				return -1;
 			}
+			#else
+			Param<int> cache = ints[id];
+			if (cache.isDrivenByCurve || IsDrivenByNetwork ())
+				return Animator.GetInteger (cache.hashName);
+			else
+				return cache;
+			#endif
 		}
-		#endregion
+#endregion
 
 		#region SETTERS
 
@@ -199,32 +226,38 @@ namespace HeroesRace
 
 		public bool SetBool (string id, bool value) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<bool> cache;
 			if (bools.TryGetValue (id, out cache))
 			{
-				if (cache != value)
-				{
-					Animator.SetBool (cache.hashName, value);
-					cache.value = value;
-				}
+				Animator.SetBool (cache.hashName, value);
+				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
 			return cache.value;
+			#else
+			Param<bool> cache = bools[id];
+			Animator.SetBool (cache.hashName, value);
+			cache.value = value;
+			#endif
 		}
 
 		public float SetFloat (string id, float value) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<float> cache;
 			if (floats.TryGetValue (id, out cache))
 			{
-				if (cache != value)
-				{
-					Animator.SetFloat (cache.hashName, value);
-					cache.value = value;
-				}
+				Animator.SetFloat (cache.hashName, value);
+				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
 			return cache.value;
+			# else
+			Param<float> cache = floats[id];
+			Animator.SetFloat (cache.hashName, value);
+			cache.value = value;
+			#endif
 		}
 		public float IncrementFloat (string id, float delta) 
 		{
@@ -234,17 +267,20 @@ namespace HeroesRace
 
 		public int SetInt (string id, int value) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			Param<int> cache;
 			if (ints.TryGetValue (id, out cache))
 			{
-				if (cache != value)
-				{
-					Animator.SetInteger (cache.hashName, value);
-					cache.value = value;
-				}
+				Animator.SetInteger (cache.hashName, value);
+				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
 			return cache.value;
+			#else
+			Param<int> cache = ints[id];
+			Animator.SetInteger (cache.hashName, value);
+			cache.value = value;
+			#endif
 		}
 		public int IncrementInt (string id, int delta) 
 		{
@@ -254,6 +290,7 @@ namespace HeroesRace
 
 		public void SetTrigger (string id, bool reset = false) 
 		{
+			#if (UNITY_EDITOR || DEVELOPMENT_BUILD || CHECK_SMART_ANIMATOR) && !AVOID_SMART_ANIMATOR_CHECK
 			int hash;
 			if (triggers.TryGetValue (id, out hash))
 			{
@@ -265,7 +302,16 @@ namespace HeroesRace
 				}
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
+			#else
+			int hash = triggers[id];
+			if (reset) Animator.ResetTrigger (hash);
+			else
+			{
+				if (isNetworked) NetAnimator.SetTrigger (hash);
+				else Animator.SetTrigger (hash);
+			}
+			#endif
 		}
-		#endregion
+#endregion
 	} 
 }

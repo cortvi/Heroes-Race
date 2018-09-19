@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -227,11 +227,16 @@ Prefab:
     - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_ParameterSendBits
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 95942578396299228, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900092767347084, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -351,7 +356,7 @@ Prefab:
     - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_ParameterSendBits
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 95942578396299228, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
@@ -362,6 +367,11 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.x
       value: -774
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900092767347084, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4db60f7b851782d4082208b2173e15e5, type: 2}
@@ -549,11 +559,16 @@ Prefab:
     - target: {fileID: 114717900196278928, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_ParameterSendBits
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 95942578396299228, guid: 4db60f7b851782d4082208b2173e15e5,
         type: 2}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900092767347084, guid: 4db60f7b851782d4082208b2173e15e5,
+        type: 2}
+      propertyPath: m_LocalPlayerAuthority
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
