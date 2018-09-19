@@ -45,7 +45,7 @@ namespace HeroesRace
 			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 5f);
 			anim.SetFloat ("Blend", lerp);
 
-			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.05f;
+			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.025f;
 		}
 
 		protected override void OnAwake () 
@@ -103,6 +103,7 @@ namespace HeroesRace
 				anim.SetInt ("Selection", 2);
 				anim.SetFloat ("Blend", 1f / SelectionMax);
 			}
+			closeEnough = false;
 			
 			// Animator is owned by the client, so send the new Selection
 			Rpc_Move (selection);
