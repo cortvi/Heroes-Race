@@ -312,6 +312,6 @@ namespace HeroesRace
 			}
 			#endif
 		}
-#endregion
+		#endregion
 	} 
 }

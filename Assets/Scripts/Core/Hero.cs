@@ -77,7 +77,7 @@ namespace HeroesRace
 			}
 			else input = 0f;
 
-			if (input == 0f) Moving = true;
+			if (input != 0f) Moving = true;
 			else Moving = false;
 		}
 		public void Jumping () 
