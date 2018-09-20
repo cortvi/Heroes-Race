@@ -55,7 +55,7 @@ namespace HeroesRace
 			else
 			if (NetworkServer.active)
 			{
-				if (GetComponent<NetworkIdentity> ().serverOnly)
+				if (!GetComponent<NetworkIdentity> ().serverOnly)
 				{
 					var owner = Net.users.FirstOrDefault (u=> u.player.pawn == this);
 					if (owner != null)

@@ -77,6 +77,7 @@ namespace HeroesRace
 				hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
 				hero.driver.onCollisionEnter = hero.DriverCollision;
 				hero.driver.name = user.playingAs + "_Driver";
+				NetworkServer.Spawn (hero.gameObject);
 
 				user.player.pawn = hero;
 			}
