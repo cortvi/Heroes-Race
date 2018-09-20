@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +11,7 @@ namespace HeroesRace
 	public abstract class NetBehaviour : NetworkBehaviour 
 	{
 		public string SharedName { get; private set; }
-		internal NetworkIdentity id;
+		internal bool isPawn;
 
 		#region CALLBACKS
 		// ——— Start wrapper ———
@@ -23,17 +24,7 @@ namespace HeroesRace
 			if (NetworkClient.active) OnClientStart ();
 			else
 			if (NetworkServer.active) OnServerStart ();
-		}
-
-		// ——— Authority wrapper ———
-		protected virtual void OnClientAuthority () { } 
-		protected virtual void OnServerAuthority () { }
-		public sealed override void OnStartAuthority () 
-		{
 			UpdateName ();
-			if (NetworkClient.active) OnClientAuthority ();
-			else
-			if (NetworkServer.active) OnServerAuthority ();
 		}
 
 		// ——— Awake wrapper ———
@@ -42,36 +33,35 @@ namespace HeroesRace
 		protected virtual void OnServerAwake () { }
 		public void Awake () 
 		{
-			id = GetComponent<NetworkIdentity> ();
-			SharedName = name;
-			UpdateName ();
-
 			OnAwake ();
 			if (NetworkClient.active) OnClientAwake ();
 			else
 			if (NetworkServer.active) OnServerAwake ();
+			SharedName = name;
 		}
 		#endregion
+
+		#region NETWORK
+		public virtual void OnBecomePawn ()  { }
 
 		internal void UpdateName () 
 		{
 			string name = SharedName;
 			if (NetworkClient.active)
 			{
-				if (hasAuthority) name = name.Insert (0, "[OWN] ");
-				else			  name = name.Insert (0, "[OTHER] ");
+				if (isPawn) name = name.Insert (0, "[OWN] ");
+				else name = name.Insert (0, "[OTHER] ");
 			}
 			else
 			if (NetworkServer.active)
 			{
-				if (!id.serverOnly)
+				if (GetComponent<NetworkIdentity> ().serverOnly)
 				{
-					var o = id.clientAuthorityOwner;
-					if (o != null) 
+					var owner = Net.users.FirstOrDefault (u=> u.player.pawn == this);
+					if (owner != null)
 					{
-						int id = Net.users.Find (u=> u.IP == o.address).ID;
 						name = name.Insert (0, "CLIENT] ");
-						name = name.Insert (0, "["+id+":");
+						name = name.Insert (0, "[" + owner.ID + ":");
 					}
 					else name = name.Insert (0, "[-CLIENT-] ");
 				}
@@ -80,5 +70,6 @@ namespace HeroesRace
 			// Show on inspector
 			this.name = name;
 		}
+		#endregion
 	} 
 }

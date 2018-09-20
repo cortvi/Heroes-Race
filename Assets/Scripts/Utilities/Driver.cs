@@ -5,12 +5,23 @@ using UnityEngine;
 
 namespace HeroesRace 
 {
-	public class Driver : MonoBehaviour
+	public class Driver : MonoBehaviour 
 	{
-		internal Action<Collision> logic;
-		private void OnCollisionEnter (Collision collision)
+		internal Rigidbody body;
+		internal CapsuleCollider capsule;
+		internal Action<Collision> onCollisionEnter;
+
+		private void OnCollisionEnter (Collision collision) 
 		{
-			logic (collision);
+			// Collision logic happens in Server's Hero
+			onCollisionEnter (collision);
+		}
+
+		private void Awake () 
+		{
+			capsule = GetComponent<CapsuleCollider> ();
+			body = GetComponent<Rigidbody> ();
+			body.centerOfMass = Vector3.zero;
 		}
 	} 
 }

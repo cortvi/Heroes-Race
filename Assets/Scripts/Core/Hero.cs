@@ -22,14 +22,10 @@ namespace HeroesRace
 			if (isServer)
 			{
 				blocks.Read ();
-				SyncServerMotion ();
+				SyncMotion ();
 			}
 			else
-			if (isLocalPlayer)
-			{
-				CheckInput ();
-				SyncClientMotion ();
-			}
+			if (isPawn) NetMotion ();
 		}
 	}
 
@@ -37,7 +33,7 @@ namespace HeroesRace
 	{
 		#region DATA
 		// ——— Helpers ———
-//		internal User owner;
+		internal Driver driver;
 		internal CCStack blocks;
 
 		// ——— Animation ———
@@ -50,12 +46,8 @@ namespace HeroesRace
 
 		// ——— Locomotion ———
 		internal float speed = 10.0f;
-
 		internal float input;
 		internal float movingDir;
-
-		internal Rigidbody driver;
-		internal CapsuleCollider capsule;
 
 		// ——— Air-Ground check ——— 
 		private float leaveFloorTime;
@@ -65,37 +57,43 @@ namespace HeroesRace
 		#endregion
 
 		#region LOCOMOTION
-		[Command] // Should I use unreliable channel instead ?
-		private void Cmd_Input (float movement, bool jump) 
+		public void Movement (float axis) 
 		{
-			// ——— Movement ———
-			if (!blocks[CCs.Moving]) 
+			if (!blocks[CCs.Moving])
 			{
 				// Save input for later physics
-				if (movement != 0f) movingDir = movement;
-				input = movement;
+				if (axis != 0f) movingDir = axis;
+				input = axis;
 			}
 			else input = 0f;
 
-
-			// ——— Jumping ———
-			if (jump
-			&& !blocks[CCs.Jumping] 
-			&& !anim.GetBool ("OnAir"))
+		}
+		public void Jumping () 
+		{
+			if (!OnAir
+			&& !blocks[CCs.Jumping])
 			{
 				anim.SetTrigger ("Jump");
-				anim.SetBool ("OnAir", true);
+				OnAir = true;
 			}
 		}
 		
-		private void SyncServerMotion () 
+		private void SyncMotion () 
 		{
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
 		}
+		#endregion
 
-		private void DriverCollision (Collision collision) 
+		#region PHYISICS
+		[ServerCallback]
+		private void Jump () 
+		{
+			driver.body.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
+		}
+
+		public void DriverCollision (Collision collision) 
 		{
 			// Find lowest contact point and check if it's low enough
 			bool touchingFloor = collision.contacts.Min (c=> c.point.y) <= MinFloorHeight;
@@ -128,33 +126,17 @@ namespace HeroesRace
 		}
 		#endregion
 
-		#region ANIMATION EVENTS
-		[ServerCallback]
-		private void Jump () 
-		{
-			driver.AddForce 
-				(Vector3.up * 6f, ForceMode.VelocityChange);
-		}
-		#endregion
-
 		#region CALLBACKS
 		[ServerCallback]
 		private void FixedUpdate () 
 		{
 			float velocity = input * speed * Time.fixedDeltaTime;
-			driver.angularVelocity = velocity * Vector3.up;
+			driver.body.angularVelocity = velocity * Vector3.up;
 		}
 
 		protected override void OnServerStart () 
 		{
-			// Set up Driver (only present on the Server)
-			driver = Instantiate (Resources.Load<Rigidbody> ("Prefabs/Character_Driver"));
-//			driver.name = owner.playingAs + "_Driver";
-			driver.centerOfMass = Vector3.zero;
-			driver.GetComponent<Driver> ().logic = DriverCollision;
-
 			// Get references
-			capsule = driver.GetComponent<CapsuleCollider> ();
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
 			blocks = new CCStack (this);
 		}
@@ -164,7 +146,7 @@ namespace HeroesRace
 		private Vector3 ComputePosition () 
 		{
 			// Get capsule position, discard height
-			var pos = capsule.center; pos.y = 0f;
+			var pos = driver.capsule.center; pos.y = 0f;
 			// Return the position in world-space
 			return driver.transform.TransformPoint (pos);
 		}
@@ -243,18 +225,7 @@ namespace HeroesRace
 		internal HeroCamera cam; 
 		#endregion
 
-		private void CheckInput () 
-		{
-			// Collect all input data
-			float movement = -Input.GetAxis ("Horizontal");
-			bool jump = Input.GetButtonDown ("Jump");
-//			bool pwup = Input.GetButtonDown ("Power");
-
-			// Send horizontal input to Server
-			Cmd_Input (movement, jump);
-		}
-
-		private void SyncClientMotion () 
+		private void NetMotion () 
 		{
 			//TODO=> Just teleporting, I must check how this works
 			// and then maybe use lerping to make it smoother
@@ -262,13 +233,14 @@ namespace HeroesRace
 			transform.rotation = netRotation;
 		}
 
-		protected override void OnClientStart () 
+		public override void OnBecomePawn () 
 		{
-			if (!isLocalPlayer) return;
-
-			// Initialize camera to focus local Client
-			cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
-			cam.target = this;
+			if (!cam) 
+			{
+				// Initialize camera to focus local Client
+				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
+				cam.target = this;
+			}
 		}
 	}
 
@@ -283,7 +255,6 @@ namespace HeroesRace
 
 		Count
 	}
-
 	[Flags] public enum CCs 
 	{
 		Moving = 1 << 0,

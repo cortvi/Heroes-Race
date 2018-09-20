@@ -130,7 +130,6 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Selector 
 	{
-		#region SELECTOR MOTION
 		[ClientRpc]
 		private void Rpc_Move (int newSelection) 
 		{
@@ -148,13 +147,9 @@ namespace HeroesRace
 			}
 			else anim.SetInt ("Selection", newSelection);
 		}
-		#endregion
 
-		protected override void OnClientAuthority () 
+		public override void OnBecomePawn () 
 		{
-			if (!isLocalPlayer) return;
-
-			// Show owner marks
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);
 		}

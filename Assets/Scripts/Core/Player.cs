@@ -21,7 +21,9 @@ namespace HeroesRace
 		[Command]
 		private void Cmd_Tower (float axis, bool jump) 
 		{
-
+			var h = pawn as Hero;
+			h.Movement (axis);
+			if (jump) h.Jumping ();
 		}
 		#endregion
 
@@ -37,7 +39,7 @@ namespace HeroesRace
 				int delta = 0;
 				bool readySwitch = false;
 
-				// Collect data
+				// Collect & pre-process data
 				float axis = Input.GetAxis ("Horizontal");
 				if (axis != 0f) delta = (axis > 0f ? +1 : -1);
 				else
@@ -53,27 +55,25 @@ namespace HeroesRace
 			#region HERO
 			if (pawn is Hero) 
 			{
-				// Collect input
+				// Collect all input
 				float axis = Input.GetAxis ("Horizontal");
 				bool jump = Input.GetButton ("Jump");
 
 				// Send to Server
-				Cmd_Tower (axis, jump);
+				Cmd_Tower (-axis, jump);
 			} 
 			#endregion
 		}
 
-		[ClientRpc]
-		public void Rpc_SetPawn (GameObject newPawn) 
+		[TargetRpc]
+		public void Target_SetPawn (NetworkConnection target, GameObject newPawn) 
 		{
-			// It's a Selector?
-			pawn = newPawn.GetComponent<Selector> ();
-			// It's a Hero?
-			if (!pawn) pawn = newPawn.GetComponent<Hero> ();
-			else return;
-
-			// WTF is it??
-			if (!pawn) Log.Info ("Pawn '" + newPawn.name + "' is not valid!");
+			// De-authorize last pawn, if any
+			if (pawn) pawn.isPawn = false;
+			pawn = newPawn.GetComponent<NetBehaviour> ();
+			pawn.OnBecomePawn ();
+			pawn.isPawn = true;
+			pawn.UpdateName ();
 		}
 		#endregion
 	}

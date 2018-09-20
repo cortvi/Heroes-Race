@@ -59,24 +59,29 @@ namespace HeroesRace
 			// Assign correct Pawn to player
 			if (networkSceneName == "Selection") 
 			{
-				var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + user.ID);
-				user.player.pawn = FindObjectsOfType<Selector> ().First (check);		
+				var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
+				var selector = FindObjectsOfType<Selector> ().First (check);
+
+				user.player.pawn = selector;
+				selector.UpdateName ();
 			}
 			else
-			if (networkSceneName == "Tower")
+			if (networkSceneName == "Tower") 
 			{
 				// If bypassing selection menu
 				if (user.playingAs == Heroes.NONE)
 					user.playingAs = (Heroes)user.ID;
 
-				// Spawn Heroes & its Driver
-				print ("Creating " + user.playingAs);
-				var prefab = Resources.Load<Hero> ("Perfabs/Heroes/" + user.playingAs);
-				user.player.pawn = Instantiate (prefab);
-				#warning Spawn Driver!!!
+				// Spawn Heroe & set up its Driver
+				var hero = Instantiate(Resources.Load<Hero> ("Prefabs/Heroes/" + user.playingAs));
+				hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
+				hero.driver.onCollisionEnter = hero.DriverCollision;
+				hero.driver.name = user.playingAs + "_Driver";
+
+				user.player.pawn = hero;
 			}
 			// Notify Client of new Pawn
-			user.player.Rpc_SetPawn (user.player.pawn.gameObject);
+			user.player.Target_SetPawn (conn, user.player.pawn.gameObject);
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 
