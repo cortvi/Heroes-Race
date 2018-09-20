@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public partial class /* COMMON */ Selector : NetBehaviour 
+	public partial class /* COMMON */ Selector : NetBehaviour, IPawn 
 	{
 		#region DATA
 		// ——— Inspector data ———
@@ -71,6 +71,11 @@ namespace HeroesRace
 		#endregion
 
 		#region SELECTOR MOTION
+		public void ProcessInput (string[] input) 
+		{
+
+		}
+
 		[Command]
 		private void Cmd_Input (int delta) 
 		{
@@ -106,7 +111,6 @@ namespace HeroesRace
 
 			// Flip the ready state
 			bool ready = !anim.GetBool ("Ready");
-			anim.SetBool ("Ready", ready);
 			SelectorsReady += (ready? +1 : -1);
 
 			if (SelectorsReady == Net.UsersNeeded) 
@@ -145,6 +149,11 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Selector 
 	{
+		public string[] GetInput () 
+		{
+
+		}
+
 		#region SELECTOR MOTION
 		[ClientRpc]
 		private void Rpc_Move (int newSelection) 

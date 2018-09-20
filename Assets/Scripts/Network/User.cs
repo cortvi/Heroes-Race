@@ -9,7 +9,7 @@ using UnityEngine.Networking;
  * restored for all owned objects. */
 namespace HeroesRace 
 {
-	public class /* SERVER-ONLY */ User 
+	public class /* SERVER-ONLY */ User
 	{
 		#region DATA + CTOR
 		public readonly int ID;
@@ -27,6 +27,5 @@ namespace HeroesRace
 			Log.LowDebug (string.Format ("Added User {0} from {1}", ID, IP));
 		}
 		#endregion
-	}
+	} 
 }
-

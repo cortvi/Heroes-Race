@@ -52,33 +52,35 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			GameObject player = null;
-			var user = users.Find (u => u.IP == conn.address);
-			if (networkSceneName == "Selection") 
-			{
-				var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
-				player = FindObjectsOfType<Selector> ().First (check).gameObject;
-				// Is the selector gonna replicate over the network??
-			}
-			else
-			if (networkSceneName == "Tower") 
-			{
-				// If bypassing selection menu
-				if (user.playingAs == Heroes.NONE)
-					user.playingAs = (Heroes) user.ID;
+			#region esto ira en otro sitio (SceneChange seguramente)
+			/*
+	GameObject player = null;
+	var user = users.Find (u => u.IP == conn.address);
+	if (networkSceneName == "Selection") 
+	{
+		var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
+		player = FindObjectsOfType<Selector> ().First (check).gameObject;
+		// Is the selector gonna replicate over the network??
+	}
+	else
+	if (networkSceneName == "Tower") 
+	{
+		// If bypassing selection menu
+		if (user.playingAs == Heroes.NONE)
+			user.playingAs = (Heroes) user.ID;
 
-				// Spawn Heroes and use it as the player
-				var prefab = Resources.Load ("Perfabs/Heroes/" + user.playingAs);
-				player = Instantiate (prefab) as GameObject;
-				player.GetComponent<Hero> ().owner = user;
-			}
+		// Spawn Heroes and use it as the player
+		print ("Creating " + user.playingAs);
+		var prefab = Resources.Load ("Perfabs/Heroes/" + user.playingAs);
+		player = Instantiate (prefab) as GameObject;
+		player.GetComponent<Hero> ().owner = user;
+	}
+	*/
+			#endregion
 
 			// Player objects are destroyed between scenes, so no need to call Replace
 			NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
 			player.GetComponent<NetBehaviour> ().UpdateName ();
-
-			#warning still, if reconnected, an error occurs when trying to re-assign player object
-			//=> probably will have to un-authorize (or directly destroy?) users on desconnection...?
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 
