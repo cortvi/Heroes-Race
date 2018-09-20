@@ -33,16 +33,16 @@ namespace HeroesRace
 			{
 				float input = Input.GetAxis ("Horizontal");
 				if (input != 0f) Cmd_Input (input>0f? +1 : -1);
-
+				else
 				// Set READY using any-key except axis
-//				if (Input.GetAxis ("Vertical") == 0f
-//				&& Input.anyKeyDown) Cmd_SwitchReady ();
+				if (Input.GetAxis ("Vertical") == 0f
+				&& Input.anyKeyDown) Cmd_SwitchReady ();
 			}
 
 			// Blend the animator space for all instances
 			float blend = anim.GetFloat ("Blend");
 			float target = anim.GetInt ("Selection") / SelectionMax;
-			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 7f);
+			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 8f);
 			anim.SetFloat ("Blend", lerp);
 
 			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.025f;
@@ -50,18 +50,7 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
-			if (NetworkServer.active && heroesLocked == null) 
-			{
-				// This dictionary will tell if a Hero is already picked
-				heroesLocked = new Dictionary<Heroes, bool> 
-				{
-					{ Heroes.Indiana, false },
-					{ Heroes.Harley, false },
-					{ Heroes.Harry, false }
-				};
-			}
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-
 			// Cache position because it'll move when connected to Server
 			cachePosition = (transform as RectTransform).localPosition;
 		}
@@ -78,7 +67,6 @@ namespace HeroesRace
 	{
 		#region DATA
 		private static int SelectorsReady;
-		private static Dictionary<Heroes, bool> heroesLocked;
 		private bool closeEnough;
 		#endregion
 
@@ -113,18 +101,16 @@ namespace HeroesRace
 		private void Cmd_SwitchReady () 
 		{
 			// Can't switch ready if moving carrousel
-			if (anim.Animator.IsInTransition (0))
+			if (!closeEnough)
 				return;
 
 			// Flip the ready state
-			bool ready = anim.GetBool ("Ready");
-			ready = !ready;
-			anim.SetBool ("Ready", !ready);
+			bool ready = !anim.GetBool ("Ready");
+			anim.SetBool ("Ready", ready);
 			SelectorsReady += (ready? +1 : -1);
 
-
 			if (SelectorsReady == Net.UsersNeeded) 
-				GoToTower ();
+				StartCoroutine (GoToTower ());
 		}
 		#endregion
 
@@ -140,7 +126,7 @@ namespace HeroesRace
 		} 
 
 		#warning in the future, make the scene change smoother!
-        public static void GoToTower () 
+        public static IEnumerator GoToTower () 
         {
 			// Read all the selected heroes
 			for (int i = 0; i != Net.UsersNeeded; i++)
@@ -148,9 +134,11 @@ namespace HeroesRace
                 var selector = FindObjectsOfType<Selector> ()[i];
                 Net.users[i].playingAs = selector.ReadHero ();
             }
-            // Change scene
-            Net.worker.ServerChangeScene ("Tower");
 			Log.Debug ("Heroes saved, now going to Tower map!");
+
+            // Change scene
+			yield return new WaitForSeconds (1f);
+            Net.worker.ServerChangeScene ("Tower");
         }
         #endregion
     }

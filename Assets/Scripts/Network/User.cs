@@ -23,6 +23,8 @@ namespace HeroesRace
 			IP = Conn.address;
 			ID = Conn.connectionId;
 			playingAs = Heroes.NONE;
+
+			Log.LowDebug (string.Format ("Added User {0} from {1}", ID, IP));
 		}
 		#endregion
 	}

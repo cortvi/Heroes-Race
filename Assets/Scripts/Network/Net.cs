@@ -72,8 +72,13 @@ namespace HeroesRace
 				player = Instantiate (prefab) as GameObject;
 				player.GetComponent<Hero> ().owner = user;
 			}
+
 			// Player objects are destroyed between scenes, so no need to call Replace
 			NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
+			player.GetComponent<NetBehaviour> ().UpdateName ();
+
+			#warning still, if reconnected, an error occurs when trying to re-assign player object
+			//=> probably will have to un-authorize (or directly destroy?) users on desconnection...?
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 
@@ -87,8 +92,7 @@ namespace HeroesRace
 		}
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
-			// Set user un-ready
-			var user = users.Find (u=> u.IP == conn.address);
+			var user = users.Find (u=> u.Conn.connectionId == conn.connectionId);
 			Log.Debug ("Player " + user.ID + " disconnected from server!");
 
 			//TOD=> Handle object destruction
