@@ -49,7 +49,7 @@ namespace HeroesRace
 			string name = SharedName;
 			if (NetworkClient.active)
 			{
-				if (isPawn) name = name.Insert (0, "[OWN] ");
+				if (isPawn || isLocalPlayer) name = name.Insert (0, "[OWN] ");
 				else name = name.Insert (0, "[OTHER] ");
 			}
 			else
@@ -57,8 +57,8 @@ namespace HeroesRace
 			{
 				if (!GetComponent<NetworkIdentity> ().serverOnly)
 				{
-					var owner = Net.users.FirstOrDefault (u=> u.player.pawn == this);
-					if (owner != null)
+					var owner = Net.users.FirstOrDefault (u=> u.player.pawn == this || u.player == this);
+					if (owner != null) 
 					{
 						name = name.Insert (0, "CLIENT] ");
 						name = name.Insert (0, "[" + owner.ID + ":");

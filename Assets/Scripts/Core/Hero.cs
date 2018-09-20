@@ -80,8 +80,12 @@ namespace HeroesRace
 		
 		private void SyncMotion () 
 		{
+			// Send the moving direction for client-side prediction
+			var newPos = ComputePosition ();
+			netMovDir = newPos - transform.position;
+
 			// Positionate character based on Driver & propagate over Net
-			transform.position = netPosition = ComputePosition ();
+			transform.position = netPosition = newPos;
 			transform.rotation = netRotation = ComputeRotation ();
 		}
 		#endregion
@@ -220,17 +224,20 @@ namespace HeroesRace
 	{
 		#region DATA
 		[SyncVar] private Vector3 netPosition;
-		[SyncVar] private Quaternion netRotation; 
+		[SyncVar] private Quaternion netRotation;
+		[SyncVar] private Vector3 netMovDir;
 
 		internal HeroCamera cam; 
 		#endregion
 
 		private void NetMotion () 
 		{
-			//TODO=> Just teleporting, I must check how this works
-			// and then maybe use lerping to make it smoother
-			transform.position = netPosition;
-			transform.rotation = netRotation;
+			// Move in the recieved direction
+			transform.Translate (netMovDir);
+
+			// But smoothly interpolate to real position
+			transform.position = Vector3.Lerp (transform.position, netPosition, 5f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, 3f);
 		}
 
 		public override void OnBecomePawn () 
@@ -255,6 +262,7 @@ namespace HeroesRace
 
 		Count
 	}
+
 	[Flags] public enum CCs 
 	{
 		Moving = 1 << 0,

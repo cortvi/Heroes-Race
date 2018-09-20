@@ -18,7 +18,7 @@ namespace HeroesRace
 			if (readySwitch) s.SwitchReady ();
 		}
 
-		[Command]
+		[Command (channel = 1)]
 		private void Cmd_Tower (float axis, bool jump) 
 		{
 			var h = pawn as Hero;
@@ -71,9 +71,10 @@ namespace HeroesRace
 			// De-authorize last pawn, if any
 			if (pawn) pawn.isPawn = false;
 			pawn = newPawn.GetComponent<NetBehaviour> ();
-			pawn.OnBecomePawn ();
+
 			pawn.isPawn = true;
 			pawn.UpdateName ();
+			pawn.OnBecomePawn ();
 		}
 		#endregion
 	}
