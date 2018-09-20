@@ -15,12 +15,12 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 1)]
+	[NetworkSettings (channel = 1, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
-		[SyncVar] internal Vector3 netPosition;
-		[SyncVar] internal Quaternion netRotation;
-		[SyncVar] internal Vector3 netMovingDir;
+		[SyncVar] internal Vector3 netPosition;		// Exact real position
+		[SyncVar] internal float netAngular;		// Speed around tower
+		[SyncVar] internal Quaternion netRotation;	// Transform rotation
 
 		private void Update () 
 		{
@@ -85,14 +85,13 @@ namespace HeroesRace
 		
 		private void SyncMotion () 
 		{
-			// Send the moving direction for client-side prediction
-			var newPos = ComputePosition ();
-			if (input == 0f) netMovingDir = Vector3.zero;
-			else netMovingDir = driver.body.velocity;
-
 			// Positionate character based on Driver & propagate over Net
-			transform.position = netPosition = newPos;
+			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
+
+			// Send angular speed to allow client-side prediction
+			if (input != 0f) netAngular = driver.body.angularVelocity.y;
+			else netAngular = 0f;
 		}
 		#endregion
 
@@ -232,12 +231,15 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			// If Hero stopped, smoothly lerp to real transform
-			if (netMovingDir == Vector3.zero) transform.position = Vector3.Lerp (transform.position, netPosition, 3f);
-			// Otherwise move in the last recieved direction
-			else transform.Translate (netMovingDir * Time.deltaTime, Space.World);
+			// Height is lerped always
+			var pos = transform.position;
+			pos.y = Mathf.Lerp (pos.y, netPosition.y, 2f);
 
-			// Rotation is always lerped, it works pretty well out of the box
+			// Lerp to real position if stopped, otherwise move around tower in given speed
+			if (netAngular == 0f) transform.position = Vector3.Lerp (pos, netPosition, 3f);
+			else transform.RotateAround (Vector3.zero, Vector3.up, Mathf.Rad2Deg * netAngular);
+
+			// Rotation is always lerped too
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, 3f);
 		}
 
