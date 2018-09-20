@@ -19,6 +19,7 @@ namespace HeroesRace
 		{
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			Log.logLevel = Log.LogType.DeepDebug;
+			Application.targetFrameRate = 60;
 
 			// Read config:
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");

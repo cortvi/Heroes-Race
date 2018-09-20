@@ -15,8 +15,13 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
+	[NetworkSettings (channel = 1)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
+		[SyncVar] internal Vector3 netPosition;
+		[SyncVar] internal Quaternion netRotation;
+		[SyncVar] internal Vector3 netMovingDir;
+
 		private void Update () 
 		{
 			if (isServer)
@@ -25,7 +30,7 @@ namespace HeroesRace
 				SyncMotion ();
 			}
 			else
-			if (isPawn) NetMotion ();
+			if (isPawn) KeepMotion ();
 		}
 	}
 
@@ -82,7 +87,8 @@ namespace HeroesRace
 		{
 			// Send the moving direction for client-side prediction
 			var newPos = ComputePosition ();
-			netMovDir = newPos - transform.position;
+			if (input == 0f) netMovingDir = Vector3.zero;
+			else netMovingDir = (newPos - transform.position);
 
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = newPos;
@@ -99,6 +105,8 @@ namespace HeroesRace
 
 		public void DriverCollision (Collision collision) 
 		{
+			return;
+
 			// Find lowest contact point and check if it's low enough
 			bool touchingFloor = collision.contacts.Min (c=> c.point.y) <= MinFloorHeight;
 			if (touchingFloor)
@@ -218,25 +226,18 @@ namespace HeroesRace
 		#endregion
 	}
 
-	// Maybe changing these settings make movement better
-	[NetworkSettings (channel = 1, sendInterval = 0f)]
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		#region DATA
-		[SyncVar] private Vector3 netPosition;
-		[SyncVar] private Quaternion netRotation;
-		[SyncVar] private Vector3 netMovDir;
-
 		internal HeroCamera cam; 
-		#endregion
 
-		private void NetMotion () 
+		private void KeepMotion () 
 		{
-			// Move in the recieved direction
-			transform.Translate (netMovDir);
+			// If Hero stopped, smoothly lerp to real transform
+			if (netMovingDir == Vector3.zero) transform.position = Vector3.Lerp (transform.position, netPosition, 3f);
+			// Otherwise move in the last recieved direction
+			else transform.Translate (netMovingDir * Time.deltaTime);
 
-			// But smoothly interpolate to real position
-			transform.position = Vector3.Lerp (transform.position, netPosition, 5f);
+			// Rotation is always lerped, it works pretty well out of the box
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, 3f);
 		}
 

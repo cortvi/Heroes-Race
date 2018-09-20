@@ -41,6 +41,8 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
+			if (isServer) anim.SetInt ("Selection", initialSelection);
+
 			// Cache position because it'll move when connected to Server
 			cachePosition = (transform as RectTransform).localPosition;
 		}

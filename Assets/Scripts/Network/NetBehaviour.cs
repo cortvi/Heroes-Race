@@ -37,7 +37,7 @@ namespace HeroesRace
 			if (NetworkClient.active) OnClientAwake ();
 			else
 			if (NetworkServer.active) OnServerAwake ();
-			SharedName = name;
+			SharedName = name.Replace ("(Clone)", "");
 		}
 		#endregion
 
