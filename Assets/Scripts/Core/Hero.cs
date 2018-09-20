@@ -86,6 +86,7 @@ namespace HeroesRace
 			&& !blocks[CCs.Jumping])
 			{
 				anim.SetTrigger ("Jump");
+				anim.Animator.SetTrigger ("Jump");
 				OnAir = true;
 			}
 		}
