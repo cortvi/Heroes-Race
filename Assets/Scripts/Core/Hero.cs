@@ -241,15 +241,15 @@ namespace HeroesRace
 		{
 			// Height is lerped always
 			var pos = transform.position;
-			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 8f);
+			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
 			transform.position = pos;
 
 			// Lerp to real position if stopped, otherwise move around tower in given speed
-			if (netAngular == 0f) transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 5f);
+			if (netAngular == 0f) transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
 			else transform.RotateAround (Vector3.zero, Vector3.up, Mathf.Rad2Deg * netAngular * Time.deltaTime);
 
 			// Rotation is always lerped too
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 7f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);
 		}
 
 		public override void OnBecomePawn () 
