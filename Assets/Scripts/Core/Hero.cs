@@ -88,7 +88,7 @@ namespace HeroesRace
 			// Send the moving direction for client-side prediction
 			var newPos = ComputePosition ();
 			if (input == 0f) netMovingDir = Vector3.zero;
-			else netMovingDir = (newPos - transform.position);
+			else netMovingDir = driver.body.velocity;
 
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = newPos;
@@ -235,7 +235,7 @@ namespace HeroesRace
 			// If Hero stopped, smoothly lerp to real transform
 			if (netMovingDir == Vector3.zero) transform.position = Vector3.Lerp (transform.position, netPosition, 3f);
 			// Otherwise move in the last recieved direction
-			else transform.Translate (netMovingDir * Time.deltaTime);
+			else transform.Translate (netMovingDir * Time.deltaTime, Space.World);
 
 			// Rotation is always lerped, it works pretty well out of the box
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, 3f);
