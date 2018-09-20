@@ -20,7 +20,8 @@ namespace HeroesRace
 	{
 		[SyncVar] internal Vector3 netPosition;		// Exact real position
 		[SyncVar] internal float netAngular;		// Speed around tower
-		[SyncVar] internal Quaternion netRotation;	// Transform rotation
+		[SyncVar] internal Quaternion netRotation;  // Transform rotation
+		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 
 		private void Update () 
 		{
@@ -57,7 +58,6 @@ namespace HeroesRace
 		// ——— Locomotion ———
 		internal float speed = 10.0f;
 		internal float input;
-		internal float movingDir;
 
 		// ——— Air-Ground check ——— 
 		private float leaveFloorTime;
