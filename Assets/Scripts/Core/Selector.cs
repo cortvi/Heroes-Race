@@ -136,18 +136,9 @@ namespace HeroesRace
 		private void Rpc_Move (int newSelection) 
 		{
 			// Correct carrousel if out of bounds
-			if (newSelection == -1)
-			{
-				anim.SetInt ("Selection", (int)SelectionMax - 2);
-				anim.SetFloat ("Blend", (SelectionMax - 1f) / SelectionMax);
-			}
+			if (newSelection == -1) anim.SetFloat ("Blend", (SelectionMax - 1f) / SelectionMax);
 			else
-			if (newSelection == 6)
-			{
-				anim.SetInt ("Selection", 2);
-				anim.SetFloat ("Blend", 1f / SelectionMax);
-			}
-			else anim.SetInt ("Selection", newSelection);
+			if (newSelection == +6) anim.SetFloat ("Blend", 1f / SelectionMax);
 		}
 
 		public override void OnBecomePawn () 

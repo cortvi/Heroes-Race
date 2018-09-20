@@ -43,6 +43,11 @@ namespace HeroesRace
 
 		// ——— Animation ———
 		public SmartAnimator anim;
+		public bool Moving 
+		{
+			get { return anim.GetBool ("Moving"); }
+			set { anim.SetBool ("Moving", value); }
+		}
 		public bool OnAir 
 		{
 			get { return anim.GetBool ("OnAir"); }
@@ -72,6 +77,8 @@ namespace HeroesRace
 			}
 			else input = 0f;
 
+			if (input == 0f) Moving = true;
+			else Moving = false;
 		}
 		public void Jumping () 
 		{
@@ -100,6 +107,7 @@ namespace HeroesRace
 		private void Jump () 
 		{
 			driver.body.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
+			print ("honestly wtf");
 		}
 
 		public void DriverCollision (Collision collision) 
@@ -233,14 +241,15 @@ namespace HeroesRace
 		{
 			// Height is lerped always
 			var pos = transform.position;
-			pos.y = Mathf.Lerp (pos.y, netPosition.y, 2f);
+			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 8f);
+			transform.position = pos;
 
 			// Lerp to real position if stopped, otherwise move around tower in given speed
-			if (netAngular == 0f) transform.position = Vector3.Lerp (pos, netPosition, 3f);
-			else transform.RotateAround (Vector3.zero, Vector3.up, Mathf.Rad2Deg * netAngular);
+			if (netAngular == 0f) transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 5f);
+			else transform.RotateAround (Vector3.zero, Vector3.up, Mathf.Rad2Deg * netAngular * Time.deltaTime);
 
 			// Rotation is always lerped too
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, 3f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 7f);
 		}
 
 		public override void OnBecomePawn () 
