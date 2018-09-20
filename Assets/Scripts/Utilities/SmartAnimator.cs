@@ -7,7 +7,7 @@ namespace HeroesRace
 {
 	public class SmartAnimator 
 	{
-		#region DATA
+		#region DATA + CTOR
 		public Animator Animator { get; private set; }
 		public NetworkAnimator NetAnimator { get; private set; }
 		private readonly bool isNetworked;
@@ -297,8 +297,9 @@ namespace HeroesRace
 				if (reset) Animator.ResetTrigger (hash);
 				else
 				{
+					// Apparently you need to call it twice for network :/
 					if (isNetworked) NetAnimator.SetTrigger (hash);
-					else Animator.SetTrigger (hash);
+					Animator.SetTrigger (hash);
 				}
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
@@ -308,7 +309,7 @@ namespace HeroesRace
 			else
 			{
 				if (isNetworked) NetAnimator.SetTrigger (hash);
-				else Animator.SetTrigger (hash);
+				Animator.SetTrigger (hash);
 			}
 			#endif
 		}
