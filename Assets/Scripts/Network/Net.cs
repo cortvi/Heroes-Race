@@ -52,35 +52,31 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			#region esto ira en otro sitio (SceneChange seguramente)
-			/*
-	GameObject player = null;
-	var user = users.Find (u => u.IP == conn.address);
-	if (networkSceneName == "Selection") 
-	{
-		var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
-		player = FindObjectsOfType<Selector> ().First (check).gameObject;
-		// Is the selector gonna replicate over the network??
-	}
-	else
-	if (networkSceneName == "Tower") 
-	{
-		// If bypassing selection menu
-		if (user.playingAs == Heroes.NONE)
-			user.playingAs = (Heroes) user.ID;
+			var user = users.Find (u => u.IP == conn.address);
+			user.player = Instantiate (playerPrefab).GetComponent<Player> ();
+			NetworkServer.AddPlayerForConnection (conn, user.player.gameObject, playerControllerId);
 
-		// Spawn Heroes and use it as the player
-		print ("Creating " + user.playingAs);
-		var prefab = Resources.Load ("Perfabs/Heroes/" + user.playingAs);
-		player = Instantiate (prefab) as GameObject;
-		player.GetComponent<Hero> ().owner = user;
-	}
-	*/
-			#endregion
+			// Assign correct Pawn to player
+			if (networkSceneName == "Selection") 
+			{
+				var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + user.ID);
+				user.player.pawn = FindObjectsOfType<Selector> ().First (check);		
+			}
+			else
+			if (networkSceneName == "Tower")
+			{
+				// If bypassing selection menu
+				if (user.playingAs == Heroes.NONE)
+					user.playingAs = (Heroes)user.ID;
 
-			// Player objects are destroyed between scenes, so no need to call Replace
-			NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);
-			player.GetComponent<NetBehaviour> ().UpdateName ();
+				// Spawn Heroes & its Driver
+				print ("Creating " + user.playingAs);
+				var prefab = Resources.Load<Hero> ("Perfabs/Heroes/" + user.playingAs);
+				user.player.pawn = Instantiate (prefab);
+				#warning Spawn Driver!!!
+			}
+			// Notify Client of new Pawn
+			user.player.Rpc_SetPawn (user.player.pawn.gameObject);
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 
@@ -97,8 +93,7 @@ namespace HeroesRace
 			var user = users.Find (u=> u.Conn.connectionId == conn.connectionId);
 			Log.Debug ("Player " + user.ID + " disconnected from server!");
 
-			//TOD=> Handle object destruction
-
+			#warning Handle object destruction!
 		}
 		#endregion
 	}

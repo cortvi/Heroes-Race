@@ -37,7 +37,7 @@ namespace HeroesRace
 	{
 		#region DATA
 		// ——— Helpers ———
-		internal User owner;
+//		internal User owner;
 		internal CCStack blocks;
 
 		// ——— Animation ———
@@ -149,7 +149,7 @@ namespace HeroesRace
 		{
 			// Set up Driver (only present on the Server)
 			driver = Instantiate (Resources.Load<Rigidbody> ("Prefabs/Character_Driver"));
-			driver.name = owner.playingAs + "_Driver";
+//			driver.name = owner.playingAs + "_Driver";
 			driver.centerOfMass = Vector3.zero;
 			driver.GetComponent<Driver> ().logic = DriverCollision;
 

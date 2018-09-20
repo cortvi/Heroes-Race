@@ -11,11 +11,14 @@ namespace HeroesRace
 {
 	public class /* SERVER-ONLY */ User
 	{
-		#region DATA + CTOR
+		#region DATA
 		public readonly int ID;
 		public readonly string IP;
 		public NetworkConnection Conn;
+
+		public Player player;
 		public Heroes playingAs;
+		#endregion
 
 		public User (NetworkConnection fromConn) 
 		{
@@ -26,6 +29,5 @@ namespace HeroesRace
 
 			Log.LowDebug (string.Format ("Added User {0} from {1}", ID, IP));
 		}
-		#endregion
 	} 
 }

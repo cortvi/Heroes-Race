@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public partial class /* COMMON */ Selector : NetBehaviour, IPawn 
+	public partial class /* COMMON */ Selector : NetBehaviour 
 	{
 		#region DATA
 		// ——— Inspector data ———
@@ -29,16 +29,6 @@ namespace HeroesRace
 		#region CALLBACKS
 		private void Update () 
 		{
-			if (isLocalPlayer) 
-			{
-				float input = Input.GetAxis ("Horizontal");
-				if (input != 0f) Cmd_Input (input>0f? +1 : -1);
-				else
-				// Set READY using any-key except axis
-				if (Input.GetAxis ("Vertical") == 0f
-				&& Input.anyKeyDown) Cmd_SwitchReady ();
-			}
-
 			// Blend the animator space for all instances
 			float blend = anim.GetFloat ("Blend");
 			float target = anim.GetInt ("Selection") / SelectionMax;
@@ -70,14 +60,7 @@ namespace HeroesRace
 		private bool closeEnough;
 		#endregion
 
-		#region SELECTOR MOTION
-		public void ProcessInput (string[] input) 
-		{
-
-		}
-
-		[Command]
-		private void Cmd_Input (int delta) 
+		public void Move (int delta) 
 		{
 			// Won't move selection if locked OR already moving
 			if (anim.GetBool("Ready") || !closeEnough) 
@@ -102,21 +85,19 @@ namespace HeroesRace
 			Rpc_Move (selection);
 		}
 
-		[Command]
-		private void Cmd_SwitchReady () 
+		public void SwitchReady () 
 		{
 			// Can't switch ready if moving carrousel
-			if (!closeEnough)
-				return;
+			if (!closeEnough) return;
 
 			// Flip the ready state
 			bool ready = !anim.GetBool ("Ready");
 			SelectorsReady += (ready? +1 : -1);
+			anim.SetBool ("Ready", ready);
 
 			if (SelectorsReady == Net.UsersNeeded) 
 				StartCoroutine (GoToTower ());
 		}
-		#endregion
 
 		#region HELPERS
 		public Heroes ReadHero () 
@@ -149,11 +130,6 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Selector 
 	{
-		public string[] GetInput () 
-		{
-
-		}
-
 		#region SELECTOR MOTION
 		[ClientRpc]
 		private void Rpc_Move (int newSelection) 
