@@ -19,8 +19,8 @@ namespace HeroesRace
 		private bool touchingFloorLastFrame;
 
 		private float leaveFloorTime;
-		private const float OnAirThreshold = 0.3f;
-		private const float MinFloorHeight = 0.2f;
+		private const float OnAirThreshold = 0.5f;
+		private const float MinFloorHeight = 0.15f;
 		#endregion
 
 		private void Update () 
@@ -57,21 +57,29 @@ namespace HeroesRace
 
 		private void OnCollisionEnter (Collision collision) 
 		{
-			if (collision.collider.tag == "Ground")
+			var layer = collision.gameObject.layer;
+			if (layer == LayerMask.NameToLayer("Ground"))
 			{
 				// Find lowest contact point and check if it's low enough
-				bool isFloor = collision.contacts.Min (c => c.point.y) <= MinFloorHeight;
-				if (isFloor) groundCollisions += 1;
+				if (collision.contacts.Length > 0) 
+				{
+					float min = collision.contacts.Min (c=> c.point.y) - owner.transform.position.y;
+					if (min <= MinFloorHeight) groundCollisions += 1;
+				}
 			}
 		}
 
 		private void OnCollisionExit (Collision collision) 
 		{
-			if (collision.collider.tag == "Ground") 
+			var layer = collision.gameObject.layer;
+			if (layer == LayerMask.NameToLayer ("Ground"))
 			{
 				// Find lowest contact point and check if it's low enough
-				bool isFloor = collision.contacts.Min (c => c.point.y) <= MinFloorHeight;
-				if (isFloor) groundCollisions -= 1;
+				if (collision.contacts.Length > 0)
+				{
+					float min = collision.contacts.Min (c=> c.point.y) - owner.transform.position.y;
+					if (min <= MinFloorHeight) groundCollisions -= 1;
+				}
 
 				// Esto no deberia pasar nunca, pero bueno...
 				if (groundCollisions < 0) 
