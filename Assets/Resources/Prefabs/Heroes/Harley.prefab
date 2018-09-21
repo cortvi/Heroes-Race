@@ -155,7 +155,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bbca225bf07d7ab4dbdd5be2315d657a, type: 3}
   m_Controller: {fileID: 22100000, guid: d00537eac4be87648aeb48862522025d, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
     i14: 10
     i15: 78
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!137 &137657775983158542
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
