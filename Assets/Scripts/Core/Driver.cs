@@ -15,18 +15,18 @@ namespace HeroesRace
 		internal Hero owner;
 
 		// ——— Air-Ground check ——— 
-		private int groundCollisions;
 		private bool touchingFloorLastFrame;
-
 		private float leaveFloorTime;
 		private const float OnAirThreshold = 0.5f;
-		private const float MinFloorHeight = 0.15f;
 		#endregion
 
 		private void Update () 
 		{
 			#region FALL CHECK
-			if (groundCollisions != 0)
+			var b = owner.groundBox;
+			// Use a disabled BoxCollider to check if touching ground
+			bool touchingFloor = Physics.CheckBox (b.center, b.size/2f, owner.transform.rotation, 1<<8);
+			if (touchingFloor) 
 			{
 				// Reset fall-check
 				touchingFloorLastFrame = true;
@@ -53,41 +53,6 @@ namespace HeroesRace
 				if (Time.time > leaveFloorTime) owner.OnAir = true;
 			} 
 			#endregion
-		}
-
-		private void OnCollisionEnter (Collision collision) 
-		{
-			var layer = collision.gameObject.layer;
-			if (layer == LayerMask.NameToLayer("Ground"))
-			{
-				// Find lowest contact point and check if it's low enough
-				if (collision.contacts.Length > 0) 
-				{
-					float min = collision.contacts.Min (c=> c.point.y) - owner.transform.position.y;
-					if (min <= MinFloorHeight) groundCollisions += 1;
-				}
-			}
-		}
-
-		private void OnCollisionExit (Collision collision) 
-		{
-			var layer = collision.gameObject.layer;
-			if (layer == LayerMask.NameToLayer ("Ground"))
-			{
-				// Find lowest contact point and check if it's low enough
-				if (collision.contacts.Length > 0)
-				{
-					float min = collision.contacts.Min (c=> c.point.y) - owner.transform.position.y;
-					if (min <= MinFloorHeight) groundCollisions -= 1;
-				}
-
-				// Esto no deberia pasar nunca, pero bueno...
-				if (groundCollisions < 0) 
-				{
-					print ("Algo va mal! (was colliding with: " + collision.collider.name);
-					groundCollisions = 0;
-				}
-			}
 		}
 
 		private void Awake () 

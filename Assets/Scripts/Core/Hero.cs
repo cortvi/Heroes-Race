@@ -41,6 +41,7 @@ namespace HeroesRace
 		// ——— Helpers ———
 		internal Driver driver;
 		internal CCStack blocks;
+		internal BoxCollider groundBox;
 
 		// ——— Animation ———
 		public SmartAnimator anim;
@@ -117,6 +118,7 @@ namespace HeroesRace
 		{
 			// Get references
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
+			groundBox = GetComponentInChildren<BoxCollider> ();
 			blocks = new CCStack (this);
 		}
 		#endregion
