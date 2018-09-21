@@ -58,12 +58,6 @@ namespace HeroesRace
 		// ——— Locomotion ———
 		internal float speed = 10.0f;
 		internal float input;
-
-		// ——— Air-Ground check ——— 
-		private float leaveFloorTime;
-		private bool touchingFloorLastFrame = true;
-		private const float OnAirThreshold = 0.3f;
-		private const float MinFloorHeight = 0.2f;
 		#endregion
 
 		#region LOCOMOTION
@@ -83,10 +77,9 @@ namespace HeroesRace
 		public void Jumping () 
 		{
 			if (!OnAir
-			&& !blocks[CCs.Jumping])
+			&& !blocks[CCs.Jumping]) 
 			{
 				anim.SetTrigger ("Jump");
-				anim.Animator.SetTrigger ("Jump");
 				OnAir = true;
 			}
 		}
@@ -107,42 +100,8 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Jump () 
 		{
-			driver.body.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
-			print ("honestly wtf");
-		}
-
-		public void DriverCollision (Collision collision) 
-		{
-			return;
-
-			// Find lowest contact point and check if it's low enough
-			bool touchingFloor = collision.contacts.Min (c=> c.point.y) <= MinFloorHeight;
-			if (touchingFloor)
-			{
-				// Reset fall-check
-				touchingFloorLastFrame = true;
-
-				// If hit floor from air (and in mid-air animation), land character
-				if (anim.GetBool ("OnAir") && anim.IsInState ("Locomotion.Air.Mid_Air"))
-				{
-					anim.SetTrigger ("Land");
-					anim.SetBool ("OnAir", false);
-				}
-			}
-			else
-			// Don't start time if on-air already
-			if (!anim.GetBool ("OnAir")) 
-			{
-				// Start timer
-				if (touchingFloorLastFrame) 
-				{
-					leaveFloorTime = Time.time + OnAirThreshold;
-					touchingFloorLastFrame = false;
-				}
-				else
-				// Must stay on-air some time before starting falling
-				if (Time.time > leaveFloorTime) anim.SetBool ("OnAir", true);
-			}
+			driver.body.AddForce
+				(Vector3.up * 6f, ForceMode.VelocityChange);
 		}
 		#endregion
 
@@ -154,7 +113,7 @@ namespace HeroesRace
 			driver.body.angularVelocity = velocity * Vector3.up;
 		}
 
-		protected override void OnServerStart () 
+		protected override void OnServerAwake () 
 		{
 			// Get references
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);

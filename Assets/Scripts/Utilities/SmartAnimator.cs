@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public class SmartAnimator 
+	public sealed class SmartAnimator 
 	{
 		#region DATA + CTOR
 		public Animator Animator { get; private set; }
