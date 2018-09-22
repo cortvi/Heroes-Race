@@ -8,7 +8,7 @@ namespace HeroesRace
 	public class /* SERVER-ONLY */ PiranaSaltarina : NetBehaviour 
 	{
 		#region DATA
-		private const float Force = 8.5f; 
+		private const float Force = 8.75f; 
 		private const float Delay = 1f;
 		private Rigidbody body;
 
@@ -26,6 +26,7 @@ namespace HeroesRace
 			// Throw in the air
 			body.isKinematic = false;
 			body.AddForce (Vector3.up * Force, ForceMode.Impulse);
+			body.AddTorque (transform.right * -2f, ForceMode.Impulse);
 
 			// Wait a bit for it to fly
 			mark = Time.time + 0.75f;
