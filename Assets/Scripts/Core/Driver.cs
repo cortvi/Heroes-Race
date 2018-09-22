@@ -10,33 +10,30 @@ namespace HeroesRace
 	{
 		#region DATA
 		// ——— Helpers ———
+		internal Hero owner;
 		internal Rigidbody body;
 		internal CapsuleCollider capsule;
-		internal Hero owner;
 
 		// ——— Air-Ground check ——— 
 		private bool touchingFloorLastFrame;
 		private float leaveFloorTime;
 		private const float OnAirThreshold = 0.5f;
+		private RaycastHit[] hits = new RaycastHit[4];
 		#endregion
 
 		private void Update () 
 		{
 			#region FALL CHECK
-			var b = owner.groundBox;
-			// Use a disabled BoxCollider to check if touching ground
-			bool touchingFloor = Physics.CheckBox (b.center, b.size/2f, owner.transform.rotation, 1<<8);
-			if (touchingFloor) 
+			if (TouchingFloor ()) 
 			{
-				// Reset fall-check
-				touchingFloorLastFrame = true;
-
 				// If hit floor from air (+ in mid-air animation), land character
 				if (owner.OnAir && owner.anim.IsInState ("Locomotion.Air.Mid_Air"))
 				{
 					owner.anim.SetTrigger ("Land");
 					owner.OnAir = false;
 				}
+				// Reset fall-check
+				touchingFloorLastFrame = true;
 			}
 			else
 			// Don't start time if on-air already
@@ -55,11 +52,26 @@ namespace HeroesRace
 			#endregion
 		}
 
-		private void Awake () 
+		private void Start () 
 		{
-			capsule = GetComponent<CapsuleCollider> ();
 			body = GetComponent<Rigidbody> ();
 			body.centerOfMass = Vector3.zero;
+			capsule = GetComponent<CapsuleCollider> ();
+		}
+
+		private bool TouchingFloor () 
+		{
+			var pos = owner.transform.position + (Vector3.up*0.1f);
+			int n = Physics.RaycastNonAlloc (pos, -Vector3.up, hits, .2f, 1<<8);
+
+			// Check if any hit was actual floor (not self)
+			bool touching = false;
+			for (int i=0; i!=n; i++)
+			{
+				if (hits[i].collider.tag != "Player")
+					touching = true;
+			}
+			return touching;
 		}
 	} 
 }
