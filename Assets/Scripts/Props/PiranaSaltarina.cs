@@ -8,12 +8,13 @@ namespace HeroesRace
 	public class /* SERVER-ONLY */ PiranaSaltarina : NetBehaviour 
 	{
 		#region DATA
-		public const float Delay = 1f;
-		private const float Force = 3.5f; 
+		private const float Force = 8.5f; 
+		private const float Delay = 1f;
 		private Rigidbody body;
 
 		private Vector3 position;
 		private Quaternion rotation;
+		private bool done;
 		#endregion
 
 		private IEnumerator Throw () 
@@ -22,20 +23,30 @@ namespace HeroesRace
 			float mark = Time.time + Delay;
 			while (Time.time <= mark) yield return null;
 
-			body.AddForce (Vector3.up * Force, ForceMode.VelocityChange);
+			// Throw in the air
 			body.isKinematic = false;
+			body.AddForce (Vector3.up * Force, ForceMode.Impulse);
+
+			// Wait a bit for it to fly
+			mark = Time.time + 0.75f;
+			while (Time.time <= mark) yield return null;
+
+			// Wait until is lands on floor again
+			while (transform.position.y > position.y) yield return null;
+			done = true;
 		}
 
 		[ServerCallback]
 		private void Update () 
 		{
-			// If below starting point, freeze until new throw
-			if (body.position.y <= position.y) 
+			if (done) 
 			{
 				transform.position = position;
 				transform.rotation = rotation;
 				body.isKinematic = true;
+
 				StartCoroutine (Throw ());
+				done = false;
 			}
 		}
 

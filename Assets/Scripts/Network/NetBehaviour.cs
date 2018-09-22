@@ -59,15 +59,21 @@ namespace HeroesRace
 			else
 			if (NetworkServer.active)
 			{
-				if (!GetComponent<NetworkIdentity> ().serverOnly)
+				if (!GetComponent<NetworkIdentity> ().serverOnly) 
 				{
-					var owner = Net.users.FirstOrDefault (u=> u.player.pawn == this || u.player == this);
-					if (owner != null) 
+					var owner = Net.users.FirstOrDefault 
+						(u=> (u.player != null && u.player.pawn == this) || u.player == this);
+
+					if (owner != null)
 					{
 						name = name.Insert (0, "CLIENT] ");
 						name = name.Insert (0, "[" + owner.ID + ":");
 					}
-					else name = name.Insert (0, "[-CLIENT-] ");
+					else
+					{
+						if (localPlayerAuthority) name = name.Insert (0, "[-CLIENT-] ");
+						else name = name.Insert (0, "[SERVER] ");
+					}
 				}
 				else name = name.Insert (0, "[SERVER-ONLY] ");
 			}

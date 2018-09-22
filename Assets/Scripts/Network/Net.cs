@@ -32,11 +32,11 @@ namespace HeroesRace
 			else
 			if (config[0] == "server") 
 			{
-				worker.StartServer ();
-				Log.LowDebug ("This mahcine is now the server");
-
 				UsersNeeded = int.Parse (config[1]);
 				users = new List<User> (UsersNeeded);
+
+				worker.StartServer ();
+				Log.LowDebug ("This mahcine is now the server");
 			}
 			else Log.Info ("Can't understand config file!");
 		}

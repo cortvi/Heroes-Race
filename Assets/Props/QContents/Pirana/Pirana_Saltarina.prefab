@@ -2075,8 +2075,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2116657, y: 0.390847, z: 0.43828726}
-  m_Center: {x: 0.09148434, y: -0.004514959, z: 0.009573221}
+  m_Size: {x: 0.16912302, y: 0.32985792, z: 0.5197776}
+  m_Center: {x: 9.36143e-10, y: -0.01511435, z: -0.00017303228}
 --- !u!95 &95267773824122866
 Animator:
   serializedVersion: 3
@@ -2117,7 +2117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.2
+  m_SendInterval: 0.125
   m_SyncRotationAxis: 1
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
