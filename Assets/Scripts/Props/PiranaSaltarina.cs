@@ -51,6 +51,12 @@ namespace HeroesRace
 			}
 		}
 
+		[ServerCallback]
+		private void OnTriggerEnter (Collider other) 
+		{
+			throw new System.Exception ("lol");
+		}
+
 		protected override void OnServerAwake () 
 		{
 			// Cache transform to control the movement
