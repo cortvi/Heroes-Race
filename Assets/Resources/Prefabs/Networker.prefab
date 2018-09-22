@@ -94,7 +94,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
-  m_OnlineScene: Selection
+  m_OnlineScene: Tower
   m_SpawnPrefabs:
   - {fileID: 1329425656299250, guid: 6e950cfc4c319a14ba4447990f2b5b3f, type: 2}
   - {fileID: 1329425656299250, guid: 9ed4afe2da048654094aa0f55f0c0a4e, type: 2}

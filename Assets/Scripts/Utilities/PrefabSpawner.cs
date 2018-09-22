@@ -3,20 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PrefabSpawner : MonoBehaviour 
+namespace HeroesRace 
 {
-	/// El Prefab a colocar
-	public GameObject prefab;
-	public float delay;
-
-	IEnumerator Start () 
+	public class PrefabSpawner : MonoBehaviour 
 	{
-		/// Wait Delay time
-		var mark = Time.time + delay;
-		while (Time.time <= mark) yield return null;
+		// El Prefab a colocar
+		public GameObject prefab;
+		public float delay;
 
-		/// Replace this object by Prefab
-		Instantiate (prefab, transform.position, transform.rotation);
-		Destroy (gameObject);
-	}
+		IEnumerator Start () 
+		{
+			// Make it invisible
+			GetComponent<MeshRenderer> ().enabled = false;
+
+			if (NetworkServer.active)
+			{
+				// Wait Delay time
+				var mark = Time.time + delay;
+				while (Time.time <= mark) yield return null;
+
+				// Replace this object by Prefab
+				var obj = Instantiate (prefab, transform.position, transform.rotation);
+				NetworkServer.Spawn (obj);
+			}
+			else
+			if (NetworkClient.active)
+			{
+				// On clients, register the prefab
+				// for when it's spawned over the Net
+				ClientScene.RegisterPrefab (prefab);
+			}
+
+			// Destroy it afterwards
+			Destroy (gameObject);
+		}
+	} 
 }

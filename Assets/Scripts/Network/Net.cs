@@ -81,6 +81,9 @@ namespace HeroesRace
 
 				NetworkServer.Spawn (hero.gameObject);
 				user.player.pawn = hero;
+
+				// Add a Hero camera for testing in the server!
+				hero.OnBecomePawn ();
 			}
 			// Notify Client of new Pawn
 			user.player.Target_SetPawn (conn, user.player.pawn.gameObject);

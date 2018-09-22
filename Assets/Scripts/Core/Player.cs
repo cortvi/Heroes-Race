@@ -19,11 +19,12 @@ namespace HeroesRace
 		}
 
 		[Command (channel = 1)]
-		private void Cmd_Tower (float axis, bool jump) 
+		private void Cmd_Hero (float axis, bool jump, bool power) 
 		{
 			var h = pawn as Hero;
 			h.Movement (axis);
 			if (jump) h.Jumping ();
+			if (power) ;
 		}
 		#endregion
 
@@ -58,9 +59,10 @@ namespace HeroesRace
 				// Collect all input
 				float axis = Input.GetAxis ("Horizontal");
 				bool jump = Input.GetButton ("Jump");
+				bool power = Input.GetButton ("Power");
 
 				// Send to Server
-				Cmd_Tower (-axis, jump);
+				Cmd_Hero (-axis, jump, power);
 			} 
 			#endregion
 		}

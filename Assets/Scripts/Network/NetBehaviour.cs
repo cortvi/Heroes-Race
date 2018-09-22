@@ -50,7 +50,11 @@ namespace HeroesRace
 			if (NetworkClient.active)
 			{
 				if (isPawn || isLocalPlayer) name = name.Insert (0, "[OWN] ");
-				else name = name.Insert (0, "[OTHER] ");
+				else
+				{
+					if (localPlayerAuthority) name = name.Insert (0, "[OTHER] ");
+					else name = name.Insert (0, "[SERVER] ");
+				}
 			}
 			else
 			if (NetworkServer.active)
