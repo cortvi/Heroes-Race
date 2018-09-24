@@ -15,7 +15,7 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 1, sendInterval = 0f)]
+	[NetworkSettings (channel = 1, sendInterval = 0.01f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
 		[SyncVar] internal Vector3 netPosition;		// Exact real position
@@ -92,7 +92,7 @@ namespace HeroesRace
 			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular speed to allow client-side prediction
-			if (input != 0f) netAngular = driver.body.angularVelocity.y;
+			if (input != 0f) netAngular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
 			else netAngular = 0f;
 		}
 		#endregion
@@ -208,7 +208,7 @@ namespace HeroesRace
 
 			// Lerp to real position if stopped, otherwise move around tower in given speed
 			if (netAngular == 0f) transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
-			else transform.RotateAround (Vector3.zero, Vector3.up, Mathf.Rad2Deg * netAngular * Time.deltaTime);
+			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 
 			// Rotation is always lerped too
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);

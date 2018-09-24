@@ -8,13 +8,15 @@ namespace HeroesRace
 	public class /* SERVER-ONLY */ PiranaSaltarina : NetBehaviour 
 	{
 		#region DATA
-		private const float Force = 8.75f; 
+		public float KnockForce = 8.75f;
+		private const float JumpForce = 8.75f;
 		private const float Delay = 1f;
 		private Rigidbody body;
 
+		private bool done;
 		private Vector3 position;
 		private Quaternion rotation;
-		private bool done;
+		private Matrix4x4 knockDirHelper;
 		#endregion
 
 		private IEnumerator Throw () 
@@ -24,8 +26,7 @@ namespace HeroesRace
 			while (Time.time <= mark) yield return null;
 
 			// Throw in the air
-			body.isKinematic = false;
-			body.AddForce (Vector3.up * Force, ForceMode.Impulse);
+			body.AddForce (Vector3.up * JumpForce, ForceMode.Impulse);
 			body.AddTorque (transform.right * -2f, ForceMode.Impulse);
 
 			// Wait a bit for it to fly
@@ -44,7 +45,7 @@ namespace HeroesRace
 			{
 				transform.position = position;
 				transform.rotation = rotation;
-				body.isKinematic = true;
+				Sleep ();
 
 				StartCoroutine (Throw ());
 				done = false;
@@ -54,7 +55,13 @@ namespace HeroesRace
 		[ServerCallback]
 		private void OnTriggerEnter (Collider other) 
 		{
-			throw new System.Exception ("lol");
+			var hero = other.GetComponent<Hero> ();
+			if (hero != null)
+			{
+				// Compute knock direction
+				var mat = Matrix4x4.TRS (transform.position, rotation, Vector3.one);
+//				mat.
+			}
 		}
 
 		protected override void OnServerAwake () 
@@ -63,8 +70,19 @@ namespace HeroesRace
 			position = transform.position;
 			rotation = transform.rotation;
 
+			// Create TRS matrix to check 
+			var q = Quaternion.Euler (90, rotation.eulerAngles.y, 180f);   // Use same rotation to 
+			knockDirHelper = Matrix4x4.Inverse (Matrix4x4.TRS (position, , Vector3.one);
+
 			body = GetComponent<Rigidbody> ();
 			StartCoroutine (Throw ());
+		}
+
+		private void Sleep () 
+		{
+			body.velocity = Vector3.zero;
+			body.angularVelocity = Vector3.zero;
+			body.Sleep ();
 		}
 	} 
 }

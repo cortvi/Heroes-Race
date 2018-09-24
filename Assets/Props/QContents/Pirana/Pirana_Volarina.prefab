@@ -105,7 +105,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4097455490791110}
   - component: {fileID: 65779409085322538}
-  - component: {fileID: 114838096834717794}
   - component: {fileID: 111275454883406076}
   m_Layer: 0
   m_Name: Pirana_Volarina
@@ -2121,19 +2120,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &114838096834717794
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1177177502498860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78cb4c25fa3409d4aa05423cf397e36e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  force: 4
-  upInstead: 1
 --- !u!137 &137916163946281118
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
