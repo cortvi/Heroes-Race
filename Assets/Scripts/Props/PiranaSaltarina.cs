@@ -72,7 +72,7 @@ namespace HeroesRace
 
 			// Create TRS matrix to check 
 			var q = Quaternion.Euler (90, rotation.eulerAngles.y, 180f);   // Use same rotation to 
-			knockDirHelper = Matrix4x4.Inverse (Matrix4x4.TRS (position, , Vector3.one);
+//			knockDirHelper = Matrix4x4.Inverse (Matrix4x4.TRS (position, , Vector3.one);
 
 			body = GetComponent<Rigidbody> ();
 			StartCoroutine (Throw ());
