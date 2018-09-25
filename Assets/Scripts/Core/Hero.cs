@@ -171,8 +171,11 @@ namespace HeroesRace
 					summary = summary.SetFlag (e.Value);
 			}
 
-			public void Add (string name, CCs cc, float duration = -1f) 
+			public void Add (string name, CCs cc, float duration = -1f, bool unique = true) 
 			{
+				// Add timestamp to remove uniqueness
+				if (!unique) name += Time.time;
+
 				collection.Add (name, cc);
 				if (duration > 0f) owner.StartCoroutine 
 						(RemoveAfter (name, duration));
@@ -180,8 +183,7 @@ namespace HeroesRace
 
 			public void Remove (string name) 
 			{
-				if (collection.ContainsKey (name))
-					collection.Remove (name);
+				collection.Remove (name);
 			}
 
 			private IEnumerator RemoveAfter (string name, float duration) 
