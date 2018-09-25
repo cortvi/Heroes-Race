@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 65023346141914942}
   - component: {fileID: 54521757467465938}
   - component: {fileID: 114293657298615878}
+  - component: {fileID: 114729675815213550}
   m_Layer: 0
   m_Name: Pirana_Saltarina
   m_TagString: Untagged
@@ -2105,6 +2106,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2badc7282e83b8447a90684c36e4f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114729675815213550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1406241451572134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22418e4bbac5dd44ae2e1ec5ae4f871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kickForce: 8
+  upForce: 0.6
 --- !u!114 &114960864892274828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2117,7 +2131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.06666667
+  m_SendInterval: 0.05
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 1
   m_SyncSpin: 0
