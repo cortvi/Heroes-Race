@@ -68,7 +68,7 @@ namespace HeroesRace
 			bool touching = false;
 			for (int i=0; i!=n; i++)
 			{
-				if (hits[i].collider.tag != "Player")
+				if (hits[i].collider != capsule) 
 					touching = true;
 			}
 			return touching;

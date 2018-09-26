@@ -2118,7 +2118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickForce: 8
-  upForce: 0.6
+  upForce: 3
 --- !u!114 &114960864892274828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2131,7 +2131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.05
+  m_SendInterval: 0.07692308
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 1
   m_SyncSpin: 0

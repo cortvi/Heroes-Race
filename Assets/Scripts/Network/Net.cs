@@ -57,36 +57,39 @@ namespace HeroesRace
 			user.player = Instantiate (playerPrefab).GetComponent<Player> ();
 			NetworkServer.AddPlayerForConnection (conn, user.player.gameObject, playerControllerId);
 
-			// Assign correct Pawn to player
-			if (networkSceneName == "Selection") 
+			// Create new Pawn for Player if none
+			if (user.player.pawn == null) 
 			{
-				var check = new Func<Selector, bool> (s=> s.SharedName == "Selector_" + user.ID);
-				var selector = FindObjectsOfType<Selector> ().First (check);
+				if (networkSceneName == "Selection")
+				{
+					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + user.ID);
+					var selector = FindObjectsOfType<Selector> ().First (check);
 
-				user.player.pawn = selector;
-				selector.UpdateName ();
-			}
-			else
-			if (networkSceneName == "Tower") 
-			{
-				// If bypassing selection menu
-				if (user.playingAs == Heroes.NONE)
-					user.playingAs = (Heroes)user.ID;
+					user.player.pawn = selector;
+					selector.UpdateName ();
+				}
+				else
+				if (networkSceneName == "Tower")
+				{
+					// If bypassing selection menu
+					if (user.playingAs == Heroes.NONE)
+						user.playingAs = (Heroes)user.ID;
 
-				// Spawn Heroe & set up its Driver
-				var hero = Instantiate(Resources.Load<Hero> ("Prefabs/Heroes/" + user.playingAs));
-				hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
-				hero.driver.name = user.playingAs + "_Driver";
-				hero.driver.owner = hero;
+					// Spawn Heroe & set up its Driver
+					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + user.playingAs));
+					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
+					hero.driver.name = user.playingAs + "_Driver";
+					hero.driver.owner = hero;
 
-				NetworkServer.Spawn (hero.gameObject);
-				user.player.pawn = hero;
+					NetworkServer.Spawn (hero.gameObject);
+					user.player.pawn = hero;
 
-				// Add a Hero camera for testing in the server!
-				hero.OnBecomePawn ();
+					// Add a Hero camera for testing in the server!
+					hero.OnBecomePawn ();
+				}
 			}
 			// Notify Client of new Pawn
-			user.player.Target_SetPawn (conn, user.player.pawn.gameObject);
+			user.player.Target_SetPawn (conn, user.player.pawn.gameObject); 
 		}
 
 		public override void OnServerConnect (NetworkConnection conn) 

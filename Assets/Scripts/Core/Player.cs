@@ -78,6 +78,17 @@ namespace HeroesRace
 			pawn.UpdateName ();
 			pawn.OnBecomePawn ();
 		}
+
+		[ClientCallback]
+		private void OnDisconnectedFromServer (NetworkDisconnection info) 
+		{
+			if (pawn)
+			{
+				pawn.isPawn = false;
+				pawn.UpdateName ();
+				pawn = null;
+			}
+		}
 		#endregion
 	}
 }

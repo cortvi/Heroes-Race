@@ -13,19 +13,19 @@ namespace HeroesRace.Effectors
 		[ServerCallback] 
 		private void OnTriggerEnter (Collider other) 
 		{
-			var hero = other.GetComponent<Hero> ();
-			if (hero != null) 
+			var driver = other.GetComponent<Driver> ();
+			if (driver != null) 
 			{
 				// Stop Hero before knocking
-				hero.driver.body.velocity = Vector3.zero;
-				hero.driver.body.angularVelocity = Vector3.zero;
+				driver.body.velocity = Vector3.zero;
+				driver.body.angularVelocity = Vector3.zero;
 
 				// Apply computed force
-				var f = KnockForce (hero.transform.position);
-				hero.driver.body.AddForceAtPosition (f, transform.position, ForceMode.Impulse);
+				var f = KnockForce (driver.owner.transform.position);
+				driver.body.AddForceAtPosition (f, transform.position, ForceMode.VelocityChange);
 
 				// Apply CC to Hero
-				hero.blocks.Add ("Knocked ", CCs.Locomotion, 1.5f, unique: false);
+				driver.owner.blocks.Add ("Knocked ", CCs.Locomotion, 1.5f, unique: false);
 			}
 		}
 

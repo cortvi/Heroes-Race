@@ -110,8 +110,9 @@ namespace HeroesRace
 		[ServerCallback]
 		private void FixedUpdate () 
 		{
-			float velocity = input * speed * Time.fixedDeltaTime;
-			driver.body.angularVelocity = velocity * Vector3.up;
+			var velocity = Vector3.up * (input * speed) * Time.fixedDeltaTime;
+			// Don't modify speed if CCed, because probably a external force is moving the Hero
+			if (!blocks[CCs.Moving]) driver.body.angularVelocity = velocity;
 		}
 
 		protected override void OnServerAwake () 
