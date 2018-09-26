@@ -101,12 +101,13 @@ namespace HeroesRace
 
 			base.OnServerConnect (conn);
 		}
-		public override void OnServerDisconnect (NetworkConnection conn) 
+		public void OnServerDisconnect_TEST (NetworkConnection conn) 
 		{
 			var user = users.Find (u=> u.Conn.connectionId == conn.connectionId);
 			Log.Debug ("Player " + user.ID + " disconnected from server!");
 
 			#warning Handle object destruction!
+			user.player.pawn.gameObject.SetActive (false);
 		}
 		#endregion
 	}
