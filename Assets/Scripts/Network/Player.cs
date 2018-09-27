@@ -55,7 +55,7 @@ namespace HeroesRace
 
 			// Authorize new Pawn
 			pawn = newPawn;
-			if (pawn != null) 
+			if (pawn) 
 			{
 				pawn.owner = this;
 				pawn.UpdateName ();
@@ -137,7 +137,7 @@ namespace HeroesRace
 
 			// Authorize new Pawn
 			pawn = newPawn.GetComponent<NetBehaviour> ();
-			if (pawn != null)
+			if (pawn)
 			{
 				pawn.owner = this;
 				pawn.UpdateName ();
