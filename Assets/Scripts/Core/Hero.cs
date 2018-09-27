@@ -15,7 +15,7 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 2, sendInterval = 0.01f)]
+	[NetworkSettings (channel = 2, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
 		[SyncVar] internal Vector3 netPosition;		// Exact real position
