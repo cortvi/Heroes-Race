@@ -292,8 +292,8 @@ GameObject:
   - component: {fileID: 95267773824122866}
   - component: {fileID: 114992716583494832}
   - component: {fileID: 114960864892274828}
-  - component: {fileID: 65023346141914942}
   - component: {fileID: 54521757467465938}
+  - component: {fileID: 136163937441606138}
   - component: {fileID: 114293657298615878}
   - component: {fileID: 114729675815213550}
   m_Layer: 0
@@ -2066,18 +2066,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 106
   m_CollisionDetection: 0
---- !u!65 &65023346141914942
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1406241451572134}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.16912302, y: 0.32985792, z: 0.5197776}
-  m_Center: {x: 9.36143e-10, y: -0.01511435, z: -0.00017303228}
 --- !u!95 &95267773824122866
 Animator:
   serializedVersion: 3
@@ -2106,6 +2094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2badc7282e83b8447a90684c36e4f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
 --- !u!114 &114729675815213550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2131,14 +2120,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.0625
   m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 1
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.0001
   m_VelocityThreshold: 0.0001
   m_SnapThreshold: 3.5
-  m_InterpolateRotation: 8
+  m_InterpolateRotation: 1
   m_InterpolateMovement: 1
 --- !u!114 &114992716583494832
 MonoBehaviour:
@@ -2172,6 +2161,19 @@ MonoBehaviour:
     i15: 154
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!136 &136163937441606138
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1406241451572134}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.49745804
+  m_Direction: 2
+  m_Center: {x: -0.021160271, y: 0.0000014116056, z: -0.02843219}
 --- !u!137 &137900613359760518
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

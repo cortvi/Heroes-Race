@@ -47,5 +47,12 @@ namespace HeroesRace.Effectors
 
 			return kickDir;
 		}
+
+		[ClientCallback]
+		private void Awake () 
+		{
+			// Don't allow this script on Clients!
+			Destroy (this);
+		}
 	} 
 }
