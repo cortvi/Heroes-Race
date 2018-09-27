@@ -14,7 +14,9 @@ namespace HeroesRace
 			// Preserve during current play-session
 			DontDestroyOnLoad (gameObject);
 
-			if (NetworkClient.active) Net.me = this;
+			// Register self 
+			if (NetworkClient.active)
+				Net.me = this;
 		}
 	}
 

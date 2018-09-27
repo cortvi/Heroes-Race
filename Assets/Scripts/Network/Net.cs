@@ -56,8 +56,10 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
+			// Check if it's Player's first time
+			var player = CheckPlayer (conn);
+
 			// Create new Pawn for Player if none
-			var player = GetPlayer (conn);
 			if (player.pawn == null) 
 			{
 				if (networkSceneName == "Selection")
@@ -86,21 +88,6 @@ namespace HeroesRace
 			}
 		}
 
-		public override void OnServerConnect (NetworkConnection conn) 
-		{
-			var player = GetPlayer (conn);
-			if (player == null)
-			{
-				// If it's the first time the Player connects
-				player = Instantiate (playerPrefab).GetComponent<Player> ();
-				player.PlayerSetup (conn);
-
-				NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
-				players[player.ID-1] = player;
-			}
-			else player.Conn = conn;
-			base.OnServerConnect (conn);
-		}
 		public override void OnServerDisconnect (NetworkConnection conn) 
 		{
 			// Use connectionId because address is not available on desconnection
@@ -111,11 +98,30 @@ namespace HeroesRace
 		}
 		#endregion
 
+		#region HELPERS
+		private Player CheckPlayer (NetworkConnection conn) 
+		{
+			var player = GetPlayer (conn);
+			if (player == null)
+			{
+				// If it's the first time the Player connects
+				player = Instantiate (playerPrefab).GetComponent<Player> ();
+				player.PlayerSetup (conn);
+
+				players[player.ID - 1] = player;
+				NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
+			}
+			// Replace Player connection to new one
+			else player.Conn = conn;
+			return player;
+		}
+
 		public static Player GetPlayer (NetworkConnection fromConn) 
 		{
 			return players.SingleOrDefault
-				(p=> p && p.IP == fromConn.address);
-		}
+				(p => p && p.IP == fromConn.address);
+		} 
+		#endregion
 	}
 
 	public partial class /* CLIENT */ Net 
