@@ -96,6 +96,7 @@ namespace HeroesRace
 				player.PlayerSetup (conn);
 
 				NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
+				players[player.ID-1] = player;
 			}
 			else player.Conn = conn;
 			base.OnServerConnect (conn);
@@ -112,7 +113,8 @@ namespace HeroesRace
 
 		public static Player GetPlayer (NetworkConnection fromConn) 
 		{
-			return players.SingleOrDefault (p=> p.IP == fromConn.address);
+			return players.SingleOrDefault
+				(p=> p && p.IP == fromConn.address);
 		}
 	}
 
