@@ -15,7 +15,7 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 1, sendInterval = 0.01f)]
+	[NetworkSettings (channel = 2, sendInterval = 0.01f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
 		[SyncVar] internal Vector3 netPosition;		// Exact real position
@@ -30,8 +30,8 @@ namespace HeroesRace
 				blocks.Read ();
 				SyncMotion ();
 			}
-			else
-			if (isPawn) KeepMotion ();
+			// On Clients, follow given motion
+			else KeepMotion ();
 		}
 	}
 
@@ -121,6 +121,9 @@ namespace HeroesRace
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
 			groundBox = GetComponentInChildren<BoxCollider> ();
 			blocks = new CCStack (this);
+
+			#warning adding a Hero camera for testing in the server!
+			OnStartOwnership ();
 		}
 		#endregion
 
@@ -217,7 +220,7 @@ namespace HeroesRace
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);
 		}
 
-		public override void OnBecomePawn () 
+		internal override void OnStartOwnership () 
 		{
 			if (!cam) 
 			{

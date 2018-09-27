@@ -11,7 +11,43 @@ namespace HeroesRace
 	public abstract class NetBehaviour : NetworkBehaviour 
 	{
 		public string SharedName { get; private set; }
-		internal bool isPawn;
+		[Info] public Player owner;
+
+		#region NET OWNERSHIP
+		internal virtual void OnStartOwnership () { }
+		internal virtual void OnStopOwnership () { }
+
+		public void UpdateName () 
+		{
+			string name = SharedName;
+			if (NetworkClient.active)
+			{
+				if (isLocalPlayer || owner == Net.me)
+					name = name.Insert (0, "[OWN] ");
+				else
+				{
+					if (owner) name = name.Insert (0, "[OTHER] ");
+					else name = name.Insert (0, "[SERVER] ");
+				}
+			}
+			else
+			if (NetworkServer.active)
+			{
+				if (!GetComponent<NetworkIdentity> ().serverOnly)
+				{
+					if (owner != null)
+					{
+						name = name.Insert (0, "CLIENT] ");
+						name = name.Insert (0, "[" + owner.ID + ":");
+					}
+					else name = name.Insert (0, "[SERVER] ");
+				}
+				else name = name.Insert (0, "[SERVER-ONLY] ");
+			}
+			// Show on inspector
+			this.name = name;
+		} 
+		#endregion
 
 		#region CALLBACKS
 		// ——— Start wrapper ———
@@ -40,46 +76,5 @@ namespace HeroesRace
 			SharedName = name.Replace ("(Clone)", "");
 		}
 		#endregion
-
-		#region NETWORK
-		public virtual void OnBecomePawn ()  { }
-
-		internal void UpdateName () 
-		{
-			string name = SharedName;
-			if (NetworkClient.active)
-			{
-				if (isPawn || isLocalPlayer) name = name.Insert (0, "[OWN] ");
-				else
-				{
-					if (localPlayerAuthority) name = name.Insert (0, "[OTHER] ");
-					else name = name.Insert (0, "[SERVER] ");
-				}
-			}
-			else
-			if (NetworkServer.active)
-			{
-				if (!GetComponent<NetworkIdentity> ().serverOnly) 
-				{
-					var owner = Net.users.FirstOrDefault 
-						(u=> (u.player != null && u.player.pawn == this) || u.player == this);
-
-					if (owner != null)
-					{
-						name = name.Insert (0, "CLIENT] ");
-						name = name.Insert (0, "[" + owner.ID + ":");
-					}
-					else
-					{
-						if (localPlayerAuthority) name = name.Insert (0, "[-CLIENT-] ");
-						else name = name.Insert (0, "[SERVER] ");
-					}
-				}
-				else name = name.Insert (0, "[SERVER-ONLY] ");
-			}
-			// Show on inspector
-			this.name = name;
-		}
-		#endregion
-	} 
+	}
 }

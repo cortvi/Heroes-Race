@@ -96,7 +96,7 @@ namespace HeroesRace
 			SelectorsReady += (ready? +1 : -1);
 			anim.SetBool ("Ready", ready);
 
-			if (SelectorsReady == Net.UsersNeeded) 
+			if (SelectorsReady == Net.PlayersNeeded) 
 				StartCoroutine (GoToTower ());
 		}
 
@@ -115,10 +115,10 @@ namespace HeroesRace
         public static IEnumerator GoToTower () 
         {
 			// Read all the selected heroes
-			for (int i = 0; i != Net.UsersNeeded; i++)
+			for (int i = 0; i != Net.PlayersNeeded; i++)
             {
                 var selector = FindObjectsOfType<Selector> ()[i];
-                Net.users[i].playingAs = selector.ReadHero ();
+                Net.players[i].playingAs = selector.ReadHero ();
             }
 			Log.Debug ("Heroes saved, now going to Tower map!");
 
@@ -140,7 +140,7 @@ namespace HeroesRace
 			if (newSelection == +6) anim.SetFloat ("Blend", 1f / SelectionMax);
 		}
 
-		public override void OnBecomePawn () 
+		internal override void OnStartOwnership () 
 		{
 			frame.sprite = goldenFrame;
 			anchor.gameObject.SetActive (true);
