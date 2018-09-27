@@ -98,7 +98,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 1329425656299250, guid: 6e950cfc4c319a14ba4447990f2b5b3f, type: 2}
   - {fileID: 1329425656299250, guid: 9ed4afe2da048654094aa0f55f0c0a4e, type: 2}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 3
   m_ConnectionConfig:
     m_PacketSize: 1440
@@ -140,7 +140,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 050000000000000006000000
+  m_Channels: 050000000000000002000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
