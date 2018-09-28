@@ -15,13 +15,9 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 2, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
-		[SyncVar] internal Vector3 netPosition;		// Exact real position
-		[SyncVar] internal float netAngular;		// Speed around tower
-		[SyncVar] internal Quaternion netRotation;  // Transform rotation
-		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
+		internal float movingDir; // This is used by the Hero Camera
 
 		private void Update () 
 		{
@@ -87,13 +83,22 @@ namespace HeroesRace
 		
 		private void SyncMotion () 
 		{
+			Vector3 pos;
+			Quaternion rot;
+			float angular;
+
 			// Positionate character based on Driver & propagate over Net
-			transform.position = netPosition = ComputePosition ();
-			transform.rotation = netRotation = ComputeRotation ();
+			transform.position = pos = ComputePosition ();
+			transform.rotation = rot = ComputeRotation ();
 
 			// Send angular speed to allow client-side prediction
-			if (input != 0f) netAngular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
-			else netAngular = 0f;
+			if (input != 0f)
+				angular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
+			else
+				angular = 0f;
+
+			// Send all data to Client
+			Rpc_SyncMotion (pos, rot, angular, movingDir);
 		}
 		#endregion
 
@@ -124,12 +129,6 @@ namespace HeroesRace
 
 			#warning adding a Hero camera for testing in the server!
 			OnStartOwnership ();
-		}
-
-		private void OnPlayerDisconnected (NetworkPlayer player) 
-		{
-			if (player.ipAddress == owner.IP)
-				enabled = false;
 		}
 		#endregion
 
@@ -209,7 +208,21 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
+		#region DATA
+		internal Vector3 netPosition;     // Exact real position
+		internal Quaternion netRotation;  // Transform rotation
+		internal float netAngular;        // Speed around tower
+
 		internal HeroCamera cam; 
+		#endregion
+
+		[ClientRpc (channel = 2)]
+		private void Rpc_SyncMotion (Vector3 pos, Quaternion rot, float angular, float movingDir) 
+		{
+			netPosition = pos;
+			netRotation = rot;
+			netAngular = angular;
+		}
 
 		private void KeepMotion () 
 		{
@@ -223,7 +236,7 @@ namespace HeroesRace
 			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 
 			// Rotation is always lerped too
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
 		}
 
 		internal override void OnStartOwnership () 
