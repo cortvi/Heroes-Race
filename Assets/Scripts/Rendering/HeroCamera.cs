@@ -18,6 +18,12 @@ namespace HeroesRace
 
 		private void Update () 
 		{
+			if (!target)
+			{
+				Destroy (this);
+				return;
+			}
+
 			// Project position over XZ plane
 			var forward = target.transform.position;
 			forward.y = 0f;

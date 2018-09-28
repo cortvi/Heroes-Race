@@ -125,6 +125,12 @@ namespace HeroesRace
 			#warning adding a Hero camera for testing in the server!
 			OnStartOwnership ();
 		}
+
+		private void OnPlayerDisconnected (NetworkPlayer player) 
+		{
+			if (player.ipAddress == owner.IP)
+				enabled = false;
+		}
 		#endregion
 
 		#region HELPERS

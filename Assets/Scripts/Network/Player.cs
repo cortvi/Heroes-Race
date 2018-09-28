@@ -126,6 +126,16 @@ namespace HeroesRace
 			#endregion
 		}
 
+		private void OnDisconnectedFromServer (NetworkDisconnection info) 
+		{
+			if (pawn)
+			{
+				pawn.owner = null;
+				pawn.UpdateName ();
+				pawn.OnStopOwnership ();
+			}
+		}
+
 		[ClientRpc]
 		private void Rpc_SetPawn (GameObject newPawn) 
 		{
