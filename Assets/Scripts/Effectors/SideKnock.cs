@@ -5,28 +5,23 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors 
 {
-	public class SideKnock : NetworkBehaviour 
+	public class SideKnock : EffectorBase 
 	{
 		public float kickForce;
 		public float upForce;
 
-		[ServerCallback] 
-		private void OnTriggerEnter (Collider other) 
+		protected override void OnEnter (Hero hero) 
 		{
-			var driver = other.GetComponent<Driver> ();
-			if (driver != null) 
-			{
-				// Stop Hero before knocking
-				driver.body.velocity = Vector3.zero;
-				driver.body.angularVelocity = Vector3.zero;
+			// Stop Hero before knocking
+			hero.driver.body.velocity = Vector3.zero;
+			hero.driver.body.angularVelocity = Vector3.zero;
 
-				// Apply computed force
-				var f = KnockForce (driver.owner.transform.position);
-				driver.body.AddForceAtPosition (f, transform.position, ForceMode.VelocityChange);
+			// Apply computed force
+			var f = KnockForce (hero.transform.position);
+			hero.driver.body.AddForceAtPosition (f, transform.position, ForceMode.VelocityChange);
 
-				// Apply CC to Hero
-				driver.owner.blocks.Add ("Knocked ", CCs.Locomotion, 1.5f, unique: false);
-			}
+			// Apply CC to Hero
+			hero.blocks.Add ("Knocked ", CCs.All, 1.5f, unique: false);
 		}
 
 		private Vector3 KnockForce (Vector3 heroPos) 
@@ -46,13 +41,6 @@ namespace HeroesRace.Effectors
 			kickDir += Vector3.up * upForce;
 
 			return kickDir;
-		}
-
-		[ClientCallback]
-		private void Awake () 
-		{
-			// Don't allow this script on Clients!
-			Destroy (this);
 		}
 	} 
 }

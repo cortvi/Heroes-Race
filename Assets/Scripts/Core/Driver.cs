@@ -18,7 +18,7 @@ namespace HeroesRace
 		private bool touchingFloorLastFrame;
 		private float leaveFloorTime;
 		private const float OnAirThreshold = 0.5f;
-		private RaycastHit[] hits = new RaycastHit[4];
+		private readonly RaycastHit[] hits = new RaycastHit[4];
 		#endregion
 
 		private void Update () 
@@ -72,6 +72,11 @@ namespace HeroesRace
 					touching = true;
 			}
 			return touching;
+		}
+
+		public static implicit operator Hero (Driver d) 
+		{
+			return d.owner;
 		}
 	} 
 }

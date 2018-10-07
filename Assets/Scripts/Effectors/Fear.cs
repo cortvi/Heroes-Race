@@ -5,23 +5,14 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors 
 {
-	public class Fear : MonoBehaviour 
+	public class Fear : EffectorBase 
 	{
 		public float stunTime;
 
-		private void OnTriggerEnter (Collider other) 
+		protected override void OnEnter (Hero hero) 
 		{
-			if (other.tag != "Player") return;
-			var h = other.GetComponent<Hero> ();
-			h.blocks.Add ("Fear", CCs.All, stunTime);
-			h.anim.SetTrigger ("Fear");
-		}
-
-		private void Awake () 
-		{
-			// Only present on Server
-			if (NetworkClient.active)
-				Destroy (this);
+			hero.blocks.Add ("Fear", CCs.All, stunTime);
+			hero.anim.SetTrigger ("Fear");
 		}
 	} 
 }

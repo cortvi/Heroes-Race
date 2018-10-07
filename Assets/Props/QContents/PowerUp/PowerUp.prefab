@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4775437807807656}
   - component: {fileID: 33590886302302824}
+  - component: {fileID: 114851141608082562}
   - component: {fileID: 135614287572232034}
   - component: {fileID: 23847807804595454}
   - component: {fileID: 111771551324699954}
@@ -171,6 +172,38 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
+--- !u!114 &114851141608082562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1726317998707548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 72
+    i1: 20
+    i2: 15
+    i3: 248
+    i4: 136
+    i5: 159
+    i6: 53
+    i7: 36
+    i8: 24
+    i9: 46
+    i10: 189
+    i11: 217
+    i12: 248
+    i13: 214
+    i14: 206
+    i15: 150
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135614287572232034
 SphereCollider:
   m_ObjectHideFlags: 1
