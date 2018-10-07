@@ -73,8 +73,8 @@ namespace HeroesRace
 				if (networkSceneName == "Tower")
 				{
 					// If bypassing selection menu
-					if (player.playingAs == Heroes.NONE)
-						player.playingAs = (Heroes)player.ID;
+					if (player.playingAs == Heroe.NONE)
+						player.playingAs = (Heroe)player.ID;
 
 					// Spawn Heroe & set up its Driver
 					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + player.playingAs));

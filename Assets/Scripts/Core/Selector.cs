@@ -22,7 +22,7 @@ namespace HeroesRace
 
 		// ——— Helpers ———
 		private SmartAnimator anim;
-		private const float SelectionMax = ((int)Heroes.Count + 1f);
+		private const float SelectionMax = ((int)Heroe.Count + 1f);
 		private Vector3 cachePosition;
 		#endregion
 
@@ -101,14 +101,14 @@ namespace HeroesRace
 		}
 
 		#region HELPERS
-		public Heroes ReadHero () 
+		public Heroe ReadHero () 
 		{
 			// Translate selection into a Hero
 			int selection = anim.GetInt ("Selection");
-			if (selection == 0) return Heroes.Harry;
+			if (selection == 0) return Heroe.Harry;
 			else
-			if (selection == 5) return Heroes.Espectador;
-			else return (Heroes)(selection - 1);
+			if (selection == 5) return Heroe.Espectador;
+			else return (Heroe)(selection - 1);
 		} 
 
 		#warning in the future, make the scene change smoother!

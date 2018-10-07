@@ -15,9 +15,17 @@ using UnityEngine.Networking;
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
 namespace HeroesRace 
 {
+	[NetworkSettings (channel = 2, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
-		internal float movingDir; // This is used by the Hero Camera
+		#region DATA
+		public const float Speed = 10.0f;
+
+		[SyncVar] internal Vector3 netPosition;     // Exact real position
+		[SyncVar] internal float netAngular;        // Speed around tower
+		[SyncVar] internal Quaternion netRotation;  // Transform rotation
+		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
+		#endregion
 
 		private void Update () 
 		{
@@ -51,10 +59,16 @@ namespace HeroesRace
 			get { return anim.GetBool ("OnAir"); }
 			set { anim.SetBool ("OnAir", value); }
 		}
+		public float SpeedMul 
+		{
+			get { return anim.GetFloat ("SpeedMul"); }
+			set { anim.SetFloat ("SpeedMul", value); }
+		}
 
 		// ——— Locomotion ———
-		internal float speed = 10.0f;
 		internal float input;
+		internal PowerUp power;
+		internal bool shielded;
 		#endregion
 
 		#region LOCOMOTION
@@ -80,25 +94,25 @@ namespace HeroesRace
 				OnAir = true;
 			}
 		}
+		public void Power () 
+		{
+			if (!OnAir && !shielded
+			&& !blocks[CCs.PowerUp])
+			{
+				StartCoroutine (Power (power));
+				power = PowerUp.None;
+			}
+		}
 		
 		private void SyncMotion () 
 		{
-			Vector3 pos;
-			Quaternion rot;
-			float angular;
-
 			// Positionate character based on Driver & propagate over Net
-			transform.position = pos = ComputePosition ();
-			transform.rotation = rot = ComputeRotation ();
+			transform.position = netPosition = ComputePosition ();
+			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular speed to allow client-side prediction
-			if (input != 0f)
-				angular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
-			else
-				angular = 0f;
-
-			// Send all data to Client
-			Rpc_SyncMotion (pos, rot, angular, movingDir);
+			if (input != 0f) netAngular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
+			else netAngular = 0f;
 		}
 		#endregion
 
@@ -115,8 +129,12 @@ namespace HeroesRace
 		[ServerCallback]
 		private void FixedUpdate () 
 		{
-			var velocity = Vector3.up * (input * speed) * Time.fixedDeltaTime;
-			// Don't modify speed if CCed, because probably a external force is moving the Hero
+			// If on-air, don't apply speed modifiers
+			float speed = input * Speed * (OnAir? 1f : SpeedMul);
+			var velocity = Vector3.up * speed * Time.fixedDeltaTime;
+
+			// Don't modify speed if CCed,
+			// because probably a external force is moving the Hero
 			if (!blocks[CCs.Moving]) driver.body.angularVelocity = velocity;
 		}
 
@@ -133,6 +151,21 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
+		private IEnumerator Power (PowerUp power) 
+		{
+			switch (power)
+			{
+				case PowerUp.Speed:
+					SpeedMul *= 1.35f;
+					yield return new WaitForSeconds (1.5f);
+					SpeedMul /= 1.35f;
+				break;
+				case PowerUp.Shield:
+
+				break;
+			}
+		}
+
 		private Vector3 ComputePosition () 
 		{
 			// Get capsule position, discard height
@@ -208,27 +241,13 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		#region DATA
-		internal Vector3 netPosition;     // Exact real position
-		internal Quaternion netRotation;  // Transform rotation
-		internal float netAngular;        // Speed around tower
-
 		internal HeroCamera cam; 
-		#endregion
-
-		[ClientRpc (channel = 2)]
-		private void Rpc_SyncMotion (Vector3 pos, Quaternion rot, float angular, float movingDir) 
-		{
-			netPosition = pos;
-			netRotation = rot;
-			netAngular = angular;
-		}
 
 		private void KeepMotion () 
 		{
 			// Height is lerped always
 			var pos = transform.position;
-			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
+			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 50f);
 			transform.position = pos;
 
 			// Lerp to real position if stopped, otherwise move around tower in given speed
@@ -236,7 +255,7 @@ namespace HeroesRace
 			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 
 			// Rotation is always lerped too
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);
 		}
 
 		internal override void OnStartOwnership () 
@@ -250,7 +269,8 @@ namespace HeroesRace
 		}
 	}
 
-	public enum Heroes 
+	#region ENUMS
+	public enum Heroe 
 	{
 		NONE = -1,
 
@@ -262,14 +282,25 @@ namespace HeroesRace
 		Count
 	}
 
+	public enum PowerUp 
+	{
+		None,
+		Speed,
+		Shield,
+		lol,
+	}
+
 	[Flags] public enum CCs 
 	{
 		Moving = 1 << 0,
 		Rotating = 1 << 1,
 		Jumping = 1 << 2,
+		PowerUp = 1 << 3,
 
 		// ——— Specials ———
 		Locomotion = Moving | Rotating | Jumping,
-		None = 0
-	}
+		None = 0,
+		All = ~0
+	} 
+	#endregion
 }

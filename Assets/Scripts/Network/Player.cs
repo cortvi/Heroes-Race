@@ -26,7 +26,7 @@ namespace HeroesRace
 		[Info] public int ID;
 		[Info] public string IP;
 		[Info] public NetworkConnection Conn;
-		[Info] public Heroes playingAs;
+		[Info] public Heroe playingAs;
 
 		public void PlayerSetup (NetworkConnection fromConn) 
 		{
@@ -39,7 +39,7 @@ namespace HeroesRace
 			Conn = fromConn;
 			IP = Conn.address;
 			ID = Conn.connectionId;
-			playingAs = Heroes.NONE;
+			playingAs = Heroe.NONE;
 
 			Log.LowDebug (string.Format ("Added Player {0} from {1}", ID, IP));
 		} 
@@ -82,7 +82,7 @@ namespace HeroesRace
 			var h = pawn as Hero;
 			h.Movement (axis);
 			if (jump) h.Jumping ();
-			if (power) ;
+			if (power) h.Power ();
 		}
 	}
 
