@@ -13,6 +13,10 @@ namespace HeroesRace.Effectors
 		{
 			hero.blocks.Add ("Fear", CCs.All, stunTime);
 			hero.anim.SetTrigger ("Fear");
+
+			// Stop Hero movement in-situ
+			hero.driver.body.velocity = Vector3.zero;
+			hero.driver.body.angularVelocity = Vector3.zero;
 		}
 	} 
 }

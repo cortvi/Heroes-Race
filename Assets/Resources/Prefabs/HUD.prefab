@@ -217,6 +217,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c261a4ee536d9884fb9e62853e0efc66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 9562e0a20fe87fa47825870c05db20b7, type: 3}
+  - {fileID: 21300000, guid: 3c6bcaf71688bd540a608f29b3a93121, type: 3}
+  - {fileID: 21300000, guid: b887890486f04aa498876d9cb34ea9a6, type: 3}
   powerUp: {fileID: 114175857852488606}
 --- !u!114 &114431794830915798
 MonoBehaviour:

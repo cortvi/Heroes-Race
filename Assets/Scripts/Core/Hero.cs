@@ -35,7 +35,7 @@ namespace HeroesRace
 				SyncMotion ();
 			}
 			// On Clients, follow given motion
-			else KeepMotion ();
+			else if (isClient) KeepMotion ();
 		}
 	}
 
@@ -96,9 +96,10 @@ namespace HeroesRace
 		}
 		public void Power () 
 		{
-			if (!OnAir && !shielded
+			if (!OnAir
 			&& !blocks[CCs.PowerUp])
 			{
+				blocks.Add ("Using power", CCs.PowerUp);
 				StartCoroutine (Power (power));
 				power = PowerUp.None;
 			}
@@ -164,6 +165,7 @@ namespace HeroesRace
 
 				break;
 			}
+			blocks.Remove ("Using power");
 		}
 
 		private Vector3 ComputePosition () 
@@ -241,7 +243,8 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		internal HeroCamera cam; 
+		internal HeroCamera cam;
+		internal HeroHUD hud;
 
 		private void KeepMotion () 
 		{
@@ -263,6 +266,7 @@ namespace HeroesRace
 			if (!cam) 
 			{
 				// Initialize camera to focus local Client
+				hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
 				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				cam.target = this;
 			}
@@ -287,7 +291,9 @@ namespace HeroesRace
 		None,
 		Speed,
 		Shield,
-		lol,
+//		Bomb,
+
+		Count
 	}
 
 	[Flags] public enum CCs 

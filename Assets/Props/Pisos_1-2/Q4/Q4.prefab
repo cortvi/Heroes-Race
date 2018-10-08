@@ -69,7 +69,7 @@ GameObject:
   - component: {fileID: 33081599703538182}
   - component: {fileID: 23707746582786038}
   - component: {fileID: 64882270631492796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: QUESITO005
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 33481980902734414}
   - component: {fileID: 23824476898145350}
   - component: {fileID: 64940729014084882}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PLATAFORMAS
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -664,13 +664,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1137915602580900}
-  m_LocalRotation: {x: 0.05086693, y: -0.6378597, z: -0.061857007, w: 0.7659773}
-  m_LocalPosition: {x: -6.017003, y: 1.489, z: -29.357}
+  m_LocalRotation: {x: 0.051539082, y: -0.62946093, z: -0.061298102, w: 0.7728941}
+  m_LocalPosition: {x: -6.133, y: 1.489, z: -29.331}
   m_LocalScale: {x: 0.58669, y: 0.58669, z: 0.5866901}
   m_Children: []
   m_Father: {fileID: 4448582037600722}
   m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: -0.057000004, y: -79.566, z: -9.187}
+  m_LocalEulerAnglesHint: {x: 0.143, y: -78.332, z: -9.186001}
 --- !u!4 &4564196184841480
 Transform:
   m_ObjectHideFlags: 1
@@ -1759,7 +1759,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2.5646567, y: 2.078491, z: 0.94798374}
-  m_Center: {x: 0.083647035, y: 1.8415284, z: -1.0483978}
+  m_Center: {x: -0.02, y: 1.8415284, z: -1.0483978}
 --- !u!65 &65428129690183168
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1770,8 +1770,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 2.078491, z: 0.94798374}
-  m_Center: {x: 0.09, y: 1.8415263, z: -1.0483978}
+  m_Size: {x: 0.20000002, y: 2.0784907, z: 0.2620604}
+  m_Center: {x: -0.01, y: 1.8415283, z: -1.3913594}
 --- !u!65 &65446327403309764
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1850,4 +1850,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40146b4693c4cd748a01f4ff0677996a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slowAmount: 0.15
+  slowAmount: 0.25

@@ -21,7 +21,7 @@ namespace HeroesRace.Effectors
 		}
 		protected virtual void OnExit (Hero hero) { }
 
-		private void Awake () 
+		private void Start () 
 		{
 			// Effectors are only present on Server
 			if (NetworkClient.active)
