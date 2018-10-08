@@ -99,9 +99,11 @@ namespace HeroesRace
 			if (!OnAir
 			&& !blocks[CCs.PowerUp])
 			{
-				blocks.Add ("Using power", CCs.PowerUp);
 				StartCoroutine (Power (power));
 				power = PowerUp.None;
+
+				blocks.Add ("Using power", CCs.PowerUp);
+				hud.UpdatePower (power);
 			}
 		}
 		

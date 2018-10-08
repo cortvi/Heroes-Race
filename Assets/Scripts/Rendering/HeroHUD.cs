@@ -12,8 +12,13 @@ namespace HeroesRace
 
 		public void UpdatePower (PowerUp newPower) 
 		{
-			int idx = (int) newPower;
-			powerUp.sprite = sprites[idx];
+			if (newPower != PowerUp.None)
+			{
+				int idx = (int)newPower;
+				powerUp.sprite = sprites[idx];
+				powerUp.enabled = true;
+			}
+			else powerUp.enabled = false;
 			#warning En el futuro, quizá hacer esto más dinámico
 		}
 	} 

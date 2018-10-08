@@ -28,7 +28,7 @@ namespace HeroesRace
 		{
 			if (NetworkServer.active)
 			{
-				int idx = Random.Range (0, (int) PowerUp.Speed+1);
+				int idx = Random.Range (1, (int) PowerUp.Speed+1);
 				power = (PowerUp) idx;
 			}
 			else

@@ -18,8 +18,8 @@ namespace HeroesRace
 			Rpc_Throw ();
 			Throw ();
 
-			// Destroy pieces over Net after 2s
-			yield return new WaitForSeconds (2f);
+			// Destroy pieces over Net after X sec
+			yield return new WaitForSeconds (3f);
 			NetworkServer.Destroy (gameObject);
 
 			// Spawn next platform over net
@@ -32,9 +32,9 @@ namespace HeroesRace
 			foreach (var p in pieces)
 			{
 				p.isKinematic = false;
-				float force = Random.Range (10f, 15f);
-				float upForce = Random.Range (3f, 10f);
-				p.AddExplosionForce (force, transform.position, 2f, upForce, ForceMode.VelocityChange);
+				float force = Random.Range (3f, 5f);
+				float upForce = Random.Range (0.5f, 1.5f);
+				p.AddExplosionForce (force, transform.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 		}
 		[ClientRpc] private void Rpc_Throw () 
@@ -43,6 +43,7 @@ namespace HeroesRace
 		}
 
 		#region CALLBACKS
+		[ServerCallback]
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag == "Player")
