@@ -117,8 +117,8 @@ namespace HeroesRace
 			{
 				// Collect all input
 				float axis = Input.GetAxis ("Horizontal");
-				bool jump = Input.GetButton ("Jump");
-				bool power = Input.GetButton ("Power");
+				bool jump = Input.GetButtonDown ("Jump");
+				bool power = Input.GetButtonDown ("Power");
 
 				// Send to Server
 				Cmd_Hero (-axis, jump, power);

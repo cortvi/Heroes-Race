@@ -43,7 +43,7 @@ namespace HeroesRace
 		#endregion
 
 		#region ENUM 
-		public static T EnumParse<T> (this string s) where T : struct, IConvertible
+		public static T EnumParse<T> (this string s) where T : struct, IConvertible 
 		{
 			return (T)Enum.Parse (typeof (T), s);
 		}
@@ -51,7 +51,7 @@ namespace HeroesRace
 		/// <summary>
 		/// Usage: "if ( someEnum.HasFlag (someEnumFlag) ) {..}"
 		/// </summary>
-		public static bool HasFlag<T> (this T e, T flag) where T : struct, IConvertible
+		public static bool HasFlag<T> (this T e, T flag) where T : struct, IConvertible 
 		{
 			var value = e.ToInt32 (CultureInfo.InvariantCulture);
 			var target = flag.ToInt32 (CultureInfo.InvariantCulture);
