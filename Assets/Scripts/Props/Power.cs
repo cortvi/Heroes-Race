@@ -18,9 +18,10 @@ namespace HeroesRace
 			if (hero.power == PowerUp.None)
 			{
 				hero.power = power;
-				hero.hud.UpdatePower (power);
-				NetworkServer.Destroy (gameObject);
+				hero.Target_UpdateHUD (hero.owner.Conn, power);
+
 				#warning En el futuro, hace más sutil la desaparición
+				NetworkServer.Destroy (gameObject);
 			}
 		}
 
@@ -28,7 +29,7 @@ namespace HeroesRace
 		{
 			if (NetworkServer.active)
 			{
-				int idx = Random.Range (1, (int) PowerUp.Speed+1);
+				int idx = Random.Range (1, (int) PowerUp.Count);
 				power = (PowerUp) idx;
 			}
 			else

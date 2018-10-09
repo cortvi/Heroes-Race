@@ -73,10 +73,5 @@ namespace HeroesRace
 			}
 			return touching;
 		}
-
-		public static implicit operator Hero (Driver d) 
-		{
-			return d.owner;
-		}
 	} 
 }

@@ -45,7 +45,6 @@ namespace HeroesRace
 		// ——— Helpers ———
 		internal Driver driver;
 		internal CCStack blocks;
-		internal BoxCollider groundBox;
 
 		// ——— Animation ———
 		public SmartAnimator anim;
@@ -68,7 +67,6 @@ namespace HeroesRace
 		// ——— Locomotion ———
 		internal float input;
 		internal PowerUp power;
-		internal bool shielded;
 		#endregion
 
 		#region LOCOMOTION
@@ -99,11 +97,11 @@ namespace HeroesRace
 			if (!OnAir
 			&& !blocks[CCs.PowerUp])
 			{
-				StartCoroutine (Power (power));
+				StartCoroutine (UsePower ());
 				power = PowerUp.None;
 
+				Target_UpdateHUD (owner.Conn, power);
 				blocks.Add ("Using power", CCs.PowerUp);
-				hud.UpdatePower (power);
 			}
 		}
 		
@@ -145,7 +143,6 @@ namespace HeroesRace
 		{
 			// Get references
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
-			groundBox = GetComponentInChildren<BoxCollider> ();
 			blocks = new CCStack (this);
 
 			#warning adding a Hero camera for testing in the server!
@@ -154,19 +151,46 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		private IEnumerator Power (PowerUp power) 
+		private IEnumerator UsePower () 
 		{
 			switch (power)
 			{
 				case PowerUp.Speed:
+				{
 					SpeedMul *= 1.35f;
 					yield return new WaitForSeconds (1.5f);
 					SpeedMul /= 1.35f;
+				}
 				break;
 				case PowerUp.Shield:
+				{
+					anim.SetTrigger ("Open_Shield");
+					float endMark = Time.time + 2.2f;
+					yield return new WaitForSeconds (0.2f);
 
+					while (true) 
+					{
+						if (SpeedMul < 1f || blocks[CCs.Moving]) 
+						{
+							// Clear all buffs & consume shield
+							anim.SetTrigger ("Consume_Shield");
+							blocks.ClearCC ();
+							break;
+						}
+						else
+						if (Time.time > endMark)
+						{
+							// Break shield
+							anim.SetTrigger ("Break_Shield");
+							break;
+						}
+						else yield return null;
+					}
+				}
 				break;
 			}
+			// Add a little CD to powers
+			yield return new WaitForSeconds (0.3f);
 			blocks.Remove ("Using power");
 		}
 
@@ -190,17 +214,17 @@ namespace HeroesRace
 		#endregion
 
 		#region CC STACK
-		public class CCStack 
+		internal class CCStack 
 		{
 			#region DATA + CTOR + IDXER
 			private readonly Hero owner;
-			private readonly Dictionary<string, CCs> collection;
+			private readonly Dictionary<string, CCs> stack;
 			private CCs summary;
 
 			public CCStack (Hero owner) 
 			{
 				this.owner = owner;
-				collection = new Dictionary<string, CCs> ();
+				stack = new Dictionary<string, CCs> ();
 			}
 
 			public bool this[CCs cc] 
@@ -213,8 +237,20 @@ namespace HeroesRace
 			public void Read () 
 			{
 				summary = CCs.None;
-				foreach (var e in collection)
+				foreach (var e in stack)
 					summary = summary.SetFlag (e.Value);
+			}
+
+			public void ClearCC () 
+			{
+				// Find all debuffs 
+				var keys = from pair in stack
+							  where pair.Value.HasFlag (CCs.Moving)
+							  select pair.Key;
+
+				// Remove them from the stack
+				foreach (string key in keys)
+					stack.Remove (key);
 			}
 
 			public void Add (string name, CCs cc, float duration = -1f, bool unique = true) 
@@ -222,21 +258,21 @@ namespace HeroesRace
 				// Add timestamp to remove uniqueness
 				if (!unique) name += Time.time;
 
-				collection.Add (name, cc);
+				stack.Add (name, cc);
 				if (duration > 0f) owner.StartCoroutine 
 						(RemoveAfter (name, duration));
 			}
 
 			public void Remove (string name) 
 			{
-				collection.Remove (name);
+				stack.Remove (name);
 			}
 
 			private IEnumerator RemoveAfter (string name, float duration) 
 			{
 				float release = Time.time + duration;
 				while (Time.time < release) yield return null;
-				collection.Remove (name);
+				stack.Remove (name);
 			}
 			#endregion
 		}
@@ -245,8 +281,8 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		internal HeroCamera cam;
-		internal HeroHUD hud;
+		private HeroCamera cam;
+		private HeroHUD hud;
 
 		private void KeepMotion () 
 		{
@@ -268,11 +304,24 @@ namespace HeroesRace
 			if (!cam) 
 			{
 				// Initialize camera to focus local Client
-				hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
 				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				cam.target = this;
 			}
+			if (!hud && isClient)
+			{
+				// Initialize Client-side HUD
+				hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
+			}
 		}
+
+		#region HUD
+		[TargetRpc]
+		public void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
+		{
+			// Show new power-up on owner Client
+			hud.UpdatePower (newPower);
+		}
+		#endregion
 	}
 
 	#region ENUMS

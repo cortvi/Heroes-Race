@@ -20,11 +20,12 @@ namespace HeroesRace
 
 			// Destroy pieces over Net after X sec
 			yield return new WaitForSeconds (3f);
-			NetworkServer.Destroy (gameObject);
 
 			// Spawn next platform over net
 			var next = Instantiate (gameObject);
 			NetworkServer.Spawn (next);
+
+			NetworkServer.Destroy (gameObject);
 		}
 
 		private void Throw () 

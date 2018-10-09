@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
@@ -14,7 +15,7 @@ namespace HeroesRace
 		{
 			if (newPower != PowerUp.None)
 			{
-				int idx = (int)newPower;
+				int idx = (int) newPower - 1;
 				powerUp.sprite = sprites[idx];
 				powerUp.enabled = true;
 			}

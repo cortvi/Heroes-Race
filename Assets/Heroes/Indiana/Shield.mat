@@ -88,7 +88,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Waves:
         m_Texture: {fileID: 2800000, guid: 4b423aefad6a4c5469550afe06bec277, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 0.48, y: 1.24}
         m_Offset: {x: 0, y: 0}
     - _WavesCol:
         m_Texture: {fileID: 0}
@@ -99,8 +99,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Alpha: 1
-    - _BumpAmt: 9.5
+    - _Alpha: 0.507
+    - _BumpAmt: 14.6
     - _BumpScale: 1
     - _ColPow: 0
     - _Cutoff: 0.5
@@ -108,7 +108,7 @@ Material:
     - _DetailMul: 1.95
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FPower: 1.98
+    - _FPower: 0.24
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -119,7 +119,7 @@ Material:
     - _NoiseMul: 2.74
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _R0: 0.1
+    - _R0: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0
@@ -130,10 +130,10 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dark: {r: 0.03603016, g: 0.05172414, b: 0.034229208, a: 1}
+    - _Dark: {r: 0.055878554, g: 0.14705884, b: 0.04541523, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FColor: {r: 1, g: 1, b: 1, a: 1}
     - _Light: {r: 0.4705882, g: 0.48615915, b: 1, a: 1}
-    - _Lit: {r: 0.33823526, g: 1, b: 0.44528538, a: 1}
+    - _Lit: {r: 0.44852942, g: 1, b: 0.53773785, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Speed: {r: 0.4, g: -6.48, b: -1.13, a: -2.16}
