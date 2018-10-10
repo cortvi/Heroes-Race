@@ -117,7 +117,7 @@ namespace HeroesRace
 		}
 		#endregion
 
-		#region PHYISICS
+		#region ANIMATION CALLS
 		[ServerCallback]
 		private void Jump () 
 		{
@@ -136,7 +136,8 @@ namespace HeroesRace
 
 			// Don't modify speed if CCed,
 			// because probably a external force is moving the Hero
-			if (!blocks[CCs.Moving]) driver.body.angularVelocity = velocity;
+			if (!blocks[CCs.Moving]) driver.body.AddTorque (velocity, ForceMode.VelocityChange);
+			print (driver.body.angularVelocity);
 		}
 
 		protected override void OnServerAwake () 
@@ -246,7 +247,7 @@ namespace HeroesRace
 				// Find all debuffs 
 				var keys = from pair in stack
 							  where pair.Value.HasFlag (CCs.Moving)
-							  select pair.Key;
+							  select string.Copy (pair.Key);
 
 				// Remove them from the stack
 				foreach (string key in keys)
