@@ -98,10 +98,7 @@ namespace HeroesRace
 			&& !blocks[CCs.PowerUp])
 			{
 				StartCoroutine (UsePower ());
-				power = PowerUp.None;
-
-				Target_UpdateHUD (owner.Conn, power);
-				blocks.Add ("Using power", CCs.PowerUp);
+				Target_UpdateHUD (owner.Conn, power = PowerUp.None);
 			}
 		}
 		
@@ -112,7 +109,9 @@ namespace HeroesRace
 			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular speed to allow client-side prediction
-			if (input != 0f) netAngular = (Mathf.Rad2Deg * driver.body.angularVelocity.y);
+			// If speed is too low, asume it's zero
+			float angular = driver.body.angularVelocity.y;
+			if (input != 0f && angular >= 0.9f) netAngular = (Mathf.Rad2Deg * angular);
 			else netAngular = 0f;
 		}
 		#endregion
@@ -136,8 +135,7 @@ namespace HeroesRace
 
 			// Don't modify speed if CCed,
 			// because probably a external force is moving the Hero
-			if (!blocks[CCs.Moving]) driver.body.AddTorque (velocity, ForceMode.VelocityChange);
-			print (driver.body.angularVelocity);
+			if (!blocks[CCs.Moving]) driver.body.angularVelocity = velocity;
 		}
 
 		protected override void OnServerAwake () 
@@ -175,7 +173,7 @@ namespace HeroesRace
 						{
 							// Clear all buffs & consume shield
 							anim.SetTrigger ("Consume_Shield");
-							blocks.ClearCC ();
+							StartCoroutine (blocks.CleanCC ());
 							break;
 						}
 						else
@@ -242,16 +240,27 @@ namespace HeroesRace
 					summary = summary.SetFlag (e.Value);
 			}
 
-			public void ClearCC () 
+			public IEnumerator CleanCC () 
 			{
 				// Find all debuffs 
-				var keys = from pair in stack
-							  where pair.Value.HasFlag (CCs.Moving)
-							  select string.Copy (pair.Key);
+				string[] keys = (from pair in stack
+								 where pair.Value.HasFlag (CCs.Moving)
+								 select pair.Key).ToArray ();
+
+				// Copy string values to other memory references
+				string[] Keys = new string[keys.Length];
+				for (int i=0; i!=Keys.Length; i++)
+					Keys[i] = string.Copy(keys[i]);
 
 				// Remove them from the stack
-				foreach (string key in keys)
+				foreach (string key in Keys)
 					stack.Remove (key);
+
+				// Remove any slows
+				if (owner.SpeedMul < 1f)
+					owner.SpeedMul = 1f;
+
+				owner.anim.Animator.SetLayerWeight ()
 			}
 
 			public void Add (string name, CCs cc, float duration = -1f, bool unique = true) 
