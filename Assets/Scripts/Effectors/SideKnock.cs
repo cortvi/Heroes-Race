@@ -22,6 +22,7 @@ namespace HeroesRace.Effectors
 
 			// Apply CC to Hero
 			hero.blocks.Add ("Knocked ", CCs.All, 1.5f, unique: false);
+			hero.anim.SetTrigger ("Hit");
 		}
 
 		private Vector3 KnockForce (Vector3 heroPos) 

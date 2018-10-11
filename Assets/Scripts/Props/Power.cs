@@ -15,13 +15,11 @@ namespace HeroesRace
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			if (hero.power == PowerUp.None)
+			if (hero.power == PowerUp.None) 
 			{
 				hero.power = power;
-				hero.Target_UpdateHUD (hero.owner.Conn, power);
-
-				#warning En el futuro, hace más sutil la desaparición
 				NetworkServer.Destroy (gameObject);
+				#warning En el futuro, hace más sutil la desaparición
 			}
 		}
 
@@ -29,7 +27,7 @@ namespace HeroesRace
 		{
 			if (NetworkServer.active)
 			{
-				int idx = Random.Range (2, (int) PowerUp.Count);
+				int idx = Random.Range (1, (int) PowerUp.Count);
 				power = (PowerUp) idx;
 			}
 			else

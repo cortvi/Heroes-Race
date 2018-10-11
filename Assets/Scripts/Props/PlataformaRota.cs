@@ -9,23 +9,19 @@ namespace HeroesRace
 	public class PlataformaRota : NetBehaviour 
 	{
 		private Rigidbody[] pieces;
+		private GameObject next;
 
 		private IEnumerator Break () 
 		{
 			yield return new WaitForSeconds (0.5f);
 			GetComponents<BoxCollider> ().ToList ().ForEach (b=> b.enabled = false);
-			// Throw pieces away
 			Rpc_Throw ();
 			Throw ();
 
-			// Destroy pieces over Net after X sec
 			yield return new WaitForSeconds (3f);
-
-			// Spawn next platform over net
-			var next = Instantiate (gameObject);
-			NetworkServer.Spawn (next);
-
 			NetworkServer.Destroy (gameObject);
+			NetworkServer.Spawn (next);
+			next.SetActive (true);
 		}
 
 		private void Throw () 
@@ -53,6 +49,10 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
+			// Spawn next before pieces get thrown away
+			var next = Instantiate (gameObject);
+			next.SetActive (false);
+
 			pieces = GetComponentsInChildren<Rigidbody> (true);
 		}
 		#endregion

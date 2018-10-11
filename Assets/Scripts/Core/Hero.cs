@@ -25,6 +25,8 @@ namespace HeroesRace
 		[SyncVar] internal float netAngular;        // Speed around tower
 		[SyncVar] internal Quaternion netRotation;  // Transform rotation
 		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
+
+		private PowerUp _power;
 		#endregion
 
 		private void Update () 
@@ -66,7 +68,15 @@ namespace HeroesRace
 
 		// ——— Locomotion ———
 		internal float input;
-		internal PowerUp power;
+		internal PowerUp power 
+		{
+			get { return _power; }
+			set
+			{
+				Target_UpdateHUD (owner.Conn, value);
+				_power = value;
+			}
+		}
 		#endregion
 
 		#region LOCOMOTION
@@ -98,7 +108,7 @@ namespace HeroesRace
 			&& !blocks[CCs.PowerUp])
 			{
 				StartCoroutine (UsePower ());
-				Target_UpdateHUD (owner.Conn, power = PowerUp.None);
+				power = PowerUp.None;
 			}
 		}
 		
@@ -156,6 +166,11 @@ namespace HeroesRace
 			{
 				case PowerUp.Speed:
 				{
+					// Remove any slows
+					if (SpeedMul < 1f)
+						SpeedMul = 1f;
+
+					// Then speed up
 					SpeedMul *= 1.35f;
 					yield return new WaitForSeconds (1.5f);
 					SpeedMul /= 1.35f;
@@ -163,13 +178,18 @@ namespace HeroesRace
 				break;
 				case PowerUp.Shield:
 				{
+					// Can't cast a shield if already immune
+					while (blocks.immune) yield return null;
+
 					anim.SetTrigger ("Open_Shield");
 					float endMark = Time.time + 2.2f;
 					yield return new WaitForSeconds (0.2f);
 
-					while (true) 
+					// Wait until a CC is recieved
+					// or shield just runs out of time
+					while (true)
 					{
-						if (SpeedMul < 1f || blocks[CCs.Moving]) 
+						if (SpeedMul < 1f || blocks[CCs.Moving])
 						{
 							// Clear all buffs & consume shield
 							anim.SetTrigger ("Consume_Shield");
@@ -189,7 +209,7 @@ namespace HeroesRace
 				break;
 			}
 			// Add a little CD to powers
-			yield return new WaitForSeconds (0.3f);
+			yield return new WaitForSeconds (0.2f);
 			blocks.Remove ("Using power");
 		}
 
@@ -200,7 +220,6 @@ namespace HeroesRace
 			// Return the position in world-space
 			return driver.transform.TransformPoint (pos);
 		}
-
 		private Quaternion ComputeRotation () 
 		{
 			// Get signed facing rotation
@@ -216,6 +235,7 @@ namespace HeroesRace
 		internal class CCStack 
 		{
 			#region DATA + CTOR + IDXER
+			public bool immune;
 			private readonly Hero owner;
 			private readonly Dictionary<string, CCs> stack;
 			private CCs summary;
@@ -225,7 +245,6 @@ namespace HeroesRace
 				this.owner = owner;
 				stack = new Dictionary<string, CCs> ();
 			}
-
 			public bool this[CCs cc] 
 			{
 				get { return summary.HasFlag (cc); }
@@ -260,7 +279,10 @@ namespace HeroesRace
 				if (owner.SpeedMul < 1f)
 					owner.SpeedMul = 1f;
 
-				owner.anim.Animator.SetLayerWeight ()
+				// Grant immunity for X sec
+				immune = true;
+				yield return new WaitForSeconds (0.5f);
+				immune = false;
 			}
 
 			public void Add (string name, CCs cc, float duration = -1f, bool unique = true) 
@@ -298,7 +320,7 @@ namespace HeroesRace
 		{
 			// Height is lerped always
 			var pos = transform.position;
-			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 50f);
+			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
 			transform.position = pos;
 
 			// Lerp to real position if stopped, otherwise move around tower in given speed
@@ -324,14 +346,13 @@ namespace HeroesRace
 			}
 		}
 
-		#region HUD
 		[TargetRpc]
-		public void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
+		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
 		{
 			// Show new power-up on owner Client
 			hud.UpdatePower (newPower);
+			_power = newPower;
 		}
-		#endregion
 	}
 
 	#region ENUMS

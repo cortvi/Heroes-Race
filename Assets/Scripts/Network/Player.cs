@@ -9,6 +9,25 @@ namespace HeroesRace
 	{
 		[Info] public NetBehaviour pawn;
 
+		private void ChangePawn (NetBehaviour newPawn) 
+		{
+			// De-authorize last Pawn, if any
+			if (pawn)
+			{
+				pawn.owner = null;
+				pawn.UpdateName ();
+				pawn.OnStopOwnership ();
+			}
+			// Authorize new Pawn
+			pawn = newPawn;
+			if (pawn)
+			{
+				pawn.owner = this;
+				pawn.UpdateName ();
+				pawn.OnStartOwnership ();
+			}
+		}
+
 		protected override void OnAwake () 
 		{
 			// Preserve during current play-session
@@ -47,24 +66,7 @@ namespace HeroesRace
 
 		public void SetPawn (NetBehaviour newPawn) 
 		{
-			// De-authorize last Pawn, if any
-			if (pawn)
-			{
-				pawn.owner = null;
-				pawn.UpdateName ();
-				pawn.OnStopOwnership ();
-			}
-
-			// Authorize new Pawn
-			pawn = newPawn;
-			if (pawn) 
-			{
-				pawn.owner = this;
-				pawn.UpdateName ();
-				pawn.OnStartOwnership ();
-			}
-
-			// Notify client
+			ChangePawn (newPawn);
 			Rpc_SetPawn (newPawn != null? newPawn.gameObject : null);
 		}
 
@@ -84,6 +86,15 @@ namespace HeroesRace
 			if (jump) h.Jumping ();
 			if (power) h.Power ();
 		}
+
+		#region CHEATS
+		[Command]
+		public void Cmd_GrantPower (PowerUp power) 
+		{
+			var h = pawn as Hero;
+			h.power = power;
+		}
+		#endregion
 	}
 
 	public partial class /* CLIENT */ Player 
@@ -126,35 +137,17 @@ namespace HeroesRace
 			#endregion
 		}
 
+		private void OnDisconnectedFromServer (NetworkDisconnection info) 
+		{
+			// De-authorize last pawn
+			ChangePawn (null);
+		}
+
 		[ClientRpc]
 		private void Rpc_SetPawn (GameObject newPawn) 
 		{
-			// De-authorize last Pawn, if any
-			if (pawn)
-			{
-				pawn.owner = null;
-				pawn.UpdateName ();
-				pawn.OnStopOwnership ();
-			}
-
-			// Authorize new Pawn
-			pawn = newPawn.GetComponent<NetBehaviour> ();
-			if (pawn)
-			{
-				pawn.owner = this;
-				pawn.UpdateName ();
-				pawn.OnStartOwnership ();
-			}
-		}
-
-		private void OnDisconnectedFromServer (NetworkDisconnection info) 
-		{
-			if (pawn)
-			{
-				pawn.owner = null;
-				pawn.UpdateName ();
-				pawn.OnStopOwnership ();
-			}
+			var pawn = newPawn.GetComponent<NetBehaviour> ();
+			ChangePawn (pawn);
 		}
 	}
 }
