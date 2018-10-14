@@ -54,7 +54,7 @@ namespace HeroesRace
 		#endregion
 	}
 
-	public partial class /* SERVER */ Selector 
+	public partial class /* SERVER */ Selector   
 	{
 		#region DATA
 		private static int SelectorsReady;

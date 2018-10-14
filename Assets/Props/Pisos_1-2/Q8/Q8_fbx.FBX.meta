@@ -3,7 +3,7 @@ guid: 064e53f44a27b874fa142dfa5d72c3a0
 timeCreated: 1506877284
 licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: ALGAS
     100002: CORAL
@@ -69,10 +69,72 @@ ModelImporter:
     4300022: CRISTAL3
     7400000: Take 001
     9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ALGAS
+    second: {fileID: 2100000, guid: f84064d47934dbb40a69fc30ae282822, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CORAL
+    second: {fileID: 2100000, guid: fdf8e31fe9942c946adabd3d44839797, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CRISTAL1
+    second: {fileID: 2100000, guid: f00db599ff551914491477cc3fd67933, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CRISTAL2
+    second: {fileID: 2100000, guid: a7e35c0dde2648444928319ecc7d376b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CRISTAL3
+    second: {fileID: 2100000, guid: 1376d47901868264c860933ee2659bd7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CUEVAQ8
+    second: {fileID: 2100000, guid: 4c6a442767da4e048a3a8434c84fa44f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ESTRELLITA
+    second: {fileID: 2100000, guid: c7b27e9891106564aac6fb9231b9e185, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MADERA1
+    second: {fileID: 2100000, guid: 5c38b5dd69af4f049be14cc7accf4535, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRAS3
+    second: {fileID: 2100000, guid: da2c6e2cd7eb5b24ab7ee4b80a8e4e6d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRASALGAS
+    second: {fileID: 2100000, guid: 7ee24af34a4988949a85cb33531484f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLATAFORMAQ8
+    second: {fileID: 2100000, guid: 7bdd623ff19981f47b2fbd1b57b2a542, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: QUESITO
+    second: {fileID: 2100000, guid: 83021b199e3e32045aa0b148806b1213, type: 2}
   materials:
     importMaterials: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -85,12 +147,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -98,13 +162,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -113,8 +182,9 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 0
     normalImportMode: 0
-    tangentImportMode: 3
-  importAnimation: 1
+    tangentImportMode: 0
+    normalCalculationMode: 0
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

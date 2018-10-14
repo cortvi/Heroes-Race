@@ -3,7 +3,7 @@ guid: 0db63897645b020469a5cf9af43f653d
 timeCreated: 1503594207
 licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: MUROPAREDEMPUJAR
     100002: PAREDEMPUJAR
@@ -84,10 +84,77 @@ ModelImporter:
     4300028: PINXOS
     7400000: Take 001
     9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ALGAS
+    second: {fileID: 2100000, guid: c2053b41d633f134695e1de0526fa559, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ANCLA
+    second: {fileID: 2100000, guid: 9595e7dc8828a564fb163544c57fc171, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BARRILES
+    second: {fileID: 2100000, guid: 4976ba7860289814989f97674206ff3b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CORAL
+    second: {fileID: 2100000, guid: 7c7c52fef9ed6d745991b87049baab9b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ESTRELLAS
+    second: {fileID: 2100000, guid: 0e2051f73145c234bab333e478a67fa9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MADERA2
+    second: {fileID: 2100000, guid: 8d88ebb2b5c7b424995bcbfe40da0ad0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MUROPAREDEMPUJAR
+    second: {fileID: 2100000, guid: 6db0cab148231484b9becc875e0a8629, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PAREDEMPUJAR
+    second: {fileID: 2100000, guid: b7f4d20cadf73924895d41f910e70ced, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRAS3
+    second: {fileID: 2100000, guid: 55d6fa64e3a7d75489f2b4963d36b828, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRASALGAS
+    second: {fileID: 2100000, guid: 2d9e30afeab0a044aa56eea597ee4e9c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PINXOS
+    second: {fileID: 2100000, guid: 94e65b8701c066946a95020468c62fee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLATAFORMAS
+    second: {fileID: 2100000, guid: c8b8f2dddefa090429dbaa2f79027eeb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: QUESITO3
+    second: {fileID: 2100000, guid: 064418d42fa54c54eaacf9b3dd804a9c, type: 2}
   materials:
     importMaterials: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -100,12 +167,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -113,13 +182,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -128,8 +202,9 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
-  importAnimation: 1
+    tangentImportMode: 0
+    normalCalculationMode: 0
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

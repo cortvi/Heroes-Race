@@ -3,7 +3,7 @@ guid: 7027a1c9c8572c44395d6f93355eb02a
 timeCreated: 1503594207
 licenseType: Free
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: BASECUEVA
     100002: CUEVA
@@ -194,10 +194,92 @@ ModelImporter:
     4300072: QUESITO005
     7400000: Take 001
     9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ALGAS
+    second: {fileID: 2100000, guid: 6f3056f831f794843b61224bebd0e492, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ALMEJA
+    second: {fileID: 2100000, guid: 3eddb0bc11e2fa64db20aeff1184c7fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AZUFRE
+    second: {fileID: 2100000, guid: 44a15132f9a0c9041b26bb47b4b06c76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CORAL
+    second: {fileID: 2100000, guid: b1fe97d7d6e7cd14f8138c4b9dfc8083, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CUEVA
+    second: {fileID: 2100000, guid: c309447256e3a9c4fb4616cc5084d057, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ESTRELLAS
+    second: {fileID: 2100000, guid: e1feff8a4213e374da4ba762e13db4a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MADERA2
+    second: {fileID: 2100000, guid: 70ebed02b21310b4b8957a90c22dc3d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MONSTRUO
+    second: {fileID: 2100000, guid: 2c3150503ac666846ad5caf425c2382e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: OJITOSMINIS
+    second: {fileID: 2100000, guid: a26d8ccf4a1eef744a4b486295f396a1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRA
+    second: {fileID: 2100000, guid: 98a1d350a0f41984cb4de4932708b020, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRAS3
+    second: {fileID: 2100000, guid: db53c850fee3a9a4493c695e513f6dc0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PIEDRASALGAS
+    second: {fileID: 2100000, guid: 1b4e6c9b8b7cb8b4ca02a755e3b8e865, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLATAFORMAS
+    second: {fileID: 2100000, guid: 2cc6a0dc2f15a134b89df78df9e49411, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PLATAFORMASQUESEROMPEN
+    second: {fileID: 2100000, guid: 472143d6e16298b4d9cd34a342890fa8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: QUESITO4
+    second: {fileID: 2100000, guid: b83abbd42ff0f3f479b2be0ef144d585, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TUBERIAS
+    second: {fileID: 2100000, guid: ae3903dcf78bfc04595fe5d1e058c483, type: 2}
   materials:
     importMaterials: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -210,12 +292,14 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -223,13 +307,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
-    weldVertices: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -238,7 +327,8 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
-    tangentImportMode: 3
+    tangentImportMode: 0
+    normalCalculationMode: 0
   importAnimation: 0
   copyAvatar: 0
   humanDescription:

@@ -100,6 +100,7 @@ namespace HeroesRace
 			{
 				anim.SetTrigger ("Jump");
 				OnAir = true;
+				driver.SwitchFriction (false);
 			}
 		}
 		public void Power () 

@@ -19,22 +19,20 @@ namespace HeroesRace
 			Log.Debug (builder.ToString ());
 		}
 
-		public static void Power (params string[] args) 
+		public static void Grant (params string[] args) 
 		{
+			var power = args[0].CapitalizeFirst ().EnumParse<PowerUp> ();
 			if (NetworkClient.active)
 			{
 				// Grants Client said power
-				var power = args[0].EnumParse<PowerUp> ();
 				Net.me.Cmd_GrantPower (power);
 			}
 			else
 			if (NetworkServer.active)
 			{
 				// Grants said Client said power
-				var power = args[0].EnumParse<PowerUp> ();
 				int player = int.Parse (args[1]);
-
-				(Net.players[player].pawn as Hero).power = power;
+				(Net.players[player-1].pawn as Hero).power = power;
 			}
 		}
 	} 

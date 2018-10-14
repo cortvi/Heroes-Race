@@ -17,24 +17,30 @@ public class CheatConsole : MonoBehaviour
 
 	void ConsoleWindow (int windowID) 
 	{
-		// Read code commands from console
+		GUI.SetNextControlName ("input-box");
 		input = GUILayout.TextField (input);
-		if (!string.IsNullOrEmpty (input)
-		&& Event.current.keyCode == KeyCode.Return) 
+		
+		// Read code commands from console
+		if (Event.current.keyCode == KeyCode.Return) 
 		{
-			// Convert input to an array passed through reflection
-			var commands = input.Split (' ').ToList ();
-			string method = commands[0].CapitalizeFirst ();
-			object[] param = null;
-			if (commands.Count > 1)
+			if (!string.IsNullOrEmpty (input))
 			{
-				commands.RemoveAt (0);
-				param = new object[1];
-				param[0] = commands.ToArray ();
+				// Convert input to an array passed through reflection
+				var commands = input.Split (' ').ToList ();
+				string method = commands[0].CapitalizeFirst ();
+				object[] param = null;
+				if (commands.Count > 1)
+				{
+					commands.RemoveAt (0);
+					param = new object[1];
+					param[0] = commands.ToArray ();
+				}
+				// Use reflection to execute input
+				var cheats = typeof (HeroesRace.Cheats);
+				cheats.GetMethod (method).Invoke (null, param); 
 			}
-			// Use reflection to execute input
-			var cheats = typeof (HeroesRace.Cheats);
-			cheats.GetMethod (method).Invoke (null, param);
+			// Hide console
+			show = false;
 		}
 
 		// Allow the window to be dragged by its title bar.
@@ -46,12 +52,13 @@ public class CheatConsole : MonoBehaviour
 	{
 		if (!show) return;
 		windowRect = GUILayout.Window (123456, windowRect, ConsoleWindow, "Cheat Console");
+		GUI.FocusControl ("input-box");
 	}
 
 	void Update () 
 	{
 		if (Input.GetKeyDown (toggleKey))
-			show = !show;
+			show = true;
 	}
 	#endregion
 }
