@@ -33,7 +33,7 @@ namespace HeroesRace
 		{
 			if (isServer)
 			{
-				blocks.Read ();
+				cc.Read ();
 				SyncMotion ();
 			}
 			// On Clients, follow given motion
@@ -46,7 +46,7 @@ namespace HeroesRace
 		#region DATA
 		// ——— Helpers ———
 		internal Driver driver;
-		internal CCStack blocks;
+		internal CCStack cc;
 
 		// ——— Animation ———
 		public SmartAnimator anim;
@@ -82,7 +82,7 @@ namespace HeroesRace
 		#region LOCOMOTION
 		public void Movement (float axis) 
 		{
-			if (!blocks[CCs.Moving])
+			if (!cc[CCs.Moving])
 			{
 				// Save input for later physics
 				if (axis != 0f) movingDir = axis;
@@ -96,7 +96,7 @@ namespace HeroesRace
 		public void Jumping () 
 		{
 			if (!OnAir
-			&& !blocks[CCs.Jumping]) 
+			&& !cc[CCs.Jumping]) 
 			{
 				anim.SetTrigger ("Jump");
 				OnAir = true;
@@ -106,7 +106,7 @@ namespace HeroesRace
 		public void Power () 
 		{
 			if (!OnAir
-			&& !blocks[CCs.PowerUp])
+			&& !cc[CCs.PowerUp])
 			{
 				StartCoroutine (UsePower ());
 				power = PowerUp.None;
@@ -146,14 +146,14 @@ namespace HeroesRace
 
 			// Don't modify speed if CCed,
 			// because probably a external force is moving the Hero
-			if (!blocks[CCs.Moving]) driver.body.angularVelocity = velocity;
+			if (!cc[CCs.Moving]) driver.body.angularVelocity = velocity;
 		}
 
 		protected override void OnServerAwake () 
 		{
 			// Get references
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
-			blocks = new CCStack (this);
+			cc = new CCStack (this);
 
 			#warning adding a Hero camera for testing in the server!
 			OnStartOwnership ();
@@ -180,7 +180,7 @@ namespace HeroesRace
 				case PowerUp.Shield:
 				{
 					// Can't cast a shield if already immune
-					while (blocks.immune) yield return null;
+					while (cc.immune) yield return null;
 
 					anim.SetTrigger ("Open_Shield");
 					float endMark = Time.time + 2.2f;
@@ -190,11 +190,11 @@ namespace HeroesRace
 					// or shield just runs out of time
 					while (true)
 					{
-						if (SpeedMul < 1f || blocks[CCs.Moving])
+						if (SpeedMul < 1f || cc[CCs.Moving])
 						{
 							// Clear all buffs & consume shield
 							anim.SetTrigger ("Consume_Shield");
-							StartCoroutine (blocks.CleanCC ());
+							StartCoroutine (cc.CleanCC ());
 							break;
 						}
 						else
@@ -211,7 +211,7 @@ namespace HeroesRace
 			}
 			// Add a little CD to powers
 			yield return new WaitForSeconds (0.2f);
-			blocks.Remove ("Using power");
+			cc.Remove ("Using power");
 		}
 
 		private Vector3 ComputePosition () 

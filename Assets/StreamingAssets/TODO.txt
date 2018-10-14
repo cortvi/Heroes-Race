@@ -1,0 +1,9 @@
+faltaria:
+- apañar immunidad en cada effector
+- cuando te limpias un CC, la animacion sigue
+- como te limpias el knock..? (simplemente no hace nada)
+- como te limpias el squash.? (empujar->moving dir)?
+
+— DONE —
+- hacer movimiento apisonadoras irregular
+- salir de un slow tiene k tener en cuenta la speed del Hero

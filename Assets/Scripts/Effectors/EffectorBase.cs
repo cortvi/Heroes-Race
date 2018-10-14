@@ -5,10 +5,13 @@ namespace HeroesRace.Effectors
 {
 	public abstract class EffectorBase : MonoBehaviour 
 	{
+		protected abstract bool WhenImmune ();
+
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
+			if (hero.cc.immune && !WhenImmune ()) return;
 			OnEnter (hero);
 		}
 		protected virtual void OnEnter (Hero hero) { }

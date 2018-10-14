@@ -11,7 +11,7 @@ namespace HeroesRace.Effectors
 
 		protected override void OnEnter (Hero hero) 
 		{
-			hero.blocks.Add ("Fear", CCs.Locomotion, stunTime);
+			hero.cc.Add ("Fear", CCs.Locomotion, stunTime);
 			hero.anim.SetTrigger ("Fear");
 
 			// Stop Hero movement in-situ

@@ -17,11 +17,12 @@ namespace HeroesRace.Effectors
 			hero.driver.body.angularVelocity = Vector3.zero;
 
 			// Apply computed force
-			var f = KnockForce (hero.transform.position);
-			hero.driver.body.AddForceAtPosition (f, transform.position, ForceMode.VelocityChange);
+			hero.driver.body.angularVelocity = Vector3.zero;
+			var force = KnockForce (hero.transform.position);
+			hero.driver.body.AddForce (force, ForceMode.VelocityChange);
 
 			// Apply CC to Hero
-			hero.blocks.Add ("Knocked ", CCs.All, 1.5f, unique: false);
+			hero.cc.Add ("Knocked ", CCs.All, 1.5f, unique: false);
 			hero.anim.SetTrigger ("Hit");
 		}
 
