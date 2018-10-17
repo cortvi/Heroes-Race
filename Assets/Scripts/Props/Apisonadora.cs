@@ -37,11 +37,13 @@ namespace HeroesRace
 			}
 		}
 
-		protected override void OnAwake ()  
+		protected override void OnAwake () 
 		{
+			if (count == 3) count = 0;
 			var variant = variants[count++];
 			GetComponentInChildren<Renderer> ().sharedMaterial = variant;
 
+			anim = GetComponent<Animator> ().GoSmart (networked: true);
 			waitTime = Random.Range (1.2f, 2f);
 			readyToHit = true;
 		}
