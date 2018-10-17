@@ -137,12 +137,6 @@ namespace HeroesRace
 			#endregion
 		}
 
-		private void OnDisconnectedFromServer (NetworkDisconnection info) 
-		{
-			// De-authorize last pawn
-			ChangePawn (null);
-		}
-
 		[ClientRpc]
 		private void Rpc_SetPawn (GameObject newPawn) 
 		{

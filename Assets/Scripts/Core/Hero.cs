@@ -31,11 +31,8 @@ namespace HeroesRace
 
 		private void Update () 
 		{
-			if (isServer)
-			{
-				cc.Read ();
-				SyncMotion ();
-			}
+			// On Server, follow Driver
+			if (isServer) SyncMotion ();
 			// On Clients, follow given motion
 			else if (isClient) KeepMotion ();
 		}
@@ -46,10 +43,20 @@ namespace HeroesRace
 		#region DATA
 		// ——— Helpers ———
 		internal Driver driver;
-		internal CCStack cc;
+		internal ModifierStack mods;
 
 		// ——— Animation ———
 		public SmartAnimator anim;
+		private float SpeedMul 
+		{
+			get { return anim.GetFloat ("SpeedMul"); }
+			set { anim.SetFloat ("SpeedMul", value); }
+		}
+		public bool Immune 
+		{
+			get { return anim.GetBool ("Immune"); }
+			set { anim.SetBool ("Immune", value); }
+		}
 		public bool Moving 
 		{
 			get { return anim.GetBool ("Moving"); }
@@ -59,11 +66,6 @@ namespace HeroesRace
 		{
 			get { return anim.GetBool ("OnAir"); }
 			set { anim.SetBool ("OnAir", value); }
-		}
-		public float SpeedMul 
-		{
-			get { return anim.GetFloat ("SpeedMul"); }
-			set { anim.SetFloat ("SpeedMul", value); }
 		}
 
 		// ——— Locomotion ———
@@ -82,7 +84,7 @@ namespace HeroesRace
 		#region LOCOMOTION
 		public void Movement (float axis) 
 		{
-			if (!cc[CCs.Moving])
+			if (!mods[CCs.Moving])
 			{
 				// Save input for later physics
 				if (axis != 0f) movingDir = axis;
@@ -96,7 +98,7 @@ namespace HeroesRace
 		public void Jumping () 
 		{
 			if (!OnAir
-			&& !cc[CCs.Jumping]) 
+			&& !mods[CCs.Jumping]) 
 			{
 				anim.SetTrigger ("Jump");
 				OnAir = true;
@@ -106,7 +108,9 @@ namespace HeroesRace
 		public void Power () 
 		{
 			if (!OnAir
-			&& !cc[CCs.PowerUp])
+			&& !mods[CCs.PowerUp]
+			// Can't cast a shield if already immune
+			&& !(power == PowerUp.Shield && Immune))
 			{
 				StartCoroutine (UsePower ());
 				power = PowerUp.None;
@@ -131,8 +135,8 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Jump () 
 		{
-			driver.body.AddForce
-				(Vector3.up * 6f, ForceMode.VelocityChange);
+			// Impulse Hero upwards
+			driver.body.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
 		}
 		#endregion
 
@@ -146,14 +150,14 @@ namespace HeroesRace
 
 			// Don't modify speed if CCed,
 			// because probably a external force is moving the Hero
-			if (!cc[CCs.Moving]) driver.body.angularVelocity = velocity;
+			if (!mods[CCs.Moving]) driver.body.angularVelocity = velocity;
 		}
 
 		protected override void OnServerAwake () 
 		{
 			// Get references
 			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
-			cc = new CCStack (this);
+			mods = new ModifierStack (this);
 
 			#warning adding a Hero camera for testing in the server!
 			OnStartOwnership ();
@@ -167,34 +171,26 @@ namespace HeroesRace
 			{
 				case PowerUp.Speed:
 				{
-					// Remove any slows
-					if (SpeedMul < 1f)
-						SpeedMul = 1f;
-
-					// Then speed up
-					SpeedMul *= 1.35f;
+					// Speed up Hero
+					mods.speedBuff *= 1.5f;
 					yield return new WaitForSeconds (1.5f);
-					SpeedMul /= 1.35f;
+					mods.speedBuff = 1f;
 				}
 				break;
 				case PowerUp.Shield:
 				{
-					// Can't cast a shield if already immune
-					while (cc.immune) yield return null;
-
+					Immune = true;
 					anim.SetTrigger ("Open_Shield");
-					float endMark = Time.time + 2.2f;
-					yield return new WaitForSeconds (0.2f);
-
+					float endMark = Time.time + 2f;
 					// Wait until a CC is recieved
 					// or shield just runs out of time
 					while (true)
 					{
-						if (SpeedMul < 1f || cc[CCs.Moving])
+						if (mods.Debuffed) 
 						{
 							// Clear all buffs & consume shield
 							anim.SetTrigger ("Consume_Shield");
-							StartCoroutine (cc.CleanCC ());
+							mods.CleanCC ();
 							break;
 						}
 						else
@@ -206,12 +202,12 @@ namespace HeroesRace
 						}
 						else yield return null;
 					}
+					// Preserver immunity for X seconds
+					yield return new WaitForSeconds (1f);
+					Immune = false;
 				}
 				break;
 			}
-			// Add a little CD to powers
-			yield return new WaitForSeconds (0.2f);
-			cc.Remove ("Using power");
 		}
 
 		private Vector3 ComputePosition () 
@@ -223,89 +219,98 @@ namespace HeroesRace
 		}
 		private Quaternion ComputeRotation () 
 		{
-			// Get signed facing rotation
-			var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);
-			var q = Quaternion.LookRotation (faceDir);
+			if (mods[CCs.Rotating])
+			{
+				// Get signed facing rotation
+				var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);
+				var q = Quaternion.LookRotation (faceDir);
 
-			// Lerp rotation for smooth turns
-			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
+				// Lerp rotation for smooth turns
+				return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
+			}
+			else return transform.rotation;
 		}
 		#endregion
 
-		#region CC STACK
-		internal class CCStack 
+		#region MODIFIER STACK
+		internal class ModifierStack 
 		{
-			#region DATA + CTOR + IDXER
-			public bool immune;
+			#region DATA
 			private readonly Hero owner;
-			private readonly Dictionary<string, CCs> stack;
-			private CCs summary;
+			private readonly Dictionary<string, CCs> blocks;
+			private readonly Dictionary<string, CCs> impairings;
 
-			public CCStack (Hero owner) 
+			private CCs summary;
+			public float speedBuff;
+			public float speedDebuff;
+
+			public bool Debuffed 
+			{get
+				{
+					// Debuffed if slowed or directly impaired
+					return (speedDebuff != 1f && speedBuff == 1f) 
+						|| impairings.Count > 0;
+				}
+			}
+			#endregion
+
+			public ModifierStack (Hero owner) 
 			{
 				this.owner = owner;
-				stack = new Dictionary<string, CCs> ();
+				blocks = new Dictionary<string, CCs> ();
+				impairings = new Dictionary<string, CCs> ();
+				speedBuff = speedDebuff = 1f;
 			}
 			public bool this[CCs cc] 
 			{
 				get { return summary.HasFlag (cc); }
 			}
-			#endregion
 
-			#region UTILS
-			public void Read () 
+			private void Update () 
 			{
 				summary = CCs.None;
-				foreach (var e in stack)
-					summary = summary.SetFlag (e.Value);
+				foreach (var b in blocks) summary = summary.SetFlag (b.Value);
+				foreach (var e in blocks) summary = summary.SetFlag (e.Value);
+
+				// Speed Buffs have priority!
+				if (speedDebuff != 1f) owner.SpeedMul = speedDebuff;
+				if (speedBuff != 1f) owner.SpeedMul = speedBuff;
 			}
 
-			public IEnumerator CleanCC () 
+			#region UTILS
+			public void Block (string name, CCs cc) 
 			{
-				// Find all debuffs 
-				string[] keys = (from pair in stack
-								 where pair.Value.HasFlag (CCs.Moving)
-								 select pair.Key).ToArray ();
-
-				// Copy string values to other memory references
-				string[] Keys = new string[keys.Length];
-				for (int i=0; i!=Keys.Length; i++)
-					Keys[i] = string.Copy(keys[i]);
-
-				// Remove them from the stack
-				foreach (string key in Keys)
-					stack.Remove (key);
-
-				// Remove any slows
-				if (owner.SpeedMul < 1f)
-					owner.SpeedMul = 1f;
-
-				// Grant immunity for X sec
-				immune = true;
-				yield return new WaitForSeconds (0.5f);
-				immune = false;
+				blocks.Add (name, cc);
+				Update ();
 			}
-
-			public void Add (string name, CCs cc, float duration = -1f, bool unique = true) 
+			public void Unblock (string name) 
 			{
-				// Add timestamp to remove uniqueness
-				if (!unique) name += Time.time;
-
-				stack.Add (name, cc);
-				if (duration > 0f) owner.StartCoroutine 
-						(RemoveAfter (name, duration));
+				blocks.Remove (name);
+				Update ();
 			}
 
-			public void Remove (string name) 
+			public void AddCC (string name, CCs cc, float duration, bool unique = true) 
 			{
-				stack.Remove (name);
-			}
+				// Add framestamp to remove uniqueness
+				if (!unique) name += Time.frameCount;
 
-			private IEnumerator RemoveAfter (string name, float duration) 
+				impairings.Add (name, cc);
+				owner.StartCoroutine (RemoveCCAfter (name, duration));
+				Update ();
+			}
+			private IEnumerator RemoveCCAfter (string name, float duration) 
 			{
 				float release = Time.time + duration;
 				while (Time.time < release) yield return null;
-				stack.Remove (name);
+				impairings.Remove (name);
+				Update ();
+			}
+
+			public void CleanCC () 
+			{
+				impairings.Clear ();
+				speedDebuff = 1f;
+				Update ();
 			}
 			#endregion
 		}

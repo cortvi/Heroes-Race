@@ -17,29 +17,22 @@ namespace HeroesRace.Effectors
 			hero.driver.body.angularVelocity = Vector3.zero;
 
 			// Apply computed force
-			hero.driver.body.angularVelocity = Vector3.zero;
-			var force = KnockForce (hero.transform.position);
-			hero.driver.body.AddForce (force, ForceMode.VelocityChange);
+			var force = KnockForce (hero.driver.transform);
+			hero.driver.body.angularVelocity = force;
 
 			// Apply CC to Hero
-			hero.cc.Add ("Knocked ", CCs.All, 1.5f, unique: false);
+			hero.mods.AddCC ("Knocked ", CCs.All, 1.5f, unique: false);
 			hero.anim.SetTrigger ("Hit");
 		}
 
-		private Vector3 KnockForce (Vector3 heroPos) 
+		private Vector3 KnockForce (Transform heroDriver) 
 		{
-			// Create a helper RTS matrix that looks at the Tower's center
-			var position = transform.position;
-			var rotation = Quaternion.LookRotation (-position);
-			var this2world = Matrix4x4.TRS (position, rotation, Vector3.one);
-
 			// Compare against hero position to get the force direction
-			var transPos = this2world.inverse.MultiplyPoint3x4 (heroPos);
+			var transPos = heroDriver.InverseTransformPoint (transform.position);
 			float sign = Mathf.Sign (transPos.x);
 
 			// Get matrix right and comput final force
-			var kickDir = this2world.MultiplyVector (Vector3.right);
-			kickDir *= sign * kickForce;
+			var kickDir = heroDriver.right *sign * kickForce;
 			kickDir += Vector3.up * upForce;
 
 			return kickDir;

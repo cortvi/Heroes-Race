@@ -1,9 +1,14 @@
-faltaria:
-- apañar immunidad en cada effector
-- cuando te limpias un CC, la animacion sigue
-- como te limpias el knock..? (simplemente no hace nada)
-- como te limpias el squash.? (empujar->moving dir)?
+——— Faltaria ———
+- pirañas ya no empujan (-> AddForce no!) ???
 
-— DONE —
+——— DONE ———
 - hacer movimiento apisonadoras irregular
 - salir de un slow tiene k tener en cuenta la speed del Hero
+- cambiar a Ground el Q5
+- añadir al prefab Squah el script xdfddd
+- apisonadora le falta ServerCallback
+- cambiar Driver a 0.32 para k no flote
+- (de)buff stack...?
+- cuando te limpias un CC, la animacion sigue (el squash no tiene que poder limpiarse!)
+- como evitas el squash.? (parada momentanea de apisonadora)
+- como evitas el knock..? (simplemente no hace nada)

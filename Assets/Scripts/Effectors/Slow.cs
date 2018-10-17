@@ -12,13 +12,11 @@ namespace HeroesRace.Effectors
 
 		protected override void OnEnter (Hero hero) 
 		{
-			if (hero.SpeedMul > 1f) return;
-			hero.SpeedMul *= 1 - slowAmount;
+			hero.mods.speedDebuff *= (1f - slowAmount);
 		}
 		protected override void OnExit (Hero hero) 
 		{
-			if (hero.SpeedMul > 1f) return;
-			hero.SpeedMul /= 1 - slowAmount;
+			hero.mods.speedDebuff = 1f;
 		}
 	} 
 }
