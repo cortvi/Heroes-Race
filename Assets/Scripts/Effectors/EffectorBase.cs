@@ -15,7 +15,11 @@ namespace HeroesRace.Effectors
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			if (hero.Immune) skippedEnter = true;
+			if (hero.Immune)
+			{
+				skippedEnter = true;
+				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f, false);
+			}
 			else OnEnter (hero);
 		}
 

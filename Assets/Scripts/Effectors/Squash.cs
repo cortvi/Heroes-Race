@@ -27,6 +27,7 @@ namespace HeroesRace.Effectors
 			// If hit an immune Hero, temporally stops the Apisonadora
 			if (hero.Immune)
 			{
+				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f, false);
 				var anim = GetComponentInParent<Apisonadora> ().anim;
 				anim.SetTrigger ("Reset");
 			}

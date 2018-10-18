@@ -107,10 +107,11 @@ namespace HeroesRace
 		}
 		public void Power () 
 		{
-			if (!OnAir
-			&& !mods[CCs.PowerUp]
+			if (!mods[CCs.PowerUp]
 			// Can't cast a shield if already immune
-			&& !(power == PowerUp.Shield && Immune))
+			&& !(power == PowerUp.Shield && Immune)
+			// No sense to speed up while in air
+			&& !(power == PowerUp.Speed && OnAir))
 			{
 				StartCoroutine (UsePower ());
 				power = PowerUp.None;
@@ -145,7 +146,7 @@ namespace HeroesRace
 		private void FixedUpdate () 
 		{
 			// If on-air, don't apply speed modifiers
-			float speed = input * Speed * (OnAir? 0.8f : SpeedMul);
+			float speed = input * Speed * (OnAir? 1f : SpeedMul);
 			var velocity = Vector3.up * speed * Time.fixedDeltaTime;
 
 			// Don't modify speed if CCed,
@@ -203,7 +204,7 @@ namespace HeroesRace
 						else yield return null;
 					}
 					// Preserver immunity for X seconds
-					yield return new WaitForSeconds (1f);
+					yield return new WaitForSeconds (0.5f);
 					Immune = false;
 				}
 				break;

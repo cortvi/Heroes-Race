@@ -7,7 +7,12 @@ namespace HeroesRace
 {
 	public sealed class SmartAnimator 
 	{
-		#region DATA + CTOR
+		#region IDXR + DATA + CTOR
+		public AnimatorStateInfo this[int layer] 
+		{
+			get { return Animator.GetCurrentAnimatorStateInfo (layer); }
+		}
+
 		public Animator Animator { get; private set; }
 		public NetworkAnimator NetAnimator { get; private set; }
 		private readonly bool isNetworked;

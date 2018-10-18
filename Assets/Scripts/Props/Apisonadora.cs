@@ -10,7 +10,8 @@ namespace HeroesRace
 		#region DATA
 		public Material[] variants;
 
-		private float waitTime;
+		[Info]
+		public float waitTime;
 		private bool readyToHit;
 
 		internal SmartAnimator anim;
@@ -19,11 +20,15 @@ namespace HeroesRace
 
 		private IEnumerator Hit () 
 		{
+			// First wait until up&down animation has finished
+			while (!anim.IsInState ("Default")) yield return null;
+
+			// Then wait given time
 			float mark = Time.time + waitTime;
 			while (Time.time <= mark) yield return null;
-			anim.SetTrigger ("Hit");
 
-			while (!anim.IsInState ("Default")) yield return null;
+			// Repeat
+			anim.SetTrigger ("Hit");
 			readyToHit = true;
 		}
 
@@ -46,7 +51,7 @@ namespace HeroesRace
 			if (NetworkServer.active) 
 			{
 				anim = GetComponent<Animator> ().GoSmart (networked: true);
-				waitTime = Random.Range (0.5f, 1.5f);
+				waitTime = Random.Range (0.25f, 1f);
 				readyToHit = true;
 			}
 		}
