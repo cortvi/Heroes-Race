@@ -8,12 +8,11 @@ namespace HeroesRace
 	public class Apisonadora : NetBehaviour 
 	{
 		#region DATA
-		public Material[] variants;
-
 		[Info]
 		public float waitTime;
-		private bool readyToHit;
+		public Material[] variants;
 
+		private bool readyToHit;
 		internal SmartAnimator anim;
 		private static int count;
 		#endregion

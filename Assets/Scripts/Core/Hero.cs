@@ -137,7 +137,7 @@ namespace HeroesRace
 		private void Jump () 
 		{
 			// Impulse Hero upwards
-			driver.body.AddForce (Vector3.up * 6f, ForceMode.VelocityChange);
+			driver.body.AddForce (Vector3.up * 5f, ForceMode.VelocityChange);
 		}
 		#endregion
 

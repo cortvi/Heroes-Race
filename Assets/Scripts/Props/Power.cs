@@ -5,34 +5,56 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public class Power : NetBehaviour 
+	public class /* SERVER-ONLY */ Power : NetBehaviour 
 	{
-		#warning Should I make them re-spawn?
 		[Info] public PowerUp power;
+		private SmartAnimator anim;
+		private const float respawnTime = 2f;
 
-		[ServerCallback]
+		private IEnumerator Consume () 
+		{
+			// Make it dissapepear
+			yield return new WaitForSeconds (1f);
+			NetworkServer.UnSpawn (gameObject);
+
+			// Make it re-appear again
+			yield return new WaitForSeconds (respawnTime);
+			NetworkServer.Spawn (gameObject);
+			anim.SetTrigger ("Reset");
+			SetPower ();
+		}
+		private void SetPower () 
+		{
+			int idx = Random.Range (1, (int) PowerUp.Count);
+			power = (PowerUp)idx;
+		}
+
+		#region CALLBACKS
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			if (hero.power == PowerUp.None) 
+			if (hero.power == PowerUp.None)
 			{
 				hero.power = power;
-				NetworkServer.Destroy (gameObject);
-				#warning En el futuro, hace más sutil la desaparición
+				anim.SetTrigger ("Consume");
+				StartCoroutine (Consume ());
 			}
 		}
 
-		protected override void OnStart () 
+		protected override void OnAwake () 
 		{
 			if (NetworkServer.active)
 			{
-				int idx = Random.Range (1, (int) PowerUp.Count);
-				power = (PowerUp) idx;
+				SetPower ();
+				anim = GetComponent<Animator> ()
+					.GoSmart (networked: true);
 			}
 			else
+			// Only works on Server
 			if (NetworkClient.active)
 				Destroy (this);
-		}
+		} 
+		#endregion
 	} 
 }

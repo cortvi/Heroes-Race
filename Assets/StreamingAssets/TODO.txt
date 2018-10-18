@@ -1,14 +1,28 @@
 ——— Faltaria ———
-- pirañas ya no empujan (-> AddForce no!) ???
+- hacer que los power ups reaparezcan (unspawn/spawn)
+- Esponjas
+- Pirañas volarinas
 
 ——— DONE ———
-- hacer movimiento apisonadoras irregular
-- salir de un slow tiene k tener en cuenta la speed del Hero
-- cambiar a Ground el Q5
-- añadir al prefab Squah el script xdfddd
-- apisonadora le falta ServerCallback
-- cambiar Driver a 0.32 para k no flote
-- (de)buff stack...?
-- cuando te limpias un CC, la animacion sigue (el squash no tiene que poder limpiarse!)
-- como evitas el squash.? (parada momentanea de apisonadora)
-- como evitas el knock..? (simplemente no hace nada)
+
+——— QUESITOS ———
+• Q1
+• Q2
+Q3
+• Q4
+• Q5
+Q6
+Q7
+Q8
+Q9
+Q10
+Q11
+Q12
+Q13
+Q14
+Q15
+Q16
+Q17
+
+——— A comprobar ———
+- Apisonadoras work weird (maybe on wired-LAN it solves?)
