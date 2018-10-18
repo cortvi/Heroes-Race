@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
 	public class Esponja : NetBehaviour 
 	{
 		public Transform muslce;
-		public const float ThrowForce = 8f;
+
+		private const float ThrowForce = 8f;
 		private List<Rigidbody> heroesIn;
+		private Animator anim;
 
 		// ——— Animator call ———
+		[ServerCallback]
 		private void ThrowHeroes () 
 		{
 			// Apply jump force to all Heroes up in the Esponja
@@ -24,6 +28,7 @@ namespace HeroesRace
 			// Register Hero
 			if (other.tag != "Player") return;
 			heroesIn.Add (other.GetComponent<Rigidbody> ());
+			anim.SetBool ("Player_in", true);
 
 			// Attach to muscle
 			other.transform.SetParent (muslce, true);
@@ -33,13 +38,15 @@ namespace HeroesRace
 			// Unregister Hero
 			if (other.tag != "Player") return;
 			heroesIn.Remove (other.GetComponent<Rigidbody> ());
+			anim.SetBool ("Player_in", (heroesIn.Count > 0));
 
 			// Dettach
 			other.transform.SetParent (null, true);
 		}
 
-		protected override void OnAwake ()
+		protected override void OnServerAwake () 
 		{
+			anim = GetComponent<Animator> ();
 			heroesIn = new List<Rigidbody> (Net.PlayersNeeded);
 		}
 	}  
