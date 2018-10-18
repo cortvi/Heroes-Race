@@ -18,21 +18,32 @@ namespace HeroesRace.Effectors
 
 			// Apply computed force
 			var force = KnockForce (hero.driver.transform);
-			hero.driver.body.angularVelocity = force;
+			hero.driver.body.AddForceAtPosition (force, transform.position, ForceMode.VelocityChange);
 
 			// Apply CC to Hero
 			hero.mods.AddCC ("Knocked ", CCs.All, 1.5f, unique: false);
 			hero.anim.SetTrigger ("Hit");
 		}
 
+		private void OnDrawGizmos () 
+		{
+			if (Net.players[0] && Net.players[0].pawn) 
+			{
+				var driver = (Net.players[0].pawn as Hero).driver.transform;
+				var from = transform.position;
+				var to = from + KnockForce (driver);
+				Gizmos.DrawLine (from, to);
+			}
+		}
+
 		private Vector3 KnockForce (Transform heroDriver) 
 		{
 			// Compare against hero position to get the force direction
 			var transPos = heroDriver.InverseTransformPoint (transform.position);
-			float sign = Mathf.Sign (transPos.x);
+			float sign = -Mathf.Sign (transPos.x);
 
 			// Get matrix right and comput final force
-			var kickDir = heroDriver.right *sign * kickForce;
+			var kickDir = heroDriver.right * sign * kickForce;
 			kickDir += Vector3.up * upForce;
 
 			return kickDir;

@@ -17,21 +17,17 @@ namespace HeroesRace.Effectors
 			target.mods.Unblock ("Squashed");
 		}
 
-		private IEnumerator Pause () 
-		{
-			var anim = GetComponentInParent<Animator> ();
-			anim.SetFloat ("SpeedMul", 0f);
-			yield return new WaitForSeconds (0.75f);
-			anim.SetFloat ("SpeedMul", 1f);
-		}
-
 		protected void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
 
 			// If hit an immune Hero, temporally stops the Apisonadora
-			if (hero.Immune) StartCoroutine (Pause ());
+			if (hero.Immune)
+			{
+				var anim = GetComponentInParent<Apisonadora> ().anim;
+				anim.SetTrigger ("Reset");
+			}
 			else StartCoroutine (Squashing (hero));
 		}
 

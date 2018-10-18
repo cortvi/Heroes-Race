@@ -13,14 +13,14 @@ namespace HeroesRace
 		private float waitTime;
 		private bool readyToHit;
 
-		private SmartAnimator anim;
+		internal SmartAnimator anim;
 		private static int count;
 		#endregion
 
 		private IEnumerator Hit () 
 		{
 			float mark = Time.time + waitTime;
-			while (Time.time > mark) yield return null;
+			while (Time.time <= mark) yield return null;
 			anim.SetTrigger ("Hit");
 
 			while (!anim.IsInState ("None")) yield return null;
@@ -43,9 +43,12 @@ namespace HeroesRace
 			var variant = variants[count++];
 			GetComponentInChildren<Renderer> ().sharedMaterial = variant;
 
-			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			waitTime = Random.Range (1.2f, 2f);
-			readyToHit = true;
+			if (NetworkServer.active) 
+			{
+				anim = GetComponent<Animator> ().GoSmart (networked: true);
+				waitTime = Random.Range (1.2f, 2f);
+				readyToHit = true;
+			}
 		}
 	} 
 }

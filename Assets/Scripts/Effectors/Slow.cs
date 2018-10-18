@@ -8,15 +8,15 @@ namespace HeroesRace.Effectors
 	public class Slow : EffectorBase 
 	{
 		[Range (0f, 1f)]
-		public float slowAmount;
+		public float amount;
 
 		protected override void OnEnter (Hero hero) 
 		{
-			hero.mods.speedDebuff *= (1f - slowAmount);
+			hero.mods.SpeedDown (amount);
 		}
 		protected override void OnExit (Hero hero) 
 		{
-			hero.mods.speedDebuff = 1f;
+			hero.mods.SpeedDown (0f);
 		}
 	} 
 }

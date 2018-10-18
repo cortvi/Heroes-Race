@@ -145,7 +145,7 @@ namespace HeroesRace
 		private void FixedUpdate () 
 		{
 			// If on-air, don't apply speed modifiers
-			float speed = input * Speed * (OnAir? 1f : SpeedMul);
+			float speed = input * Speed * (OnAir? 0.8f : SpeedMul);
 			var velocity = Vector3.up * speed * Time.fixedDeltaTime;
 
 			// Don't modify speed if CCed,
@@ -172,9 +172,9 @@ namespace HeroesRace
 				case PowerUp.Speed:
 				{
 					// Speed up Hero
-					mods.speedBuff *= 1.5f;
+					mods.SpeedUp (0.4f);
 					yield return new WaitForSeconds (1.5f);
-					mods.speedBuff = 1f;
+					mods.SpeedUp (0f);
 				}
 				break;
 				case PowerUp.Shield:
@@ -219,16 +219,14 @@ namespace HeroesRace
 		}
 		private Quaternion ComputeRotation () 
 		{
-			if (mods[CCs.Rotating])
-			{
-				// Get signed facing rotation
-				var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);
-				var q = Quaternion.LookRotation (faceDir);
+			if (mods[CCs.Rotating]) return transform.rotation;
 
-				// Lerp rotation for smooth turns
-				return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
-			}
-			else return transform.rotation;
+			// Get signed facing rotation
+			var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);
+			var q = Quaternion.LookRotation (faceDir);
+
+			// Lerp rotation for smooth turns
+			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 		}
 		#endregion
 
@@ -241,8 +239,8 @@ namespace HeroesRace
 			private readonly Dictionary<string, CCs> impairings;
 
 			private CCs summary;
-			public float speedBuff;
-			public float speedDebuff;
+			private float speedBuff;
+			private float speedDebuff;
 
 			public bool Debuffed 
 			{get
@@ -269,12 +267,15 @@ namespace HeroesRace
 			private void Update () 
 			{
 				summary = CCs.None;
-				foreach (var b in blocks) summary = summary.SetFlag (b.Value);
-				foreach (var e in blocks) summary = summary.SetFlag (e.Value);
+				foreach (var b in blocks)		summary = summary.SetFlag (b.Value);
+				foreach (var i in impairings)	summary = summary.SetFlag (i.Value);
 
 				// Speed Buffs have priority!
-				if (speedDebuff != 1f) owner.SpeedMul = speedDebuff;
 				if (speedBuff != 1f) owner.SpeedMul = speedBuff;
+				else
+				if (speedDebuff != 1f) owner.SpeedMul = speedDebuff;
+
+				else owner.SpeedMul = 1f;
 			}
 
 			#region UTILS
@@ -310,6 +311,19 @@ namespace HeroesRace
 			{
 				impairings.Clear ();
 				speedDebuff = 1f;
+				Update ();
+			}
+
+			public void SpeedUp (float amount) 
+			{
+				if (amount != 0f) speedBuff *= (1 + amount);
+				else speedBuff = 1f;
+				Update ();
+			}
+			public void SpeedDown (float amount) 
+			{
+				if (amount != 0f) speedDebuff *= (1 - amount);
+				else speedDebuff = 1f;
 				Update ();
 			}
 			#endregion
