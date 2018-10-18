@@ -46,7 +46,7 @@ namespace HeroesRace
 			if (NetworkServer.active) 
 			{
 				anim = GetComponent<Animator> ().GoSmart (networked: true);
-				waitTime = Random.Range (1.2f, 2f);
+				waitTime = Random.Range (0.75f, 1.5f);
 				readyToHit = true;
 			}
 		}
