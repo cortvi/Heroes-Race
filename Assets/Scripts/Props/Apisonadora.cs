@@ -23,7 +23,7 @@ namespace HeroesRace
 			while (Time.time <= mark) yield return null;
 			anim.SetTrigger ("Hit");
 
-			while (!anim.IsInState ("None")) yield return null;
+			while (!anim.IsInState ("Default")) yield return null;
 			readyToHit = true;
 		}
 
@@ -46,7 +46,7 @@ namespace HeroesRace
 			if (NetworkServer.active) 
 			{
 				anim = GetComponent<Animator> ().GoSmart (networked: true);
-				waitTime = Random.Range (0.75f, 1.5f);
+				waitTime = Random.Range (0.5f, 1.5f);
 				readyToHit = true;
 			}
 		}

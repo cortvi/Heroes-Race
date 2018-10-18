@@ -13,7 +13,9 @@ namespace HeroesRace.Effectors
 		{
 			target.anim.SetTrigger ("Squash");
 			target.mods.Block ("Squashed", CCs.All);
+			target.driver.body.isKinematic = true;   // Avoid crashing into stone collider
 			yield return new WaitForSeconds (1.2f);
+			target.driver.body.isKinematic = false;
 			target.mods.Unblock ("Squashed");
 		}
 
