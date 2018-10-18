@@ -60,9 +60,10 @@ namespace HeroesRace
 			var player = CheckPlayer (conn);
 
 			// Create new Pawn for Player if none
+			string scene = SceneManager.GetActiveScene ().name;
 			if (player.pawn == null) 
 			{
-				if (networkSceneName == "Selection")
+				if (scene == "Selection")
 				{
 					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + player.ID);
 					var selector = FindObjectsOfType<Selector> ().First (check);
@@ -70,7 +71,7 @@ namespace HeroesRace
 					player.SetPawn (selector);
 				}
 				else
-				if (networkSceneName == "Tower")
+				if (scene == "Tower")
 				{
 					// If bypassing selection menu
 					if (player.playingAs == Heroe.NONE)
