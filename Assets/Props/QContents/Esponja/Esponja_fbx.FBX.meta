@@ -228,7 +228,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0.79236275
-        functionName: ThrowHeros
+        functionName: ThrowHeroes
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

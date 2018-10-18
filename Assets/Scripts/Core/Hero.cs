@@ -19,7 +19,8 @@ namespace HeroesRace
 	public sealed partial class /* COMMON */ Hero : NetBehaviour 
 	{
 		#region DATA
-		public const float Speed = 10.0f;
+		private const float Speed = 10.0f;
+		private const float JumpForce = 6f;
 
 		[SyncVar] internal Vector3 netPosition;     // Exact real position
 		[SyncVar] internal float netAngular;        // Speed around tower
@@ -137,7 +138,7 @@ namespace HeroesRace
 		private void Jump () 
 		{
 			// Impulse Hero upwards
-			driver.body.AddForce (Vector3.up * 5f, ForceMode.VelocityChange);
+			driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
 		}
 		#endregion
 
@@ -295,6 +296,8 @@ namespace HeroesRace
 			{
 				// Add framestamp to remove uniqueness
 				if (!unique) name += Time.frameCount;
+				// If should be unique, but it's not, just skip it
+				else if (impairings.ContainsKey (name)) return;
 
 				impairings.Add (name, cc);
 				owner.StartCoroutine (RemoveCCAfter (name, duration));

@@ -7,15 +7,17 @@ namespace HeroesRace
 {
 	public class Esponja : NetBehaviour 
 	{
+		#region DATA
 		public Transform muslce;
 
 		private const float ThrowForce = 8f;
 		private List<Rigidbody> heroesIn;
-		private Animator anim;
+		private Animator anim; 
+		#endregion
 
-		// ——— Animator call ———
 		[ServerCallback]
-		private void ThrowHeroes () 
+		// ——— Animator call ———
+		public void ThrowHeroes () 
 		{
 			// Apply jump force to all Heroes up in the Esponja
 			var force = Vector3.up * ThrowForce;
