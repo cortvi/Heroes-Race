@@ -80,21 +80,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1946388542039786
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4492997788667874}
-  m_Layer: 0
-  m_Name: Muscle Strand002
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4022637903337180
 Transform:
   m_ObjectHideFlags: 1
@@ -102,12 +87,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1367485564773988}
   m_LocalRotation: {x: -0, y: 0.306583, z: -0, w: 0.951844}
-  m_LocalPosition: {x: 14.102021, y: 1.309, z: 25.230398}
+  m_LocalPosition: {x: 13.962553, y: 1.381, z: 25.634819}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4100999170324318}
   - {fileID: 4893883249097298}
-  - {fileID: 4492997788667874}
   - {fileID: 4933536969306266}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -125,19 +109,6 @@ Transform:
   m_Father: {fileID: 4022637903337180}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4492997788667874
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1946388542039786}
-  m_LocalRotation: {x: 0.0000002732357, y: 0.00000020004931, z: 0.6920848, w: 0.72181624}
-  m_LocalPosition: {x: 0.019191777, y: 0.12775737, z: 0.000000009455241}
-  m_LocalScale: {x: 1.6288748, y: 1.6288748, z: 1.6288749}
-  m_Children: []
-  m_Father: {fileID: 4022637903337180}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0.000008605972, y: 0.000036116428, z: 87.59072}
 --- !u!4 &4893883249097298
 Transform:
   m_ObjectHideFlags: 1
@@ -162,7 +133,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4022637903337180}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &65115655410877606
 BoxCollider:
@@ -280,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  muslce: {fileID: 4492997788667874}
+  muslce: {fileID: 0}
 --- !u!114 &114995492780822146
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2039,6 +2039,7 @@ GameObject:
   - component: {fileID: 807756773}
   - component: {fileID: 807756772}
   - component: {fileID: 807756771}
+  - component: {fileID: 807756774}
   m_Layer: 8
   m_Name: TUBERIA001
   m_TagString: Floor
@@ -2116,6 +2117,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 807756769}
   m_Mesh: {fileID: 4300042, guid: 37792cfe16ccf4346849b2ea0d257875, type: 3}
+--- !u!65 &807756774
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 807756769}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22656865, y: 0.5882958, z: 0.6599302}
+  m_Center: {x: 0.41000482, y: -0.26901916, z: 0.3641945}
 --- !u!1 &807761487
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,6 +2462,7 @@ GameObject:
   - component: {fileID: 904910415}
   - component: {fileID: 904910414}
   - component: {fileID: 904910413}
+  - component: {fileID: 904910416}
   m_Layer: 8
   m_Name: TUBERIA
   m_TagString: Floor
@@ -2526,6 +2540,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 904910411}
   m_Mesh: {fileID: 4300026, guid: 37792cfe16ccf4346849b2ea0d257875, type: 3}
+--- !u!65 &904910416
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 904910411}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.22656871, y: 0.5920463, z: 0.6160608}
+  m_Center: {x: -0.47420684, y: -0.30251536, z: 0.34225985}
 --- !u!1 &907647588
 GameObject:
   m_ObjectHideFlags: 0

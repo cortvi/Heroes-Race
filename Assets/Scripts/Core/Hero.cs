@@ -281,10 +281,16 @@ namespace HeroesRace
 			}
 
 			#region UTILS
-			public void Block (string name, CCs cc) 
+			public bool Block (string name, CCs cc, bool unique = true) 
 			{
+				// Add framestamp to remove uniqueness
+				if (!unique) name += Time.frameCount;
+				// If should be unique, but it's not, just skip it
+				else if (blocks.ContainsKey (name)) return false;
+
 				blocks.Add (name, cc);
 				Update ();
+				return true;
 			}
 			public void Unblock (string name) 
 			{
@@ -292,16 +298,17 @@ namespace HeroesRace
 				Update ();
 			}
 
-			public void AddCC (string name, CCs cc, float duration, bool unique = true) 
+			public bool AddCC (string name, CCs cc, float duration, bool unique = true) 
 			{
 				// Add framestamp to remove uniqueness
 				if (!unique) name += Time.frameCount;
 				// If should be unique, but it's not, just skip it
-				else if (impairings.ContainsKey (name)) return;
+				else if (impairings.ContainsKey (name)) return false;
 
 				impairings.Add (name, cc);
 				owner.StartCoroutine (RemoveCCAfter (name, duration));
 				Update ();
+				return true;
 			}
 			private IEnumerator RemoveCCAfter (string name, float duration) 
 			{

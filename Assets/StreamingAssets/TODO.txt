@@ -1,9 +1,11 @@
 ——— Faltaria ———
-- hacer que los power ups reaparezcan (unspawn/spawn)
-- Esponjas
+- Apisonadoras work weird (on Client)
 - Pirañas volarinas
 
 ——— DONE ———
+- checkear "uniquness" para k no haya errores
+- la colision de la esponja no deja al Hero seguir su recorrido
+- Los CCs no deberian aplicar la animacion si no consiguen añadirse a la lista!
 
 ——— QUESITOS ———
 • Q1
@@ -25,4 +27,8 @@ Q16
 Q17
 
 ——— A comprobar ———
-- Apisonadoras work weird (maybe on wired-LAN it solves?)
+
+——— Sometime ———
+- En reconexion de jugador, es necesario re-asignar Pawn!
+- Mapa
+- Monstruo -> shader parpadeo + animator!
