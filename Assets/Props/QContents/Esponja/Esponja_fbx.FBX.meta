@@ -109,6 +109,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths:
     - Muscle Strand002
+    - ESPONJA_HI
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
