@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors 
 {
-	public class Fear : EffectorBase 
+	public class Fear : CCBase 
 	{
 		public float stunTime;
 

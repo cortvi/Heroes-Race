@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors
 {
-	public abstract class EffectorBase : MonoBehaviour 
+	public abstract class CCBase : MonoBehaviour 
 	{
 		private bool skippedEnter;   // True when entering was skipped due to Immunity
 

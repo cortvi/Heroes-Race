@@ -64,12 +64,7 @@ namespace HeroesRace
 		} 
 		#endregion
 
-		public void SetPawn (NetBehaviour newPawn) 
-		{
-			ChangePawn (newPawn);
-			Rpc_SetPawn (newPawn != null? newPawn.gameObject : null);
-		}
-
+		#region COMMANDS
 		[Command (channel = 2)]
 		private void Cmd_Selection (int delta, bool readySwitch) 
 		{
@@ -89,12 +84,19 @@ namespace HeroesRace
 
 		#region CHEATS
 		[Command]
-		public void Cmd_GrantPower (PowerUp power) 
+		public void Cmd_GrantPower (PowerUp power)
 		{
 			var h = pawn as Hero;
 			h.power = power;
 		}
 		#endregion
+		#endregion
+
+		public void SetPawn (NetBehaviour newPawn) 
+		{
+			ChangePawn (newPawn);
+			Rpc_SetPawn (newPawn != null ? newPawn.gameObject : null);
+		}
 	}
 
 	public partial class /* CLIENT */ Player 

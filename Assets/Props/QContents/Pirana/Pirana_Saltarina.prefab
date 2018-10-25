@@ -37,10 +37,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4107931260216974}
   - component: {fileID: 95267773824122866}
+  - component: {fileID: 136163937441606138}
   - component: {fileID: 114992716583494832}
   - component: {fileID: 114960864892274828}
   - component: {fileID: 54521757467465938}
-  - component: {fileID: 136163937441606138}
   - component: {fileID: 114293657298615878}
   - component: {fileID: 114729675815213550}
   m_Layer: 0
@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1406241451572134}
   m_LocalRotation: {x: 0.21810195, y: 0.67263037, z: -0.67263037, w: 0.21810195}
-  m_LocalPosition: {x: 29.721031, y: 2.227, z: 1.689}
+  m_LocalPosition: {x: 35.590218, y: 0.6, z: 4.7550774}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4914724863069648}
@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.0625
+  m_SendInterval: 0.07692308
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
@@ -267,7 +267,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.1
+  m_Radius: 0.15
   m_Height: 0.49745804
   m_Direction: 2
   m_Center: {x: -0.021160271, y: 0.0000014116056, z: -0.02843219}

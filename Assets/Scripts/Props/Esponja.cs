@@ -8,11 +8,10 @@ namespace HeroesRace
 	public class Esponja : NetBehaviour 
 	{
 		#region DATA
-		public Transform muslce;
+		private Animator anim; 
+		private List<Driver> heroesIn;
 
 		private const float ThrowForce = 8f;
-		private List<Rigidbody> heroesIn;
-		private Animator anim; 
 		#endregion
 
 		[ServerCallback]
@@ -21,7 +20,12 @@ namespace HeroesRace
 		{
 			// Apply jump force to all Heroes up in the Esponja
 			var force = Vector3.up * ThrowForce;
-			foreach (var h in heroesIn) h.AddForce (force, ForceMode.VelocityChange);
+			foreach (var d in heroesIn) 
+			{
+				// Impulse each Hero upwards
+				d.body.AddForce (force, ForceMode.VelocityChange);
+				d.owner.OnAir = true;
+			}
 		}
 
 		#region CALLBACKS
@@ -30,7 +34,7 @@ namespace HeroesRace
 		{
 			// Register Hero
 			if (other.tag != "Player") return;
-			heroesIn.Add (other.GetComponent<Rigidbody> ());
+			heroesIn.Add (other.GetComponent<Driver> ());
 			anim.SetBool ("Player_in", true);
 		}
 		[ServerCallback]
@@ -38,14 +42,14 @@ namespace HeroesRace
 		{
 			// Unregister Hero
 			if (other.tag != "Player") return;
-			heroesIn.Remove (other.GetComponent<Rigidbody> ());
+			heroesIn.Remove (other.GetComponent<Driver> ());
 			anim.SetBool ("Player_in", (heroesIn.Count > 0));
 		}
 
 		protected override void OnServerAwake () 
 		{
 			anim = GetComponent<Animator> ();
-			heroesIn = new List<Rigidbody> (Net.PlayersNeeded);
+			heroesIn = new List<Driver> (Net.PlayersNeeded);
 		}
 	}  
 	#endregion

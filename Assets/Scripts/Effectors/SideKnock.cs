@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors 
 {
-	public class SideKnock : EffectorBase 
+	public class SideKnock : CCBase 
 	{
 		public float kickForce;
 		public float upForce;
@@ -23,17 +23,6 @@ namespace HeroesRace.Effectors
 			// Apply CC to Hero
 			hero.mods.AddCC ("Knocked ", CCs.All, 1.5f, unique: false);
 			hero.anim.SetTrigger ("Hit");
-		}
-
-		private void OnDrawGizmos () 
-		{
-			if (Net.players[0] && Net.players[0].pawn) 
-			{
-				var driver = (Net.players[0].pawn as Hero).driver.transform;
-				var from = transform.position;
-				var to = from + KnockForce (driver);
-				Gizmos.DrawLine (from, to);
-			}
 		}
 
 		private Vector3 KnockForce (Transform heroDriver) 

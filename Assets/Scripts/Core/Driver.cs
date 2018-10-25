@@ -24,13 +24,11 @@ namespace HeroesRace
 		#region CALLBACKS
 		private void Update () 
 		{
-			#region FLOOR CHECK
 			if (TouchingFloor ())
 			{
 				// If hit floor from air (+ in mid-air animation), land character
 				if (owner.OnAir && owner.anim.IsInState ("Locomotion.Air.Mid_Air"))
 				{
-					owner.anim.SetTrigger ("Land");
 					owner.OnAir = false;
 					SwitchFriction (true);
 				}
@@ -55,7 +53,6 @@ namespace HeroesRace
 					SwitchFriction (false);
 				}
 			}
-			#endregion
 		}
 
 		private void Start () 

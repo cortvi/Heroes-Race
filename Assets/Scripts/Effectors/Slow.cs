@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace.Effectors 
 {
-	public class Slow : EffectorBase 
+	public class Slow : CCBase 
 	{
 		[Range (0f, 1f)]
 		public float amount;

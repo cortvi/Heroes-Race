@@ -3,6 +3,8 @@
 - Pirañas volarinas
 
 ——— DONE ———
+- Esponjas se activan al pasar por al lado (check colldiers)
+- jugador no sigue el recorrido y eske el collider no hace la animacion
 - checkear "uniquness" para k no haya errores
 - la colision de la esponja no deja al Hero seguir su recorrido
 - Los CCs no deberian aplicar la animacion si no consiguen añadirse a la lista!
@@ -12,7 +14,7 @@
 • Q2
 Q3
 • Q4
-• Q5
+Q5
 Q6
 Q7
 Q8
@@ -23,12 +25,11 @@ Q12
 Q13
 Q14
 Q15
-Q16
 Q17
 
 ——— A comprobar ———
 
 ——— Sometime ———
 - En reconexion de jugador, es necesario re-asignar Pawn!
-- Mapa
+- Make mapa work
 - Monstruo -> shader parpadeo + animator!

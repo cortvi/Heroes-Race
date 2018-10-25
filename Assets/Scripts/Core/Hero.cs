@@ -137,8 +137,12 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Jump () 
 		{
-			// Impulse Hero upwards
-			driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
+			if (!mods[CCs.Jumping]
+			&& (!mods[CCs.Moving]))
+			{
+				// Impulse Hero upwards if possible (may be CCd between animation)
+				driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
+			}
 		}
 		#endregion
 
@@ -281,12 +285,10 @@ namespace HeroesRace
 			}
 
 			#region UTILS
-			public bool Block (string name, CCs cc, bool unique = true) 
+			public bool Block (string name, CCs cc) 
 			{
-				// Add framestamp to remove uniqueness
-				if (!unique) name += Time.frameCount;
-				// If should be unique, but it's not, just skip it
-				else if (blocks.ContainsKey (name)) return false;
+				// Skip if not unique
+				if (blocks.ContainsKey (name)) return false;
 
 				blocks.Add (name, cc);
 				Update ();
