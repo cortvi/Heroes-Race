@@ -20,8 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4992074012653344}
   - component: {fileID: 111686545846714462}
+  - component: {fileID: 114673612317744186}
+  - component: {fileID: 114359932156785570}
   m_Layer: 0
-  m_Name: Slime_08
+  m_Name: MiniSlime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38,7 +40,7 @@ GameObject:
   - component: {fileID: 33597048639361508}
   - component: {fileID: 23418553439439714}
   - component: {fileID: 135638634425303646}
-  - component: {fileID: 114877302671177806}
+  - component: {fileID: 114160974300311928}
   m_Layer: 0
   m_Name: "SLIMEPEQUE\xD1O"
   m_TagString: Untagged
@@ -66,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1246058221159688}
   m_LocalRotation: {x: -0.5909345, y: 0.3828695, z: -0.36933777, w: -0.6064627}
-  m_LocalPosition: {x: -9.675, y: 3.799, z: -27.947}
+  m_LocalPosition: {x: -4.323157, y: 2.951, z: 29.985369}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4900076077553242}
@@ -82,6 +84,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -97,6 +100,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -127,7 +131,7 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &114877302671177806
+--- !u!114 &114160974300311928
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -135,11 +139,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 1912941001908896}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78cb4c25fa3409d4aa05423cf397e36e, type: 3}
+  m_Script: {fileID: 11500000, guid: a22418e4bbac5dd44ae2e1ec5ae4f871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 4
-  upInstead: 0
+  kickForce: 6
+  upForce: 1
+--- !u!114 &114359932156785570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246058221159688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a178cd62d2f9047a9a2153aa2ea498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+--- !u!114 &114673612317744186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246058221159688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 22
+    i1: 33
+    i2: 182
+    i3: 153
+    i4: 53
+    i5: 164
+    i6: 186
+    i7: 164
+    i8: 106
+    i9: 184
+    i10: 5
+    i11: 2
+    i12: 27
+    i13: 197
+    i14: 39
+    i15: 158
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!135 &135638634425303646
 SphereCollider:
   m_ObjectHideFlags: 1

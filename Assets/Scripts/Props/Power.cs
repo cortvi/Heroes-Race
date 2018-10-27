@@ -21,6 +21,8 @@ namespace HeroesRace
 			yield return new WaitForSeconds (respawnTime);
 			NetworkServer.Spawn (gameObject);
 			anim.SetTrigger ("Reset");
+
+			UpdateName ();
 			SetPower ();
 		}
 		private void SetPower () 
@@ -53,7 +55,10 @@ namespace HeroesRace
 			else
 			// Only works on Server
 			if (NetworkClient.active)
+			{
+				UpdateName ();
 				Destroy (this);
+			}
 		} 
 		#endregion
 	} 

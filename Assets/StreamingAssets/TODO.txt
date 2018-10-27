@@ -1,13 +1,11 @@
 ——— Faltaria ———
-- Apisonadoras work weird (on Client)
-- Pirañas volarinas
+- Apisonadoras work weird (on Client) ((test!))
+- Testear Q8!
+- Testear Q9!
+- Testear Q10!
 
 ——— DONE ———
-- Esponjas se activan al pasar por al lado (check colldiers)
-- jugador no sigue el recorrido y eske el collider no hace la animacion
-- checkear "uniquness" para k no haya errores
-- la colision de la esponja no deja al Hero seguir su recorrido
-- Los CCs no deberian aplicar la animacion si no consiguen añadirse a la lista!
+
 
 ——— QUESITOS ———
 • Q1
@@ -15,7 +13,7 @@
 Q3
 • Q4
 Q5
-Q6
+• Q6
 Q7
 Q8
 Q9

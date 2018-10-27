@@ -117,8 +117,7 @@ namespace HeroesRace
 			if (Animator.IsInTransition (layer) && !countTransition) 
 				return false;
 
-			var info = Animator.GetCurrentAnimatorStateInfo (layer);
-			return info.IsName (name);
+			return this[layer].IsName (name);
 		}
 
 		private bool IsDrivenByNetwork () 

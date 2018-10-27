@@ -11,7 +11,7 @@ namespace HeroesRace
 	// Wrapper class for networked objects
 	public abstract class NetBehaviour : NetworkBehaviour 
 	{
-		public string SharedName { get; private set; }
+		public string SharedName { get; set; }
 		[Info] public Player owner;
 
 		#region NET OWNERSHIP
