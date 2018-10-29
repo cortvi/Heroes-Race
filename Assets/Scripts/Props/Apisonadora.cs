@@ -15,9 +15,9 @@ namespace HeroesRace
 		private static int count;
 		#endregion
 
+		[ServerCallback]
 		new IEnumerator Start () 
 		{
-			if (isClient) yield break;
 			while (true) 
 			{
 				// Then wait given time
@@ -28,7 +28,7 @@ namespace HeroesRace
 				anim.SetTrigger ("Hit");
 				yield return new WaitForSeconds (0.2f);
 
-				// Wait until it finished to repeat loop
+				// Wait until it finishes, then repeat loop
 				while (!(anim.IsInState("Default") && anim[0].normalizedTime < 1f))
 					yield return null;
 			}
@@ -36,16 +36,16 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
+			if (NetworkServer.active)
+			{
+				waitTime = Random.Range (0.35f, 1.3f);
+				anim = GetComponent<Animator> ().GoSmart (networked: true);
+			}
+
 			// Make each one look different
 			if (count == 3) count = 0;
 			var variant = variants[count++];
 			GetComponentInChildren<Renderer> ().sharedMaterial = variant;
-
-			if (NetworkServer.active) 
-			{
-				anim = GetComponent<Animator> ().GoSmart (networked: true);
-				waitTime = Random.Range (0.35f, 1.3f);
-			}
 		}
 	} 
 }

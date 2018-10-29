@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -101,9 +100,9 @@ namespace HeroesRace
 			if (!OnAir
 			&& !mods[CCs.Jumping]) 
 			{
+				driver.SwitchFriction (touchingFloor: false);
 				anim.SetTrigger ("Jump");
 				OnAir = true;
-				driver.SwitchFriction (false);
 			}
 		}
 		public void Power () 
@@ -300,12 +299,10 @@ namespace HeroesRace
 				Update ();
 			}
 
-			public bool AddCC (string name, CCs cc, float duration, bool unique = true) 
+			public bool AddCC (string name, CCs cc, float duration) 
 			{
-				// Add framestamp to remove uniqueness
-				if (!unique) name += Time.frameCount;
-				// If should be unique, but it's not, just skip it
-				else if (impairings.ContainsKey (name)) return false;
+				// Skip if not unique
+				if (impairings.ContainsKey (name)) return false;
 
 				impairings.Add (name, cc);
 				owner.StartCoroutine (RemoveCCAfter (name, duration));
@@ -411,7 +408,8 @@ namespace HeroesRace
 		Count
 	}
 
-	[Flags] public enum CCs 
+	[System.Flags]
+	public enum CCs 
 	{
 		Moving = 1 << 0,
 		Rotating = 1 << 1,

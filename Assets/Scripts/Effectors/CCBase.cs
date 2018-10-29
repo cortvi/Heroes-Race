@@ -18,7 +18,7 @@ namespace HeroesRace.Effectors
 			if (hero.Immune)
 			{
 				skippedEnter = true;
-				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f, false);
+				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f);
 			}
 			else OnEnter (hero);
 		}

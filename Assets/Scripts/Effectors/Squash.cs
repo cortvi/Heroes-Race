@@ -32,7 +32,7 @@ namespace HeroesRace.Effectors
 			if (hero.Immune)
 			{
 				// If hit an immune Hero, reset the Apisonadora
-				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f, unique: false);
+				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f);
 				var anim = GetComponentInParent<Apisonadora> ().anim;
 				anim.SetTrigger ("Reset");
 			}

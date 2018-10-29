@@ -32,7 +32,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: PLATAFROMASPAWN004
+    path: Plataformas
   m_ScaleCurves: []
   m_FloatCurves:
   - curve:
@@ -40,13 +40,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.11
+        value: 0.68
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 5.31
+        value: 5.89
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -66,7 +66,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1577205229
+      path: 1732084533
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -120,7 +120,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.x
-    path: PLATAFROMASPAWN004
+    path: Plataformas
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -142,7 +142,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.y
-    path: PLATAFROMASPAWN004
+    path: Plataformas
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -164,7 +164,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalPosition.z
-    path: PLATAFROMASPAWN004
+    path: Plataformas
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -172,13 +172,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.11
+        value: 0.68
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 5.31
+        value: 5.89
         inSlope: 0
         outSlope: 0
         tangentMode: 136

@@ -81,7 +81,7 @@ namespace HeroesRace
 
 		public void SwitchFriction (bool touchingFloor) 
 		{
-			float friction = touchingFloor? 0.7f : 0f;
+			float friction = touchingFloor? 0.8f : 0f;
 			// On air, remove any friction to allow jumping &
 			// falling next to surfaces, but on floor add some friction
 			// to avoid infinite slipping

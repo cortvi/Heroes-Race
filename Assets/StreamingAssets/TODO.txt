@@ -1,13 +1,13 @@
 ——— Faltaria ———
-- MiniSlimes slightly out of sync (test!)
-- Plataforma bien doesn't get a name (test!)
+- Q11's lift spawning actually should be activated by Tower Generator!
 - Apisonadoras work weird (on Client)
-- Testear Q8!
-- Testear Q9!
+- Slime_10 not synced
 - Testear Q10!
+- Testear Q11!
 
 ——— DONE ———
-
+- Plataforma bien doesn't get a name
+- MiniSlimes slightly out of sync
 
 ——— QUESITOS ———
 • Q1
@@ -17,8 +17,8 @@ Q3
 Q5
 Q6
 Q7
-Q8
-Q9
+• Q8
+• Q9
 Q10
 Q11
 Q12

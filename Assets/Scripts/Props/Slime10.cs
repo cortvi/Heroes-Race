@@ -5,23 +5,24 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 2, sendInterval = 0.01f)]
-	public class MiniSlime : NetBehaviour 
+	[NetworkSettings (channel = 2, sendInterval = 0.1f)]
+	public class Slime10 : NetBehaviour 
 	{
-		[SyncVar] private float syncTime;
+		public GameObject slime;
 		private AnimationState anim;
+		[SyncVar] private float syncTime;
 
 		[ServerCallback]
 		private void LateUpdate () 
 		{
-			// Send sync time for any player that connects
+			// Send sync time for any Player that connects
 			syncTime = anim.normalizedTime;
 		}
 
 		protected override void OnStart () 
 		{
 			// Get some common references
-			anim = GetComponent<Animation> ()["Slime_08"];
+			anim = slime.GetComponent<Animation> ()["Slime_10"];
 			if (NetworkClient.active) anim.normalizedTime = syncTime;
 		}
 	} 

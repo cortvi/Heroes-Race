@@ -7,6 +7,7 @@ namespace HeroesRace.Effectors
 {
 	public class SideKnock : CCBase 
 	{
+		private string ccName;
 		public float kickForce;
 		public float upForce;
 
@@ -21,8 +22,8 @@ namespace HeroesRace.Effectors
 			hero.driver.body.AddForceAtPosition (force, transform.position, ForceMode.VelocityChange);
 
 			// Apply CC to Hero
-			hero.mods.AddCC ("Knocked ", CCs.All, 1.5f, unique: false);
-			hero.anim.SetTrigger ("Hit");
+			if (hero.mods.AddCC (ccName, CCs.All, 1.5f))
+				hero.anim.SetTrigger ("Hit");
 		}
 
 		private Vector3 KnockForce (Transform heroDriver) 
@@ -36,6 +37,13 @@ namespace HeroesRace.Effectors
 			kickDir += Vector3.up * upForce;
 
 			return kickDir;
+		}
+
+		private void Start () 
+		{
+			// Get a constat ID for the object to avoid Unity weird
+			// things like colliding twice with the same trigger (?)
+			ccName = "Knocked_" + GetInstanceID ();
 		}
 	} 
 }

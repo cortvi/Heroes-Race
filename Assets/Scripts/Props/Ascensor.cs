@@ -6,6 +6,9 @@ namespace HeroesRace
 {
 	public class Ascensor : NetBehaviour 
 	{
+		public void SetUp (bool chosen) 
+		{
 
+		}
 	} 
 }
