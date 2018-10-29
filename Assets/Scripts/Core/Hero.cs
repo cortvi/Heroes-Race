@@ -16,7 +16,7 @@ using UnityEngine.Networking;
 namespace HeroesRace 
 {
 	[NetworkSettings (channel = 2, sendInterval = 0f)]
-	public sealed partial class /* COMMON */ Hero : NetBehaviour 
+	public sealed partial class /* COMMON */ Hero : NetPawn  
 	{
 		#region DATA
 		private const float Speed = 10.0f;

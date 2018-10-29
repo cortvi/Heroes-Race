@@ -33,8 +33,8 @@ namespace HeroesRace
 					// Spawn over net, passing spawn value
 					var next = Instantiate (this);
 					NetworkServer.Spawn (next.gameObject);
-					next.SharedName = SharedName;
 					next.spawnTime = spawnTime;
+					next.name = SharedName;
 
 					// Just once
 					done = true;

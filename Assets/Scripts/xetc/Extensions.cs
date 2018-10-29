@@ -8,10 +8,12 @@ using HeroesRace;
 
 public static class Extensions 
 {
-	public static string CapitalizeFirst (this string input) 
+	#region STRING
+	public static string CapitalizeFirst (this string input)
 	{
 		return input[0].ToString ().ToUpper () + input.Substring (1);
-	}
+	} 
+	#endregion
 
 	#region ANIMATORS
 	public static SmartAnimator GoSmart (this Animator a, bool networked = false) 
@@ -21,7 +23,7 @@ public static class Extensions
 	}
 	#endregion
 
-	#region BEHAVIOUR
+	#region GAME OBJECTS
 	private static object thisLock = new object ();
 	public static T SpawnSingleton<T> (string name) where T : Behaviour 
 	{

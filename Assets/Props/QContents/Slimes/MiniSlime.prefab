@@ -142,8 +142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22418e4bbac5dd44ae2e1ec5ae4f871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kickForce: 6
-  upForce: 1
+  kickForce: 5
+  upForce: 3
 --- !u!114 &114359932156785570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -198,5 +198,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.27
+  m_Radius: 0.23
   m_Center: {x: -2.1326386e-10, y: -0.003548027, z: 0.001916662}

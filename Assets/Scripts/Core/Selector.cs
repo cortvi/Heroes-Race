@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public partial class /* COMMON */ Selector : NetBehaviour 
+	public partial class /* COMMON */ Selector : NetPawn  
 	{
 		#region DATA
 		// ——— Inspector data ———
@@ -35,14 +35,8 @@ namespace HeroesRace
 			float lerp = Mathf.Lerp (blend, target, Time.deltaTime * 8f);
 			anim.SetFloat ("Blend", lerp);
 
+			// Only allow movement after some transition time
 			if (isServer) closeEnough = Mathf.Abs(target - blend) <= 0.025f;
-		}
-
-		protected override void OnAwake () 
-		{
-			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			// Cache position because it'll move when connected to Server
-			cachePosition = (transform as RectTransform).localPosition;
 		}
 
 		protected override void OnStart () 
@@ -51,15 +45,20 @@ namespace HeroesRace
 			// Recover original position in case it's been moved by the Server
 			(transform as RectTransform).localPosition = cachePosition;
 		}
+
+		protected override void OnAwake () 
+		{
+			anim = GetComponent<Animator> ().GoSmart (networked: true);
+			// Cache position because it'll move when connected to Server
+			cachePosition = (transform as RectTransform).localPosition;
+		}
 		#endregion
 	}
 
 	public partial class /* SERVER */ Selector   
 	{
-		#region DATA
 		private static int SelectorsReady;
 		private bool closeEnough;
-		#endregion
 
 		public void Move (int delta) 
 		{

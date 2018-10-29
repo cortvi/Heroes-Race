@@ -1,5 +1,7 @@
 ——— Faltaria ———
-- Apisonadoras work weird (on Client) ((test!))
+- MiniSlimes slightly out of sync (test!)
+- Plataforma bien doesn't get a name (test!)
+- Apisonadoras work weird (on Client)
 - Testear Q8!
 - Testear Q9!
 - Testear Q10!
@@ -13,7 +15,7 @@
 Q3
 • Q4
 Q5
-• Q6
+Q6
 Q7
 Q8
 Q9
@@ -28,6 +30,9 @@ Q17
 ——— A comprobar ———
 
 ——— Sometime ———
+- Optimizar (static batching, occlusion(cuidao!), etc..?)
+- En desconexion, Pawn is not unset!
 - En reconexion de jugador, es necesario re-asignar Pawn!
 - Make mapa work
 - Monstruo -> shader parpadeo + animator!
+- Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?

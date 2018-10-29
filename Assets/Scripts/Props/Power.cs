@@ -21,9 +21,10 @@ namespace HeroesRace
 			yield return new WaitForSeconds (respawnTime);
 			NetworkServer.Spawn (gameObject);
 			anim.SetTrigger ("Reset");
-
-			UpdateName ();
 			SetPower ();
+
+			#warning Delete this if Power name is OK
+//			UpdateName ();
 		}
 		private void SetPower () 
 		{
@@ -44,21 +45,18 @@ namespace HeroesRace
 			}
 		}
 
-		protected override void OnAwake () 
+		protected override void OnStart () 
 		{
 			if (NetworkServer.active)
 			{
 				SetPower ();
 				anim = GetComponent<Animator> ()
-					.GoSmart (networked: true);
+					  .GoSmart (networked: true);
 			}
 			else
 			// Only works on Server
 			if (NetworkClient.active)
-			{
-				UpdateName ();
 				Destroy (this);
-			}
 		} 
 		#endregion
 	} 

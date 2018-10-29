@@ -7,24 +7,24 @@ namespace HeroesRace
 {
 	public partial class /* COMMON */ Player : NetBehaviour 
 	{
-		[Info] public NetBehaviour pawn;
+		[Info] public NetPawn pawn;
 
-		private void ChangePawn (NetBehaviour newPawn) 
+		private void ChangePawn (NetPawn newPawn) 
 		{
 			// De-authorize last Pawn, if any
 			if (pawn)
 			{
 				pawn.owner = null;
-				pawn.UpdateName ();
 				pawn.OnStopOwnership ();
+				pawn.UpdateName ();
 			}
 			// Authorize new Pawn
 			pawn = newPawn;
 			if (pawn)
 			{
 				pawn.owner = this;
-				pawn.UpdateName ();
 				pawn.OnStartOwnership ();
+				pawn.UpdateName ();
 			}
 		}
 
@@ -34,8 +34,7 @@ namespace HeroesRace
 			DontDestroyOnLoad (gameObject);
 
 			// Register self 
-			if (NetworkClient.active)
-				Net.me = this;
+			if (NetworkClient.active) Net.me = this;
 		}
 	}
 
@@ -92,10 +91,10 @@ namespace HeroesRace
 		#endregion
 		#endregion
 
-		public void SetPawn (NetBehaviour newPawn) 
+		public void SetPawn (NetPawn newPawn) 
 		{
 			ChangePawn (newPawn);
-			Rpc_SetPawn (newPawn != null ? newPawn.gameObject : null);
+			Rpc_SetPawn (newPawn!=null? newPawn.gameObject : null);
 		}
 	}
 
@@ -142,7 +141,7 @@ namespace HeroesRace
 		[ClientRpc]
 		private void Rpc_SetPawn (GameObject newPawn) 
 		{
-			var pawn = newPawn.GetComponent<NetBehaviour> ();
+			var pawn = newPawn.GetComponent<NetPawn> ();
 			ChangePawn (pawn);
 		}
 	}

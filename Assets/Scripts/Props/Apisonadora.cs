@@ -17,7 +17,7 @@ namespace HeroesRace
 
 		new IEnumerator Start () 
 		{
-			UpdateName ();
+			if (isClient) yield break;
 			while (true) 
 			{
 				// Then wait given time

@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 2)]
+	[NetworkSettings (channel = 2, sendInterval = 0.01f)]
 	public class MiniSlime : NetBehaviour 
 	{
 		[SyncVar] private float syncTime;
