@@ -11,11 +11,15 @@ namespace HeroesRace
 		[SyncVar] private float syncTime;
 		private AnimationState anim;
 
-		[ServerCallback]
 		private void LateUpdate () 
 		{
+			if (NetworkClient.active) 
+			{
+				float lerp = Mathf.Lerp (anim.normalizedTime, syncTime, Time.deltaTime * 10f);
+				anim.normalizedTime = lerp;
+			}
 			// Send sync time for any player that connects
-			syncTime = anim.normalizedTime;
+			else if (NetworkServer.active) syncTime = anim.normalizedTime;
 		}
 
 		protected override void OnStart () 

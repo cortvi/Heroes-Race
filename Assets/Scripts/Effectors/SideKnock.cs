@@ -10,6 +10,7 @@ namespace HeroesRace.Effectors
 		private string ccName;
 		public float kickForce;
 		public float upForce;
+		public float stunTime;
 
 		protected override void OnEnter (Hero hero) 
 		{
@@ -22,7 +23,7 @@ namespace HeroesRace.Effectors
 			hero.driver.body.AddForceAtPosition (force, transform.position, ForceMode.VelocityChange);
 
 			// Apply CC to Hero
-			if (hero.mods.AddCC (ccName, CCs.All, 1.5f))
+			if (hero.mods.AddCC (ccName, CCs.All, stunTime))
 				hero.anim.SetTrigger ("Hit");
 		}
 

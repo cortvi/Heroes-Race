@@ -191,7 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2badc7282e83b8447a90684c36e4f126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
 --- !u!114 &114729675815213550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -203,8 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a22418e4bbac5dd44ae2e1ec5ae4f871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kickForce: 8
+  kickForce: 7
   upForce: 3
+  stunTime: 1.5
 --- !u!114 &114960864892274828
 MonoBehaviour:
   m_ObjectHideFlags: 1

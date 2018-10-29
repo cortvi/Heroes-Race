@@ -1,9 +1,9 @@
 ——— Faltaria ———
-- Q11's lift spawning actually should be activated by Tower Generator!
 - Apisonadoras work weird (on Client)
 - Slime_10 not synced
-- Testear Q10!
+- Testear Q10 -> doesnt get active since Net not in root
 - Testear Q11!
+- Q11's lift spawning actually should be activated by Tower Generator!
 
 ——— DONE ———
 - Plataforma bien doesn't get a name

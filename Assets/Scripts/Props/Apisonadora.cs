@@ -26,7 +26,7 @@ namespace HeroesRace
 
 				// Repeat animation
 				anim.SetTrigger ("Hit");
-				yield return new WaitForSeconds (0.2f);
+				yield return new WaitForSeconds (0.3f);
 
 				// Wait until it finishes, then repeat loop
 				while (!(anim.IsInState("Default") && anim[0].normalizedTime < 1f))
@@ -38,7 +38,7 @@ namespace HeroesRace
 		{
 			if (NetworkServer.active)
 			{
-				waitTime = Random.Range (0.35f, 1.3f);
+				waitTime = Random.Range (0.5f, 1.3f);
 				anim = GetComponent<Animator> ().GoSmart (networked: true);
 			}
 
