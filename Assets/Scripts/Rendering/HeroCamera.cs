@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
@@ -15,6 +16,26 @@ namespace HeroesRace
 		private const float FloorHeigth = 5.2f;
 		#endregion
 
+		public IEnumerator SwitchLevel (int delta) 
+		{
+			float iOffset = actualOffset.y;
+			float step = 0f;
+			floor += delta;
+
+			float duration = 1.5f;
+			while (step <= 1f) 
+			{
+				actualOffset.y = Mathf.Lerp 
+				(
+					iOffset,
+					offset.y + (floor * FloorHeigth),
+					step
+				);
+				yield return null;
+				step += Time.deltaTime / duration;
+			}
+		}
+
 		private void Update () 
 		{
 			if (!target)
@@ -22,8 +43,7 @@ namespace HeroesRace
 				Destroy (this);
 				return;
 			}
-
-			// Project position over XZ plane
+			// Project [tower->hero] over XZ plane
 			var forward = target.transform.position;
 			forward.y = 0f;
 			forward.Normalize ();
@@ -32,9 +52,10 @@ namespace HeroesRace
 			// on a space that always looks outside of the circle 
 			var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
 
-			// Lerp side-offset based on moving direction more smoothly
-			actualOffset = new Vector3 (actualOffset.x, offset.y, offset.z);
-			actualOffset.x = Mathf.Lerp
+			// Lerp side-floor-offset more smoothly
+			actualOffset = new Vector3 (actualOffset.x, actualOffset.y, offset.z);	
+			// Depends on moving direction
+			actualOffset.x = Mathf.Lerp 
 			(
 				actualOffset.x,
 				(target.movingDir > 0f) ? +offset.x : -offset.x,
@@ -43,7 +64,6 @@ namespace HeroesRace
 			
 			// Get the final position (+floor height)
 			var pos = target.transform.position;
-			pos.y = floor * FloorHeigth;
 			pos += mat.MultiplyVector (actualOffset);
 
 			// Lerp the position for a smooth camera follow

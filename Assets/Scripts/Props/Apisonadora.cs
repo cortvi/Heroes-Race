@@ -29,7 +29,7 @@ namespace HeroesRace
 				yield return new WaitForSeconds (0.3f);
 
 				// Wait until it finishes, then repeat loop
-				while (!(anim.IsInState("Default") && anim[0].normalizedTime < 1f))
+				while (!(anim.IsInState("Default") && anim[0].normalizedTime >= 0.3f))
 					yield return null;
 			}
 		}

@@ -1,7 +1,8 @@
 ——— Faltaria ———
+- Server Camera system
+- cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Apisonadoras work weird (on Client)
 - Testear Q11!
-- Q11's lift spawning actually should be activated by Tower Generator!
 
 ——— DONE ———
 - configurar side-knock para slimes y pinchos
@@ -31,6 +32,9 @@ Q17
 ——— A comprobar ———
 
 ——— Sometime ———
+- Respawn broken lifts
+- Create CC animation stack to replace triggers with bools
+- Q11's lift spawning actually should be activated by Tower Generator!
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
 - En desconexion, Pawn is not unset!
 - En reconexion de jugador, es necesario re-asignar Pawn!

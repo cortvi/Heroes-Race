@@ -343,8 +343,8 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		private HeroCamera cam;
-		private HeroHUD hud;
+		internal HeroHUD hud;
+		internal HeroCamera cam;
 
 		private void KeepMotion () 
 		{
@@ -382,6 +382,13 @@ namespace HeroesRace
 			// Show new power-up on owner Client
 			hud.UpdatePower (newPower);
 			_power = newPower;
+		}
+
+		[TargetRpc]
+		public void Target_SwitchCamLevel (NetworkConnection target, int delta) 
+		{
+			// Move Client Camera if passed through 
+			StartCoroutine (cam.SwitchLevel (delta));
 		}
 	}
 

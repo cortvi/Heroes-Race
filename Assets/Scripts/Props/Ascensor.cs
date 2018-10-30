@@ -19,21 +19,28 @@ namespace HeroesRace
 
 		public void SetUp (bool chosen) 
 		{
+			//  Set up clients too
+			if (NetworkServer.active) Rpc_SetUp (chosen);
 			this.chosen = chosen;
+
 			var plats = transform.GetChild (1);
 			if (chosen)
 			{
-				// Enable okay platform & up-floor
+				// Enable okay platform, up-floor & level switch
 				plats.GetChild (1).gameObject.SetActive (true);
 				transform.GetChild (0).gameObject.SetActive (true);
+				transform.GetChild (2).gameObject.SetActive (true);
 			}
 			else
 			{
-				// Enable broken platform & register all pieces
+				// Enable broken platform, level switch & register all pieces
 				plats.GetChild (0).gameObject.SetActive (true);
+				transform.GetChild (1).gameObject.SetActive (true);
 				pieces = plats.GetChild (0).GetComponentsInChildren<Rigidbody> ();
 			}
 		}
+		[ClientRpc]
+		private void Rpc_SetUp (bool chosen) { SetUp (chosen); }
 
 		[ServerCallback]
 		private void Break () 
@@ -46,6 +53,7 @@ namespace HeroesRace
 				else Rpc_Break ();
 			}
 
+			// Explode
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
@@ -57,15 +65,18 @@ namespace HeroesRace
 		[ClientRpc]
 		private void Rpc_Break () { Break (); }
 
+		#region CALLBACKS
+		[ServerCallback]
 		private void OnTriggerEnter (Collider other) 
 		{
-			if (other.tag != "player") return;
+			if (other.tag != "Player") return;
 			playersIn.Add (other.transform);
 			PlayersIn = (playersIn.Count > 0);
 		}
+		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
 		{
-			if (other.tag != "player") return;
+			if (other.tag != "Player") return;
 			playersIn.Remove (other.transform);
 			PlayersIn = (playersIn.Count > 0);
 		}
@@ -74,6 +85,7 @@ namespace HeroesRace
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
 			playersIn = new List<Transform> (3);
-		}
+		} 
+		#endregion
 	} 
 }
