@@ -35,10 +35,8 @@ namespace HeroesRace
 				p.AddExplosionForce (force, transform.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 		}
-		[ClientRpc] private void Rpc_Throw () 
-		{
-			Throw ();
-		}
+		[ClientRpc]
+		private void Rpc_Throw () { Throw (); }
 
 		#region CALLBACKS
 		[ServerCallback]

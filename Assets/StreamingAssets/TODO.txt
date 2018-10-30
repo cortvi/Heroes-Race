@@ -1,11 +1,12 @@
 ——— Faltaria ———
 - Apisonadoras work weird (on Client)
-- Slime_10 not synced
-- Testear Q10 -> doesnt get active since Net not in root
 - Testear Q11!
 - Q11's lift spawning actually should be activated by Tower Generator!
 
 ——— DONE ———
+- configurar side-knock para slimes y pinchos
+- side-knock base stun deberia ser la duracion de la animacion !
+- Slime_10 not synced
 - Plataforma bien doesn't get a name
 - MiniSlimes slightly out of sync
 
@@ -15,11 +16,11 @@
 Q3
 • Q4
 Q5
-Q6
+• Q6
 Q7
 • Q8
 • Q9
-Q10
+• Q10
 Q11
 Q12
 Q13

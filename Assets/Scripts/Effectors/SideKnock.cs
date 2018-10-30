@@ -23,7 +23,7 @@ namespace HeroesRace.Effectors
 			hero.driver.body.AddForceAtPosition (force, transform.position, ForceMode.VelocityChange);
 
 			// Apply CC to Hero
-			if (hero.mods.AddCC (ccName, CCs.All, stunTime))
+			if (hero.mods.AddCC (ccName, CCs.All, stunTime + 0.3f))
 				hero.anim.SetTrigger ("Hit");
 		}
 

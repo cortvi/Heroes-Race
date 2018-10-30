@@ -7,10 +7,11 @@ namespace HeroesRace
 {
 	public class Q11 : QBase 
 	{
+		public bool spawnLifts;
 		public Ascensor liftPrefab;
 		public Transform[] liftSpawns;
 
-		protected override void OnServerAwake () 
+		private void SpawnLifts () 
 		{
 			// Select which Ascensor is the good one
 			int chosen = Random.Range (0, 3);
@@ -24,11 +25,19 @@ namespace HeroesRace
 			}
 		}
 
-		protected override void OnClientAwake () 
+		protected override void OnAwake () 
 		{
-			// Register Ascensor & self for later spawning
-			ClientScene.RegisterPrefab (liftPrefab.gameObject);
-			ClientScene.RegisterPrefab (gameObject);
+			if (NetworkClient.active)
+			{
+				// Register Ascensor & self for later spawning
+				ClientScene.RegisterPrefab (liftPrefab.gameObject);
+				ClientScene.RegisterPrefab (gameObject);
+			}
+			else
+			// Manual override for generating lifts
+			// if not using the Tower generator
+			if (NetworkServer.active && spawnLifts)
+				SpawnLifts ();
 		}
 	} 
 }
