@@ -52,19 +52,19 @@ namespace HeroesRace
 			// on a space that always looks outside of the circle 
 			var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
 
-			// Lerp side-floor-offset more smoothly
-			actualOffset = new Vector3 (actualOffset.x, actualOffset.y, offset.z);	
-			// Depends on moving direction
+			// Lerp side-direction
+			actualOffset = new Vector3 (actualOffset.x, 0f, offset.z);	
 			actualOffset.x = Mathf.Lerp 
 			(
 				actualOffset.x,
-				(target.movingDir > 0f) ? +offset.x : -offset.x,
+				(target.movingDir > 0f)? +offset.x : -offset.x,
 				Time.deltaTime * 2f
 			);
 			
 			// Get the final position (+floor height)
 			var pos = target.transform.position;
 			pos += mat.MultiplyVector (actualOffset);
+			pos.y = actualOffset.y;
 
 			// Lerp the position for a smooth camera follow
 			transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
@@ -73,6 +73,12 @@ namespace HeroesRace
 			var camForward = transform.position;
 			camForward.y = 0f;
 			transform.rotation = Quaternion.LookRotation (-camForward.normalized);
+		}
+
+		private void Awake () 
+		{
+			// Initialize floor height
+			actualOffset.y = offset.y;
 		}
 	} 
 }
