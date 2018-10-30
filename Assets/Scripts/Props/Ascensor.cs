@@ -23,7 +23,7 @@ namespace HeroesRace
 			if (NetworkServer.active) Rpc_SetUp (chosen);
 			this.chosen = chosen;
 
-			var plats = transform.GetChild (1);
+			var plats = transform.GetChild (3);
 			if (chosen)
 			{
 				// Enable okay platform, up-floor & level switch

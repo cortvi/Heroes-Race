@@ -1,4 +1,5 @@
 ——— Faltaria ———
+- Delete all colliders on Clients!
 - Server Camera system
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Apisonadoras work weird (on Client)

@@ -32,7 +32,13 @@ namespace HeroesRace
 		public void Awake () 
 		{
 			name = SharedName = name.Replace ("(Clone)", "");
-			if (NetworkClient.active) OnClientAwake ();
+			if (NetworkClient.active) 
+			{
+				// No physic logic on Client!
+				var colliders = GetComponentsInChildren<Collider> ();
+				foreach (var c in colliders) Destroy (c);
+				OnClientAwake ();
+			}
 			else
 			if (NetworkServer.active) OnServerAwake ();
 			OnAwake ();

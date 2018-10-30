@@ -15,7 +15,7 @@ namespace HeroesRace
 
 		protected override void OnClientAwake () 
 		{
-			// Register self
+			// Register self & delete all colliders!
 			ClientScene.RegisterPrefab (gameObject);
 		}
 	}
