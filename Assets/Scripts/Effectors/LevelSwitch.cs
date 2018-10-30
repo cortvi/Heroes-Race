@@ -25,7 +25,7 @@ namespace HeroesRace
 		{
 			// Useless on Clients
 			if (NetworkClient.active)
-				Destroy (gameObject);
+				Destroy (this);
 		}
 	} 
 }

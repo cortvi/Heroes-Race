@@ -54,13 +54,18 @@ namespace HeroesRace
 			}
 
 			// Explode
+			var plats = transform.GetChild (3);
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
 				float force = Random.Range (3f, 5f);
 				float upForce = Random.Range (0.5f, 1.5f);
-				p.AddExplosionForce (force, transform.position, 1.5f, upForce, ForceMode.VelocityChange);
+				p.AddExplosionForce (force, plats.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
+
+			// Disable all platform colliders
+			foreach (var c in plats.GetComponentsInChildren<Collider> ())
+				c.enabled = false;
 		}
 		[ClientRpc]
 		private void Rpc_Break () { Break (); }

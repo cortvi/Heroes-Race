@@ -196,7 +196,6 @@ GameObject:
   - component: {fileID: 4016873085502134}
   - component: {fileID: 33718110402773108}
   - component: {fileID: 23973538782739700}
-  - component: {fileID: 65830633073661692}
   - component: {fileID: 65670700024078154}
   m_Layer: 8
   m_Name: Bien
@@ -378,8 +377,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280709387441350}
-  m_LocalRotation: {x: -0, y: -0, z: 0.061743125, w: 0.99809206}
-  m_LocalPosition: {x: -3.3900561, y: -0.123, z: 4.107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 4.107}
   m_LocalScale: {x: 1.5173292, y: 1.5759966, z: 0.10387118}
   m_Children: []
   m_Father: {fileID: 4346254745133796}
@@ -525,8 +524,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1532706225651978}
-  m_LocalRotation: {x: -0, y: -0, z: 0.061743073, w: 0.99809206}
-  m_LocalPosition: {x: -3.3900564, y: -0.123, z: 5.934}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5.934}
   m_LocalScale: {x: 1.5173304, y: 1.5760007, z: 0.10387006}
   m_Children: []
   m_Father: {fileID: 4346254745133796}
@@ -1331,18 +1330,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65830633073661692
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1549110335039030}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2, y: 0.47, z: 0.02}
-  m_Center: {x: 0.00000005960467, y: 0.0000009536745, z: -0.8}
 --- !u!65 &65869874191206138
 BoxCollider:
   m_ObjectHideFlags: 1

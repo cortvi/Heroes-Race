@@ -12,7 +12,7 @@ namespace HeroesRace
 		[Info] public int floor;
 
 		private const float FloorHeigth = 5.2f;
-		public readonly Vector3 offset = new Vector3 (2.78f, 1.69f, 9.25f);
+		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
 		private Vector3 actualOffset;
 		#endregion
 
@@ -58,6 +58,7 @@ namespace HeroesRace
 			
 			// Get the final position (+floor height)
 			var pos = target.transform.position;
+			pos.y = actualOffset.y;
 			pos += mat.MultiplyVector (actualOffset);
 
 			// Lerp the position for a smooth camera follow

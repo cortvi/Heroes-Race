@@ -1,11 +1,14 @@
 ——— Faltaria ———
-- Delete all colliders on Clients!
+- Comprobar correcto spawn de los lifts
+- Colliders stay after lift breaking
+- Lift pieces doesn't explode
 - Server Camera system
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
-- Apisonadoras work weird (on Client)
 - Testear Q11!
 
 ——— DONE ———
+- Delete all colliders on Clients!
+- Apisonadoras work weird (on Client)
 - configurar side-knock para slimes y pinchos
 - side-knock base stun deberia ser la duracion de la animacion !
 - Slime_10 not synced
@@ -17,7 +20,7 @@
 • Q2
 Q3
 • Q4
-Q5
+• Q5
 • Q6
 Q7
 • Q8
