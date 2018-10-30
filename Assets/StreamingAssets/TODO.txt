@@ -1,12 +1,13 @@
 ——— Faltaria ———
+- Apañar animnator de Ascensores (subir/bajar) correctamente
 - Comprobar correcto spawn de los lifts
-- Colliders stay after lift breaking
-- Lift pieces doesn't explode
 - Server Camera system
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 
 ——— DONE ———
+- Colliders stay after lift breaking
+- Lift pieces doesn't explode
 - Delete all colliders on Clients!
 - Apisonadoras work weird (on Client)
 - configurar side-knock para slimes y pinchos

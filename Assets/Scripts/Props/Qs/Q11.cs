@@ -20,8 +20,8 @@ namespace HeroesRace
 				var lift = Instantiate (liftPrefab);
 				lift.transform.position = liftSpawns[i].position;
 				lift.transform.rotation = liftSpawns[i].rotation;
-				NetworkServer.Spawn (lift.gameObject);
 				lift.SetUp (i == chosen);
+				NetworkServer.Spawn (lift.gameObject);
 			}
 		}
 

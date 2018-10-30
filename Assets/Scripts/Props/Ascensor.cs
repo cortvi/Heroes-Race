@@ -58,8 +58,8 @@ namespace HeroesRace
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
-				float force = Random.Range (3f, 5f);
-				float upForce = Random.Range (0.5f, 1.5f);
+				float force = Random.Range (4f, 7f);
+				float upForce = Random.Range (0.2f, 0.7f);
 				p.AddExplosionForce (force, plats.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
