@@ -60,7 +60,7 @@ namespace HeroesRace
 			var player = CheckPlayer (conn);
 
 			// Create new Pawn for Player if none
-			string scene = SceneManager.GetActiveScene ().name;
+			string scene = networkSceneName;
 			if (player.pawn == null) 
 			{
 				if (scene == "Selection")
@@ -87,6 +87,16 @@ namespace HeroesRace
 					player.SetPawn (hero);
 				}
 			}
+		}
+
+		public override void OnStartServer () 
+		{
+			// If starting Server on a Scene, activate them
+			var objs = FindObjectsOfType<NetworkIdentity> ();
+			for (int i=0; i!=objs.Length; ++i) objs[i].ForceSceneId (i+1);
+
+			// Spawn them internally
+			base.OnStartServer ();
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -131,8 +141,7 @@ namespace HeroesRace
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-//			ClientScene.Ready (conn);
-//			ClientScene.AddPlayer (conn, 0);
+			base.OnClientConnect (conn);
 			Log.LowDebug ("Connected to Server!");
 		}
 

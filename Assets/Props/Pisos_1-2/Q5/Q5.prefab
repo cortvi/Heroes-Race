@@ -468,6 +468,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4527147034193172}
+  - component: {fileID: 114829248850497710}
+  - component: {fileID: 114241456979630620}
   m_Layer: 0
   m_Name: Q5
   m_TagString: Untagged
@@ -1954,6 +1956,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1358316460219494, guid: 75c4b44be19368545b6dcbf2677f86a0, type: 2}
   delay: 0
+--- !u!114 &114241456979630620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1978032646846800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17412338daaaa9344b8af4f3269c70bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114316620144537236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1980,3 +1993,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1358316460219494, guid: 75c4b44be19368545b6dcbf2677f86a0, type: 2}
   delay: 0
+--- !u!114 &114829248850497710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1978032646846800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 199
+    i1: 226
+    i2: 96
+    i3: 150
+    i4: 236
+    i5: 143
+    i6: 117
+    i7: 84
+    i8: 120
+    i9: 74
+    i10: 205
+    i11: 8
+    i12: 109
+    i13: 8
+    i14: 72
+    i15: 40
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0

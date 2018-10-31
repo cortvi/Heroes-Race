@@ -190,6 +190,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4841203352195296}
+  - component: {fileID: 114653068730897808}
+  - component: {fileID: 114135490616408672}
   m_Layer: 0
   m_Name: Q2
   m_TagString: Untagged
@@ -639,13 +641,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1861489732552414}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.012794672, y: 0.7069911, z: 0.7069911, w: 0.012794672}
+  m_LocalPosition: {x: -0.004, y: 0, z: -0.029}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4092671373492140}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.99999, y: 180, z: -2.0739746}
 --- !u!4 &4468112346725146
 Transform:
   m_ObjectHideFlags: 1
@@ -1731,6 +1733,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1406241451572134, guid: 33db21e503b39dd499128a660e47d39a, type: 2}
   delay: 0
+--- !u!114 &114135490616408672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389573247407342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17412338daaaa9344b8af4f3269c70bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114317651972614918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1744,6 +1757,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1406241451572134, guid: 33db21e503b39dd499128a660e47d39a, type: 2}
   delay: 0
+--- !u!114 &114653068730897808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389573247407342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 14
+    i1: 98
+    i2: 90
+    i3: 13
+    i4: 9
+    i5: 191
+    i6: 67
+    i7: 180
+    i8: 89
+    i9: 182
+    i10: 175
+    i11: 223
+    i12: 94
+    i13: 201
+    i14: 255
+    i15: 127
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114689676123894228
 MonoBehaviour:
   m_ObjectHideFlags: 1

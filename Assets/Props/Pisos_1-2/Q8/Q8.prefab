@@ -246,6 +246,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4142500378486414}
+  - component: {fileID: 114330368212386116}
+  - component: {fileID: 114118343691170382}
   m_Layer: 0
   m_Name: Q8
   m_TagString: Untagged
@@ -279,7 +281,7 @@ GameObject:
   - component: {fileID: 33077516479211484}
   - component: {fileID: 23736616970610230}
   - component: {fileID: 64287124854855404}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: QUESITO12
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -532,7 +534,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1035333457024020}
   m_LocalRotation: {x: -0.5909345, y: 0.3828695, z: -0.36933777, w: -0.6064627}
-  m_LocalPosition: {x: -9.675, y: 3.799, z: -27.947}
+  m_LocalPosition: {x: -9.71, y: 3.799, z: -28.019}
   m_LocalScale: {x: 0.5317595, y: 0.5317595, z: 0.5317595}
   m_Children: []
   m_Father: {fileID: 4142500378486414}
@@ -651,13 +653,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1265858967747446}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.013399214, y: 0.7069799, z: 0.7069799, w: 0.013399214}
+  m_LocalPosition: {x: 0, y: 0, z: -0.032}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4780622032491670}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.99999, y: 180, z: -2.171997}
 --- !u!4 &4562288421558162
 Transform:
   m_ObjectHideFlags: 1
@@ -719,7 +721,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000682267204432}
   m_LocalRotation: {x: -0.5369254, y: 0.4596786, z: -0.4442128, w: -0.5505287}
-  m_LocalPosition: {x: -7.296, y: 3.799, z: -28.732}
+  m_LocalPosition: {x: -7.307, y: 3.799, z: -28.789}
   m_LocalScale: {x: 0.53176, y: 0.5317602, z: 0.5317602}
   m_Children: []
   m_Father: {fileID: 4142500378486414}
@@ -732,7 +734,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005163992857750}
   m_LocalRotation: {x: -0.5306482, y: 0.4673475, z: -0.45169276, w: -0.54403365}
-  m_LocalPosition: {x: -1.8, y: 3.799, z: -29.435}
+  m_LocalPosition: {x: -1.818, y: 3.8, z: -29.55}
   m_LocalScale: {x: 0.5317601, y: 0.53176045, z: 0.53176033}
   m_Children: []
   m_Father: {fileID: 4142500378486414}
@@ -758,7 +760,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1893947903690166}
   m_LocalRotation: {x: -0.5540154, y: 0.437624, z: -0.42270613, w: -0.5682181}
-  m_LocalPosition: {x: -4.186, y: 3.799, z: -29.298}
+  m_LocalPosition: {x: -4.202, y: 3.799, z: -29.357}
   m_LocalScale: {x: 0.53176, y: 0.5317602, z: 0.5317602}
   m_Children: []
   m_Father: {fileID: 4142500378486414}
@@ -1786,6 +1788,17 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114118343691170382
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1376837261597438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17412338daaaa9344b8af4f3269c70bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114226427980261336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1799,6 +1812,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1246058221159688, guid: 1621b69935a4baa46ab805021bc5279e, type: 2}
   delay: 0.45
+--- !u!114 &114330368212386116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1376837261597438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 114
+    i1: 210
+    i2: 40
+    i3: 165
+    i4: 20
+    i5: 142
+    i6: 228
+    i7: 228
+    i8: 138
+    i9: 20
+    i10: 95
+    i11: 24
+    i12: 237
+    i13: 4
+    i14: 42
+    i15: 195
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114587884782208782
 MonoBehaviour:
   m_ObjectHideFlags: 1

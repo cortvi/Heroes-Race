@@ -1,4 +1,5 @@
 ——— Faltaria ———
+- Los lifts no spawnean bien en el Cliente (no se activan las plataformas)
 - Apañar animnator de Ascensores (subir/bajar) correctamente
 - Comprobar correcto spawn de los lifts
 - Server Camera system
@@ -6,15 +7,7 @@
 - Testear Q11!
 
 ——— DONE ———
-- Colliders stay after lift breaking
-- Lift pieces doesn't explode
-- Delete all colliders on Clients!
-- Apisonadoras work weird (on Client)
-- configurar side-knock para slimes y pinchos
-- side-knock base stun deberia ser la duracion de la animacion !
-- Slime_10 not synced
-- Plataforma bien doesn't get a name
-- MiniSlimes slightly out of sync
+- Apañar NET (auto client ready + auto scene objects spawn)
 
 ——— QUESITOS ———
 • Q1
@@ -34,10 +27,8 @@ Q14
 Q15
 Q17
 
-——— A comprobar ———
-
 ——— Sometime ———
-- Respawn broken lifts
+- Respawn broken lifts..?
 - Create CC animation stack to replace triggers with bools
 - Q11's lift spawning actually should be activated by Tower Generator!
 - Optimizar (static batching, occlusion(cuidao!), etc..?)

@@ -200,7 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3254c26803fb15f47aa72dc800fdbc11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  owner: {fileID: 0}
   waitTime: 0
   variants:
   - {fileID: 2100000, guid: bad237c36059cb547b4b4d54c7410609, type: 2}

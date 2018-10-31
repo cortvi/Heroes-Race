@@ -136,6 +136,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4022958171687704}
+  - component: {fileID: 114718601902846436}
+  - component: {fileID: 114118019474382038}
   m_Layer: 0
   m_Name: Q1
   m_TagString: Untagged
@@ -411,13 +413,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1012536662254878}
-  m_LocalRotation: {x: -0.015592545, y: 0.70693487, z: 0.70693487, w: 0.015592545}
-  m_LocalPosition: {x: -0.127, y: 0, z: -0.011}
+  m_LocalRotation: {x: -0.009073377, y: 0.7070486, z: 0.7070486, w: 0.009073377}
+  m_LocalPosition: {x: -0.024, y: 0, z: -0.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4781979998861148}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -89.99999, y: 180, z: -2.5269775}
+  m_LocalEulerAnglesHint: {x: -89.99999, y: 180, z: -1.4699707}
 --- !u!4 &4185182992318076
 Transform:
   m_ObjectHideFlags: 1
@@ -1423,3 +1425,46 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300024, guid: cc97913a1fcc44e4a8a4e1d0292c0e40, type: 3}
+--- !u!114 &114118019474382038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280965242658326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17412338daaaa9344b8af4f3269c70bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114718601902846436
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280965242658326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 48
+    i1: 153
+    i2: 154
+    i3: 86
+    i4: 162
+    i5: 66
+    i6: 111
+    i7: 132
+    i8: 123
+    i9: 1
+    i10: 20
+    i11: 121
+    i12: 2
+    i13: 236
+    i14: 21
+    i15: 179
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
