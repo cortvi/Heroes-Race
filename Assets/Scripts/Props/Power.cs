@@ -47,7 +47,7 @@ namespace HeroesRace
 
 		protected override void OnStart () 
 		{
-			if (NetworkServer.active)
+			if (Net.isServer)
 			{
 				SetPower ();
 				anim = GetComponent<Animator> ()
@@ -55,7 +55,7 @@ namespace HeroesRace
 			}
 			else
 			// Only works on Server
-			if (NetworkClient.active)
+			if (Net.isClient)
 				Destroy (this);
 		} 
 		#endregion

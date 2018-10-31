@@ -13,20 +13,20 @@ namespace HeroesRace
 
 		private void LateUpdate () 
 		{
-			if (NetworkClient.active) 
+			if (Net.isClient) 
 			{
 				float lerp = Mathf.Lerp (anim.normalizedTime, syncTime, Time.deltaTime * 10f);
 				anim.normalizedTime = lerp;
 			}
 			// Send sync time for any player that connects
-			else if (NetworkServer.active) syncTime = anim.normalizedTime;
+			else if (Net.isServer) syncTime = anim.normalizedTime;
 		}
 
 		protected override void OnStart () 
 		{
 			// Get some common references
 			anim = GetComponent<Animation> ()["Slime_08"];
-			if (NetworkClient.active) anim.normalizedTime = syncTime;
+			if (Net.isClient) anim.normalizedTime = syncTime;
 		}
 	} 
 }

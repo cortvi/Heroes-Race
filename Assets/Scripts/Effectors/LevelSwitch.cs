@@ -24,8 +24,7 @@ namespace HeroesRace
 		private void Awake () 
 		{
 			// Useless on Clients
-			if (NetworkClient.active)
-				Destroy (this);
+			if (Net.isClient) Destroy (this);
 		}
 	} 
 }

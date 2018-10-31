@@ -32,9 +32,10 @@ namespace HeroesRace
 		private void Update () 
 		{
 			// On Server, follow Driver
-			if (isServer) SyncMotion ();
+			if (Net.isServer) SyncMotion ();
+			else
 			// On Clients, follow given motion
-			else if (isClient) KeepMotion ();
+			if (Net.isClient) KeepMotion ();
 		}
 	}
 

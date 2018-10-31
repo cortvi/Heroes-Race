@@ -13,6 +13,8 @@ namespace HeroesRace
 	{
 		public static Net worker;
 		public static int PlayersNeeded { get; private set; }
+		public static bool isClient;
+		public static bool isServer;
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void EntryPoint () 
@@ -30,6 +32,7 @@ namespace HeroesRace
 				worker.networkAddress = config[1].Trim ();
 				worker.StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
+				isClient = true;
 			}
 			else
 			if (config[0] == "server") 
@@ -40,6 +43,7 @@ namespace HeroesRace
 
 				worker.StartServer ();
 				Log.LowDebug ("This mahcine is now the server");
+				isServer = true;
 			}
 			else Log.Info ("Can't understand config file!");
 		}
@@ -138,6 +142,15 @@ namespace HeroesRace
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
+
+		private void Update ()
+		{
+			if (Input.GetKey ("e"))
+			{
+				var objs = FindObjectsOfType<NetworkIdentity> ();
+				foreach (var o in objs) Debug.Log (o.netId, o);
+			}
+		}
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{

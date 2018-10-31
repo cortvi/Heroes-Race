@@ -22,13 +22,13 @@ namespace HeroesRace
 		public static void Grant (params string[] args) 
 		{
 			var power = args[0].CapitalizeFirst ().EnumParse<PowerUp> ();
-			if (NetworkClient.active)
+			if (Net.isClient)
 			{
 				// Grants Client said power
 				Net.me.Cmd_GrantPower (power);
 			}
 			else
-			if (NetworkServer.active)
+			if (Net.isServer)
 			{
 				// Grants said Client said power
 				int player = int.Parse (args[1]);

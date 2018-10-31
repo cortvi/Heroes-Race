@@ -25,7 +25,7 @@ namespace HeroesRace
 			// Correct animator rotation for all
 			wrapper.rotation *= correction;
 
-			if (NetworkServer.active) 
+			if (Net.isServer) 
 			{
 				syncTime = anim.normalizedTime;
 				if (!done && Time.time >= spawnMark)
@@ -49,7 +49,7 @@ namespace HeroesRace
 			correction = Quaternion.Euler (0f, 0f, 90f);
 			wrapper = transform.GetChild (0);
 
-			if (NetworkServer.active) 
+			if (Net.isServer) 
 			{
 				// Calculted for the first Pirana, then it's passed on
 				if (spawnTime == 0f) spawnTime = Random.Range (0.8f, 1.3f);

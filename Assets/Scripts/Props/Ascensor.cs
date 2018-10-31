@@ -20,7 +20,7 @@ namespace HeroesRace
 		public void SetUp (bool chosen) 
 		{
 			//  Set up clients too
-			if (NetworkServer.active) Rpc_SetUp (chosen);
+			if (Net.isServer) Rpc_SetUp (chosen);
 			this.chosen = chosen;
 
 			var plats = transform.GetChild (3);
@@ -45,7 +45,7 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Break () 
 		{
-			if (isServer)
+			if (Net.isServer) 
 			{
 				// Only breakable lifts
 				if (chosen) return;

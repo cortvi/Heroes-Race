@@ -15,7 +15,7 @@ namespace HeroesRace
 		public void UpdateName () 
 		{
 			string name = SharedName;
-			if (NetworkClient.active)
+			if (Net.isClient)
 			{
 				if (isLocalPlayer || owner == Net.me)
 					name = name.Insert (0, "[OWN] ");
@@ -26,7 +26,7 @@ namespace HeroesRace
 				}
 			}
 			else
-			if (NetworkServer.active) 
+			if (Net.isServer) 
 			{
 				if (GetComponent<NetworkIdentity> ().serverOnly)
 					name = name.Insert (0, "[SERVER-ONLY] ");

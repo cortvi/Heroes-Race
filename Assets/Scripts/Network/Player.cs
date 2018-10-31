@@ -34,7 +34,7 @@ namespace HeroesRace
 			DontDestroyOnLoad (gameObject);
 
 			// Register self 
-			if (NetworkClient.active) Net.me = this;
+			if (Net.isClient) Net.me = this;
 		}
 	}
 

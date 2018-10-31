@@ -27,7 +27,7 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
-			if (NetworkClient.active)
+			if (Net.isClient)
 			{
 				// Register Ascensor & self for later spawning
 				ClientScene.RegisterPrefab (liftPrefab.gameObject);
@@ -36,8 +36,7 @@ namespace HeroesRace
 			else
 			// Manual override for generating lifts
 			// if not using the Tower generator
-			if (NetworkServer.active && spawnLifts)
-				SpawnLifts ();
+			if (Net.isServer && spawnLifts) SpawnLifts ();
 		}
 	} 
 }
