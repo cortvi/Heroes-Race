@@ -95,11 +95,27 @@ namespace HeroesRace
 
 		public override void OnStartServer () 
 		{
-			// If starting Server on a Scene, activate them
+			// Ensures all current net objects are spawned
+			networkSceneName = SceneManager.GetActiveScene ().name;
+			StartCoroutine (ActiveCurrentScene ());
+		}
+		IEnumerator ActiveCurrentScene () 
+		{
 			var objs = FindObjectsOfType<NetworkIdentity> ();
-			for (int i=0; i!=objs.Length; ++i) objs[i].ForceSceneId (i+1);
-
-			// Spawn them internally
+			bool allSetUp = true;
+			do
+			{
+				allSetUp = true;
+				foreach (var o in objs)
+				{
+					// Ensure all objects has been
+					// given a SceneID value by Unity
+					if (o.sceneId.Value == 0) allSetUp = false;
+				}
+				yield return null;
+			}
+			while (!allSetUp);
+			NetworkServer.SpawnObjects ();
 			base.OnStartServer ();
 		}
 
@@ -142,15 +158,6 @@ namespace HeroesRace
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
-
-		private void Update ()
-		{
-			if (Input.GetKey ("e"))
-			{
-				var objs = FindObjectsOfType<NetworkIdentity> ();
-				foreach (var o in objs) Debug.Log (o.netId, o);
-			}
-		}
 
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
