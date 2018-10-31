@@ -143,18 +143,9 @@ namespace HeroesRace
 	{
 		public static Player me;
 
-		private void Update ()
-		{
-			if (Input.GetKey ("e"))
-			{
-				var objs = FindObjectsOfType<NetworkIdentity> ();
-				foreach (var o in objs) Debug.Log (o.netId, o);
-			}
-		}
-
 		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			base.OnClientConnect (conn);
+			ClientScene.AddPlayer (conn, 0);
 			Log.LowDebug ("Connected to Server!");
 		}
 
