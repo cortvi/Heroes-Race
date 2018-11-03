@@ -34,8 +34,8 @@ namespace HeroesRace
 			if (SM.GetActiveScene ().name != "!Zero")
 			{
 				SM.LoadScene ("!Zero");
-				while (SM.GetActiveScene ().name != "!Zero")
-					yield return null;
+				while (SM.GetActiveScene ().name != "!Zero") yield return null;
+				yield return new WaitForSeconds (2f);
 			}
 
 			if (config[0] == "client") 

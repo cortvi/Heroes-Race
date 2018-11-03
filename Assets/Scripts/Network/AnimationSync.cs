@@ -28,6 +28,7 @@ namespace HeroesRace
 			else anim.normalizedTime = syncTime;
 		}
 
+		[ServerCallback]
 		private void LateUpdate () 
 		{
 			if (sendTimer > sendRate)
