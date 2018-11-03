@@ -10,7 +10,7 @@ namespace HeroesRace
 	{
 		#region DATA
 		// ——— Helpers ———
-		internal Hero owner;
+		[Info] public Hero owner;
 		internal Rigidbody body;
 		internal CapsuleCollider capsule;
 

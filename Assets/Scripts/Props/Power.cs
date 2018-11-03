@@ -22,9 +22,6 @@ namespace HeroesRace
 			NetworkServer.Spawn (gameObject);
 			anim.SetTrigger ("Reset");
 			SetPower ();
-
-			#warning Delete this if Power name is OK
-//			UpdateName ();
 		}
 		private void SetPower () 
 		{

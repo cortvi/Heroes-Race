@@ -8,19 +8,19 @@ namespace HeroesRace
 	public class HeroCamera : MonoBehaviour 
 	{
 		#region DATA
+		internal HeroHUD hud;
 		[Info] public Hero target;
 		[Info] public int floor;
 
-		private const float FloorHeigth = 5.2f;
-		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
 		private Vector3 actualOffset;
+		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
+		private const float FloorHeigth = 5.2f;
 		#endregion
 
-		public IEnumerator SwitchLevel (int delta) 
+		public IEnumerator SwitchFloor (int floor) 
 		{
 			float iOffset = actualOffset.y;
 			float step = 0f;
-			floor += delta;
 
 			float duration = 1.5f;
 			while (step <= 1f) 
@@ -34,6 +34,7 @@ namespace HeroesRace
 				yield return null;
 				step += Time.deltaTime / duration;
 			}
+			this.floor = floor;
 		}
 
 		private void Update () 
@@ -71,8 +72,9 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			// Initialize actual offset
 			actualOffset = offset;
+			hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
+			hud.name = hud.name.Replace ("(Clone)", "");
 		}
 	} 
 }

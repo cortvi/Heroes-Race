@@ -161,12 +161,15 @@ namespace HeroesRace
 
 		protected override void OnServerAwake () 
 		{
-			// Get references
-			anim = new SmartAnimator (GetComponent<Animator> (), networked: true);
+			anim = GetComponent<Animator> ().GoSmart (networked: true);
 			mods = new ModifierStack (this);
+		}
 
-			#warning adding a Hero camera for testing in the server!
-			OnStartOwnership ();
+		protected override void OnServerStart () 
+		{
+			// Notify Tower Camera if first player to enter!
+			if (TowerCamera.i.tracking.target == null)
+				TowerCamera.i.tracking.target = this;
 		}
 		#endregion
 
@@ -370,15 +373,11 @@ namespace HeroesRace
 				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				cam.target = this;
 			}
-			if (!hud && isClient)
-			{
-				// Initialize Client-side HUD
-				hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
-			}
 		}
 
+		#region RPC CALLS
 		[TargetRpc]
-		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
+		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower)
 		{
 			// Show new power-up on owner Client
 			hud.UpdatePower (newPower);
@@ -386,11 +385,12 @@ namespace HeroesRace
 		}
 
 		[TargetRpc]
-		public void Target_SwitchCamLevel (NetworkConnection target, int delta) 
+		public void Target_SwitchCamLevel (NetworkConnection target, int delta)
 		{
 			// Move Client Camera if passed through 
-			StartCoroutine (cam.SwitchLevel (delta));
-		}
+			StartCoroutine (cam.SwitchFloor (delta));
+		} 
+		#endregion
 	}
 
 	#region ENUMS

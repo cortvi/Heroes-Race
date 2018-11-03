@@ -1,10 +1,11 @@
 ——— Faltaria ———
-- Los lifts no spawnean bien en el Cliente (no se activan las plataformas)
+- Set up Lifts con el Animator, asi seguro que spawnea bien!
 - Apañar animnator de Ascensores (subir/bajar) correctamente
 - Comprobar correcto spawn de los lifts
 - Server Camera system
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
+- Make plats-que-se-rompen little throw into air any Hero (physics check)
 
 ——— DONE ———
 - Apañar NET (auto client ready + auto scene objects spawn)
@@ -29,11 +30,15 @@ Q17
 
 ——— Sometime ———
 - Respawn broken lifts..?
+- Monstruo -> shader parpadeo + animator!
+- Make mapa work
 - Create CC animation stack to replace triggers with bools
 - Q11's lift spawning actually should be activated by Tower Generator!
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
+- Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
+
+  Esto da un pquito un igual xk en LAN no deberia pasar
+v--------------------------------------------------------v
+- En desconexion, avoid send errors! (disable Hero...?)
 - En desconexion, Pawn is not unset!
 - En reconexion de jugador, es necesario re-asignar Pawn!
-- Make mapa work
-- Monstruo -> shader parpadeo + animator!
-- Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?

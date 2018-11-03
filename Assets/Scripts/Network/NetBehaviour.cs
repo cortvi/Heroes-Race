@@ -37,6 +37,7 @@ namespace HeroesRace
 				// No physic logic on Client!
 				var colliders = GetComponentsInChildren<Collider> ();
 				foreach (var c in colliders) Destroy (c);
+
 				OnClientAwake ();
 			}
 			else if (Net.isServer) OnServerAwake ();

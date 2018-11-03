@@ -165,11 +165,11 @@ namespace HeroesRace
 			Log.LowDebug ("Connected to Server!");
 		}
 
-		public override void OnClientDisconnect (NetworkConnection conn) 
+		public override void OnClientSceneChanged (NetworkConnection conn) 
 		{
-			#warning LAS PUTAS DESCONEXIONES SINGUEN DANDO POR CULO (se re-conecta automaticamente)
-			// was this causing automatic re-connecting?
-			base.OnClientDisconnect (conn);
+			// Overriding to prevent Unity from setting
+			// the connection ready if it already is!
+			if (!ClientScene.ready) ClientScene.Ready (conn);
 		}
 	}
 }

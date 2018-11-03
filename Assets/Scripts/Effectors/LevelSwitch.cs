@@ -17,8 +17,7 @@ namespace HeroesRace
 			var conn = hero.owner.connectionToClient;
 			hero.Target_SwitchCamLevel (conn, delta);
 
-			#warning This should be replaced for Server Camera system
-			if (hero.cam) StartCoroutine (hero.cam.SwitchLevel (delta));
+			StartCoroutine (TowerCamera.i.tracking.SwitchFloor (delta));
 		}
 
 		private void Awake () 

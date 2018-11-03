@@ -8,53 +8,29 @@ namespace HeroesRace
 	public class Ascensor : NetBehaviour 
 	{
 		private SmartAnimator anim;
-		private List<Transform> playersIn;
-		private bool PlayersIn 
+		internal bool Chosen 
+		{
+			get { return anim.GetBool ("Chosen"); }
+			set { anim.SetBool ("Chosen", value); }
+		}
+		internal bool PlayersIn 
 		{
 			set { anim.SetBool ("PlayersIn", value); }
 		}
-
-		private bool chosen;
-		private Rigidbody[] pieces;
-
-		public void SetUp (bool chosen) 
-		{
-			//  Set up clients too
-			if (Net.isServer) Rpc_SetUp (chosen);
-			this.chosen = chosen;
-
-			var plats = transform.GetChild (3);
-			if (chosen)
-			{
-				// Enable okay platform, up-floor & level switch
-				plats.GetChild (1).gameObject.SetActive (true);
-				transform.GetChild (0).gameObject.SetActive (true);
-				transform.GetChild (2).gameObject.SetActive (true);
-			}
-			else
-			{
-				// Enable broken platform, level switch & register all pieces
-				plats.GetChild (0).gameObject.SetActive (true);
-				transform.GetChild (1).gameObject.SetActive (true);
-				pieces = plats.GetChild (0).GetComponentsInChildren<Rigidbody> ();
-			}
-		}
-		[ClientRpc]
-		private void Rpc_SetUp (bool chosen) { SetUp (chosen); }
+		private List<Transform> playersIn;
 
 		[ServerCallback]
 		private void Break () 
 		{
 			if (Net.isServer) 
 			{
-				// Only breakable lifts
-				if (chosen) return;
-				// Clients always break since it's Server-driven
-				else Rpc_Break ();
+				if (Chosen) return; // Only breakable lifts
+				else Rpc_Break ();	// Clients always break since it's Server-driven
 			}
 
-			// Explode
-			var plats = transform.GetChild (3);
+			// Explode into pieces
+			var plats = transform.GetChild (2);
+			var pieces = GetComponentsInChildren<Rigidbody> ();
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
@@ -63,9 +39,8 @@ namespace HeroesRace
 				p.AddExplosionForce (force, plats.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
-			// Disable all platform colliders
-			foreach (var c in plats.GetComponentsInChildren<Collider> ())
-				c.enabled = false;
+			// Disable platform collider
+			plats.GetComponent<Collider> ().enabled = false;
 		}
 		[ClientRpc]
 		private void Rpc_Break () { Break (); }
