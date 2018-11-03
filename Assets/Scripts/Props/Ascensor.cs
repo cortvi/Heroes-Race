@@ -19,14 +19,10 @@ namespace HeroesRace
 		}
 		private List<Transform> playersIn;
 
-		[ServerCallback]
 		private void Break () 
 		{
-			if (Net.isServer) 
-			{
-				if (Chosen) return; // Only breakable lifts
-				else Rpc_Break ();	// Clients always break since it's Server-driven
-			}
+			// Only broken lifts
+			if (Chosen) return;
 
 			// Explode into pieces
 			var plats = transform.GetChild (2);
@@ -42,8 +38,6 @@ namespace HeroesRace
 			// Disable platform collider
 			plats.GetComponent<Collider> ().enabled = false;
 		}
-		[ClientRpc]
-		private void Rpc_Break () { Break (); }
 
 		#region CALLBACKS
 		[ServerCallback]
@@ -61,10 +55,11 @@ namespace HeroesRace
 			PlayersIn = (playersIn.Count > 0);
 		}
 
-		protected override void OnServerAwake () 
+		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			playersIn = new List<Transform> (3);
+
+			if (Net.isServer) playersIn = new List<Transform> (3);
 		} 
 		#endregion
 	} 

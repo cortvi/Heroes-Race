@@ -15,16 +15,17 @@ using UnityEngine.Networking;
 namespace HeroesRace 
 {
 	[NetworkSettings (channel = 2, sendInterval = 0f)]
-	public sealed partial class /* COMMON */ Hero : NetPawn  
+	public sealed partial class /* COMMON */ Hero : NetPawn 
 	{
 		#region DATA
 		private const float Speed = 10.0f;
-		private const float JumpForce = 6f;
+		private const float JumpForce = 7f;
 
-		[SyncVar] internal Vector3 netPosition;     // Exact real position
-		[SyncVar] internal float netAngular;        // Speed around tower
-		[SyncVar] internal Quaternion netRotation;  // Transform rotation
-		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
+		[SyncVar] private Vector3 netPosition;		// Exact real position
+		[SyncVar] private Quaternion netRotation;	// Transform rotation
+		[SyncVar] private float netAngular;			// Speed around tower
+		[SyncVar] private float netYForce;			// Vertical speed 
+		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 
 		private PowerUp _power;
 		#endregion
@@ -125,11 +126,18 @@ namespace HeroesRace
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
 
-			// Send angular speed to allow client-side prediction
-			// If speed is too low, asume it's zero
+			// Send angular & vertical speed to allow client-side prediction
 			float angular = driver.body.angularVelocity.y;
-			if (input != 0f && angular >= 0.9f) netAngular = (Mathf.Rad2Deg * angular);
-			else netAngular = 0f;
+			float vertical = driver.body.velocity.y;
+
+			// If speed is too low, asume it's zero
+			if (vertical >= 0.9f) netYForce = vertical;
+			else netYForce = 0f;
+
+			if (input != 0f && angular >= 0.9f)
+				netAngular = (Mathf.Rad2Deg * angular);
+			else
+				netAngular = 0f;
 		}
 		#endregion
 
@@ -347,7 +355,6 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		internal HeroHUD hud;
 		internal HeroCamera cam;
 
 		private void KeepMotion () 
@@ -377,10 +384,10 @@ namespace HeroesRace
 
 		#region RPC CALLS
 		[TargetRpc]
-		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower)
+		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
 		{
 			// Show new power-up on owner Client
-			hud.UpdatePower (newPower);
+			cam.hud.UpdatePower (newPower);
 			_power = newPower;
 		}
 

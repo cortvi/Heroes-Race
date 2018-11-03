@@ -1,13 +1,15 @@
 ——— Faltaria ———
-- Set up Lifts con el Animator, asi seguro que spawnea bien!
-- Apañar animnator de Ascensores (subir/bajar) correctamente
-- Comprobar correcto spawn de los lifts
+- May need to attach Hero to lift (on Client) to make it look more normal
+- Ascensores no revientan en clientes
 - Server Camera system
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 - Make plats-que-se-rompen little throw into air any Hero (physics check)
 
 ——— DONE ———
+- Apañar animnator de Ascensores (subir/bajar) correctamente
+- Comprobar correcto spawn de los lifts
+- Set up Lifts con el Animator, asi seguro que spawnea bien!
 - Apañar NET (auto client ready + auto scene objects spawn)
 
 ——— QUESITOS ———
