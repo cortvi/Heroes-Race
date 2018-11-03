@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 111275454883406076}
   - component: {fileID: 114469054368470480}
   - component: {fileID: 114313062036325710}
+  - component: {fileID: 114794440340066518}
   m_Layer: 0
   m_Name: Pirana_Volarina
   m_TagString: Untagged
@@ -2134,7 +2135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc390360bb7cf441b844ead4886080f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnTime: 0
+  spawnRate: 0
 --- !u!114 &114469054368470480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2167,6 +2168,20 @@ MonoBehaviour:
     i15: 251
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114794440340066518
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1177177502498860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 0.1
+  lerpFactor: 0
+  syncedAnimation: Fly
 --- !u!114 &114801004182775256
 MonoBehaviour:
   m_ObjectHideFlags: 1

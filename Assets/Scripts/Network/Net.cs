@@ -24,6 +24,9 @@ namespace HeroesRace
 			Log.logLevel = Log.LogType.DeepDebug;
 			Application.targetFrameRate = 60;
 
+			// Unload current scene
+			SceneManager.LoadScene ("!Zero");
+
 			// Read config:
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
 			if (config[0] == "client") 
@@ -52,10 +55,6 @@ namespace HeroesRace
 	public partial class /* SERVER */ Net 
 	{
 		public static Player[] players;
-		/*public int PlayerReadyCount 
-		{
-			get { return players.Count (u => u.Conn.isReady); }
-		}*/
 
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
@@ -91,32 +90,6 @@ namespace HeroesRace
 					player.SetPawn (hero);
 				}
 			}
-		}
-
-		public override void OnStartServer () 
-		{
-			// Ensures all current net objects are spawned
-			networkSceneName = SceneManager.GetActiveScene ().name;
-			StartCoroutine (ActiveCurrentScene ());
-		}
-		IEnumerator ActiveCurrentScene () 
-		{
-			var objs = FindObjectsOfType<NetworkIdentity> ();
-			bool allSetUp = true;
-			do
-			{
-				allSetUp = true;
-				foreach (var o in objs)
-				{
-					// Ensure all objects has been
-					// given a SceneID value by Unity
-					if (o.sceneId.Value == 0) allSetUp = false;
-				}
-				yield return null;
-			}
-			while (!allSetUp);
-			NetworkServer.SpawnObjects ();
-			base.OnStartServer ();
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 

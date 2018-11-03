@@ -106,7 +106,7 @@ MonoBehaviour:
     m_ResendTimeout: 1200
     m_DisconnectTimeout: 2000
     m_ConnectTimeout: 2000
-    m_MinUpdateTimeout: 10
+    m_MinUpdateTimeout: 5
     m_PingTimeout: 500
     m_ReducedPingTimeout: 100
     m_AllCostTimeout: 20
@@ -131,8 +131,8 @@ MonoBehaviour:
   m_GlobalConfig:
     m_ThreadAwakeTimeout: 1
     m_ReactorModel: 0
-    m_ReactorMaximumReceivedMessages: 1024
-    m_ReactorMaximumSentMessages: 1024
+    m_ReactorMaximumReceivedMessages: 2048
+    m_ReactorMaximumSentMessages: 2048
     m_MaxPacketSize: 2000
     m_MaxHosts: 16
     m_ThreadPoolSize: 1

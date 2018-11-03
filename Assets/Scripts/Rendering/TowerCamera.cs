@@ -24,7 +24,7 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			if (Network.isServer)
+			if (Net.isServer)
 			{
 				i = this;
 				tracking = Camera.main.gameObject.AddComponent<HeroCamera> ();

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4992074012653344}
   - component: {fileID: 111686545846714462}
   - component: {fileID: 114673612317744186}
-  - component: {fileID: 114359932156785570}
+  - component: {fileID: 114837463258354024}
   m_Layer: 0
   m_Name: MiniSlime
   m_TagString: Untagged
@@ -145,17 +145,6 @@ MonoBehaviour:
   kickForce: 4
   upForce: 1.3
   stunTime: 0.7
---- !u!114 &114359932156785570
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1246058221159688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3a178cd62d2f9047a9a2153aa2ea498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114673612317744186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,6 +177,20 @@ MonoBehaviour:
     i15: 158
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114837463258354024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246058221159688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 0.01
+  lerpFactor: 0
+  syncedAnimation: Slime_08
 --- !u!135 &135638634425303646
 SphereCollider:
   m_ObjectHideFlags: 1

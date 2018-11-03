@@ -5,57 +5,47 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	[NetworkSettings (channel = 2)]
-	public class PiranaVolarina : NetBehaviour 
+	public class PiranaVolarina : MonoBehaviour  
 	{
 		#region DATA
-		[Info] public float spawnTime;
-		private float spawnMark;
+		[Info] public float spawnRate;
+		private float spawnTimer;
 		private bool done;
 
-		[SyncVar] private float syncTime;
-		private AnimationState anim;
-
 		private Transform wrapper;
-		private Quaternion correction; 
+		private static readonly Quaternion correction = Quaternion.Euler (0f, 0f, 90f);
 		#endregion
 
 		private void LateUpdate () 
 		{
-			// Correct animator rotation for all
-			wrapper.rotation *= correction;
-
-			if (Net.isServer) 
+			if (Net.isServer)
 			{
-				syncTime = anim.normalizedTime;
-				if (!done && Time.time >= spawnMark)
+				if (!done && spawnTimer >= spawnRate)
 				{
-					// Spawn over net, passing spawn value
+					// Spawn over net, passing info
 					var next = Instantiate (this);
 					NetworkServer.Spawn (next.gameObject);
-					next.spawnTime = spawnTime;
-					next.name = SharedName;
+					next.name = GetComponent<NetBehaviour> ().SharedName;
+					next.spawnRate = spawnRate;
 
 					// Just once
 					done = true;
 				}
+				else spawnTimer += Time.deltaTime;
 			}
+
+			// Correct animator rotation for all
+			wrapper.rotation *= correction;
 		}
 
-		protected override void OnStart () 
+		private void Start () 
 		{
-			// Get some common references
-			anim = GetComponent<Animation> ()["Fly"];
-			correction = Quaternion.Euler (0f, 0f, 90f);
-			wrapper = transform.GetChild (0);
-
-			if (Net.isServer) 
+			if (Net.isServer && spawnRate == 0f) 
 			{
 				// Calculted for the first Pirana, then it's passed on
-				if (spawnTime == 0f) spawnTime = Random.Range (0.8f, 1.3f);
-				spawnMark = Time.time + spawnTime;
+				spawnRate = Random.Range (0.7f, 1.2f);
 			}
-			else anim.normalizedTime = syncTime;
+			wrapper = transform.GetChild (0);
 		}
 
 		private void Destroy () 

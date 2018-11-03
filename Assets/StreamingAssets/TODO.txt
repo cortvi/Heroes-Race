@@ -1,15 +1,18 @@
 ——— Faltaria ———
+- Rework Animation Sync (for slimes + pirana)
+- Make Networker unload scene to adjust to Build
+
 - Q9 not actived :/
 - Q10 slime not synced wtffff
 - Improve air-control (add foce instead of changing velocity)
 - May need to attach Hero to lift (on Client) to make it look more normal
-- Server Camera system
 - Level switch
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 - Make plats-que-se-rompen little throw into air any Hero (physics check)
 
 ——— DONE ———
+- Server Camera system
 - Ascensores no revientan en clientes
 - Apañar animnator de Ascensores (subir/bajar) correctamente
 - Comprobar correcto spawn de los lifts
@@ -25,8 +28,8 @@ Q3
 • Q6
 Q7
 • Q8
-• Q9
-• Q10
+Q9
+Q10
 Q11
 Q12
 Q13

@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
+	[DisallowMultipleComponent]
 	// Wrapper class for networked objects
 	public abstract class NetBehaviour : NetworkBehaviour 
 	{
