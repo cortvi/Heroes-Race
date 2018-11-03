@@ -10,6 +10,7 @@
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 - Make plats-que-se-rompen little throw into air any Hero (physics check)
+- Cortinilla inicial
 
 ——— DONE ———
 - Server Camera system

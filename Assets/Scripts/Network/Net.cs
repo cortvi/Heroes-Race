@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using SM = UnityEngine.SceneManagement.SceneManager;
 
 namespace HeroesRace 
 {
@@ -17,23 +17,32 @@ namespace HeroesRace
 		public static bool isServer;
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
-		public static void EntryPoint () 
+		public static void Main () 
 		{
 			// Initialize some basic aspects
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			Log.logLevel = Log.LogType.DeepDebug;
 			Application.targetFrameRate = 60;
 
-			// Unload current scene
-			SceneManager.LoadScene ("!Zero");
-
 			// Read config:
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
+			worker.StartCoroutine (worker.Config (config));
+		}
+		private IEnumerator Config (string[] config) 
+		{
+			// Ensure we start in the base scene
+			if (SM.GetActiveScene ().name != "!Zero")
+			{
+				SM.LoadScene ("!Zero");
+				while (SM.GetActiveScene ().name != "!Zero")
+					yield return null;
+			}
+
 			if (config[0] == "client") 
 			{
 				// Start Client from given address
-				worker.networkAddress = config[1].Trim ();
-				worker.StartClient ();
+				networkAddress = config[1].Trim ();
+				StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
 				isClient = true;
 			}
@@ -44,11 +53,13 @@ namespace HeroesRace
 				PlayersNeeded = int.Parse (config[1]);
 				players = new Player[PlayersNeeded];
 
-				worker.StartServer ();
+				StartServer ();
 				Log.LowDebug ("This mahcine is now the server");
 				isServer = true;
 			}
 			else Log.Info ("Can't understand config file!");
+
+			#warning Aqui deberia hacer correr la cortinilla
 		}
 	}
 

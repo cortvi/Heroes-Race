@@ -41,7 +41,7 @@ namespace HeroesRace
 		protected override void OnStart () 
 		{
 			// Get the reference for the animation state to be synced
-			anim = GetComponent<Animation> ()[syncedAnimation];
+			anim = GetComponentInChildren<Animation> ()[syncedAnimation];
 		}
 	} 
 }
