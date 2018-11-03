@@ -35,8 +35,12 @@ namespace HeroesRace
 				p.AddExplosionForce (force, plats.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
-			// Disable platform collider
-			plats.GetComponent<Collider> ().enabled = false;
+			// Disable platform colliders
+			if (Net.isServer)
+			{
+				GetComponent<Collider> ().enabled = false;
+				plats.GetComponent<Collider> ().enabled = false;
+			}
 		}
 
 		#region CALLBACKS
@@ -58,7 +62,6 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-
 			if (Net.isServer) playersIn = new List<Transform> (3);
 		} 
 		#endregion

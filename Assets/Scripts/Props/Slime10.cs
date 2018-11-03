@@ -14,13 +14,8 @@ namespace HeroesRace
 
 		private void LateUpdate () 
 		{
-			if (Net.isClient)
-			{
-				float lerp = Mathf.Lerp (anim.normalizedTime, syncTime, Time.deltaTime * 10f);
-				anim.normalizedTime = lerp;
-			}
 			// Send sync time for any player that connects
-			else if (Net.isServer) syncTime = anim.normalizedTime;
+			if (Net.isServer) syncTime = anim.normalizedTime;
 		}
 
 		protected override void OnStart () 
