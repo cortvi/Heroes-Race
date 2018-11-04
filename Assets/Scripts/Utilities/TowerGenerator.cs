@@ -87,11 +87,11 @@ namespace HeroesRace
 				for (var q=0; q!=9; ++q)
 				{
 					// Skip bypassed quesitos set to 'None'
-					int index = tower[f][q] - 1;
-					if (index == -1) continue;
+					int index = tower[f][q];
+					if (index == 0) continue;
 
 					// Instantiate quesito & align with its floor
-					var Q = Instantiate (qPrefabs[index]).transform;
+					var Q = Instantiate (qPrefabs[index - 1]).transform;
 					Q.position = floorRoots[f].position;
 					Q.rotation = floorRoots[f].rotation;
 

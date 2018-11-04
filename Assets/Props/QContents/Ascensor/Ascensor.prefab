@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 65676274670511770}
   - component: {fileID: 114959469960371444}
   m_Layer: 0
-  m_Name: Level_Switch
+  m_Name: Floor_Switch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -398,7 +398,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1948600405258664}
   m_LocalRotation: {x: -0.63546664, y: 0.31013256, z: 0.31013256, w: 0.63546664}
-  m_LocalPosition: {x: -23.02108, y: 1.191671, z: -18.53491}
+  m_LocalPosition: {x: 17.53561, y: 0.6, z: -18.360432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4192937485024694}
@@ -1392,3 +1392,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fac775a8f8fa746ae28e7f59852c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toFloor: 0
