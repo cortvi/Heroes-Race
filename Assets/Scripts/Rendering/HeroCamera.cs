@@ -51,7 +51,7 @@ namespace HeroesRace
 				Time.deltaTime * 2f
 			);
 			
-			// Get the final position (+floor height)
+			// Get the final position (make Height inmutable)
 			var pos = target.transform.position;
 			pos.y = actualOffset.y;
 			pos += mat.MultiplyVector (actualOffset);
