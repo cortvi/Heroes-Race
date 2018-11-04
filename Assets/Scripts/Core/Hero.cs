@@ -128,15 +128,17 @@ namespace HeroesRace
 			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular & vertical speed to allow client-side prediction
+
 			float angular = driver.body.angularVelocity.y * Mathf.Rad2Deg;
+			print (angular);
 			float vertical = driver.body.velocity.y;
 
 			// If speed is too low, asume it's zero
-			if (vertical >= 0.009f) netYForce = vertical;
+			if (Mathf.Abs (vertical) >= 0.0009f) netYForce = vertical;
 			else netYForce = 0f;
 
 			// Same for angular speed (around Tower)
-			if (input != 0f && angular >= 0.9f) netAngular = angular;
+			if (Mathf.Abs (angular) >= 0.9f) netAngular = angular;
 			else netAngular = 0f;
 		}
 		#endregion
