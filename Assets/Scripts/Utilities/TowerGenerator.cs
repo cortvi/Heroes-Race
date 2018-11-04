@@ -1,23 +1,168 @@
-﻿using System.Collections;
+﻿using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Internal;
 using UnityEngine.Networking;
+using System.Linq;
 
-public class TowerGenerator : MonoBehaviour
+namespace HeroesRace 
 {
-	public Transform[] levelsRoot;				// Los transforms de cada nivel
-	public GameObject[] qPrefabs;				// Los prefabs de los quesitos
-	// 00->entrada torre
-	// 16->quesito final
-
-	enum Qs 
+	public class TowerGenerator : MonoBehaviour 
 	{
+		public Floor[] bypassTower;
+		public Transform[] floorRoots;
+		public GameObject[] qPrefabs;
+
+		private IEnumerator Start () 
+		{
+			var tower = new int[4][];
+			tower[0] = new int[9];
+			tower[1] = new int[9];
+			tower[2] = new int[9];
+			tower[3] = new int[9];
+
+			#region BYPASS
+			if (bypassTower.Length != 0)
+			{
+				for (int f=0; f!=bypassTower.Length; ++f)
+				{
+					// Primer quesito, ascensores o spawn-platform
+					tower[f][0] = (int)(f == 0? Qs.Entrada : Qs.Ascensores);
+					for (int q=1; q!=9; ++q)
+					{
+						// Bypass randomizer, manually form tower
+						tower[f][q] = bypassTower[f][q];
+					}
+				}
+			}
+			#endregion
+
+			#region RANDOMIZER
+			else
+			{
+				for (int f=0; f!=4; ++f)
+				{
+					// Primer quesito, ascensores o spawn-platform
+					tower[f][0] = (int) (f==0? Qs.Entrada : Qs.Ascensores);
+
+					// Ultimo quesito de cada piso
+					if (f != 3)
+					{
+						// Los ascensores pueden estar en
+						// las posiciones 4, 5, o 6 de cada piso
+						int pos = Random.Range (4, 6);
+						tower[f][pos] = (int) Qs.Ascensores;
+					}
+					// Ultimo quesito de toda la torre
+					else tower[f][5] = (int) Qs.THE_END;
+
+					// Resto de quesitos
+					for (int q=1; q!=9; ++q)
+					{
+						if ((Qs) tower[f][q] == Qs.Ascensores) continue;
+						if ((Qs) tower[f][q] == Qs.THE_END) continue;
+
+						int Q; do
+						{Q =
+							f == 0?
+							// Avoid throw-quesitos on first floor
+							Random.Range (04, 13) : // No-throw only
+							Random.Range (04, 17);  // All
+
+							yield return null;
+						}
+						// Avoid repeating quesistos
+						while (tower[f][q - 1] == Q);
+
+						// Asignar quesito
+						tower[f][q] = Q;
+					}
+				}
+			}
+			#endregion
+
+			#region SPAWNING
+			for (var f=0; f!=4; ++f)
+			{
+				for (var q=0; q!=9; ++q)
+				{
+					// Skip bypassed quesitos set to 'None'
+					int index = tower[f][q] - 1;
+					if (index == -1) continue;
+
+					// Instantiate quesito & align with its floor
+					var Q = Instantiate (qPrefabs[index]).transform;
+					Q.position = floorRoots[f].position;
+					Q.rotation = floorRoots[f].rotation;
+
+					// Rotate it to create the circle
+					Q.Rotate (Vector3.up, q * -40f);
+
+					// If spawned quesito is a not-entry-lift
+					if ((Qs) index == Qs.Ascensores && q != 0) 
+					{
+						// Spawn lifts & rotate next floor to align lifts
+						Q.GetComponent<Q11> ().SpawnLifts (floor: f);
+						floorRoots[f + 1].Rotate (Vector3.up, q * -40f);
+					}
+					// Finally spawn the quesito
+					NetworkServer.Spawn (Q.gameObject);
+				}
+			}
+			#endregion
+		}
+
+		private void Awake () 
+		{
+			if (Net.isClient)
+			{
+				// Register all quesitos & destroy itself
+				foreach (var p in qPrefabs) ClientScene.RegisterPrefab (p);
+				Destroy (gameObject);
+			}
+		}
+
+		[System.Serializable]
+		public struct Floor 
+		{
+			List<FieldInfo> fields;
+
+			public int this[int index] 
+			{
+				get 
+				{
+					if (fields == null)
+					{
+						// Get reflected info about the quesito fields
+						fields = GetType ().GetFields ().ToList ();
+					}
+
+					// Find quesito by name
+					var field = fields.Find (f => (f.Name == "q" + index));
+					return (int) field.GetValue (this);
+				}
+			}
+
+			public Qs q1;
+			public Qs q2;
+			public Qs q3;
+			public Qs q4;
+			public Qs q5;
+			public Qs q6;
+			public Qs q7;
+			public Qs q8;
+		}
+	}
+
+	// Underscore (_) means power-up
+	public enum Qs 
+	{
+		None,
 		// Especiales
 		Entrada,
 		Ascensores,
 		THE_END,
-		// No throw
+		// No-throw
 		_PiranasSaltarinas,
 		PiranasVolarinas,
 		_Cueva,
@@ -32,81 +177,7 @@ public class TowerGenerator : MonoBehaviour
 		_Hueco,
 		_Tentaculo,
 		Paredes
-	}
-
-	public IEnumerator GenerateTower ()
-	{
-		throw new System.NotImplementedException ();
-
-		var tower = new int[4][];
-		tower[0] = new int[9];
-		tower[1] = new int[9];
-		tower[2] = new int[9];
-		tower[3] = new int[9];
-
-		#region RANDOMIZER
-		for (var p=0; p!=4; p++)
-		{
-			// Primer quesito
-			tower[p][0] = ( int ) (p==0 ? Qs.Entrada : Qs.Ascensores);
-
-			// Ultimo quesito
-			if (p!=3)
-			{
-				var pos = Random.Range (4, 6);
-				tower[p][pos] = ( int ) Qs.Ascensores;
-			}
-			else tower[p][5] = ( int ) Qs.THE_END;
-
-			// Resto de quesitos
-			for (var q=1; q!=9; q++)
-			{
-				if ((Qs)tower[p][q] == Qs.Ascensores) continue;
-				if ((Qs)tower[p][q] == Qs.THE_END) continue;
-
-				int Q;
-				do
-				{
-					Q =
-					p==0 ?
-					Random.Range (03, 12) : // No throw
-					Random.Range (12, 16);  // Throw 
-				}
-				while (tower[p][q-1] == Q);
-
-				tower[p][q] = Q;
-			}
-
-			// Yield
-			yield return null;
-		}
-		#endregion
-
-		#region SPAWNING
-		for (var p = 0;p!=4;p++)
-		{
-			for (var q = 0;q!=9;q++)
-			{
-				var Q = Instantiate (qPrefabs[tower[p][q]]);
-				Q.transform.SetParent (levelsRoot[p]);
-				Q.transform.localPosition = Vector3.zero;
-				Q.transform.localRotation = Quaternion.Euler (0f, q*-40f, 0f);
-
-				if (( Qs ) tower[p][q] == Qs.Ascensores && q!=0)
-				{
-//					Q.GetComponent<AscensorSpawner> ().enabled = true;
-					levelsRoot[p+1].Rotate (Vector3.up, q*-40f);
-				}
-			}
-		} 
-		#endregion
-	}
-
-	private void Start () 
-	{
-//		if (isServer)
-			StartCoroutine ("GenerateTower");
-	}
+	} 
 }
 
 

@@ -10,31 +10,25 @@ namespace HeroesRace
 		#region DATA
 		internal HeroHUD hud;
 		[Info] public Hero target;
-		[Info] public int floor;
 
 		private Vector3 actualOffset;
 		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
 		private const float FloorHeigth = 5.2f;
 		#endregion
 
-		public IEnumerator SwitchFloor (int floor) 
+		public IEnumerator SwitchFloor () 
 		{
 			float iOffset = actualOffset.y;
+			float tOffset = target.floor * FloorHeigth;
 			float step = 0f;
 
 			float duration = 1.5f;
 			while (step <= 1f) 
 			{
-				actualOffset.y = Mathf.Lerp 
-				(
-					iOffset,
-					offset.y + (floor * FloorHeigth),
-					step
-				);
-				yield return null;
+				actualOffset.y = Mathf.Lerp (iOffset, tOffset, step);
 				step += Time.deltaTime / duration;
+				yield return null;
 			}
-			this.floor = floor;
 		}
 
 		private void Update () 

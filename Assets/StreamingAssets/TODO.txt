@@ -1,6 +1,6 @@
 ——— Faltaria ———
-- Rework Animation Sync (for slimes + pirana)
-- Make Networker unload scene to adjust to Build
+- Crear Tower-Geenrator para ajustar a Build
+- Q11's lift spawning actually should be activated by Tower Generator!
 
 - Q9 not actived :/
 - Q10 slime not synced wtffff
@@ -13,6 +13,8 @@
 - Cortinilla inicial
 
 ——— DONE ———
+- Make Networker unload scene to adjust to Build
+- Rework Animation Sync (for slimes + pirana)
 - Server Camera system
 - Ascensores no revientan en clientes
 - Apañar animnator de Ascensores (subir/bajar) correctamente
@@ -43,7 +45,6 @@ Q17
 - Monstruo -> shader parpadeo + animator!
 - Make mapa work
 - Create CC animation stack to replace triggers with bools
-- Q11's lift spawning actually should be activated by Tower Generator!
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
 - Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
 

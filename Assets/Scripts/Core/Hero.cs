@@ -27,6 +27,7 @@ namespace HeroesRace
 		[SyncVar] private float netYForce;			// Vertical speed 
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 
+		[Info] public int floor;					// The floor the Hero is in ATM
 		private PowerUp _power;
 		#endregion
 
@@ -127,17 +128,16 @@ namespace HeroesRace
 			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular & vertical speed to allow client-side prediction
-			float angular = driver.body.angularVelocity.y;
+			float angular = driver.body.angularVelocity.y * Mathf.Rad2Deg;
 			float vertical = driver.body.velocity.y;
 
 			// If speed is too low, asume it's zero
 			if (vertical >= 0.9f) netYForce = vertical;
 			else netYForce = 0f;
 
-			if (input != 0f && angular >= 0.9f)
-				netAngular = (Mathf.Rad2Deg * angular);
-			else
-				netAngular = 0f;
+			// Same for angular speed (around Tower)
+			if (input != 0f && angular >= 0.9f) netAngular = angular;
+			else netAngular = 0f;
 		}
 		#endregion
 
@@ -244,6 +244,14 @@ namespace HeroesRace
 
 			// Lerp rotation for smooth turns
 			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
+		}
+
+		public void SwitchCamFloor (int toFloor) 
+		{
+			floor = toFloor;
+			// Switch the camera level on both Server & Client
+			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
+			Target_SwitchCamFloor (connectionToClient);
 		}
 		#endregion
 
@@ -359,17 +367,21 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			// Height is lerped always
-			var pos = transform.position;
-			pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
-			transform.position = pos;
-
-			// Lerp to real position if stopped, otherwise move around tower in given speed
-			if (netAngular == 0f) transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
-			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
+			if (netAngular < 0.001f && netYForce < 0.001f)
+			{
+				// Lerp to real position if completely stopped
+				transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
+			}
+			else
+			{
+				// Otherwise rotate around tower or move up/down by given speeds
+				if (netAngular > 0.001f) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
+				if (netYForce > 0.001f) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
+			}
 
 			// Rotation is always lerped too
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 30f);
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
+
 		}
 
 		internal override void OnStartOwnership () 
@@ -392,10 +404,10 @@ namespace HeroesRace
 		}
 
 		[TargetRpc]
-		public void Target_SwitchCamLevel (NetworkConnection target, int delta)
+		public void Target_SwitchCamFloor (NetworkConnection target) 
 		{
-			// Move Client Camera if passed through 
-			StartCoroutine (cam.SwitchFloor (delta));
+			// Move Client camera
+			StartCoroutine (cam.SwitchFloor ());
 		} 
 		#endregion
 	}

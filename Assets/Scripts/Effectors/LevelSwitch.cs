@@ -5,19 +5,18 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public class LevelSwitch : MonoBehaviour 
+
+	public class FloorSwitch : MonoBehaviour 
 	{
+		[Info] public int toFloor;
+
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
 
-			// Switch the camera level on both Client & Server
-			int delta = (name.Contains ("Okay")? +1 : -1);
-			var conn = hero.owner.connectionToClient;
-			hero.Target_SwitchCamLevel (conn, delta);
-
-			StartCoroutine (TowerCamera.i.tracking.SwitchFloor (delta));
+			// Do nothing if Hero's already on that floor
+			if (hero.floor != toFloor) hero.SwitchCamFloor (toFloor);
 		}
 
 		private void Awake () 

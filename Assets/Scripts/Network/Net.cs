@@ -31,7 +31,7 @@ namespace HeroesRace
 		private IEnumerator Config (string[] config) 
 		{
 			// Ensure we start in the base scene
-			if (SM.GetActiveScene ().name != "!Zero")
+			if (SM.GetActiveScene ().name != "!Zero") 
 			{
 				SM.LoadScene ("!Zero");
 				while (SM.GetActiveScene ().name != "!Zero") yield return null;
@@ -153,7 +153,7 @@ namespace HeroesRace
 		{
 			// Overriding to prevent Unity from setting
 			// the connection ready if it already is!
-			if (!ClientScene.ready) ClientScene.Ready (conn);
+			ClientScene.Ready (conn);
 		}
 	}
 }

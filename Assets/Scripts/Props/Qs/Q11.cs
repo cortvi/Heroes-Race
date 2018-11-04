@@ -7,11 +7,10 @@ namespace HeroesRace
 {
 	public class Q11 : QBase 
 	{
-		public bool spawnLifts;
 		public Ascensor liftPrefab;
 		public Transform[] liftSpawns;
 
-		private void SpawnLifts () 
+		public void SpawnLifts (int floor) 
 		{
 			// Select which Ascensor is the good one
 			int chosen = Random.Range (0, 3);
@@ -22,6 +21,11 @@ namespace HeroesRace
 				lift.transform.rotation = liftSpawns[i].rotation;
 				lift.Chosen = (i == chosen);
 
+				// If chosen lift, floor switches up; down otherwise
+				int targetFloor = floor + (lift.Chosen? +1 : -1);
+				lift.GetComponentInChildren<FloorSwitch> ().toFloor = targetFloor;
+
+				// Finally spaw over Net
 				NetworkServer.Spawn (lift.gameObject);
 			}
 		}
@@ -34,10 +38,6 @@ namespace HeroesRace
 				ClientScene.RegisterPrefab (liftPrefab.gameObject);
 				ClientScene.RegisterPrefab (gameObject);
 			}
-			else
-			// Manual override for generating lifts
-			// if not using the Tower generator
-			if (Net.isServer && spawnLifts) SpawnLifts ();
 		}
 	} 
 }
