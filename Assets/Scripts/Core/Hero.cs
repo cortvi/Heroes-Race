@@ -251,7 +251,7 @@ namespace HeroesRace
 			floor = toFloor;
 			// Switch the camera level on both Server & Client
 			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
-			Target_SwitchCamFloor (connectionToClient);
+			Target_SwitchCamFloor (owner.connectionToClient);
 		}
 		#endregion
 
@@ -377,7 +377,6 @@ namespace HeroesRace
 				// Otherwise rotate around tower or move up/down by given speeds
 				if (netAngular > 0.001f) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 				if (netYForce > 0.001f) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
-				print (netYForce);
 			}
 
 			// Rotation is always lerped too
