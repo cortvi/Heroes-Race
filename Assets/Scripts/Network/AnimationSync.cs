@@ -14,26 +14,28 @@ namespace HeroesRace
 		public string syncedAnimation;
 
 		private float sendTimer;
-		private AnimationState anim;
+		private Animation anim;
 
 		[ClientRpc (channel = 2)]
 		private void Rpc_Sync (float syncTime) 
 		{
 			// Sync with Server
+			var a = anim[syncedAnimation];
 			if (lerpFactor != 0)
 			{
-				float lerp = Mathf.Lerp (anim.normalizedTime, syncTime, Time.deltaTime * lerpFactor);
-				anim.normalizedTime = lerp;
+				float lerp = Mathf.Lerp (a.normalizedTime, syncTime, Time.deltaTime * lerpFactor);
+				a.normalizedTime = lerp;
 			}
-			else anim.normalizedTime = syncTime;
+			else if (a) a.normalizedTime = syncTime;
 		}
 
 		[ServerCallback]
 		private void LateUpdate () 
 		{
+			var a = anim[syncedAnimation];
 			if (sendTimer > sendRate)
 			{
-				Rpc_Sync (anim.normalizedTime);
+				Rpc_Sync (a.normalizedTime);
 				sendTimer = 0f;
 			}
 			else sendTimer += Time.deltaTime;
@@ -42,7 +44,7 @@ namespace HeroesRace
 		protected override void OnStart () 
 		{
 			// Get the reference for the animation state to be synced
-			anim = GetComponentInChildren<Animation> ()[syncedAnimation];
+			anim = GetComponentInChildren<Animation> ();
 		}
 	} 
 }

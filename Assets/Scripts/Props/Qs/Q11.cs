@@ -29,15 +29,5 @@ namespace HeroesRace
 				NetworkServer.Spawn (lift.gameObject);
 			}
 		}
-
-		protected override void OnAwake () 
-		{
-			if (Net.isClient)
-			{
-				// Register Ascensor & self for later spawning
-				ClientScene.RegisterPrefab (liftPrefab.gameObject);
-				ClientScene.RegisterPrefab (gameObject);
-			}
-		}
 	} 
 }

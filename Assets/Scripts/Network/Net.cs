@@ -142,18 +142,5 @@ namespace HeroesRace
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
-
-		public override void OnClientConnect (NetworkConnection conn) 
-		{
-			ClientScene.AddPlayer (conn, 0);
-			Log.LowDebug ("Connected to Server!");
-		}
-
-		public override void OnClientSceneChanged (NetworkConnection conn) 
-		{
-			// Overriding to prevent Unity from setting
-			// the connection ready if it already is!
-			ClientScene.Ready (conn);
-		}
 	}
 }

@@ -1,18 +1,17 @@
 ——— Faltaria ———
-- Crear Tower-Geenrator para ajustar a Build
-- Q11's lift spawning actually should be activated by Tower Generator!
-
 - Q9 not actived :/
 - Q10 slime not synced wtffff
 - Improve air-control (add foce instead of changing velocity)
 - May need to attach Hero to lift (on Client) to make it look more normal
-- Level switch
+- Floor switch
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 - Make plats-que-se-rompen little throw into air any Hero (physics check)
 - Cortinilla inicial
 
 ——— DONE ———
+- Q11's lift spawning actually should be activated by Tower Generator!
+- Crear Tower-Geenrator para ajustar a Build
 - Make Networker unload scene to adjust to Build
 - Rework Animation Sync (for slimes + pirana)
 - Server Camera system
