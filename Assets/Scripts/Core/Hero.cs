@@ -367,16 +367,21 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			if (netAngular < 0.001f && netYForce < 0.001f)
+			// Check if recieving any update
+			bool angular = Mathf.Abs (netAngular) > 0.00001f;
+			bool vertical = Mathf.Abs (netYForce) > 0.00001f;
+
+			if (!angular && !vertical) 
 			{
 				// Lerp to real position if completely stopped
 				transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
+				Debug.DrawRay (transform.position, transform.up);
 			}
 			else
 			{
 				// Otherwise rotate around tower or move up/down by given speeds
-				if (netAngular > 0.001f) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
-				if (netYForce > 0.001f) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
+				if (angular) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
+				if (vertical) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
 			}
 
 			// Rotation is always lerped too

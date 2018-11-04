@@ -8,22 +8,21 @@ using HeroesRace;
 
 public static class Extensions 
 {
-	#region STRING
+	#region BASIC TYPES
+	public static bool IsZero (this float f, float threshold = 0.0001f) 
+	{
+		// Assuming F it's 0 if between negative & positive threshold
+		return (f > -threshold && f < threshold);
+	}
+
 	public static string CapitalizeFirst (this string input)
 	{
+		// Returns same string but with first letter capital
 		return input[0].ToString ().ToUpper () + input.Substring (1);
 	} 
 	#endregion
 
-	#region ANIMATORS
-	public static SmartAnimator GoSmart (this Animator a, bool networked = false) 
-	{
-		var anim = new SmartAnimator (a, networked);
-		return anim;
-	}
-	#endregion
-
-	#region GAME OBJECTS
+	#region UNITY
 	private static object thisLock = new object ();
 	public static T SpawnSingleton<T> (string name) where T : Behaviour 
 	{
@@ -45,6 +44,12 @@ public static class Extensions
 			}
 			else throw new UnityException ("Prefab asset not found!");
 		}
+	}
+
+	public static SmartAnimator GoSmart (this Animator a, bool networked = false)
+	{
+		var anim = new SmartAnimator (a, networked);
+		return anim;
 	}
 	#endregion
 

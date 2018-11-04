@@ -1,25 +1,20 @@
 ——— Faltaria ———
+- Fix Hero colliding with stuff (prbbly checking how much it moved "angularly")
+- Fix Hero vertical net position
+- Floor switch
+
+- Lifts explode too much
 - Q9 not actived :/
 - Q10 slime not synced wtffff
 - Improve air-control (add foce instead of changing velocity)
 - May need to attach Hero to lift (on Client) to make it look more normal
-- Floor switch
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Testear Q11!
 - Make plats-que-se-rompen little throw into air any Hero (physics check)
 - Cortinilla inicial
 
 ——— DONE ———
-- Q11's lift spawning actually should be activated by Tower Generator!
-- Crear Tower-Geenrator para ajustar a Build
-- Make Networker unload scene to adjust to Build
-- Rework Animation Sync (for slimes + pirana)
-- Server Camera system
-- Ascensores no revientan en clientes
-- Apañar animnator de Ascensores (subir/bajar) correctamente
-- Comprobar correcto spawn de los lifts
-- Set up Lifts con el Animator, asi seguro que spawnea bien!
-- Apañar NET (auto client ready + auto scene objects spawn)
+
 
 ——— QUESITOS ———
 • Q1
