@@ -19,8 +19,10 @@ namespace HeroesRace
 		[ClientRpc (channel = 2)]
 		private void Rpc_Sync (float syncTime) 
 		{
-			// Sync with Server
+			if (!anim) return;
 			var a = anim[syncedAnimation];
+
+			// Sync with Server
 			if (lerpFactor != 0)
 			{
 				float lerp = Mathf.Lerp (a.normalizedTime, syncTime, Time.deltaTime * lerpFactor);

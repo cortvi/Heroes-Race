@@ -132,7 +132,7 @@ namespace HeroesRace
 			float vertical = driver.body.velocity.y;
 
 			// If speed is too low, asume it's zero
-			if (vertical >= 0.9f) netYForce = vertical;
+			if (vertical >= 0.009f) netYForce = vertical;
 			else netYForce = 0f;
 
 			// Same for angular speed (around Tower)
@@ -377,6 +377,7 @@ namespace HeroesRace
 				// Otherwise rotate around tower or move up/down by given speeds
 				if (netAngular > 0.001f) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 				if (netYForce > 0.001f) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
+				print (netYForce);
 			}
 
 			// Rotation is always lerped too
