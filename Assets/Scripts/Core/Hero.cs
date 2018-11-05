@@ -12,22 +12,22 @@ using UnityEngine.Networking;
 * 
 * All the Clients get their 3D data from the Server, then it's lerped for a fluid movement.
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
-namespace HeroesRace 
+namespace HeroesRace
 {
 	[NetworkSettings (channel = 2, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetPawn 
 	{
 		#region DATA
 		private const float Speed = 10.0f;
-		private const float JumpForce = 7f;
+		private const float JumpForce = 6.6f;
 
-		[SyncVar] private Vector3 netPosition;		// Exact real position
-		[SyncVar] private Quaternion netRotation;	// Transform rotation
-		[SyncVar] private float netAngular;			// Speed around tower
-		[SyncVar] private float netYForce;			// Vertical speed 
-		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
+		[SyncVar] private Vector3 netPosition;      // Exact real position
+		[SyncVar] private Quaternion netRotation;   // Transform rotation
+		[SyncVar] private float netAngular;         // Speed around tower
+		[SyncVar] private float netYForce;          // Vertical speed 
+		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
 
-		[Info] public int floor;					// The floor the Hero is in ATM
+		[Info] public int floor;                    // The floor the Hero is in ATM
 		private PowerUp _power;
 		#endregion
 
@@ -41,7 +41,7 @@ namespace HeroesRace
 		}
 	}
 
-	public sealed partial class /* SERVER */ Hero 
+	public sealed partial class /* SERVER */ Hero
 	{
 		#region DATA
 		// ——— Helpers ———
@@ -72,7 +72,9 @@ namespace HeroesRace
 		}
 
 		// ——— Locomotion ———
-		internal float input;
+		private float input;
+		private float lastYRot;
+		private float lastVPos;
 		internal PowerUp power 
 		{
 			get { return _power; }
@@ -101,7 +103,7 @@ namespace HeroesRace
 		public void Jumping () 
 		{
 			if (!OnAir
-			&& !mods[CCs.Jumping]) 
+			&& !mods[CCs.Jumping])
 			{
 				driver.SwitchFriction (touchingFloor: false);
 				anim.SetTrigger ("Jump");
@@ -120,24 +122,24 @@ namespace HeroesRace
 				power = PowerUp.None;
 			}
 		}
-		
-		private void SyncMotion () 
+
+		private void SyncMotion ()
 		{
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
 
-			// Send angular & vertical speed to allow client-side prediction
-			float angular = driver.body.angularVelocity.y * Mathf.Rad2Deg;
-			float vertical = driver.body.velocity.y;
+			// Send angular speed to Client if Hero moved enough
+			float yRot = driver.transform.eulerAngles.y;
+			netAngular = (yRot - lastYRot).IsZero (0.001f) ?
+				0f : driver.body.angularVelocity.y * Mathf.Rad2Deg;
+			lastYRot = yRot;
 
-			// If speed is too low, asume it's zero
-			if (Mathf.Abs (vertical) >= 0.0009f) netYForce = vertical;
-			else netYForce = 0f;
-
-			// Same for angular speed (around Tower)
-			if (Mathf.Abs (angular) >= 0.9f) netAngular = angular;
-			else netAngular = 0f;
+			// Same for vertical force
+			float yPos = driver.body.position.y;
+			netYForce = (yPos - lastVPos).IsZero (0.01f) ?
+				0f : driver.body.velocity.y;
+			lastVPos = yPos;
 		}
 		#endregion
 
@@ -145,8 +147,8 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Jump () 
 		{
-			if (!mods[CCs.Jumping]
-			&& (!mods[CCs.Moving]))
+			if (!mods[CCs.Jumping] &&
+				!mods[CCs.Moving])
 			{
 				// Impulse Hero upwards if possible (may be CCd between animation)
 				driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
@@ -159,7 +161,7 @@ namespace HeroesRace
 		private void FixedUpdate () 
 		{
 			// If on-air, don't apply speed modifiers
-			float speed = input * Speed * (OnAir? 1f : SpeedMul);
+			float speed = input * Speed * (OnAir ? 1f : SpeedMul);
 			var velocity = Vector3.up * speed * Time.fixedDeltaTime;
 
 			// Don't modify speed if CCed,
@@ -203,7 +205,7 @@ namespace HeroesRace
 					// or shield just runs out of time
 					while (true)
 					{
-						if (mods.Debuffed) 
+						if (mods.Debuffed)
 						{
 							// Clear all buffs & consume shield
 							anim.SetTrigger ("Consume_Shield");
@@ -268,10 +270,11 @@ namespace HeroesRace
 			private float speedDebuff;
 
 			public bool Debuffed 
-			{get
+			{
+				get
 				{
 					// Debuffed if slowed or directly impaired
-					return (speedDebuff != 1f && speedBuff == 1f) 
+					return (speedDebuff != 1f && speedBuff == 1f)
 						|| impairings.Count > 0;
 				}
 			}
@@ -292,8 +295,8 @@ namespace HeroesRace
 			private void Update () 
 			{
 				summary = CCs.None;
-				foreach (var b in blocks)		summary = summary.SetFlag (b.Value);
-				foreach (var i in impairings)	summary = summary.SetFlag (i.Value);
+				foreach (var b in blocks) summary = summary.SetFlag (b.Value);
+				foreach (var i in impairings) summary = summary.SetFlag (i.Value);
 
 				// Speed Buffs have priority!
 				if (speedBuff != 1f) owner.SpeedMul = speedBuff;
@@ -393,7 +396,7 @@ namespace HeroesRace
 
 		internal override void OnStartOwnership () 
 		{
-			if (!cam) 
+			if (!cam)
 			{
 				// Initialize camera to focus local Client
 				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
@@ -415,7 +418,7 @@ namespace HeroesRace
 		{
 			// Move Client camera
 			StartCoroutine (cam.SwitchFloor ());
-		} 
+		}
 		#endregion
 	}
 
@@ -437,7 +440,7 @@ namespace HeroesRace
 		None,
 		Speed,
 		Shield,
-//		Bomb,
+		//		Bomb,
 
 		Count
 	}
@@ -454,6 +457,6 @@ namespace HeroesRace
 		Locomotion = Moving | Rotating | Jumping,
 		None = 0,
 		All = ~0
-	} 
+	}
 	#endregion
 }

@@ -22,7 +22,7 @@ namespace HeroesRace
 				lift.Chosen = (i == chosen);
 
 				// If chosen lift, floor switches up; down otherwise
-				int targetFloor = floor + (lift.Chosen? +1 : -1);
+				int targetFloor = (lift.Chosen? floor+1 : floor);
 				lift.GetComponentInChildren<FloorSwitch> ().toFloor = targetFloor;
 
 				// Finally spaw over Net
