@@ -11,7 +11,7 @@ public static class Extensions
 	#region BASIC TYPES
 	public static bool IsZero (this float f, float threshold = 0.0001f) 
 	{
-		// Assuming F it's 0 if between negative & positive threshold
+		// Assuming 'f' is 0 if between negative & positive threshold
 		return (f > -threshold && f < threshold);
 	}
 

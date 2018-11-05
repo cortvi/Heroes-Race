@@ -128,9 +128,7 @@ namespace HeroesRace
 			transform.rotation = netRotation = ComputeRotation ();
 
 			// Send angular & vertical speed to allow client-side prediction
-
 			float angular = driver.body.angularVelocity.y * Mathf.Rad2Deg;
-			print (angular);
 			float vertical = driver.body.velocity.y;
 
 			// If speed is too low, asume it's zero
