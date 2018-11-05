@@ -35,9 +35,9 @@ namespace HeroesRace
 		{
 			// On Server, follow Driver
 			if (Net.isServer) SyncMotion ();
-			else
+			else;
 			// On Clients, follow given motion
-			if (Net.isClient) KeepMotion ();
+//			if (Net.isClient) KeepMotion ();
 		}
 	}
 
@@ -367,26 +367,28 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			// Check if recieving any update
-			bool angular = Mathf.Abs (netAngular) > 0.00001f;
-			bool vertical = Mathf.Abs (netYForce) > 0.00001f;
-
-			if (!angular && !vertical) 
-			{
-				// Lerp to real position if completely stopped
-				transform.position = Vector3.Lerp (transform.position, netPosition, Time.deltaTime * 10f);
-				Debug.DrawRay (transform.position, transform.up);
-			}
-			else
-			{
-				// Otherwise rotate around tower or move up/down by given speeds
-				if (angular) transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
-				if (vertical) transform.Translate (Vector3.up * netYForce * Time.deltaTime);
-			}
-
-			// Rotation is always lerped too
+			// Always lerp rotation
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
 
+			// Lerp vertical position
+			if (netYForce.IsZero ()) 
+			{
+				var pos = transform.position;
+				pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
+				transform.position = pos;
+			}
+			// Otherwise move with given speed
+			else transform.Translate (Vector3.up * netYForce * Time.deltaTime);
+
+			// Lerp whole Hero position
+			if (netAngular.IsZero ()) 
+			{
+				var pos = transform.position;
+				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 20f);
+				transform.position = pos;
+			}
+			// Otherwise move with given angular momentum
+			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 		}
 
 		internal override void OnStartOwnership () 
