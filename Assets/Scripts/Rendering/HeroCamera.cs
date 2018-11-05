@@ -19,10 +19,10 @@ namespace HeroesRace
 		public IEnumerator SwitchFloor () 
 		{
 			float iOffset = actualOffset.y;
-			float tOffset = target.floor * FloorHeigth;
+			float tOffset = offset.y + (target.floor * FloorHeigth);
 			float step = 0f;
 
-			float duration = 1.5f;
+			float duration = 1f;
 			while (step <= 1f) 
 			{
 				actualOffset.y = Mathf.Lerp (iOffset, tOffset, step);
@@ -53,7 +53,7 @@ namespace HeroesRace
 			
 			// Get the final position (make Height inmutable)
 			var pos = target.transform.position;
-			pos.y = actualOffset.y;
+			pos.y = offset.y;
 			pos += mat.MultiplyVector (actualOffset);
 
 			// Lerp the position for a smooth camera follow
