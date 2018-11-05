@@ -14,8 +14,13 @@ public static class Extensions
 		// Assuming 'f' is 0 if between negative & positive threshold
 		return (f > -threshold && f < threshold);
 	}
+	public static bool Is (this float f0, float f) 
+	{
+		// Returns if they are similar with a tiny gap
+		return Mathf.Approximately (f0, f);
+	}
 
-	public static string CapitalizeFirst (this string input)
+	public static string CapitalizeFirst (this string input) 
 	{
 		// Returns same string but with first letter capital
 		return input[0].ToString ().ToUpper () + input.Substring (1);
