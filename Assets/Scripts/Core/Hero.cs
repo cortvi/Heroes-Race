@@ -24,7 +24,7 @@ namespace HeroesRace
 		[SyncVar] private Vector3 netPosition;      // Exact real position
 		[SyncVar] private Quaternion netRotation;   // Transform rotation
 		[SyncVar] private float netAngular;         // Speed around tower
-		[SyncVar] private float netYForce;          // Vertical speed 
+		[SyncVar] private float netYSpeed;          // Vertical speed
 		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
 
 		[Info] public int floor;                    // The floor the Hero is in ATM
@@ -35,9 +35,9 @@ namespace HeroesRace
 		{
 			// On Server, follow Driver
 			if (Net.isServer) SyncMotion ();
-			else;
+			else
 			// On Clients, follow given motion
-//			if (Net.isClient) KeepMotion ();
+			if (Net.isClient) KeepMotion ();
 		}
 	}
 
@@ -73,8 +73,7 @@ namespace HeroesRace
 
 		// ——— Locomotion ———
 		private float input;
-		private float lastYRot;
-		private float lastVPos;
+		private Vector3 lastPos;
 		internal PowerUp power 
 		{
 			get { return _power; }
@@ -123,23 +122,29 @@ namespace HeroesRace
 			}
 		}
 
-		private void SyncMotion ()
+		private void SyncMotion () 
 		{
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
 
-			// Send angular speed to Client if Hero moved enough
-			float yRot = driver.transform.eulerAngles.y;
-			netAngular = (yRot - lastYRot).IsZero (0.001f) ?
-				0f : driver.body.angularVelocity.y * Mathf.Rad2Deg;
-			lastYRot = yRot;
+			// Vertical & angular speed are synced
+			// based on whether they change or not
+			var pos = transform.position;
+			var last = lastPos; /**/ lastPos = pos;
 
-			// Same for vertical force
-			float yPos = driver.body.position.y;
-			netYForce = (yPos - lastVPos).IsZero (0.01f) ?
+			// Height sync
+			netYSpeed =
+				(pos.y - lastPos.y).Is (0f) ?
 				0f : driver.body.velocity.y;
-			lastVPos = yPos;
+
+			// Project both
+			last.y = 0f; /**/ pos.y = 0f;
+
+			// Speed sync
+			netAngular =
+				Vector3.Distance (pos, last).IsZero (0.0001f) ?
+				0f : driver.body.angularVelocity.y * Mathf.Rad2Deg;
 		}
 		#endregion
 
@@ -374,14 +379,14 @@ namespace HeroesRace
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
 
 			// Lerp vertical position
-			if (netYForce.IsZero ()) 
+			if (netYSpeed.IsZero ()) 
 			{
 				var pos = transform.position;
 				pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
 				transform.position = pos;
 			}
 			// Otherwise move with given speed
-			else transform.Translate (Vector3.up * netYForce * Time.deltaTime);
+			else transform.Translate (Vector3.up * netYSpeed * Time.deltaTime);
 
 			// Lerp whole Hero position
 			if (netAngular.IsZero ()) 
@@ -406,7 +411,7 @@ namespace HeroesRace
 
 		#region RPC CALLS
 		[TargetRpc]
-		private void Target_UpdateHUD (NetworkConnection target, PowerUp newPower) 
+		private void Target_UpdateHUD (NetworkConnection conn, PowerUp newPower) 
 		{
 			// Show new power-up on owner Client
 			cam.hud.UpdatePower (newPower);
@@ -414,7 +419,7 @@ namespace HeroesRace
 		}
 
 		[TargetRpc]
-		public void Target_SwitchCamFloor (NetworkConnection target) 
+		public void Target_SwitchCamFloor (NetworkConnection conn) 
 		{
 			// Move Client camera
 			StartCoroutine (cam.SwitchFloor ());
