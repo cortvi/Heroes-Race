@@ -1,9 +1,6 @@
 ——— Faltaria ———
-- Fix Hero colliding with stuff (prbbly checking how much it moved "angularly")
-- Fix Hero vertical net position
 - Floor switch
 
-- Ajustar colider apisonadora hasta parte de arriba (-ground)
 - Bajar floor switch en el prefab
 - Q9 not actived :/
 - Q10 slime not synced wtffff
@@ -20,7 +17,9 @@
 - Cortinilla inicial
 
 ——— DONE ———
-
+- Ajustar colider apisonadora hasta parte de arriba (-ground)
+- Fix Hero colliding with stuff (prbbly checking how much it moved "angularly")
+- Fix Hero vertical net position
 
 ——— QUESITOS ———
 • Q1

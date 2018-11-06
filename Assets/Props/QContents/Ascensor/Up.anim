@@ -40,13 +40,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.68
+        value: 0.08
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 5.89
+        value: 5.26
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -55,6 +55,28 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_Center.z
     path: 
+    classID: 65
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.6666667
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Floor_Switch
     classID: 65
     script: {fileID: 0}
   m_PPtrCurves: []
@@ -75,6 +97,13 @@ AnimationClip:
     - serializedVersion: 2
       path: 0
       attribute: 3390229881
+      script: {fileID: 0}
+      typeID: 65
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 3206291766
+      attribute: 3305885265
       script: {fileID: 0}
       typeID: 65
       customType: 0
@@ -172,13 +201,13 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 0.68
+        value: 0.08
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 5.89
+        value: 5.26
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -187,6 +216,28 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_Center.z
     path: 
+    classID: 65
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      - serializedVersion: 2
+        time: 0.6666667
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_Enabled
+    path: Floor_Switch
     classID: 65
     script: {fileID: 0}
   m_EulerEditorCurves: []

@@ -258,7 +258,7 @@ namespace HeroesRace
 			floor = toFloor;
 			// Switch the camera level on both Server & Client
 			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
-			Target_SwitchCamFloor (owner.connectionToClient);
+			Target_SwitchCamFloor (owner.connectionToClient, floor);
 		}
 		#endregion
 
@@ -375,11 +375,8 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			// Always lerp rotation
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
-
-			// Lerp vertical position
-			if (netYSpeed.IsZero ()) 
+			// Move vertically
+			if (netYSpeed.Is (0f)) 
 			{
 				var pos = transform.position;
 				pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
@@ -388,8 +385,8 @@ namespace HeroesRace
 			// Otherwise move with given speed
 			else transform.Translate (Vector3.up * netYSpeed * Time.deltaTime);
 
-			// Lerp whole Hero position
-			if (netAngular.IsZero ()) 
+			// Lerp whole Hero position if not moving OR moved too far from networked position
+			if (netAngular.Is (0f) || Vector3.Distance (netPosition, transform.position) > 0.1f) 
 			{
 				var pos = transform.position;
 				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 20f);
@@ -397,6 +394,9 @@ namespace HeroesRace
 			}
 			// Otherwise move with given angular momentum
 			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
+
+			// Finally, lerp rotation always
+			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
 		}
 
 		internal override void OnStartOwnership () 
@@ -419,9 +419,9 @@ namespace HeroesRace
 		}
 
 		[TargetRpc]
-		public void Target_SwitchCamFloor (NetworkConnection conn) 
+		public void Target_SwitchCamFloor (NetworkConnection conn, int toFloor) 
 		{
-			// Move Client camera
+			floor = toFloor;
 			StartCoroutine (cam.SwitchFloor ());
 		}
 		#endregion

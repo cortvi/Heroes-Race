@@ -43,6 +43,18 @@ namespace HeroesRace
 			}
 		}
 
+		private void Attach (bool attach, Transform hero) 
+		{
+			if (Net.isServer) Rpc_Attach (attach);
+			hero.SetParent (attach? transform : null, true);
+		}
+		[ClientRpc]
+		private void Rpc_Attach (bool attach) 
+		{
+			// Attaches / Dettaches Hero to lift
+			Attach (attach, Net.me.pawn.transform);
+		}
+
 		#region CALLBACKS
 		[ServerCallback]
 		private void OnTriggerEnter (Collider other) 
@@ -50,6 +62,7 @@ namespace HeroesRace
 			if (other.tag != "Player") return;
 			playersIn.Add (other.transform);
 			PlayersIn = (playersIn.Count > 0);
+			Attach (true, other.transform);
 		}
 		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
@@ -57,6 +70,7 @@ namespace HeroesRace
 			if (other.tag != "Player") return;
 			playersIn.Remove (other.transform);
 			PlayersIn = (playersIn.Count > 0);
+			Attach (false, other.transform);
 		}
 
 		protected override void OnAwake () 
