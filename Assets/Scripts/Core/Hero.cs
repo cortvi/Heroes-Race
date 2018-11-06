@@ -22,7 +22,6 @@ namespace HeroesRace
 		private const float JumpForce = 6.3f;
 
 		[SyncVar] private Vector3 netPosition;      // Exact real position
-		[SyncVar] private Quaternion netRotation;	// Transform rotation
 		[SyncVar] private float netAngular;			// Speed around tower
 		[SyncVar] private float netYSpeed;			// Vertical speed
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
@@ -124,9 +123,9 @@ namespace HeroesRace
 
 		private void SyncMotion () 
 		{
-			// Positionate character based on Driver & propagate over Net
+			// Real position is propagated over Net
 			transform.position = netPosition = ComputePosition ();
-			transform.rotation = netRotation = ComputeRotation ();
+			transform.rotation = ComputeRotation ();
 
 			// Vertical & angular speed are synced
 			// based on whether they change or not
@@ -243,7 +242,8 @@ namespace HeroesRace
 		}
 		private Quaternion ComputeRotation () 
 		{
-			if (mods[CCs.Rotating]) return transform.rotation;
+			if (Net.isServer && mods[CCs.Rotating])
+				return transform.rotation;
 
 			// Get signed facing rotation
 			var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);
@@ -376,10 +376,10 @@ namespace HeroesRace
 		private void KeepMotion () 
 		{
 			// Always lerp rotation
-			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);
+			transform.rotation = ComputeRotation ();
 
 			// Lerp vertical position
-			if (netYSpeed.IsZero ()) 
+			if (netYSpeed.IsZero (0.00001f)) 
 			{
 				var pos = transform.position;
 				pos.y = Mathf.Lerp (pos.y, netPosition.y, Time.deltaTime * 30f);
@@ -389,7 +389,7 @@ namespace HeroesRace
 			else transform.Translate (Vector3.up * netYSpeed * Time.deltaTime);
 
 			// Lerp whole Hero position
-			if (netAngular.IsZero ()) 
+			if (netAngular.IsZero (0.01f)) 
 			{
 				var pos = transform.position;
 				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 20f);
