@@ -127,23 +127,9 @@ namespace HeroesRace
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = ComputeRotation ();
 
-			// Vertical & angular speed are synced
-			// based on whether they change or not
-			var pos = transform.position;
-			var last = lastPos; /**/ lastPos = pos;
-
-			// Height sync
-			netYSpeed =
-				(pos.y - lastPos.y).Is (0f) ?
-				0f : driver.body.velocity.y;
-
-			// Project both
-			last.y = 0f; /**/ pos.y = 0f;
-
-			// Speed sync
-			netAngular =
-				Vector3.Distance (pos, last).IsZero (0.0001f) ?
-				0f : driver.body.angularVelocity.y * Mathf.Rad2Deg;
+			// Sync angular & vertical speed
+			netAngular = driver.body.angularVelocity.y * Mathf.Rad2Deg;
+			netYSpeed = driver.body.velocity.y;
 		}
 		#endregion
 
