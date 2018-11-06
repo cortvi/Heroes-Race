@@ -19,13 +19,13 @@ namespace HeroesRace
 	{
 		#region DATA
 		private const float Speed = 10.0f;
-		private const float JumpForce = 6.6f;
+		private const float JumpForce = 6.5f;
 
 		[SyncVar] private Vector3 netPosition;      // Exact real position
 		[SyncVar] private Quaternion netRotation;   // Transform rotation
-		[SyncVar] private float netAngular;         // Speed around tower
-		[SyncVar] private float netYSpeed;          // Vertical speed
-		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
+//		[SyncVar] private float netAngular;         // Speed around tower
+//		[SyncVar] private float netYSpeed;          // Vertical speed
+//		[SyncVar] internal float movingDir;         // This is used by the Hero Camera
 
 		[Info] public int floor;                    // The floor the Hero is in ATM
 		private PowerUp _power;
@@ -35,9 +35,9 @@ namespace HeroesRace
 		{
 			// On Server, follow Driver
 			if (Net.isServer) SyncMotion ();
-			else
+			else;
 			// On Clients, follow given motion
-			if (Net.isClient) KeepMotion ();
+//			if (Net.isClient) KeepMotion ();
 		}
 	}
 
@@ -373,6 +373,7 @@ namespace HeroesRace
 	{
 		internal HeroCamera cam;
 
+		/*
 		private void KeepMotion () 
 		{
 			// Always lerp rotation
@@ -397,7 +398,7 @@ namespace HeroesRace
 			}
 			// Otherwise move with given angular momentum
 			else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
-		}
+		}*/
 
 		internal override void OnStartOwnership () 
 		{

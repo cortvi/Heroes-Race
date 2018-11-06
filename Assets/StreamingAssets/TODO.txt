@@ -3,6 +3,7 @@
 - Fix Hero vertical net position
 - Floor switch
 
+- Ajustar colider apisonadora hasta parte de arriba (-ground)
 - Bajar floor switch en el prefab
 - Q9 not actived :/
 - Q10 slime not synced wtffff

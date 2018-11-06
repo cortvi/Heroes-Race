@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace HeroesRace 
+namespace HeroesRace
 {
-	public class Driver : MonoBehaviour 
+	public class Driver : MonoBehaviour
 	{
 		#region DATA
 		// ——— Helpers ———
@@ -14,7 +14,7 @@ namespace HeroesRace
 		internal Rigidbody body;
 		internal CapsuleCollider capsule;
 
-		// ——— Floor check ——— 
+		// ——— Floor check ———
 		private bool touchingFloorLastFrame;
 		private float leaveFloorTime;
 		private const float OnAirThreshold = 0.5f;
@@ -22,10 +22,14 @@ namespace HeroesRace
 		#endregion
 
 		#region CALLBACKS
-		private void Update () 
+		private void Update ()
 		{
 			if (TouchingFloor ())
 			{
+				if (touchingFloorLastFrame)
+				{
+					
+				}
 				// If hit floor from air (+ in mid-air animation), land character
 				if (owner.OnAir && owner.anim.IsInState ("Locomotion.Air.Mid_Air"))
 				{
@@ -55,7 +59,7 @@ namespace HeroesRace
 			}
 		}
 
-		private void Start () 
+		private void Start ()
 		{
 			body = GetComponent<Rigidbody> ();
 			body.centerOfMass = Vector3.zero;
@@ -64,7 +68,7 @@ namespace HeroesRace
 		#endregion
 
 		#region HELPERS
-		private bool TouchingFloor () 
+		private bool TouchingFloor ()
 		{
 			var pos = owner.transform.position + (Vector3.up * 0.1f);
 			int n = Physics.RaycastNonAlloc (pos, -Vector3.up, hits, .2f, 1 << 8);
@@ -79,7 +83,7 @@ namespace HeroesRace
 			return touching;
 		}
 
-		public void SwitchFriction (bool touchingFloor) 
+		public void SwitchFriction (bool touchingFloor)
 		{
 			float friction = touchingFloor? 0.8f : 0f;
 			// On air, remove any friction to allow jumping &
@@ -90,5 +94,5 @@ namespace HeroesRace
 			material.dynamicFriction = friction;
 		}
 		#endregion
-	} 
+	}
 }
