@@ -7,6 +7,8 @@ namespace HeroesRace
 {
 	public class Ascensor : NetBehaviour 
 	{
+		#region DATA
+		public Transform platforms;
 		private SmartAnimator anim;
 		internal bool Chosen 
 		{
@@ -17,7 +19,8 @@ namespace HeroesRace
 		{
 			set { anim.SetBool ("PlayersIn", value); }
 		}
-		private List<Transform> playersIn;
+		private List<Transform> heroesIn; 
+		#endregion
 
 		private void Break () 
 		{
@@ -25,34 +28,21 @@ namespace HeroesRace
 			if (Chosen) return;
 
 			// Explode into pieces
-			var plats = transform.GetChild (2);
 			var pieces = GetComponentsInChildren<Rigidbody> ();
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
 				float force = Random.Range (4f, 7f);
 				float upForce = Random.Range (0.2f, 0.7f);
-				p.AddExplosionForce (force, plats.position, 1.5f, upForce, ForceMode.VelocityChange);
+				p.AddExplosionForce (force, platforms.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
 			// Disable platform colliders
-			if (Net.isServer)
+			if (Net.isServer) 
 			{
 				GetComponent<Collider> ().enabled = false;
-				plats.GetComponent<Collider> ().enabled = false;
+				platforms.GetComponent<Collider> ().enabled = false;
 			}
-		}
-
-		private void Attach (bool attach, Transform hero) 
-		{
-			if (Net.isServer) Rpc_Attach (attach);
-			hero.SetParent (attach? transform : null, true);
-		}
-		[ClientRpc]
-		private void Rpc_Attach (bool attach) 
-		{
-			// Attaches / Dettaches Hero to lift
-			Attach (attach, Net.me.pawn.transform);
 		}
 
 		#region CALLBACKS
@@ -60,24 +50,38 @@ namespace HeroesRace
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
-			playersIn.Add (other.transform);
-			PlayersIn = (playersIn.Count > 0);
-			Attach (true, other.transform);
+			heroesIn.Add (other.transform);
+			PlayersIn = (heroesIn.Count > 0);
+
+			// Attach Hero Driver to Lift
+			var hero = other.GetComponent<Driver> ().owner;
+			hero.mods.Block ("Dont jump on Lifts", CCs.Jumping);
+			hero.Attach (platforms, attachDrive: true); 
 		}
 		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
 		{
 			if (other.tag != "Player") return;
-			playersIn.Remove (other.transform);
-			PlayersIn = (playersIn.Count > 0);
-			Attach (false, other.transform);
+			heroesIn.Remove (other.transform);
+			PlayersIn = (heroesIn.Count > 0);
+
+			// Dettach Hero Driver from Lift & re-allow jump
+			var hero = other.GetComponent<Driver> ().owner;
+			hero.mods.Unblock ("Dont jump on Lifts");
+			hero.Attach (null, attachDrive: true);
+		}
+
+		[ServerCallback]
+		private void OnDisable () 
+		{
+			
 		}
 
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			if (Net.isServer) playersIn = new List<Transform> (3);
-		} 
+			if (Net.isServer) heroesIn = new List<Transform> (3);
+		}
 		#endregion
 	} 
 }

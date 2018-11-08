@@ -260,6 +260,22 @@ namespace HeroesRace
 			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
 			Target_SwitchCamFloor (owner.connectionToClient, floor);
 		}
+
+		public void Attach (Transform newParent, bool attachDrive = false) 
+		{
+			var target = transform;
+			if (Net.isServer) 
+			{
+				Rpc_Attach (newParent.gameObject);
+				if (attachDrive) target = driver.transform;
+			}
+			target.SetParent (newParent, true);
+		}
+		[ClientRpc]
+		private void Rpc_Attach (GameObject newParent) 
+		{
+			Attach (newParent.transform);
+		}
 		#endregion
 
 		#region MODIFIER STACK
@@ -375,7 +391,7 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
-			// Move vertically
+			// Lerp vertically
 			if (netYSpeed.Is (0f)) 
 			{
 				var pos = transform.position;
@@ -389,7 +405,7 @@ namespace HeroesRace
 			if (netAngular.Is (0f) || Vector3.Distance (netPosition, transform.position) > 0.1f) 
 			{
 				var pos = transform.position;
-				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 20f);
+				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 10f);
 				transform.position = pos;
 			}
 			// Otherwise move with given angular momentum

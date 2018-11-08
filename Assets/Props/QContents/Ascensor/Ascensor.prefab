@@ -270,7 +270,6 @@ GameObject:
   - component: {fileID: 114300634930558928}
   - component: {fileID: 114058877163308854}
   - component: {fileID: 114672959247997724}
-  - component: {fileID: 114315106503898950}
   m_Layer: 0
   m_Name: Ascensor
   m_TagString: Untagged
@@ -1265,8 +1264,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.99, y: 0.9480055, z: 0.08091431}
-  m_Center: {x: 0.00000014289901, y: 0.005993873, z: 0.14384936}
+  m_Size: {x: 0.91, y: 1.08, z: 0.08091431}
+  m_Center: {x: 0.00000014289901, y: 0.005993873, z: 0.08}
 --- !u!65 &65277677770130116
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1287,10 +1286,10 @@ BoxCollider:
   m_GameObject: {fileID: 1532706225651978}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 10.073373}
-  m_Center: {x: -0.000000025321404, y: -3.795093e-10, z: 4.536683}
+  m_Size: {x: 1, y: 1, z: 10.810531}
+  m_Center: {x: -0.000000027378617, y: -4.1034184e-10, z: 4.905261}
 --- !u!65 &65882283980133028
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1371,18 +1370,6 @@ MonoBehaviour:
     i15: 209
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114315106503898950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1948600405258664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc573b7af30a9e6479fe09d30dbc5385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impairing: 4
 --- !u!114 &114672959247997724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1394,6 +1381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417258acdf3e3944187baa46406d69f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platforms: {fileID: 4600017466414204}
 --- !u!114 &114959469960371444
 MonoBehaviour:
   m_ObjectHideFlags: 1
