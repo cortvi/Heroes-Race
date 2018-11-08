@@ -271,11 +271,6 @@ namespace HeroesRace
 			}
 			target.SetParent (newParent, true);
 		}
-		[ClientRpc]
-		private void Rpc_Attach (GameObject newParent) 
-		{
-			Attach (newParent.transform);
-		}
 		#endregion
 
 		#region MODIFIER STACK
@@ -439,6 +434,12 @@ namespace HeroesRace
 		{
 			floor = toFloor;
 			StartCoroutine (cam.SwitchFloor ());
+		}
+
+		[ClientRpc]
+		private void Rpc_Attach (GameObject newParent) 
+		{
+			Attach (newParent ? newParent.transform : null);
 		}
 		#endregion
 	}

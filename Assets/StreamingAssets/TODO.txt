@@ -1,9 +1,5 @@
 ——— Faltaria ———
-- Lift should attach Hero to 'Plataformas'!!! (not to self)
-- Attach should be on Hero class (+ attach Driver if needed)
 - Floor switch
-- May need to attach Hero to lift (on Client) to make it look more normal
-- On platform break, Hero should be re-allowed to jump !
 - Block movement to ensure Hero arrive to the top of the lift
 (should not be necessary after attaching!)
 
@@ -22,6 +18,9 @@
 - Cortinilla inicial
 
 ——— DONE ———
+- On platform break, Hero should be re-allowed to jump !
+- Lift should attach Hero to 'Plataformas'!!! (not to self)
+- Attach should be on Hero class (+ attach Driver if needed)
 - Ajustar colider apisonadora hasta parte de arriba (-ground)
 - Fix Hero colliding with stuff (prbbly checking how much it moved "angularly")
 - Fix Hero vertical net position

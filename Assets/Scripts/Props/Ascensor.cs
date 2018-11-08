@@ -15,11 +15,13 @@ namespace HeroesRace
 			get { return anim.GetBool ("Chosen"); }
 			set { anim.SetBool ("Chosen", value); }
 		}
+
 		internal bool PlayersIn 
 		{
 			set { anim.SetBool ("PlayersIn", value); }
 		}
-		private List<Transform> heroesIn; 
+		private List<Hero> heroesIn;
+		private const string BlockName = "Don't jump on lifts!";
 		#endregion
 
 		private void Break () 
@@ -37,11 +39,20 @@ namespace HeroesRace
 				p.AddExplosionForce (force, platforms.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
-			// Disable platform colliders
 			if (Net.isServer) 
 			{
+				// Disable platform colliders
 				GetComponent<Collider> ().enabled = false;
 				platforms.GetComponent<Collider> ().enabled = false;
+
+				// Trigger exit on all Heroes
+				foreach (var h in heroesIn)
+				{
+					h.mods.Unblock (BlockName);
+					h.Attach (null, attachDrive: true);
+				}
+				heroesIn.Clear ();
+				PlayersIn = false;
 			}
 		}
 
@@ -50,37 +61,35 @@ namespace HeroesRace
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
-			heroesIn.Add (other.transform);
+			var hero = other.GetComponent<Driver> ().owner;
+
+			// Add to list
+			heroesIn.Add (hero);
 			PlayersIn = (heroesIn.Count > 0);
 
-			// Attach Hero Driver to Lift
-			var hero = other.GetComponent<Driver> ().owner;
-			hero.mods.Block ("Dont jump on Lifts", CCs.Jumping);
+			// Attach Hero Driver to Lift & avoid jumping
+			hero.mods.Block (BlockName, CCs.Jumping);
 			hero.Attach (platforms, attachDrive: true); 
 		}
 		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
 		{
 			if (other.tag != "Player") return;
-			heroesIn.Remove (other.transform);
+			var hero = other.GetComponent<Driver> ().owner;
+
+			// Remove form list
+			heroesIn.Remove (hero);
 			PlayersIn = (heroesIn.Count > 0);
 
 			// Dettach Hero Driver from Lift & re-allow jump
-			var hero = other.GetComponent<Driver> ().owner;
-			hero.mods.Unblock ("Dont jump on Lifts");
+			hero.mods.Unblock (BlockName);
 			hero.Attach (null, attachDrive: true);
-		}
-
-		[ServerCallback]
-		private void OnDisable () 
-		{
-			
 		}
 
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			if (Net.isServer) heroesIn = new List<Transform> (3);
+			if (Net.isServer) heroesIn = new List<Hero> (3);
 		}
 		#endregion
 	} 
