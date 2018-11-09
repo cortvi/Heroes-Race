@@ -23,8 +23,9 @@ namespace HeroesRace
 			var a = anim[syncedAnimation];
 
 			// Sync with Server
-			if (lerpFactor != 0)
+			if (lerpFactor != 0) 
 			{
+				print ("lol no?" + name);
 				float lerp = Mathf.Lerp (a.normalizedTime, syncTime, Time.deltaTime * lerpFactor);
 				a.normalizedTime = lerp;
 			}

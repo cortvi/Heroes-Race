@@ -1,8 +1,6 @@
 ——— Faltaria ———
 - On server, lift trigger is not where it should during animation (???)
-- Attach not working on Client! (null is always sent, $platforms has no netID!)
 - posiblimente cambiar motion sync on Hero is attached to something...?
-- Improve air-control (add foce instead of changing velocity
 - Q10 slime not synced wtffff
 
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
@@ -15,6 +13,8 @@
 
 ——— DONE ———
 - Floor switch
+- Attach not working on Client! (null is always sent, $platforms has no netID!)
+- Improve air-control (add foce instead of changing velocity)
 
 ——— QUESITOS ———
 • Q1

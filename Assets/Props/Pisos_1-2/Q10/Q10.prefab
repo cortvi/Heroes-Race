@@ -430,7 +430,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1897413916946828}
-  m_LocalRotation: {x: -0, y: -0.6427878, z: -0, w: -0.76604426}
+  m_LocalRotation: {x: 0, y: -0.3420201, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -453,7 +453,7 @@ Transform:
   - {fileID: 4871723404599562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -280, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -40, z: 0}
 --- !u!4 &4009756112801160
 Transform:
   m_ObjectHideFlags: 1
@@ -1740,10 +1740,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1897413916946828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acccff09850ab294196ba85dc2e7e5b8, type: 3}
+  m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slime: {fileID: 1052316462861230}
+  sendRate: 0.1
+  lerpFactor: 0
+  syncedAnimation: Slime_10
 --- !u!114 &114717278564019790
 MonoBehaviour:
   m_ObjectHideFlags: 1
