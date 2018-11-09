@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sendRate: 0.1
+  sendRate: 0.01
   lerpFactor: 0
   syncedAnimation: Slime_10
 --- !u!114 &114717278564019790
@@ -1770,5 +1770,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.29
+  m_Radius: 0.2
   m_Center: {x: 1.7763568e-15, y: -0.000000014901165, z: 1.2613989e-15}

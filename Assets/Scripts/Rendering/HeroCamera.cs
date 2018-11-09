@@ -13,7 +13,7 @@ namespace HeroesRace
 
 		private Vector3 actualOffset;
 		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
-		private const float FloorHeigth = 5.2f;
+		public const float FloorHeigth = 5.2f;
 		#endregion
 
 		public IEnumerator SwitchFloor () 

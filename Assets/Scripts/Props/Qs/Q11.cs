@@ -21,10 +21,6 @@ namespace HeroesRace
 				lift.transform.rotation = liftSpawns[i].rotation;
 				lift.Chosen = (i == chosen);
 
-				// If chosen lift, floor switches up; down otherwise
-				int targetFloor = (lift.Chosen? floor+1 : floor);
-				lift.GetComponentInChildren<FloorSwitch> ().toFloor = targetFloor;
-
 				// Finally spaw over Net
 				NetworkServer.Spawn (lift.gameObject);
 			}

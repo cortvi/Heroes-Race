@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 /* The Hero mesh & animator, as well as this script,
 * are contained on a single GameObject.
@@ -127,6 +128,8 @@ namespace HeroesRace
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
+			// Check if floor changed
+			CheckFloor ();
 
 			// Vertical & angular speed are synced
 			// based on whether they change or not
@@ -258,9 +261,22 @@ namespace HeroesRace
 			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
 		}
 
-		public void SwitchCamFloor (int toFloor) 
+		private void CheckFloor () 
 		{
-			floor = toFloor;
+			float height = transform.position.y;
+			float currentFloorStart = floor * HeroCamera.FloorHeigth;
+			// True: going up // False: going down
+			bool direction = (height - lastPos.y) > 0f;
+
+			// Use a treshold for both going up & down
+			if (direction  && height > currentFloorStart - 0.45f) SwitchFloor (++floor);
+			else
+			if (!direction && height < currentFloorStart + 0.75f) SwitchFloor (--floor);
+		}
+
+		private void SwitchFloor (int floor) 
+		{
+			print ("Changing to floor " + floor);
 			// Switch the camera level on both Server & Client
 			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
 			Target_SwitchCamFloor (owner.connectionToClient, floor);

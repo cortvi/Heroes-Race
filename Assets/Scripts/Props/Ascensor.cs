@@ -21,6 +21,8 @@ namespace HeroesRace
 		}
 		private List<Hero> heroesIn;
 		private const string BlockName = "Don't jump on lifts!";
+
+		private BoxCollider trigger;
 		#endregion
 
 		private void Break () 
@@ -33,16 +35,16 @@ namespace HeroesRace
 			foreach (var p in pieces) 
 			{
 				p.isKinematic = false;
-				float force = Random.Range (4f, 7f);
-				float upForce = Random.Range (0.2f, 0.7f);
+				float force = Random.Range (2f, 5f);
+				float upForce = Random.Range (0.2f, 1f);
 				p.AddExplosionForce (force, anchor.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
 			if (Net.isServer) 
 			{
 				// Disable platform colliders
-				GetComponent<Collider> ().enabled = false;
-				anchor.GetComponent<Collider> ().enabled = false;
+				trigger.enabled = false;
+				anchor.gameObject.SetActive (false);
 
 				// Trigger exit on all Heroes
 				foreach (var h in heroesIn)
@@ -57,7 +59,14 @@ namespace HeroesRace
 
 		#region CALLBACKS
 		[ServerCallback]
-		private void OnTriggerEnter (Collider other)  
+		private void LateUpdate () 
+		{
+			// Keep always trigger box with platform
+			trigger.center = anchor.position + Vector3.up * 0.08f;
+		}
+
+		[ServerCallback]
+		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
@@ -88,7 +97,11 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			if (Net.isServer) heroesIn = new List<Hero> (3);
+			if (Net.isServer)
+			{
+				heroesIn = new List<Hero> (3);
+				trigger = GetComponent<BoxCollider> ();
+			}
 		}
 		#endregion
 	} 

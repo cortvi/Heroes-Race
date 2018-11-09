@@ -1,7 +1,6 @@
 ——— Faltaria ———
-- On server, lift trigger is not where it should during animation (???)
+- Floor switch (check every frame)
 - posiblimente cambiar motion sync on Hero is attached to something...?
-- Q10 slime not synced wtffff
 
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
@@ -12,7 +11,7 @@
 - Cortinilla inicial
 
 ——— DONE ———
-- Floor switch
+- Q10 slime not synced wtffff
 - Attach not working on Client! (null is always sent, $platforms has no netID!)
 - Improve air-control (add foce instead of changing velocity)
 
@@ -24,7 +23,7 @@ Q3
 • Q5
 • Q6
 Q7
-Q8
+• Q8
 Q9
 Q10
 Q11
