@@ -1,15 +1,11 @@
 ——— Faltaria ———
-- Floor switch
-- Block movement to ensure Hero arrive to the top of the lift
-(should not be necessary after attaching!)
-
-- Q9 not actived :/
+- On server, lift trigger is not where it should during animation (???)
+- Attach not working on Client! (null is always sent, $platforms has no netID!)
+- posiblimente cambiar motion sync on Hero is attached to something...?
+- Improve air-control (add foce instead of changing velocity
 - Q10 slime not synced wtffff
-- Improve air-control (add foce instead of changing velocity)
+
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
-- Testear Q11!
-- Testear Q05 -> shield y tal!
-- Testear Q06 -> pirana syncing
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
 - la piraña loca k sale al principio
 - Lifts explode too much
@@ -18,20 +14,15 @@
 - Cortinilla inicial
 
 ——— DONE ———
-- On platform break, Hero should be re-allowed to jump !
-- Lift should attach Hero to 'Plataformas'!!! (not to self)
-- Attach should be on Hero class (+ attach Driver if needed)
-- Ajustar colider apisonadora hasta parte de arriba (-ground)
-- Fix Hero colliding with stuff (prbbly checking how much it moved "angularly")
-- Fix Hero vertical net position
+- Floor switch
 
 ——— QUESITOS ———
 • Q1
 • Q2
 Q3
 • Q4
-Q5
-Q6
+• Q5
+• Q6
 Q7
 Q8
 Q9

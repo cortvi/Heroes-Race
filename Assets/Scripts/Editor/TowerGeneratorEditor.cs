@@ -14,18 +14,18 @@ namespace HeroesRace
 		public override void OnInspectorGUI () 
 		{
 			base.OnInspectorGUI ();
-			if (info = EditorGUILayout.Foldout (info, "Info quesitos")) 
+			EditorGUILayout.LabelField ("", GUI.skin.horizontalSlider);
+
+			// Print all quesitos names in the Enum order
+			if (info = EditorGUILayout.Foldout (info, "Info quesitos", true)) 
 			{
-				// Print all quesitos names in the Enum order
 				foreach (var q in Enum.GetNames (typeof(Qs)))
 				{
-					if (q[0] == '_')
-					{
-						// Mark power-up quesitos
-						string name = q.Replace ("_", "");
-						EditorGUILayout.LabelField (name, EditorStyles.boldLabel);
-					}
-					else EditorGUILayout.LabelField (q);
+					if (q == "None") continue;
+
+					string name = q.Remove (0, 1);
+					var style = q[0] == 'p' ? EditorStyles.boldLabel : EditorStyles.label;
+					EditorGUILayout.LabelField (name, style);
 				}
 			}
 		}

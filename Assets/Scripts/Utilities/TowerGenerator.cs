@@ -27,7 +27,7 @@ namespace HeroesRace
 				for (int f=0; f!=bypassTower.Length; ++f)
 				{
 					// Primer quesito, ascensores o spawn-platform
-					tower[f][0] = (int)(f == 0? Qs.Entrada : Qs.Ascensores);
+					tower[f][0] = (int)(f == 0? Qs._01_Entrada : Qs._11_Ascensores);
 					for (int q=1; q!=9; ++q)
 					{
 						// Bypass randomizer, manually form tower
@@ -43,7 +43,7 @@ namespace HeroesRace
 				for (int f=0; f!=4; ++f)
 				{
 					// Primer quesito, ascensores o spawn-platform
-					tower[f][0] = (int) (f==0? Qs.Entrada : Qs.Ascensores);
+					tower[f][0] = (int) (f==0? Qs._01_Entrada : Qs._11_Ascensores);
 
 					// Ultimo quesito de cada piso
 					if (f != 3)
@@ -51,16 +51,16 @@ namespace HeroesRace
 						// Los ascensores pueden estar en
 						// las posiciones 4, 5, o 6 de cada piso
 						int pos = Random.Range (4, 6);
-						tower[f][pos] = (int) Qs.Ascensores;
+						tower[f][pos] = (int) Qs._11_Ascensores;
 					}
 					// Ultimo quesito de toda la torre
-					else tower[f][5] = (int) Qs.THE_END;
+					else tower[f][5] = (int) Qs._17_THE_END;
 
 					// Resto de quesitos
 					for (int q=1; q!=9; ++q)
 					{
-						if ((Qs) tower[f][q] == Qs.Ascensores) continue;
-						if ((Qs) tower[f][q] == Qs.THE_END) continue;
+						if ((Qs) tower[f][q] == Qs._11_Ascensores) continue;
+						if ((Qs) tower[f][q] == Qs._17_THE_END) continue;
 
 						int Q; do
 						{Q =
@@ -99,7 +99,7 @@ namespace HeroesRace
 					Q.Rotate (Vector3.up, q * -40f);
 
 					// If spawned quesito is a not-entry-lift
-					if ((Qs) index == Qs.Ascensores && q != 0) 
+					if ((Qs) index == Qs._11_Ascensores && q != 0) 
 					{
 						// Spawn lifts & rotate next floor to align lifts
 						Q.GetComponent<Q11> ().SpawnLifts (floor: f);
@@ -154,29 +154,29 @@ namespace HeroesRace
 		}
 	}
 
-	// Underscore (_) means power-up
+	// 'p' means power-up
 	public enum Qs 
 	{
 		None,
 		// Especiales
-		Entrada,
-		Ascensores,
-		THE_END,
+		_01_Entrada,
+		_11_Ascensores,
+		_17_THE_END,
 		// No-throw
-		_PiranasSaltarinas,
-		PiranasVolarinas,
-		_Cueva,
-		Squash,
-		BigPappa,
-		Slime,
-		_Pinchus,
-		Medusa,
-		Perla,
+		p02_PiranasSaltarinas,
+		_06_PiranasVolarinas,
+		p04_Cueva,
+		_05_Apisonadora,
+		_08_MiniSlimes,
+		_10_Slime,
+		p09_Pinchus,
+		p12_Medusa,
+		_15_Perla,
 		// Throw
-		_Pared,
-		_Hueco,
-		_Tentaculo,
-		Paredes
+		p03_Pared,
+		p07_Hueco,
+		p13_Tentaculo,
+		_14_Paredes
 	} 
 }
 

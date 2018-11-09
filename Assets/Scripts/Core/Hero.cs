@@ -102,11 +102,11 @@ namespace HeroesRace
 		public void Jumping () 
 		{
 			if (!OnAir
-			&& !mods[CCs.Jumping])
+			&& !mods[CCs.Jumping]) 
 			{
+				mods.Block ("On Jump", CCs.Jumping);
 				driver.SwitchFriction (touchingFloor: false);
 				anim.SetTrigger ("Jump");
-				OnAir = true;
 			}
 		}
 		public void Power () 
@@ -152,11 +152,12 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Jump () 
 		{
-			if (!mods[CCs.Jumping] &&
-				!mods[CCs.Moving])
+			if (!mods[CCs.Moving])
 			{
 				// Impulse Hero upwards if possible (may be CCd between animation)
 				driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
+				mods.Unblock ("On Jump");
+				OnAir = true;
 			}
 		}
 		#endregion
@@ -166,12 +167,16 @@ namespace HeroesRace
 		private void FixedUpdate () 
 		{
 			// If on-air, don't apply speed modifiers
-			float speed = input * Speed * (OnAir ? 1f : SpeedMul);
+			float speed = input * Speed * (OnAir? 1f : SpeedMul);
 			var velocity = Vector3.up * speed * Time.fixedDeltaTime;
 
 			// Don't modify speed if CCed,
 			// because probably a external force is moving the Hero
-			if (!mods[CCs.Moving]) driver.body.angularVelocity = velocity;
+			if (!mods[CCs.Moving])
+			{
+				if (OnAir) driver.body.AddTorque (velocity, ForceMode.Acceleration);
+				driver.body.angularVelocity = velocity;
+			}
 		}
 
 		protected override void OnServerAwake () 
@@ -260,17 +265,6 @@ namespace HeroesRace
 			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
 			Target_SwitchCamFloor (owner.connectionToClient, floor);
 		}
-
-		public void Attach (Transform newParent, bool attachDrive = false) 
-		{
-			var target = transform;
-			if (Net.isServer) 
-			{
-				Rpc_Attach (newParent.gameObject);
-				if (attachDrive) target = driver.transform;
-			}
-			target.SetParent (newParent, true);
-		}
 		#endregion
 
 		#region MODIFIER STACK
@@ -334,8 +328,11 @@ namespace HeroesRace
 			}
 			public void Unblock (string name) 
 			{
-				blocks.Remove (name);
-				Update ();
+				if (blocks.ContainsKey (name))
+				{
+					blocks.Remove (name);
+					Update ();
+				}
 			}
 
 			public bool AddCC (string name, CCs cc, float duration) 
@@ -434,12 +431,6 @@ namespace HeroesRace
 		{
 			floor = toFloor;
 			StartCoroutine (cam.SwitchFloor ());
-		}
-
-		[ClientRpc]
-		private void Rpc_Attach (GameObject newParent) 
-		{
-			Attach (newParent ? newParent.transform : null);
 		}
 		#endregion
 	}

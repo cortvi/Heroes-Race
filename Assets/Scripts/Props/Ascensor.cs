@@ -5,10 +5,9 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
-	public class Ascensor : NetBehaviour 
+	public class Ascensor : NetAnchor 
 	{
 		#region DATA
-		public Transform platforms;
 		private SmartAnimator anim;
 		internal bool Chosen 
 		{
@@ -36,20 +35,20 @@ namespace HeroesRace
 				p.isKinematic = false;
 				float force = Random.Range (4f, 7f);
 				float upForce = Random.Range (0.2f, 0.7f);
-				p.AddExplosionForce (force, platforms.position, 1.5f, upForce, ForceMode.VelocityChange);
+				p.AddExplosionForce (force, anchor.position, 1.5f, upForce, ForceMode.VelocityChange);
 			}
 
 			if (Net.isServer) 
 			{
 				// Disable platform colliders
 				GetComponent<Collider> ().enabled = false;
-				platforms.GetComponent<Collider> ().enabled = false;
+				anchor.GetComponent<Collider> ().enabled = false;
 
 				// Trigger exit on all Heroes
 				foreach (var h in heroesIn)
 				{
 					h.mods.Unblock (BlockName);
-					h.Attach (null, attachDrive: true);
+					Dettach (h, useDriver: true);
 				}
 				heroesIn.Clear ();
 				PlayersIn = false;
@@ -58,7 +57,7 @@ namespace HeroesRace
 
 		#region CALLBACKS
 		[ServerCallback]
-		private void OnTriggerEnter (Collider other) 
+		private void OnTriggerEnter (Collider other)  
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
@@ -68,8 +67,8 @@ namespace HeroesRace
 			PlayersIn = (heroesIn.Count > 0);
 
 			// Attach Hero Driver to Lift & avoid jumping
+			Attach (hero, useDriver: true); 
 			hero.mods.Block (BlockName, CCs.Jumping);
-			hero.Attach (platforms, attachDrive: true); 
 		}
 		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
@@ -82,8 +81,8 @@ namespace HeroesRace
 			PlayersIn = (heroesIn.Count > 0);
 
 			// Dettach Hero Driver from Lift & re-allow jump
+			Dettach (hero, useDriver: true);
 			hero.mods.Unblock (BlockName);
-			hero.Attach (null, attachDrive: true);
 		}
 
 		protected override void OnAwake () 
