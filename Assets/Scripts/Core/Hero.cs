@@ -434,13 +434,6 @@ namespace HeroesRace
 			cam.hud.UpdatePower (newPower);
 			_power = newPower;
 		}
-
-		[TargetRpc]
-		public void Target_SwitchCamFloor (NetworkConnection conn, int toFloor) 
-		{
-			floor = toFloor;
-			StartCoroutine (cam.SwitchFloor ());
-		}
 		#endregion
 	}
 
