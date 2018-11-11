@@ -27,8 +27,8 @@ namespace HeroesRace
 		[SyncVar] private float netAngular;			// Speed around tower
 		[SyncVar] private float netYSpeed;			// Vertical speed
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
+		[SyncVar] [Info] public int floor;			// The floor the Hero is in ATM
 
-		[Info] public int floor;					// The floor the Hero is in ATM
 		private PowerUp _power;
 		#endregion
 
@@ -264,23 +264,15 @@ namespace HeroesRace
 		private void CheckFloor () 
 		{
 			float height = transform.position.y;
-			float floorStart = floor * HeroCamera.FloorHeigth;
 			int dir = (int) Mathf.Sign (height - lastPos.y);
 
 			// Use a treshold for both going up & down
-			if (height > floorStart - 0.45f && height < floorStart + 0.75f) 
-			{
-				floor += dir;
-				SwitchFloor (floor);
-			}
-		}
+			float floorStart = (floor+1) * HeroCamera.FloorHeigth - 0.45f;
+			float floorEnd = floor * HeroCamera.FloorHeigth + 0.75f;
 
-		private void SwitchFloor (int floor) 
-		{
-			print ("Changing to floor " + floor);
-			// Switch the camera level on both Server & Client
-			StartCoroutine (TowerCamera.i.tracking.SwitchFloor ());
-			Target_SwitchCamFloor (owner.connectionToClient, floor);
+			if (dir == 1f && height > floorStart) floor++;
+			else
+			if (dir == -1f && height < floorEnd) floor--;
 		}
 		#endregion
 

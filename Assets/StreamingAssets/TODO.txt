@@ -1,6 +1,7 @@
 ——— Faltaria ———
 - Floor switch (check every frame)
 - posiblimente cambiar motion sync on Hero is attached to something...?
+- Cambiar CCs coroutines to Update -> Monobehaviour (more public control)
 
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !

@@ -16,6 +16,7 @@ namespace HeroesRace
 		public const float FloorHeigth = 5.2f;
 		#endregion
 
+		/*
 		public IEnumerator SwitchFloor () 
 		{
 			float iOffset = actualOffset.y;
@@ -30,6 +31,7 @@ namespace HeroesRace
 				yield return null;
 			}
 		}
+		*/
 
 		private void Update () 
 		{
@@ -49,6 +51,13 @@ namespace HeroesRace
 				actualOffset.x,
 				(target.movingDir > 0f)? +offset.x : -offset.x,
 				Time.deltaTime * 2f
+			);
+			// Lerp floor-height
+			actualOffset.y = Mathf.Lerp 
+			(
+				actualOffset.y,
+				offset.y + (target.floor * FloorHeigth),
+				Time.deltaTime * 3f
 			);
 			
 			// Get the final position (make Height inmutable)
