@@ -264,14 +264,15 @@ namespace HeroesRace
 		private void CheckFloor () 
 		{
 			float height = transform.position.y;
-			float currentFloorStart = floor * HeroCamera.FloorHeigth;
-			// True: going up // False: going down
-			bool direction = (height - lastPos.y) > 0f;
+			float floorStart = floor * HeroCamera.FloorHeigth;
+			int dir = (int) Mathf.Sign (height - lastPos.y);
 
 			// Use a treshold for both going up & down
-			if (direction  && height > currentFloorStart - 0.45f) SwitchFloor (++floor);
-			else
-			if (!direction && height < currentFloorStart + 0.75f) SwitchFloor (--floor);
+			if (height > floorStart - 0.45f && height < floorStart + 0.75f) 
+			{
+				floor += dir;
+				SwitchFloor (floor);
+			}
 		}
 
 		private void SwitchFloor (int floor) 
