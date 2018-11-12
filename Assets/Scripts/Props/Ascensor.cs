@@ -53,7 +53,7 @@ namespace HeroesRace
 					Dettach (h, useDriver: true);
 
 					// Throw player on air
-					h.driver.body.AddForce (Vector3.up * 1.5f, ForceMode.VelocityChange);
+					h.driver.body.AddForce (Vector3.up * 3f, ForceMode.VelocityChange);
 					h.driver.SwitchFriction (false);
 					h.OnAir = true;
 				}

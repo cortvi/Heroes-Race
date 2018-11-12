@@ -1667,7 +1667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickForce: 5
-  upForce: 6
+  upForce: 8
   stunTime: 0.8
 --- !u!114 &114546420799358556
 MonoBehaviour:

@@ -24,6 +24,7 @@ namespace HeroesRace
 			{
 				// Impulse each Hero upwards
 				d.body.AddForce (force, ForceMode.VelocityChange);
+				d.SwitchFriction (touchingFloor: false);
 				d.owner.OnAir = true;
 			}
 		}

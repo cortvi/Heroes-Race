@@ -22,7 +22,7 @@ namespace HeroesRace
 
 			// Overlap box to get all players laying on platform
 			var pos = transform.position; var rot = transform.rotation;
-			var ctr = trigger.center; var ext = trigger.extents / 2f;
+			var ctr = trigger.center; var ext = trigger.size;
 			int n = Physics.OverlapBoxNonAlloc (pos + ctr, ext, hits, rot, 1 << 8);
 			for (int i=0; i!=n; ++i)
 			{
@@ -30,7 +30,7 @@ namespace HeroesRace
 				var driver = hits[i].GetComponent<Driver> ();
 				if (driver)
 				{
-					driver.body.AddForce (Vector3.up * 1.5f, ForceMode.VelocityChange);
+					driver.body.AddForce (Vector3.up * 3.5f, ForceMode.VelocityChange);
 					driver.SwitchFriction (false);
 					driver.owner.OnAir = true;
 				}
@@ -40,6 +40,7 @@ namespace HeroesRace
 			yield return new WaitForSeconds (1.7f);
 			var next = Instantiate (Resources.Load ("Prefabs/Plataforma_rota") as GameObject);
 			next.transform.position = transform.position;
+			next.transform.rotation = transform.rotation;
 			NetworkServer.Spawn (next);
 
 			// Finally destroy this onw

@@ -1759,7 +1759,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kickForce: 6
   upForce: 1
-  stunTime: 1.5
+  stunTime: 0.7
 --- !u!135 &135578573781413694
 SphereCollider:
   m_ObjectHideFlags: 1

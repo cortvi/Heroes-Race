@@ -2194,7 +2194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kickForce: 1
-  upForce: 4
+  upForce: 5.5
   stunTime: 0.8
 --- !u!137 &137916163946281118
 SkinnedMeshRenderer:
