@@ -31,7 +31,6 @@ namespace HeroesRace
 				{
 					owner.OnAir = false;
 					SwitchFriction (true);
-					owner.mods.Remove ("On Jump");
 				}
 				// Reset fall-timer
 				touchingFloorLastFrame = true;

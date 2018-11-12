@@ -20,7 +20,7 @@ namespace HeroesRace
 	{
 		#region DATA
 		private const float Speed = 10.0f;
-		private const float JumpForce = 6.3f;
+		private const float JumpForce = 6.5f;
 
 		[SyncVar] private Vector3 netPosition;      // Exact real position
 		[SyncVar] private Quaternion netRotation;	// Transform rotation
@@ -105,7 +105,7 @@ namespace HeroesRace
 			if (!OnAir
 			&& !mods[CCs.Jumping]) 
 			{
-				mods.Add ("On Jump", CCs.Jumping);
+				mods.Add ("On Jump", CCs.Jumping, 0.3f);
 				driver.SwitchFriction (touchingFloor: false);
 				anim.SetTrigger ("Jump");
 			}
@@ -159,7 +159,6 @@ namespace HeroesRace
 			{
 				// Impulse Hero upwards if possible (may be CCd between animation)
 				driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
-				mods.Remove ("On Jump");
 				OnAir = true;
 			}
 		}
@@ -176,9 +175,14 @@ namespace HeroesRace
 			// Don't modify speed if CCed (probably a external force is moving the Hero)
 			if (!mods[CCs.Moving])
 			{
-				// If on air, add a force rather than overriding velocity
-				if (OnAir) driver.body.AddTorque (velocity, ForceMode.Acceleration);
-				else driver.body.angularVelocity = velocity;
+				if (OnAir)
+				{
+					// If on air, reduce non-vertical speed
+					float downScale = 0.7f;
+					velocity.x *= downScale;
+					velocity.z *= downScale;
+				}
+				driver.body.angularVelocity = velocity;
 			}
 		}
 

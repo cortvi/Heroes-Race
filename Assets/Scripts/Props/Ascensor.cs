@@ -42,15 +42,20 @@ namespace HeroesRace
 
 			if (Net.isServer) 
 			{
-				// Disable platform colliders
+				// Disable all lift colliders
+				anchor.GetComponent<Collider> ().enabled = false;
 				trigger.enabled = false;
-				anchor.gameObject.SetActive (false);
 
-				// Trigger exit on all Heroes
+				// Trigger exit on all Heroes & throw on air
 				foreach (var h in heroesIn)
 				{
 					h.mods.Remove (BlockName);
 					Dettach (h, useDriver: true);
+
+					// Throw player on air
+					h.driver.body.AddForce (Vector3.up * 1.5f, ForceMode.VelocityChange);
+					h.driver.SwitchFriction (false);
+					h.OnAir = true;
 				}
 				heroesIn.Clear ();
 				PlayersIn = false;

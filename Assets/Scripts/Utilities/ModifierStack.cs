@@ -72,13 +72,13 @@ namespace HeroesRace
 			Triggers triggers = Triggers.None;
 
 			// Read mods (iterating backwards allows removing)
-			for (int i=mods.Count; i>=0; --i) 
+			for (int i=mods.Count-1; i>=0; --i) 
 			{
 				// Move mod timer
 				if (mods[i].Update ())
 				{
-					summary.SetFlag (mods[i].cc);
-					triggers.SetFlag (mods[i].trigger);
+					summary |= mods[i].cc;
+					triggers |= mods[i].trigger;
 				}
 				// Remove if expired
 				else mods.RemoveAt (i);
@@ -139,7 +139,7 @@ namespace HeroesRace
 		public void CleanCC () 
 		{
 			// Remove non-block mods
-			for (int i=mods.Count; i>=0; --i) 
+			for (int i=mods.Count-1; i>=0; --i) 
 			{
 				if (mods[i].duration > 0f)
 					mods.RemoveAt (i);

@@ -8,20 +8,41 @@ namespace HeroesRace
 {
 	public class PlataformaRota : NetBehaviour 
 	{
+		public BoxCollider trigger;
 		private Rigidbody[] pieces;
+		private static Collider[] hits = new Collider[3];
 
 		private IEnumerator Break () 
 		{
+			// Wait until breaking in both Client & Server
 			yield return new WaitForSeconds (0.5f);
 			GetComponents<BoxCollider> ().ToList ().ForEach (b=> b.enabled = false);
 			Rpc_Throw ();
 			Throw ();
 
+			// Overlap box to get all players laying on platform
+			var pos = transform.position; var rot = transform.rotation;
+			var ctr = trigger.center; var ext = trigger.extents / 2f;
+			int n = Physics.OverlapBoxNonAlloc (pos + ctr, ext, hits, rot, 1 << 8);
+			for (int i=0; i!=n; ++i)
+			{
+				// Thorw all found players on air
+				var driver = hits[i].GetComponent<Driver> ();
+				if (driver)
+				{
+					driver.body.AddForce (Vector3.up * 1.5f, ForceMode.VelocityChange);
+					driver.SwitchFriction (false);
+					driver.owner.OnAir = true;
+				}
+			}
+
+			// Spawn new platform after X time
 			yield return new WaitForSeconds (1.7f);
 			var next = Instantiate (Resources.Load ("Prefabs/Plataforma_rota") as GameObject);
 			next.transform.position = transform.position;
 			NetworkServer.Spawn (next);
 
+			// Finally destroy this onw
 			NetworkServer.Destroy (gameObject);
 		}
 
