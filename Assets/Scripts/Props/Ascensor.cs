@@ -62,7 +62,7 @@ namespace HeroesRace
 		private void LateUpdate () 
 		{
 			// Keep always trigger box with platform
-			trigger.center = anchor.position + Vector3.up * 0.08f;
+			trigger.center = anchor.localPosition + Vector3.forward * 0.08f;
 		}
 
 		[ServerCallback]
