@@ -1,7 +1,7 @@
 ——— Faltaria ———
-- Floor switch (check every frame)
 - posiblimente cambiar motion sync on Hero is attached to something...?
 - Cambiar CCs coroutines to Update -> Monobehaviour (more public control)
+- Create CC animation stack to replace triggers with bools
 
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
@@ -12,6 +12,7 @@
 - Cortinilla inicial
 
 ——— DONE ———
+- Floor switch (check every frame)
 - Q10 slime not synced wtffff
 - Attach not working on Client! (null is always sent, $platforms has no netID!)
 - Improve air-control (add foce instead of changing velocity)
@@ -38,7 +39,6 @@ Q17
 - Respawn broken lifts..?
 - Monstruo -> shader parpadeo + animator!
 - Make mapa work
-- Create CC animation stack to replace triggers with bools
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
 - Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
 

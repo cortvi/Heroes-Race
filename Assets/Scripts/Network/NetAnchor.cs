@@ -33,11 +33,11 @@ namespace HeroesRace
 		}
 
 		[ClientRpc]
-		private void Rpc_Attaching (bool state, GameObject heroGO) 
+		private void Rpc_Attaching (bool attach, GameObject heroGO) 
 		{
 			var hero = heroGO.GetComponent<Hero> ();
 
-			if (state) Attach (hero);
+			if (attach) Attach (hero);
 			else Dettach (hero);
 		}
 	} 

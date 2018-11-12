@@ -15,13 +15,13 @@ namespace HeroesRace.Effectors
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			hero.mods.Block (blockName, impairing);
+			hero.mods.Add (blockName, impairing);
 		}
 		private void OnTriggerExit (Collider other) 
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			hero.mods.Unblock (blockName);
+			hero.mods.Remove (blockName);
 		}
 
 		private void Awake () 

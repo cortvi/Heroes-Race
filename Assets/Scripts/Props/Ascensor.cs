@@ -49,7 +49,7 @@ namespace HeroesRace
 				// Trigger exit on all Heroes
 				foreach (var h in heroesIn)
 				{
-					h.mods.Unblock (BlockName);
+					h.mods.Remove (BlockName);
 					Dettach (h, useDriver: true);
 				}
 				heroesIn.Clear ();
@@ -77,7 +77,7 @@ namespace HeroesRace
 
 			// Attach Hero Driver to Lift & avoid jumping
 			Attach (hero, useDriver: true); 
-			hero.mods.Block (BlockName, CCs.Jumping);
+			hero.mods.Add (BlockName, CCs.Jumping);
 		}
 		[ServerCallback]
 		private void OnTriggerExit (Collider other) 
@@ -91,7 +91,7 @@ namespace HeroesRace
 
 			// Dettach Hero Driver from Lift & re-allow jump
 			Dettach (hero, useDriver: true);
-			hero.mods.Unblock (BlockName);
+			hero.mods.Remove (BlockName);
 		}
 
 		protected override void OnAwake () 

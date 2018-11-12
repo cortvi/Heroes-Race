@@ -12,8 +12,7 @@ namespace HeroesRace.Effectors
 		private IEnumerator Squashing (Hero target) 
 		{
 			// Try to block Hero
-			bool block = target.mods.Block ("Squashed", CCs.All);
-			if (block) target.anim.SetTrigger ("Squash");
+			target.mods.Add ("Squashed", CCs.All, -1f, Triggers.Squashed);
 
 			// Avoid crashing into stone collider
 			target.driver.body.isKinematic = true;
@@ -21,7 +20,7 @@ namespace HeroesRace.Effectors
 			target.driver.body.isKinematic = false;
 
 			// Unblock Hero if previously done so
-			if (block) target.mods.Unblock ("Squashed");
+			target.mods.Remove ("Squashed");
 		}
 
 		protected void OnTriggerEnter (Collider other) 
@@ -32,7 +31,7 @@ namespace HeroesRace.Effectors
 			if (hero.Immune)
 			{
 				// If hit an immune Hero, reset the Apisonadora
-				hero.mods.AddCC ("Shieldbreak", CCs.None, 0.5f);
+				hero.mods.Add ("Shield Break", CCs.None, 0.1f);
 				var anim = GetComponentInParent<Apisonadora> ().anim;
 				anim.SetTrigger ("Reset");
 			}
@@ -42,8 +41,7 @@ namespace HeroesRace.Effectors
 		private void Awake () 
 		{
 			// Effectors are only present on Server
-			if (Net.isClient)
-				Destroy (this);
+			if (Net.isClient) Destroy (this);
 		}
 	} 
 }

@@ -16,23 +16,6 @@ namespace HeroesRace
 		public const float FloorHeigth = 5.2f;
 		#endregion
 
-		/*
-		public IEnumerator SwitchFloor () 
-		{
-			float iOffset = actualOffset.y;
-			float tOffset = offset.y + (target.floor * FloorHeigth);
-			float step = 0f;
-
-			float duration = 1f;
-			while (step <= 1f) 
-			{
-				actualOffset.y = Mathf.Lerp (iOffset, tOffset, step);
-				step += Time.deltaTime / duration;
-				yield return null;
-			}
-		}
-		*/
-
 		private void Update () 
 		{
 			if (!target) return;

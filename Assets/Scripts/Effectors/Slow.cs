@@ -12,10 +12,12 @@ namespace HeroesRace.Effectors
 
 		protected override void OnEnter (Hero hero) 
 		{
+			// Apply slow to Hero
 			hero.mods.SpeedDown (amount);
 		}
 		protected override void OnExit (Hero hero) 
 		{
+			// Remove slow from Hero
 			hero.mods.SpeedDown (0f);
 		}
 	} 
