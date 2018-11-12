@@ -11,12 +11,11 @@ namespace HeroesRace.Effectors
 
 		protected override void OnEnter (Hero hero) 
 		{
-			if (hero.mods.AddCC ("Fear", CCs.Locomotion, stunTime))
-				hero.anim.SetTrigger ("Fear");
-
-			// Stop Hero movement in-situ
+			// Stop Hero movement in-situ && apply CC
 			hero.driver.body.velocity = Vector3.zero;
 			hero.driver.body.angularVelocity = Vector3.zero;
+
+			hero.mods.Add ("Fear", CCs.Locomotion, stunTime, Triggers.Scared);
 		}
 	} 
 }

@@ -22,19 +22,16 @@ namespace HeroesRace
 		#endregion
 
 		#region CALLBACKS
-		private void Update ()
+		private void Update () 
 		{
 			if (TouchingFloor ())
 			{
-				if (touchingFloorLastFrame)
-				{
-					
-				}
 				// If hit floor from air (+ in mid-air animation), land character
-				if (owner.OnAir && owner.anim.IsInState ("Locomotion.Air.Mid_Air"))
+				if (owner.OnAir && owner.anim.IsInState ("Base.Air.Mid_Air"))
 				{
 					owner.OnAir = false;
 					SwitchFriction (true);
+					owner.mods.Remove ("On Jump");
 				}
 				// Reset fall-timer
 				touchingFloorLastFrame = true;
