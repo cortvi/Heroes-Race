@@ -93,8 +93,8 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: '!Zero'
-  m_OnlineScene: Tower
+  m_OfflineScene: 
+  m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 1948600405258664, guid: 88bf6e198b8f0874fb946eaa7265c3d1, type: 2}
   - {fileID: 1329425656299250, guid: 6e950cfc4c319a14ba4447990f2b5b3f, type: 2}
@@ -154,3 +154,5 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+  courtain: {fileID: 95441828259929830, guid: 74799eb21a11583479612a585835a3f8, type: 2}
+  firstScene: Tower

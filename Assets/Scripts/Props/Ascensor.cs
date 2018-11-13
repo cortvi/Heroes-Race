@@ -38,6 +38,7 @@ namespace HeroesRace
 				float force = Random.Range (2f, 5f);
 				float upForce = Random.Range (0.2f, 1f);
 				p.AddExplosionForce (force, anchor.position, 1.5f, upForce, ForceMode.VelocityChange);
+				Destroy (p, 2f);
 			}
 
 			if (Net.isServer) 

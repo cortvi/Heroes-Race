@@ -34,6 +34,7 @@ namespace HeroesRace
 				}
 				// Reset fall-timer
 				touchingFloorLastFrame = true;
+				owner.mods.Remove ("On Jump");
 			}
 			else
 			// Don't start time if on-air already

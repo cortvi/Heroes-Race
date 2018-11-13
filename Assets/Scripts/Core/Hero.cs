@@ -105,7 +105,7 @@ namespace HeroesRace
 			if (!OnAir
 			&& !mods[CCs.Jumping]) 
 			{
-				mods.Add ("On Jump", CCs.Jumping, 0.3f);
+				mods.Add ("On Jump", CCs.Jumping);
 				driver.SwitchFriction (touchingFloor: false);
 				anim.SetTrigger ("Jump");
 			}
@@ -157,6 +157,7 @@ namespace HeroesRace
 		{
 			if (!mods[CCs.Moving])
 			{
+				mods.Remove ("On Jump");
 				// Impulse Hero upwards if possible (may be CCd between animation)
 				driver.body.AddForce (Vector3.up * JumpForce, ForceMode.VelocityChange);
 				OnAir = true;
@@ -288,8 +289,9 @@ namespace HeroesRace
 
 		private void KeepMotion () 
 		{
+			#region NOT ATTACHED
 			// If not attached to anything
-			if (transform.parent == null) 
+			if (transform.parent == null)
 			{
 				// Lerp vertically
 				if (netYSpeed.Is (0f))
@@ -311,15 +313,19 @@ namespace HeroesRace
 				// Otherwise move with given angular momentum
 				else transform.RotateAround (Vector3.zero, Vector3.up, netAngular * Time.deltaTime);
 			}
-			else 
+			#endregion
+
+			#region ATTACHED
+			else
 			// Otherwise do nothing unless far from real position
-			if (Vector3.Distance (netPosition, transform.position) > 0.25f)
+			if (Vector3.Distance (netPosition, transform.position) > 0.1f)
 			{
 				// Lerp to it if so
 				var pos = transform.position;
 				pos = Vector3.Lerp (pos, netPosition, Time.deltaTime * 5f);
 				transform.position = pos;
-			}
+			} 
+			#endregion
 
 			// Finally, always lerp rotation
 			transform.rotation = Quaternion.Slerp (transform.rotation, netRotation, Time.deltaTime * 20f);

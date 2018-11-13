@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using SM = UnityEngine.SceneManagement.SceneManager;
 
 namespace HeroesRace 
@@ -16,6 +17,9 @@ namespace HeroesRace
 		public static bool isClient;
 		public static bool isServer;
 
+		public Animator courtain;
+		public string firstScene;
+
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void Main () 
 		{
@@ -24,18 +28,21 @@ namespace HeroesRace
 			Log.logLevel = Log.LogType.DeepDebug;
 			Application.targetFrameRate = 60;
 
+			worker.courtain = Instantiate (worker.courtain);
+			worker.courtain.name = "Courtain";
+
 			// Read config:
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
 			worker.StartCoroutine (worker.Config (config));
 		}
+
 		private IEnumerator Config (string[] config) 
 		{
 			// Ensure we start in the base scene
 			if (SM.GetActiveScene ().name != "!Zero") 
 			{
-				SM.LoadScene ("!Zero");
-				while (SM.GetActiveScene ().name != "!Zero") yield return null;
-				yield return new WaitForSeconds (2f);
+				yield return SM.LoadSceneAsync ("!Zero");
+				yield return new WaitForSeconds (1f);
 			}
 
 			if (config[0] == "client") 
@@ -45,6 +52,10 @@ namespace HeroesRace
 				StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
 				isClient = true;
+
+				// Wait until connection to Server loads scene
+				while (SM.GetActiveScene ().name != firstScene)
+					yield return null;
 			}
 			else
 			if (config[0] == "server") 
@@ -56,10 +67,14 @@ namespace HeroesRace
 				StartServer ();
 				Log.LowDebug ("This mahcine is now the server");
 				isServer = true;
+
+				// Load Tower on Server, spreading to Clients
+				yield return SM.LoadSceneAsync (firstScene);
 			}
 			else Log.Info ("Can't understand config file!");
 
 			#warning Aqui deberia hacer correr la cortinilla
+			courtain.SetBool ("Open", false);
 		}
 	}
 
