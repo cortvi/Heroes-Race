@@ -65,7 +65,9 @@ namespace HeroesRace
 		[Command (channel = 2)]
 		private void Cmd_Selection (int delta, bool readySwitch) 
 		{
+			if (Net.paused) return;
 			var s = pawn as Selector;
+
 			if (delta != 0) s.Move (delta);
 			if (readySwitch) s.SwitchReady ();
 		}
@@ -73,7 +75,9 @@ namespace HeroesRace
 		[Command (channel = 2)]
 		private void Cmd_Hero (float axis, bool jump, bool power) 
 		{
+			if (Net.paused) return;
 			var h = pawn as Hero;
+
 			h.Movement (axis);
 			if (jump) h.Jumping ();
 			if (power) h.Power ();
@@ -92,7 +96,7 @@ namespace HeroesRace
 		public void SetPawn (NetPawn newPawn) 
 		{
 			ChangePawn (newPawn);
-			Rpc_SetPawn (newPawn!=null? newPawn.gameObject : null);
+			Rpc_SetPawn (newPawn? newPawn.gameObject : null);
 		}
 	}
 

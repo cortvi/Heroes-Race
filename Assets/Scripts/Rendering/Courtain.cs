@@ -6,8 +6,10 @@ using UnityEngine.UI;
 namespace HeroesRace 
 {
 	[ExecuteInEditMode]
-	public class Courtain : MonoBehaviour
+	public class Courtain : MonoBehaviour 
 	{
+		public static NetCourtain net;
+
 		[Range (0f, 1f)] public float alpha;
 		[Range (0f, 1f)] public float fade;
 		private Color fColor;
@@ -31,11 +33,11 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			// Don't call dont-destroy on inspector !
-			if (!UnityEditor.EditorApplication.isPlaying)
-				return;
-#endif
+			if (!UnityEditor.EditorApplication.isPlaying) return;
+			#endif
+
 			// Do this only once
 			DontDestroyOnLoad (gameObject);
 		}

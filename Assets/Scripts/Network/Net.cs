@@ -12,13 +12,16 @@ namespace HeroesRace
 {
 	public partial class /* COMMON */ Net : NetworkManager 
 	{
+		#region DATA
 		public static Net worker;
 		public static int PlayersNeeded { get; private set; }
 		public static bool isClient;
 		public static bool isServer;
+		public static bool paused;
 
 		public Animator courtain;
-		public string firstScene;
+		public string firstScene; 
+		#endregion
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		public static void Main () 
@@ -52,10 +55,6 @@ namespace HeroesRace
 				StartClient ();
 				Log.LowDebug ("This mahcine is now a client");
 				isClient = true;
-
-				// Wait until connection to Server loads scene
-				while (SM.GetActiveScene ().name != firstScene)
-					yield return null;
 			}
 			else
 			if (config[0] == "server") 
@@ -68,13 +67,17 @@ namespace HeroesRace
 				Log.LowDebug ("This mahcine is now the server");
 				isServer = true;
 
-				// Load Tower on Server, spreading to Clients
-				yield return SM.LoadSceneAsync (firstScene);
-			}
-			else Log.Info ("Can't understand config file!");
+				// Spawn Courtain controller
+				var cRig = Instantiate (Resources.Load ("Courtain_Controller"));
+				NetworkServer.Spawn (cRig as GameObject);
 
-			#warning Aqui deberia hacer correr la cortinilla
-			courtain.SetBool ("Open", false);
+				// Load Tower on Server, spreading to Clients
+				SM.LoadSceneAsync (firstScene);
+			}
+			else Log.Info ("!Can't understand config file!");
+
+			// Open cortinilla
+			courtain.SetBool ("Open", true);
 		}
 	}
 
@@ -85,13 +88,40 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			// Check if it's Player's first time
-			var player = CheckPlayer (conn);
+			var player = GetPlayer (conn);
+			if (player == null)
+			{
+				// If it's the first time the Player connects
+				player = Instantiate (playerPrefab).GetComponent<Player> ();
+				player.PlayerSetup (conn);
+
+				players[player.ID - 1] = player;
+			}
+			// Replace Player connection to new one
+			else player.Conn = conn;
+
+			// Assign Playe to connection
+			NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
+		}
+
+		public override void OnServerDisconnect (NetworkConnection conn) 
+		{
+			// Use connectionId because address is not available on desconnection
+			var player = players.Single (u=> u.Conn.connectionId == conn.connectionId);
+			Log.Debug ("Player " + player.ID + " disconnected from server!");
+
+			#warning Handle object destruction!
+		}
+
+		public override void OnServerReady (NetworkConnection conn) 
+		{
+			base.OnServerReady (conn);
 
 			// Create new Pawn for Player if none
-			string scene = networkSceneName;
-			if (player.pawn == null) 
+			var player = GetPlayer (conn);
+			if (player.pawn == null)
 			{
+				string scene = networkSceneName;
 				if (scene == "Selection")
 				{
 					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + player.ID);
@@ -118,44 +148,46 @@ namespace HeroesRace
 			}
 		}
 
-		public override void OnServerDisconnect (NetworkConnection conn) 
+		public override void OnServerSceneChanged (string sceneName) 
 		{
-			// Use connectionId because address is not available on desconnection
-			var player = players.Single (u=> u.Conn.connectionId == conn.connectionId);
-			Log.Debug ("Player " + player.ID + " disconnected from server!");
-
-			#warning Handle object destruction!
+			if (sceneName == "Tower")
+			{
+				// Pausing will make Players don't process input
+				StartCoroutine ("WaitAllTowerPlayers");
+				paused = true;
+			}
+			else
+			{
+				// Open courtain once a level finishes loading
+				if (Courtain.net) Courtain.net.Open (true);
+			}
 		}
 		#endregion
 
 		#region HELPERS
-		private Player CheckPlayer (NetworkConnection conn) 
-		{
-			var player = GetPlayer (conn);
-			if (player == null)
-			{
-				// If it's the first time the Player connects
-				player = Instantiate (playerPrefab).GetComponent<Player> ();
-				player.PlayerSetup (conn);
-
-				players[player.ID - 1] = player;
-				NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
-			}
-			// Replace Player connection to new one
-			else player.Conn = conn;
-			return player;
-		}
-
 		public static Player GetPlayer (NetworkConnection fromConn) 
 		{
 			return players.SingleOrDefault
 				(p => p && p.IP == fromConn.address);
-		} 
+		}
+
+		private IEnumerator WaitAllTowerPlayers () 
+		{
+			// Don't allow any kind of movement until all players are in
+			while (players.All (p => p.pawn is Hero)) yield return null;
+			print ("lol this actually worked");
+		}
 		#endregion
 	}
 
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
+
+		public override void OnClientSceneChanged (NetworkConnection conn) 
+		{
+			// Open courtain once a level finishes loading
+			if (Courtain.net) Courtain.net.Open (true);
+		}
 	}
 }
