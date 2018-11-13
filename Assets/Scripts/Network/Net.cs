@@ -68,16 +68,13 @@ namespace HeroesRace
 				isServer = true;
 
 				// Spawn Courtain controller
-				var cRig = Instantiate (Resources.Load ("Courtain_Controller"));
+				var cRig = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));
 				NetworkServer.Spawn (cRig as GameObject);
 
 				// Load Tower on Server, spreading to Clients
 				SM.LoadSceneAsync (firstScene);
 			}
 			else Log.Info ("!Can't understand config file!");
-
-			// Open cortinilla
-			courtain.SetBool ("Open", true);
 		}
 	}
 
@@ -115,10 +112,18 @@ namespace HeroesRace
 
 		public override void OnServerReady (NetworkConnection conn) 
 		{
+			// Base logic
 			base.OnServerReady (conn);
 
-			// Create new Pawn for Player if none
+			// Create Player if havn't already
 			var player = GetPlayer (conn);
+			if (player == null)
+			{
+				OnServerAddPlayer (conn, 0);
+				player = GetPlayer (conn);
+			}
+
+			// Create new Pawn for Player if none
 			if (player.pawn == null)
 			{
 				string scene = networkSceneName;
