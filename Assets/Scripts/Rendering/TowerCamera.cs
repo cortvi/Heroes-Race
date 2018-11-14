@@ -28,7 +28,6 @@ namespace HeroesRace
 			{
 				tracking = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				i = this;
-				print ("set up");
 			}
 		}
 	} 

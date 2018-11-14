@@ -198,19 +198,17 @@ namespace HeroesRace
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
-			// Don't allow any kind of movement until all players are in
-			bool allReady = false;
-			while (!allReady) 
+			int playersReady = 0; do
 			{
-				allReady = true;
-				foreach (var p in players)
-				{
-					if (!(p.pawn is Hero))
-						allReady = false;
-				}
+				// Don't allow any kind of movement until all players are in
+				playersReady = players.Count (p => p && p.pawn is Hero);
 				yield return null;
 			}
-			print ("lol this actually worked");
+			while (playersReady != PlayersNeeded);
+
+			// Allow gameplay
+			Courtain.net.Open (true);
+			paused = false;
 		}
 		#endregion
 	}
