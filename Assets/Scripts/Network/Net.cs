@@ -76,6 +76,24 @@ namespace HeroesRace
 			}
 			else Log.Info ("!Can't understand config file!");
 		}
+
+		#if UNITY_EDITOR
+		[ContextMenu ("Register all NET prefabs")]
+		public void RegisterNetPrefabs () 
+		{
+			spawnPrefabs.Clear ();
+			string[] guids = UnityEditor.AssetDatabase.FindAssets ("t:GameObject");
+			foreach (var g in guids)
+			{
+				string path = UnityEditor.AssetDatabase.GUIDToAssetPath (g);
+				var go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject> (path);
+
+				// Discard not networked objects & Player prefab
+				if (go.name == "Player" || !go.GetComponent<NetworkIdentity> ()) continue; 
+				spawnPrefabs.Add (go);
+			}
+		} 
+		#endif
 	}
 
 	public partial class /* SERVER */ Net 

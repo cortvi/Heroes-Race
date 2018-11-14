@@ -114,12 +114,8 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			if (Net.isClient)
-			{
-				// Register all quesitos & destroy itself
-				foreach (var p in qPrefabs) ClientScene.RegisterPrefab (p);
-				Destroy (gameObject);
-			}
+			// Auto destroy itself
+			if (Net.isClient) Destroy (gameObject);
 		}
 
 		[System.Serializable]
