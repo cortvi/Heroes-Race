@@ -141,20 +141,24 @@ namespace HeroesRace
 				player = GetPlayer (conn);
 			}
 
-			// Create new Pawn for Player if none
-			#error Esto esta fatal, la comprobacion de pawn deberia estar dentro de la escena!
-			if (player.pawn == null)
+			string scene = networkSceneName;
+			if (scene == "Selection")
 			{
-				string scene = networkSceneName;
-				if (scene == "Selection")
+				// Assign new Selector for Player if none
+				if (!(player.pawn is Selector))
 				{
 					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + player.ID);
 					var selector = FindObjectsOfType<Selector> ().First (check);
 
 					player.SetPawn (selector);
 				}
-				else
-				if (scene == "Tower")
+				else /* re-assign ??? */;
+			}
+			else
+			if (scene == "Tower")
+			{
+				// Create new Hero for Player if none
+				if (!(player.pawn is Hero))
 				{
 					// If bypassing selection menu
 					if (player.playingAs == Heroe.NONE)
@@ -167,8 +171,9 @@ namespace HeroesRace
 					hero.driver.owner = hero;
 
 					NetworkServer.Spawn (hero.gameObject);
-					player.SetPawn (hero);
+					player.SetPawn (hero); 
 				}
+				else /* re-assign ??? */;
 			}
 		}
 
@@ -197,16 +202,18 @@ namespace HeroesRace
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
-			bool allReady;
-			foreach (var p in players)
-			{
-
-			}
-
 			// Don't allow any kind of movement until all players are in
-			while (players.Count () == 0 || !players.All (p => p.pawn is Hero))
+			bool allReady = false;
+			while (!allReady) 
+			{
+				allReady = true;
+				foreach (var p in players)
+				{
+					if (!(p.pawn is Hero))
+						allReady = false;
+				}
 				yield return null;
-
+			}
 			print ("lol this actually worked");
 		}
 		#endregion
