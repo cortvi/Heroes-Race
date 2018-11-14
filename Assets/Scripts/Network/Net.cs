@@ -55,6 +55,10 @@ namespace HeroesRace
 				// Wait communication with Server
 				while (!Courtain.net) yield return null;
 				Courtain.net.SetText ("Cargando...");
+
+				// Wait until on Same scene as Server & op courtain
+				while (networkSceneName != firstScene) yield return null;
+				Courtain.net.Open (true);
 			}
 			else
 			// Start Server to expect given Players
@@ -178,10 +182,5 @@ namespace HeroesRace
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
-
-		public override void OnClientConnect (NetworkConnection conn) 
-		{
-			// Overriding because Unity works shit...
-		}
 	}
 }
