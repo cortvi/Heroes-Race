@@ -105,9 +105,12 @@ namespace HeroesRace
 		{
 			var player = GetPlayer (conn);
 			// If it's the first time Player connects
-			if (player == null) ServerAddPlayer (conn);
+			if (!player) player = ServerAddPlayer (conn);
 			// Otherwise replace Player connection
 			else player.Conn = conn;
+
+			// Assign Player to new connection
+			NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -121,47 +124,6 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
-			foreach (var player in players) 
-			{
-				if (!player) continue;
-				string scene = networkSceneName;
-				if (scene == "Selection")
-				{
-					// Assign new Selector for Player if none
-					if (!(player.pawn is Selector))
-					{
-						var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + player.ID);
-						var selector = FindObjectsOfType<Selector> ().First (check);
-
-						player.SetPawn (selector);
-					}
-					else /* re-assign ??? */;
-				}
-				else
-				if (scene == "Tower")
-				{
-					// Create new Hero for Player if none
-					if (!(player.pawn is Hero))
-					{
-						// If bypassing selection menu
-						if (player.playingAs == Heroe.NONE)
-							player.playingAs = (Heroe)player.ID;
-
-						// Spawn Heroe & set up its Driver
-						var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + player.playingAs));
-						hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
-						hero.driver.name = player.playingAs + "_Driver";
-						hero.driver.owner = hero;
-
-						NetworkServer.Spawn (hero.gameObject);
-						player.SetPawn (hero);
-					}
-					else /* re-assign ??? */;
-				}
-
-			}
-
-
 			if (sceneName == "Tower")
 			{
 				// Pausing will make Players don't process input
@@ -189,9 +151,6 @@ namespace HeroesRace
 			// Create new persistent Player object
 			player = Instantiate (playerPrefab).GetComponent<Player> ();
 			player.PlayerSetup (conn);
-
-			// Assign Playe to connection
-			NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
 			players[player.ID - 1] = player;
 			return player;
 		}
@@ -201,7 +160,7 @@ namespace HeroesRace
 			int playersReady = 0; do
 			{
 				// Don't allow any kind of movement until all players are in
-				playersReady = players.Count (p => p && p.pawn is Hero);
+				playersReady = players.Count (p=> p && p.pawn is Hero);
 				yield return null;
 			}
 			while (playersReady != PlayersNeeded);

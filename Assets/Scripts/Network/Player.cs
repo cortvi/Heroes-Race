@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
 {
@@ -91,6 +94,54 @@ namespace HeroesRace
 			h.power = power;
 		}
 		#endregion
+		#endregion
+
+		#region CALLBACKS
+		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
+		{
+			// Assign new Selector for Player if none
+			if (scene.name == "Selection")
+			{
+				if (!(pawn is Selector))
+				{
+					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
+					var selector = FindObjectsOfType<Selector> ().First (check);
+
+					SetPawn (selector);
+				}
+			}
+			else
+			// Create new Hero for Player if none
+			if (scene.name == "Tower")
+			{
+				if (!(pawn is Hero))
+				{
+					// If bypassing selection menu
+					if (playingAs == Heroe.NONE)
+						playingAs = (Heroe)ID;
+
+					// Spawn Heroe & set up its Driver
+					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + playingAs));
+					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
+					hero.driver.name = playingAs + "_Driver";
+					hero.driver.owner = hero;
+
+					NetworkServer.Spawn (hero.gameObject);
+					SetPawn (hero);
+				}
+			}
+		}
+
+		[ServerCallback]
+		private void OnEnable () 
+		{
+			SceneManager.sceneLoaded += OnLevelLoaded;
+		}
+		[ServerCallback]
+		private void OnDisable () 
+		{
+			SceneManager.sceneLoaded -= OnLevelLoaded;
+		}
 		#endregion
 
 		public void SetPawn (NetPawn newPawn) 

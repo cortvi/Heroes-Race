@@ -29,6 +29,8 @@ namespace HeroesRace
 				tracking = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				i = this;
 			}
+			// Useless in Clients
+			if (Net.isClient) Destroy (gameObject);
 		}
 	} 
 }
