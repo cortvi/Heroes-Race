@@ -72,7 +72,7 @@ namespace HeroesRace
 				NetworkServer.Spawn (cRig as GameObject);
 
 				// Load Tower on Server, spreading to Clients
-				SM.LoadSceneAsync (firstScene);
+				ServerChangeScene (firstScene);
 			}
 			else Log.Info ("!Can't understand config file!");
 		}
@@ -124,6 +124,7 @@ namespace HeroesRace
 			}
 
 			// Create new Pawn for Player if none
+			#error Esto esta fatal, la comprobacion de pawn deberia estar dentro de la escena!
 			if (player.pawn == null)
 			{
 				string scene = networkSceneName;
@@ -178,8 +179,16 @@ namespace HeroesRace
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
+			bool allReady;
+			foreach (var p in players)
+			{
+
+			}
+
 			// Don't allow any kind of movement until all players are in
-			while (players.All (p => p.pawn is Hero)) yield return null;
+			while (players.Count () == 0 || !players.All (p => p.pawn is Hero))
+				yield return null;
+
 			print ("lol this actually worked");
 		}
 		#endregion
