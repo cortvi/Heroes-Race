@@ -47,28 +47,24 @@ namespace HeroesRace
 			// Start Client from given address
 			if (config[0] == "client") 
 			{
-				Log.LowDebug ("This mahcine is now a client");
 				networkAddress = config[1].Trim ();
 				StartClient ();
 				isClient = true;
+				Log.LowDebug ("This mahcine is now a client");
 
 				// Wait communication with Server
 				while (!Courtain.net) yield return null;
 				Courtain.net.SetText ("Cargando...");
-
-				// Wait until on Same scene as Server & op courtain
-				while (networkSceneName != firstScene) yield return null;
-				Courtain.net.Open (true);
 			}
 			else
 			// Start Server to expect given Players
 			if (config[0] == "server") 
 			{
-				Log.LowDebug ("This mahcine is now the server");
 				PlayersNeeded = int.Parse (config[1]);
 				players = new Player[PlayersNeeded];
 				StartServer ();
 				isServer = true;
+				Log.LowDebug ("This mahcine is now the server");
 
 				// Spawn Courtain controller
 				var cc = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));

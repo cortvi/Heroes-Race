@@ -68,7 +68,6 @@ namespace HeroesRace
 		[Command (channel = 2)]
 		private void Cmd_Selection (int delta, bool readySwitch) 
 		{
-			print (Net.paused);
 			if (Net.paused) return;
 			var s = pawn as Selector;
 
@@ -195,6 +194,7 @@ namespace HeroesRace
 		[ClientRpc]
 		private void Rpc_SetPawn (GameObject newPawn) 
 		{
+			print ("lol : " + newPawn);
 			var pawn = newPawn.GetComponent<NetPawn> ();
 			ChangePawn (pawn);
 		}

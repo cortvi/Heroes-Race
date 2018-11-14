@@ -15,7 +15,7 @@ namespace HeroesRace
 		public void SetText (string newText) 
 		{
 			// Change display text
-			text.text = newText;
+			text.text = newText.Replace (" ", "    ");
 		}
 
 		public void Open (bool state) 

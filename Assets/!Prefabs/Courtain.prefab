@@ -168,7 +168,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 94
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -264,8 +264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490ad016cfb3ffc4c910f4af85aee8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alpha: 1
-  fade: 0
+  alpha: 0
+  fade: 1
 --- !u!114 &114954321420977956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -348,8 +348,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 37, y: -6}
-  m_SizeDelta: {x: 536.6, y: 100.6}
+  m_AnchoredPosition: {x: -0.000022888, y: -0.000017166}
+  m_SizeDelta: {x: 1772.1, y: 100.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224891529726656978
 RectTransform:
