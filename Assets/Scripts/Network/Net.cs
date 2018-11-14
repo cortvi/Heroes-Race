@@ -101,16 +101,29 @@ namespace HeroesRace
 		public static Player[] players;
 
 		#region CALLBACKS
-		public override void OnServerConnect (NetworkConnection conn) 
+		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			var player = GetPlayer (conn);
+			print ("player adding");
 			// If it's the first time Player connects
-			if (!player) player = ServerAddPlayer (conn);
+			var player = GetPlayer (conn);
+			if (!player)
+			{
+				// Create new persistent Player object
+				player = Instantiate (playerPrefab).GetComponent<Player> ();
+				player.PlayerSetup (conn);
+				players[player.ID - 1] = player;
+			}
 			// Otherwise replace Player connection
 			else player.Conn = conn;
 
 			// Assign Player to new connection
 			NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
+		}
+
+		public override void OnServerReady (NetworkConnection conn) 
+		{
+			base.OnServerReady (conn);
+			print ("ready");
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -143,16 +156,6 @@ namespace HeroesRace
 		{
 			return players.SingleOrDefault
 				(p => p && p.IP == fromConn.address);
-		}
-
-		private Player ServerAddPlayer (NetworkConnection conn) 
-		{
-			Player player;
-			// Create new persistent Player object
-			player = Instantiate (playerPrefab).GetComponent<Player> ();
-			player.PlayerSetup (conn);
-			players[player.ID - 1] = player;
-			return player;
 		}
 
 		private IEnumerator WaitAllTowerPlayers () 
