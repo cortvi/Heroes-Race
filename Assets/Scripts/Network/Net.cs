@@ -103,7 +103,6 @@ namespace HeroesRace
 		#region CALLBACKS
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
-			print ("player adding");
 			// If it's the first time Player connects
 			var player = GetPlayer (conn);
 			if (!player)
@@ -117,13 +116,7 @@ namespace HeroesRace
 			else player.Conn = conn;
 
 			// Assign Player to new connection
-			NetworkServer.AddPlayerForConnection (conn, player.gameObject, 0);
-		}
-
-		public override void OnServerReady (NetworkConnection conn) 
-		{
-			base.OnServerReady (conn);
-			print ("ready");
+			NetworkServer.AddPlayerForConnection (conn, player.gameObject, playerControllerId);
 		}
 
 		public override void OnServerDisconnect (NetworkConnection conn) 
@@ -160,7 +153,7 @@ namespace HeroesRace
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
-			int playersReady = 0; do
+			int playersReady; do
 			{
 				// Don't allow any kind of movement until all players are in
 				playersReady = players.Count (p=> p && p.pawn is Hero);
@@ -179,8 +172,9 @@ namespace HeroesRace
 	{
 		public static Player me;
 
-		public override void OnClientSceneChanged (NetworkConnection conn) 
+		public void _OnClientSceneChanged (NetworkConnection conn) 
 		{
+			base.OnClientSceneChanged (conn);
 			// Open courtain once a level finishes loading
 			if (Courtain.net) Courtain.net.Open (true);
 		}
