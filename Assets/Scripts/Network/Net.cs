@@ -69,6 +69,7 @@ namespace HeroesRace
 				// Spawn Courtain controller
 				var cc = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));
 				NetworkServer.Spawn (cc as GameObject);
+				yield return null;
 
 				// Wait until players are in
 				Courtain.net.SetText ("Esperando jugadores...");
