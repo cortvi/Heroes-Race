@@ -173,7 +173,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading...
+  m_Text: 
 --- !u!114 &114203368690896128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   alpha: 1
-  fade: 1
+  fade: 0
 --- !u!114 &114954321420977956
 MonoBehaviour:
   m_ObjectHideFlags: 1

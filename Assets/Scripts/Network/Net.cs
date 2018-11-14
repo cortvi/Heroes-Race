@@ -31,50 +31,61 @@ namespace HeroesRace
 			Log.logLevel = Log.LogType.DeepDebug;
 			Application.targetFrameRate = 60;
 
-			worker.courtain = Instantiate (worker.courtain);
-			worker.courtain.name = "Courtain";
+			// Spawn whole-session courtain
+			Instantiate (worker.courtain).name = "Courtain";
 
-			// Read config:
+			// Read config file
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
 			worker.StartCoroutine (worker.Config (config));
 		}
 
 		private IEnumerator Config (string[] config) 
 		{
-			// Ensure we start in the base scene
-			if (SM.GetActiveScene ().name != "!Zero") 
-			{
-				yield return SM.LoadSceneAsync ("!Zero");
-				yield return new WaitForSeconds (1f);
-			}
+			// Go to a neutral scene to sync Server & Client
+			if (SM.GetActiveScene ().name != "!Zero") yield return SM.LoadSceneAsync ("!Zero");
 
+			// Start Client from given address
 			if (config[0] == "client") 
 			{
-				// Start Client from given address
+				Log.LowDebug ("This mahcine is now a client");
 				networkAddress = config[1].Trim ();
 				StartClient ();
-				Log.LowDebug ("This mahcine is now a client");
 				isClient = true;
+
+				// Wait communication with Server
+				while (!Courtain.net) yield return null;
+				Courtain.net.SetText ("Cargando...");
 			}
 			else
+			// Start Server to expect given Players
 			if (config[0] == "server") 
 			{
-				// Start Server to expect given Players
+				Log.LowDebug ("This mahcine is now the server");
 				PlayersNeeded = int.Parse (config[1]);
 				players = new Player[PlayersNeeded];
-
 				StartServer ();
-				Log.LowDebug ("This mahcine is now the server");
 				isServer = true;
 
 				// Spawn Courtain controller
-				var cRig = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));
-				NetworkServer.Spawn (cRig as GameObject);
+				var cc = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));
+				NetworkServer.Spawn (cc as GameObject);
 
+				// Wait until players are in
+				Courtain.net.SetText ("Esperando jugadores...");
+				int playersReady; do
+				{
+					playersReady = players.Count (p=> p);
+					yield return null;
+				}
+				while (playersReady != PlayersNeeded);
+				yield return new WaitForSeconds (1f);
+
+				paused = true;
 				// Load Tower on Server, spreading to Clients
+				Courtain.net.SetText ("Generando mapa...");
 				ServerChangeScene (firstScene);
 			}
-			else Log.Info ("!Can't understand config file!");
+			else Debug.LogError ("!Can't understand config file!");
 		}
 
 		#if UNITY_EDITOR
@@ -105,7 +116,7 @@ namespace HeroesRace
 		{
 			// If it's the first time Player connects
 			var player = GetPlayer (conn);
-			if (!player)
+			if (player == null)
 			{
 				// Create new persistent Player object
 				player = Instantiate (playerPrefab).GetComponent<Player> ();
@@ -130,16 +141,10 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
-			if (sceneName == "Tower")
+			if (sceneName == "Tower") 
 			{
-				// Pausing will make Players don't process input
+				// Paused until all Players arrive
 				StartCoroutine ("WaitAllTowerPlayers");
-				paused = true;
-			}
-			else
-			{
-				// Open courtain once a level finishes loading
-				if (Courtain.net) Courtain.net.Open (true);
 			}
 		}
 		#endregion
@@ -153,9 +158,10 @@ namespace HeroesRace
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
+			// Don't allow any kind of movement until all players are in
+			Courtain.net.SetText ("Esperando a jugadores...");
 			int playersReady; do
 			{
-				// Don't allow any kind of movement until all players are in
 				playersReady = players.Count (p=> p && p.pawn is Hero);
 				yield return null;
 			}
@@ -172,11 +178,9 @@ namespace HeroesRace
 	{
 		public static Player me;
 
-		public void _OnClientSceneChanged (NetworkConnection conn) 
+		public override void OnClientConnect (NetworkConnection conn) 
 		{
-			base.OnClientSceneChanged (conn);
-			// Open courtain once a level finishes loading
-			if (Courtain.net) Courtain.net.Open (true);
+			// Overriding because Unity works shit...
 		}
 	}
 }
