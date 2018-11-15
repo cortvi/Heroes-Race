@@ -8,28 +8,11 @@ using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
 {
+	[NetworkSettings (sendInterval = 0f)]
 	public partial class /* COMMON */ Player : NetBehaviour 
 	{
 		[Info] public NetPawn pawn;
-
-		private void ChangePawn (NetPawn newPawn) 
-		{
-			// De-authorize last Pawn, if any
-			if (pawn)
-			{
-				pawn.owner = null;
-				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStopOwnership ();
-			}
-			// Authorize new Pawn
-			pawn = newPawn;
-			if (pawn)
-			{
-				pawn.owner = this;
-				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStartOwnership ();
-			}
-		}
+		[SyncVar] public Pawns pawnType;
 
 		protected override void OnAwake () 
 		{
@@ -76,6 +59,7 @@ namespace HeroesRace
 					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
 					ChangePawn (FindObjectsOfType<Selector> ().First (check));
 				}
+				pawnType = Pawns.Selector;
 			}
 			else
 			// Create new Hero for Player if none
@@ -95,9 +79,8 @@ namespace HeroesRace
 
 					NetworkServer.Spawn (hero.gameObject);
 				}
+				pawnType = Pawns.Hero;
 			}
-			// Finally send Pawn to Clients if any
-			if (pawn) Rpc_SetPawn (pawn.gameObject);
 		}
 
 		[Command (channel = 2)]
@@ -130,17 +113,37 @@ namespace HeroesRace
 		}
 		#endregion
 		#endregion
+
+		private void ChangePawn (NetPawn newPawn) 
+		{
+			// De-authorize last Pawn, if any
+			if (pawn)
+			{
+				pawn.owner = null;
+				pawn.UpdateName ();
+				if (Net.isClient) pawn.OnStopOwnership ();
+			}
+			// Authorize new Pawn
+			pawn = newPawn;
+			if (pawn)
+			{
+				pawn.owner = this;
+				pawn.UpdateName ();
+				if (Net.isClient) pawn.OnStartOwnership ();
+			}
+		}
 	}
 
 	public partial class /* CLIENT */ Player 
 	{
-		#region CALLBACKS
 		[ClientCallback]
-		private void Update ()
+		private void Update () 
 		{
-			if (!isLocalPlayer || !pawn) return;
+			// Only work local Client & when having a valid Pawn
+			if (!isLocalPlayer || pawnType == Pawns.None) return;
+
 			#region SELECTOR
-			if (pawn is Selector)
+			if (pawnType == Pawns.Selector)
 			{
 				// Initialize input
 				int delta = 0;
@@ -154,13 +157,12 @@ namespace HeroesRace
 				&& Input.anyKeyDown) readySwitch = true;
 
 				// Send to Server
-				if (delta != 0 || readySwitch)
-					Cmd_Selection (delta, readySwitch);
+				if (delta != 0 || readySwitch) Cmd_Selection (delta, readySwitch);
 			}
 			#endregion
 			else
 			#region HERO
-			if (pawn is Hero)
+			if (pawnType == Pawns.Hero)
 			{
 				// Collect all input
 				float axis = Input.GetAxis ("Horizontal");
@@ -173,6 +175,12 @@ namespace HeroesRace
 			#endregion
 		}
 
+		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
+		{
+			// When Player object is ready, call for Pawn assigment
+			Cmd_RequestPawn ();
+		}
+
 		[ClientCallback]
 		private void OnEnable () 
 		{
@@ -183,21 +191,13 @@ namespace HeroesRace
 		{
 			SceneManager.sceneLoaded -= OnLevelLoaded;
 		}
-		#endregion
+	}
 
-		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
-		{
-			// When Player object is ready, call for Pawn assigment
-			Cmd_RequestPawn ();
-			print ("lmaooo");
-		}
-
-		[ClientRpc]
-		public void Rpc_SetPawn (GameObject newPawn) 
-		{
-			var pawn = newPawn.GetComponent<NetPawn> ();
-			ChangePawn (pawn);
-		}
+	public enum Pawns 
+	{
+		None,
+		Hero,
+		Selector
 	}
 }
 

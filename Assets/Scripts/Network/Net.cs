@@ -79,7 +79,7 @@ namespace HeroesRace
 					yield return null;
 				}
 				while (playersReady != PlayersNeeded);
-				yield return new WaitForSeconds (1f);
+				yield return new WaitForSeconds (2f);
 
 				paused = true;
 				// Load Tower on Server, spreading to Clients
@@ -142,6 +142,7 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
+			base.OnServerSceneChanged (sceneName);
 			if (sceneName == "Tower") 
 			{
 				// Paused until all Players arrive
