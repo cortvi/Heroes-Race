@@ -61,10 +61,45 @@ namespace HeroesRace
 			playingAs = Heroe.NONE;
 
 			Log.LowDebug (string.Format ("Added Player {0} from {1}", ID, IP));
-		} 
+		}
 		#endregion
 
 		#region COMMANDS
+		[Command]
+		private void Cmd_RequestPawn () 
+		{
+			// Assign new Selector for Player if none
+			if (Net.networkSceneName == "Selection")
+			{
+				if (!(pawn is Selector))
+				{
+					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
+					ChangePawn (FindObjectsOfType<Selector> ().First (check));
+				}
+			}
+			else
+			// Create new Hero for Player if none
+			if (Net.networkSceneName == "Tower")
+			{
+				if (!(pawn is Hero))
+				{
+					// If bypassing selection menu
+					if (playingAs == Heroe.NONE)
+						playingAs = (Heroe)ID;
+
+					// Spawn Heroe & set up its Driver
+					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + playingAs));
+					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
+					hero.driver.name = playingAs + "_Driver";
+					hero.driver.owner = hero;
+
+					NetworkServer.Spawn (hero.gameObject);
+				}
+			}
+			// Finally send Pawn to Clients if any
+			if (pawn) Rpc_SetPawn (pawn.gameObject);
+		}
+
 		[Command (channel = 2)]
 		private void Cmd_Selection (int delta, bool readySwitch) 
 		{
@@ -95,68 +130,14 @@ namespace HeroesRace
 		}
 		#endregion
 		#endregion
-
-		#region CALLBACKS
-		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
-		{
-			// Assign new Selector for Player if none
-			if (scene.name == "Selection")
-			{
-				if (!(pawn is Selector))
-				{
-					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
-					var selector = FindObjectsOfType<Selector> ().First (check);
-
-					SetPawn (selector);
-				}
-			}
-			else
-			// Create new Hero for Player if none
-			if (scene.name == "Tower")
-			{
-				if (!(pawn is Hero))
-				{
-					// If bypassing selection menu
-					if (playingAs == Heroe.NONE)
-						playingAs = (Heroe)ID;
-
-					// Spawn Heroe & set up its Driver
-					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + playingAs));
-					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
-					hero.driver.name = playingAs + "_Driver";
-					hero.driver.owner = hero;
-
-					NetworkServer.Spawn (hero.gameObject);
-					SetPawn (hero);
-				}
-			}
-		}
-
-		[ServerCallback]
-		private void OnEnable () 
-		{
-			SceneManager.sceneLoaded += OnLevelLoaded;
-		}
-		[ServerCallback]
-		private void OnDisable () 
-		{
-			SceneManager.sceneLoaded -= OnLevelLoaded;
-		}
-		#endregion
-
-		public void SetPawn (NetPawn newPawn) 
-		{
-			ChangePawn (newPawn);
-			Rpc_SetPawn (newPawn? newPawn.gameObject : null);
-		}
 	}
 
 	public partial class /* CLIENT */ Player 
 	{
+		#region CALLBACKS
 		[ClientCallback]
-		private void Update () 
+		private void Update ()
 		{
-			print ("lmao");
 			if (!isLocalPlayer || !pawn) return;
 			#region SELECTOR
 			if (pawn is Selector)
@@ -192,10 +173,28 @@ namespace HeroesRace
 			#endregion
 		}
 
-		[ClientRpc]
-		private void Rpc_SetPawn (GameObject newPawn) 
+		[ClientCallback]
+		private void OnEnable () 
 		{
-			print ("lol : " + newPawn);
+			SceneManager.sceneLoaded += OnLevelLoaded;
+		}
+		[ClientCallback]
+		private void OnDisable () 
+		{
+			SceneManager.sceneLoaded -= OnLevelLoaded;
+		}
+		#endregion
+
+		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
+		{
+			// When Player object is ready, call for Pawn assigment
+			Cmd_RequestPawn ();
+			print ("lmaooo");
+		}
+
+		[ClientRpc]
+		public void Rpc_SetPawn (GameObject newPawn) 
+		{
 			var pawn = newPawn.GetComponent<NetPawn> ();
 			ChangePawn (pawn);
 		}
