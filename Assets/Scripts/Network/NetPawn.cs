@@ -17,6 +17,7 @@ namespace HeroesRace
 		{
 			// Si esto no workea me mato ok? si ok
 			Net.me.ChangePawn (this);
+			print ("lol");
 		}
 
 		public void UpdateName () 

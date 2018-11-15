@@ -158,8 +158,8 @@ MonoBehaviour:
   m_GlobalConfig:
     m_ThreadAwakeTimeout: 1
     m_ReactorModel: 0
-    m_ReactorMaximumReceivedMessages: 2048
-    m_ReactorMaximumSentMessages: 2048
+    m_ReactorMaximumReceivedMessages: 4096
+    m_ReactorMaximumSentMessages: 4096
     m_MaxPacketSize: 2000
     m_MaxHosts: 16
     m_ThreadPoolSize: 1
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0
-  m_MaxBufferedPackets: 32
+  m_MaxBufferedPackets: 127
   m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443
