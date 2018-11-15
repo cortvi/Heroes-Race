@@ -12,6 +12,13 @@ namespace HeroesRace
 		internal virtual void OnStartOwnership (){ }
 		internal virtual void OnStopOwnership () { }
 
+		[ClientRpc]
+		public void Rpc_SetPawn () 
+		{
+			// Si esto no workea me mato ok? si ok
+			Net.me.ChangePawn (this);
+		}
+
 		public void UpdateName () 
 		{
 			string name = SharedName;

@@ -8,11 +8,28 @@ using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
 {
-	[NetworkSettings (sendInterval = 0f)]
 	public partial class /* COMMON */ Player : NetBehaviour 
 	{
 		[Info] public NetPawn pawn;
-		[SyncVar] public Pawns pawnType;
+
+		public void ChangePawn (NetPawn newPawn) 
+		{
+			// De-authorize last Pawn, if any
+			if (pawn)
+			{
+				pawn.owner = null;
+				pawn.UpdateName ();
+				if (Net.isClient) pawn.OnStopOwnership ();
+			}
+			// Authorize new Pawn
+			pawn = newPawn;
+			if (pawn)
+			{
+				pawn.owner = this;
+				pawn.UpdateName ();
+				if (Net.isClient) pawn.OnStartOwnership ();
+			}
+		}
 
 		protected override void OnAwake () 
 		{
@@ -59,7 +76,6 @@ namespace HeroesRace
 					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
 					ChangePawn (FindObjectsOfType<Selector> ().First (check));
 				}
-				pawnType = Pawns.Selector;
 			}
 			else
 			// Create new Hero for Player if none
@@ -78,9 +94,10 @@ namespace HeroesRace
 					hero.driver.owner = hero;
 
 					NetworkServer.Spawn (hero.gameObject);
+					ChangePawn (hero);
 				}
-				pawnType = Pawns.Hero;
 			}
+			if (pawn) pawn.Rpc_SetPawn ();
 		}
 
 		[Command (channel = 2)]
@@ -113,25 +130,6 @@ namespace HeroesRace
 		}
 		#endregion
 		#endregion
-
-		private void ChangePawn (NetPawn newPawn) 
-		{
-			// De-authorize last Pawn, if any
-			if (pawn)
-			{
-				pawn.owner = null;
-				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStopOwnership ();
-			}
-			// Authorize new Pawn
-			pawn = newPawn;
-			if (pawn)
-			{
-				pawn.owner = this;
-				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStartOwnership ();
-			}
-		}
 	}
 
 	public partial class /* CLIENT */ Player 
@@ -140,10 +138,10 @@ namespace HeroesRace
 		private void Update () 
 		{
 			// Only work local Client & when having a valid Pawn
-			if (!isLocalPlayer || pawnType == Pawns.None) return;
+			if (!isLocalPlayer || !pawn) return;
 
 			#region SELECTOR
-			if (pawnType == Pawns.Selector)
+			if (pawn is Selector)
 			{
 				// Initialize input
 				int delta = 0;
@@ -162,7 +160,7 @@ namespace HeroesRace
 			#endregion
 			else
 			#region HERO
-			if (pawnType == Pawns.Hero)
+			if (pawn is Hero)
 			{
 				// Collect all input
 				float axis = Input.GetAxis ("Horizontal");
