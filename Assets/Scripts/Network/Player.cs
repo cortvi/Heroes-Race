@@ -156,6 +156,7 @@ namespace HeroesRace
 		[ClientCallback]
 		private void Update () 
 		{
+			print ("lmao");
 			if (!isLocalPlayer || !pawn) return;
 			#region SELECTOR
 			if (pawn is Selector)
