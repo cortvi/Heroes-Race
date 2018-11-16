@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 65433040350105052}
   - component: {fileID: 114256960818508360}
   - component: {fileID: 114983036797259090}
+  - component: {fileID: 114619594588111130}
   m_Layer: 8
   m_Name: Medusa
   m_TagString: Untagged
@@ -164,6 +165,18 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
+--- !u!114 &114619594588111130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1659308065382690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40146b4693c4cd748a01f4ff0677996a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amount: 0.7
 --- !u!114 &114983036797259090
 MonoBehaviour:
   m_ObjectHideFlags: 1

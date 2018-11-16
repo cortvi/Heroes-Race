@@ -1,16 +1,15 @@
 ——— Faltaria ———
-- Los ascensores funcionan regu ahora ??
-- Acabar quesitos
+- medusa: que puto cojones le pasa
+- plat anim: attachear hero
+
 - Buscar columna central en Git :/
-- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
+- Acabar quesitos
+- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawn a array + lineal !
 - Optimizar quesitos (compress geo)
 - la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
 
 ——— DONE ———
-- Cortinilla
-- Automatizar registrar NET prefabs (context function)
-- Shield is broken by Jump auto-CC !
-- Lift pieces should get destroyed like PlataformaRota
+- Los ascensores funcionan regu ahora ??
 
 ——— QUESITOS ———
 • Q1
@@ -31,11 +30,14 @@ Q15
 Q17
 
 ——— Sometime ———
+-  PostFx stack (echale ahi una nieblita)
 - Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
-- cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
-- Monstruo -> shader parpadeo + animator!
+- make hud work on Server
 - Make mapa work
+- Monstruo -> shader parpadeo + animator!
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
+
+- cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
 
   Esto da un pquito un igual xk en LAN no deberia pasar
 v--------------------------------------------------------v

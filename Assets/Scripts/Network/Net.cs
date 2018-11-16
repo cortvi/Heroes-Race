@@ -20,7 +20,8 @@ namespace HeroesRace
 		public static bool paused { get; private set; }
 
 		public Animator courtain;
-		public string firstScene; 
+		public string firstScene;
+		public bool justDoNothing;
 		#endregion
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -30,6 +31,9 @@ namespace HeroesRace
 			worker = Extensions.SpawnSingleton<Net> ("Networker");
 			Log.logLevel = Log.LogType.DeepDebug;
 			Application.targetFrameRate = 60;
+
+			// This skips all networking
+			if (worker.justDoNothing) return;
 
 			// Spawn whole-session courtain
 			Instantiate (Resources.Load ("Prefabs/Courtain")).name = "Courtain";

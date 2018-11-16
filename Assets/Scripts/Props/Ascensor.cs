@@ -34,6 +34,9 @@ namespace HeroesRace
 			var pieces = GetComponentsInChildren<Rigidbody> ();
 			foreach (var p in pieces) 
 			{
+				// I'm pretty dumb, huh
+				if (p.tag == "Player") continue;
+
 				p.isKinematic = false;
 				float force = Random.Range (2f, 5f);
 				float upForce = Random.Range (0.2f, 1f);
