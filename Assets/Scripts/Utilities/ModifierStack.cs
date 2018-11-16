@@ -159,7 +159,7 @@ namespace HeroesRace
 		}
 		public void SpeedDown (float amount) 
 		{
-			if (amount != 0f) speedDebuff = 1f;
+			if (amount == 0f) speedDebuff = 1f;
 			else speedDebuff *= (1 - amount);
 
 			UpdateSpeed ();

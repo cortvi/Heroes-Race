@@ -74,7 +74,7 @@ namespace HeroesRace
 
 		// ——— Locomotion ———
 		private float input;
-		private Vector3 lastPos;
+		internal Vector3 lastPos;
 		internal PowerUp power 
 		{
 			get { return _power; }
@@ -128,8 +128,6 @@ namespace HeroesRace
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
-			// Check if floor changed
-			CheckFloor ();
 
 			// Vertical & angular speed are synced
 			// based on whether they change or not
@@ -138,7 +136,7 @@ namespace HeroesRace
 
 			// Height sync
 			netYSpeed =
-				(pos.y - lastPos.y).IsZero (0.00001f) ?
+				(pos.y - last.y).IsZero (0.00001f) ?
 				0f : driver.body.velocity.y;
 
 			// Project both
@@ -265,20 +263,6 @@ namespace HeroesRace
 
 			// Lerp rotation for smooth turns
 			return Quaternion.Slerp (transform.rotation, q, Time.deltaTime * 10f);
-		}
-
-		private void CheckFloor () 
-		{
-			float height = transform.position.y;
-			int dir = (int) Mathf.Sign (height - lastPos.y);
-
-			// Use a treshold for both going up & down
-			float floorStart = (floor+1) * HeroCamera.FloorHeigth - 0.45f;
-			float floorEnd = floor * HeroCamera.FloorHeigth + 0.75f;
-
-			if (dir == 1f && height > floorStart) floor++;
-			else
-			if (dir == -1f && height < floorEnd) floor--;
 		}
 		#endregion
 	}

@@ -1,15 +1,17 @@
 ——— Faltaria ———
-- medusa: que puto cojones le pasa
-- plat anim: attachear hero
-
 - Buscar columna central en Git :/
+- piranas volarinas hacen algo raro (spawnean de golpe?)
+- plat anim: attachear hero
 - Acabar quesitos
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawn a array + lineal !
 - Optimizar quesitos (compress geo)
 - la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
 
 ——— DONE ———
-- Los ascensores funcionan regu ahora ??
+- Cambiar floor check a colliders otra vez -> constant check on Stay
+- Q10 slime doesn't sync rotation dir well
+- SlowSpeed esta mal (!= -> ==)
+- Namer a medusa
 
 ——— QUESITOS ———
 • Q1
@@ -21,7 +23,7 @@ Q3
 Q7
 • Q8
 • Q9
-• Q10
+Q10
 Q11
 Q12
 Q13
