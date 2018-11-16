@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
 
-[System.AttributeUsage (System.AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
-public sealed class InfoAttribute : PropertyAttribute { }
-
-[CustomPropertyDrawer (typeof(InfoAttribute))]
-public sealed class InfoDrawer : PropertyDrawer 
+[CustomPropertyDrawer (typeof (InfoAttribute))]
+public sealed class InfoDrawer : PropertyDrawer
 {
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 	{
@@ -20,3 +18,7 @@ public sealed class InfoDrawer : PropertyDrawer
 		GUI.enabled = enabled;
 	}
 }
+#endif
+
+[System.AttributeUsage (AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+public sealed class InfoAttribute : PropertyAttribute { }

@@ -3,19 +3,9 @@ using System.Reflection;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
-#endif
-
-[AttributeUsage(AttributeTargets.Field)]
-public class FlagEnumAttribute : PropertyAttribute
-{
-	public string enumName;
-	public FlagEnumAttribute () { }
-	public FlagEnumAttribute (string name) { enumName = name; }
-}
  
-#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(FlagEnumAttribute))]
-public class EnumFlagDrawer : PropertyDrawer
+public class EnumFlagDrawer : PropertyDrawer 
 {
 	public override void OnGUI (Rect position, SerializedProperty property, GUIContent label)
 	{
@@ -49,3 +39,11 @@ public class EnumFlagDrawer : PropertyDrawer
 	}
 }
 #endif
+
+[AttributeUsage (AttributeTargets.Field)]
+public class FlagEnumAttribute : PropertyAttribute 
+{
+	public string enumName;
+	public FlagEnumAttribute () { }
+	public FlagEnumAttribute (string name) { enumName = name; }
+}

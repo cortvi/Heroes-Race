@@ -8,7 +8,7 @@ using UnityEngine.Networking.NetworkSystem;
 
 namespace HeroesRace 
 {
-	// Simple RPC call
+	// Simple empty-RPC call
 	public class Rpc 
 	{
 		private readonly short msgType;
@@ -17,8 +17,16 @@ namespace HeroesRace
 		public Rpc (Action handler) 
 		{
 			msgType = Msg.Count++;
-			NetworkServer.RegisterHandler (msgType, Recieve);
 			this.handler = handler;
+			Register ();
+		}
+
+		public void Register () 
+		{
+			// If net doesn't yet exist, buffer it
+			if (Net.worker.client == null) Net.Rpcs.Add (this);
+			// Otherwise register it in the Client
+			else Net.worker.client.RegisterHandler (msgType, Recieve);
 		}
 
 		public void SendToAll () 

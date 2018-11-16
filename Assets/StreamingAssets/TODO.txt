@@ -1,11 +1,13 @@
 ——— Faltaria ———
-- Cagarme en mi puta vida y rehacer todo el net-code de 0....xdcxdxdxdxdxdffffff
-
-- Cortinilla inicial
-- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
+- Los ascensores funcionan regu ahora ??
+- Acabar quesitos
 - Buscar columna central en Git :/
+- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawna a array + lineal !
+- Optimizar quesitos (compress geo)
+- la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
 
 ——— DONE ———
+- Cortinilla
 - Automatizar registrar NET prefabs (context function)
 - Shield is broken by Jump auto-CC !
 - Lift pieces should get destroyed like PlataformaRota
@@ -21,7 +23,7 @@ Q7
 • Q8
 • Q9
 • Q10
-• Q11
+Q11
 Q12
 Q13
 Q14
@@ -29,13 +31,11 @@ Q15
 Q17
 
 ——— Sometime ———
-- la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
+- Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
 - cuando los lifts bajan... que? te aplastan o como va la cosa? (parar justo en cabeza?)
-- Respawn broken lifts..?
 - Monstruo -> shader parpadeo + animator!
 - Make mapa work
 - Optimizar (static batching, occlusion(cuidao!), etc..?)
-- Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
 
   Esto da un pquito un igual xk en LAN no deberia pasar
 v--------------------------------------------------------v

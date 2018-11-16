@@ -46,10 +46,14 @@ namespace HeroesRace
 				yield return SM.LoadSceneAsync ("!Zero");
 
 			// Start Client
-			if (config[0] == "client") InitClient (config[1].Trim ());
+			if (config[0] == "client")
+			{
+				Courtain.SetText ("Cargando...");
+				InitClient (config[1].Trim ());
+			}
 			else
 			// Start Server
-			if (config[0] == "server") 
+			if (config[0] == "server")
 			{
 				// Initialize to expect given Players
 				InitServer (int.Parse (config[1]));
@@ -174,6 +178,7 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Net 
 	{
+		public static List<Rpc> Rpcs = new List<Rpc> ();
 		public static Player me;
 
 		private void InitClient (string ipAddress) 
@@ -182,6 +187,10 @@ namespace HeroesRace
 			StartClient ();
 			IsClient = true;
 			Log.LowDebug ("This mahcine is now a client");
+
+			// Register all RPC 
+			foreach (var rpc in Rpcs) rpc.Register ();
+			Rpcs.Clear ();
 		}
 	}
 }

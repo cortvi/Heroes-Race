@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4438813261428718}
   - component: {fileID: 111717681621071482}
+  - component: {fileID: 114364799965182014}
+  - component: {fileID: 114481293929047178}
   m_Layer: 0
   m_Name: Plataforma_Anim
   m_TagString: Untagged
@@ -38,8 +40,6 @@ GameObject:
   - component: {fileID: 33211450987730040}
   - component: {fileID: 23647287354694250}
   - component: {fileID: 65813037732011258}
-  - component: {fileID: 65319993751364324}
-  - component: {fileID: 114377824526038712}
   m_Layer: 8
   m_Name: Plat
   m_TagString: Floor
@@ -115,18 +115,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1934471183663554}
   m_Mesh: {fileID: 4300002, guid: a3919d8721a13b34495f9d18e8a29b26, type: 3}
---- !u!65 &65319993751364324
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934471183663554}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.26, y: 0.41, z: 0.11}
-  m_Center: {x: 0.006052196, y: -0.011396411, z: 0.15}
 --- !u!65 &65813037732011258
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -154,14 +142,49 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &114377824526038712
+--- !u!114 &114364799965182014
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934471183663554}
+  m_GameObject: {fileID: 1585185725384860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb26e5dccddd12e46b0f3462d6c98743, type: 3}
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 82
+    i1: 190
+    i2: 7
+    i3: 49
+    i4: 27
+    i5: 17
+    i6: 84
+    i7: 116
+    i8: 154
+    i9: 50
+    i10: 233
+    i11: 223
+    i12: 143
+    i13: 194
+    i14: 149
+    i15: 84
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &114481293929047178
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1585185725384860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 0.1
+  lerpFactor: 10
+  syncedAnimation: Up

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HeroesRace
 {
-	public class Driver : MonoBehaviour
+	public class Driver : MonoBehaviour 
 	{
 		#region DATA
 		// ——— Helpers ———
