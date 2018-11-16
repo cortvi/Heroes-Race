@@ -115,7 +115,7 @@ namespace HeroesRace
 		private void Awake () 
 		{
 			// Auto destroy itself
-			if (Net.isClient) Destroy (gameObject);
+			if (Net.IsClient) Destroy (gameObject);
 		}
 
 		[System.Serializable]

@@ -18,7 +18,7 @@ namespace HeroesRace
 
 		private void LateUpdate () 
 		{
-			if (Net.isServer)
+			if (Net.IsServer)
 			{
 				if (!done && spawnTimer >= spawnRate)
 				{
@@ -40,7 +40,7 @@ namespace HeroesRace
 
 		private void Start () 
 		{
-			if (Net.isServer && spawnRate == 0f) 
+			if (Net.IsServer && spawnRate == 0f) 
 			{
 				// Calculted for the first Pirana, then it's passed on
 				spawnRate = Random.Range (0.7f, 1.2f);

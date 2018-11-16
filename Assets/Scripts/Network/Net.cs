@@ -13,11 +13,11 @@ namespace HeroesRace
 	public partial class /* COMMON */ Net : NetworkManager 
 	{
 		#region DATA
-		public static Net worker;
+		public static Net worker { get; private set; }
 		public static int PlayersNeeded { get; private set; }
-		public static bool isClient;
-		public static bool isServer;
-		public static bool paused;
+		public static bool IsServer { get; private set; }
+		public static bool IsClient { get; private set; }
+		public static bool paused { get; private set; }
 
 		public Animator courtain;
 		public string firstScene; 
@@ -32,7 +32,7 @@ namespace HeroesRace
 			Application.targetFrameRate = 60;
 
 			// Spawn whole-session courtain
-			Instantiate (worker.courtain).name = "Courtain";
+			Instantiate (Resources.Load ("Prefabs/Courtain")).name = "Courtain";
 
 			// Read config file
 			string[] config = File.ReadAllLines (Application.streamingAssetsPath + "/config.txt");
@@ -42,48 +42,24 @@ namespace HeroesRace
 		private IEnumerator Config (string[] config) 
 		{
 			// Go to a neutral scene to sync Server & Client
-			if (SM.GetActiveScene ().name != "!Zero") yield return SM.LoadSceneAsync ("!Zero");
+			if (SM.GetActiveScene ().name != "!Zero")
+				yield return SM.LoadSceneAsync ("!Zero");
 
-			// Start Client from given address
-			if (config[0] == "client") 
-			{
-				networkAddress = config[1].Trim ();
-				StartClient ();
-				isClient = true;
-				Log.LowDebug ("This mahcine is now a client");
-
-				// Wait communication with Server
-				while (!Courtain.net) yield return null;
-				Courtain.net.SetText ("Cargando...");
-			}
+			// Start Client
+			if (config[0] == "client") InitClient (config[1].Trim ());
 			else
-			// Start Server to expect given Players
+			// Start Server
 			if (config[0] == "server") 
 			{
-				PlayersNeeded = int.Parse (config[1]);
-				players = new Player[PlayersNeeded];
-				StartServer ();
-				isServer = true;
-				Log.LowDebug ("This mahcine is now the server");
-
-				// Spawn Courtain controller
-				var cc = Instantiate (Resources.Load ("Prefabs/Courtain_Controller"));
-				NetworkServer.Spawn (cc as GameObject);
-				yield return null;
+				// Initialize to expect given Players
+				InitServer (int.Parse (config[1]));
 
 				// Wait until players are in
-				Courtain.net.SetText ("Esperando jugadores...");
-				int playersReady; do
-				{
-					playersReady = players.Count (p=> p);
-					yield return null;
-				}
-				while (playersReady != PlayersNeeded);
-				yield return new WaitForSeconds (2f);
+				Courtain.SetText ("Esperando jugadores...");
+				while (!PlayersReady ()) yield return null;
 
-				paused = true;
 				// Load Tower on Server, spreading to Clients
-				Courtain.net.SetText ("Generando mapa...");
+				Courtain.SetText ("Generando mapa...");
 				ServerChangeScene (firstScene);
 			}
 			else Debug.LogError ("!Can't understand config file!");
@@ -117,7 +93,7 @@ namespace HeroesRace
 		{
 			// If it's the first time Player connects
 			var player = GetPlayer (conn);
-			if (player == null)
+			if (player == null) 
 			{
 				// Create new persistent Player object
 				player = Instantiate (playerPrefab).GetComponent<Player> ();
@@ -142,35 +118,55 @@ namespace HeroesRace
 
 		public override void OnServerSceneChanged (string sceneName) 
 		{
-			base.OnServerSceneChanged (sceneName);
 			if (sceneName == "Tower") 
 			{
 				// Paused until all Players arrive
 				StartCoroutine ("WaitAllTowerPlayers");
 			}
 		}
+
+		public override void OnServerError (NetworkConnection conn, int errorCode) 
+		{
+			print ("lmao");
+		}
+		#endregion
+
+		#region UTILS
+		public static Player GetPlayer (NetworkConnection fromConn)
+		{
+			// Returns the Player registered with given IP address 
+			return players.SingleOrDefault (p => p && p.IP == fromConn.address);
+		}
+
+		public static bool PlayersReady (Func<Player, bool> check = null)
+		{
+			int basicCount = players.Count (p => p && p.Conn.isReady);
+			int checkCount = (check != null) ? players.Count (check) : PlayersNeeded;
+
+			return (basicCount == PlayersNeeded && checkCount == PlayersNeeded);
+		} 
 		#endregion
 
 		#region HELPERS
-		public static Player GetPlayer (NetworkConnection fromConn) 
+		private void InitServer (int playersNeeded) 
 		{
-			return players.SingleOrDefault
-				(p => p && p.IP == fromConn.address);
+			PlayersNeeded = playersNeeded;
+			players = new Player[playersNeeded];
+
+			StartServer ();
+			IsServer = true;
+			paused = true;
+			Log.LowDebug ("This mahcine is now the server");
 		}
 
 		private IEnumerator WaitAllTowerPlayers () 
 		{
 			// Don't allow any kind of movement until all players are in
-			Courtain.net.SetText ("Esperando a jugadores...");
-			int playersReady; do
-			{
-				playersReady = players.Count (p=> p && p.pawn is Hero);
-				yield return null;
-			}
-			while (playersReady != PlayersNeeded);
+			Courtain.SetText ("Esperando a jugadores...");
+			while (!PlayersReady (p=> p.pawn is Hero)) yield return null;
 
 			// Allow gameplay
-			Courtain.net.Open (true);
+			Courtain.Open (true);
 			paused = false;
 		}
 		#endregion
@@ -179,5 +175,13 @@ namespace HeroesRace
 	public partial class /* CLIENT */ Net 
 	{
 		public static Player me;
+
+		private void InitClient (string ipAddress) 
+		{
+			networkAddress = ipAddress;
+			StartClient ();
+			IsClient = true;
+			Log.LowDebug ("This mahcine is now a client");
+		}
 	}
 }

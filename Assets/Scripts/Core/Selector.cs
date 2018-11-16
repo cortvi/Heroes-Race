@@ -41,7 +41,7 @@ namespace HeroesRace
 
 		protected override void OnStart () 
 		{
-			if (Net.isServer) anim.SetInt ("Selection", initialSelection);
+			if (Net.IsServer) anim.SetInt ("Selection", initialSelection);
 			// Recover original position in case it's been moved by the Server
 			(transform as RectTransform).localPosition = cachePosition;
 		}

@@ -26,7 +26,7 @@ namespace HeroesRace.Effectors
 
 		private void Awake () 
 		{
-			if (Net.isClient) Destroy (this);
+			if (Net.IsClient) Destroy (this);
 			else blockName = "Deny" + impairing + Time.frameCount;
 		}
 	} 

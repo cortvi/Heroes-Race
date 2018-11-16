@@ -20,9 +20,9 @@ namespace HeroesRace
 		protected virtual void OnStart () { }
 		public void Start () 
 		{
-			if (Net.isClient) OnClientStart ();
+			if (Net.IsClient) OnClientStart ();
 			else
-			if (Net.isServer) OnServerStart ();
+			if (Net.IsServer) OnServerStart ();
 			OnStart ();
 		}
 
@@ -33,7 +33,7 @@ namespace HeroesRace
 		public void Awake () 
 		{
 			name = SharedName = name.Replace ("(Clone)", "");
-			if (Net.isClient) 
+			if (Net.IsClient) 
 			{
 				// No physic logic on Client!
 				var colliders = GetComponentsInChildren<Collider> ();
@@ -41,7 +41,7 @@ namespace HeroesRace
 
 				OnClientAwake ();
 			}
-			else if (Net.isServer) OnServerAwake ();
+			else if (Net.IsServer) OnServerAwake ();
 			OnAwake ();
 		}
 		#endregion

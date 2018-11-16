@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace HeroesRace 
@@ -8,14 +9,32 @@ namespace HeroesRace
 	[ExecuteInEditMode]
 	public class Courtain : MonoBehaviour 
 	{
-		public static NetCourtain net;
+		public static Courtain i;
 
+		#region DATA
 		[Range (0f, 1f)] public float alpha;
 		[Range (0f, 1f)] public float fade;
 		private Color fColor;
 		private Material mat;
 
-		private void Update ()
+		private Animator anim;
+		private Text text;
+		#endregion
+
+		public static void Open (bool state, bool overNet = false) 
+		{
+			// Open / Close courtain
+			i.anim.SetBool ("Open", true);
+		}
+
+		public static void SetText (string text) 
+		{
+			// Change display text
+			i.text.text = text;
+		}
+
+		#region CALLBACKS
+		private void Update () 
 		{
 			if (!mat) Start ();
 
@@ -40,6 +59,10 @@ namespace HeroesRace
 
 			// Do this only once
 			DontDestroyOnLoad (gameObject);
-		}
+			anim = GetComponent<Animator> ();
+			text = GetComponentInChildren<Text> ();
+			i = this;
+		} 
+		#endregion
 	} 
 }

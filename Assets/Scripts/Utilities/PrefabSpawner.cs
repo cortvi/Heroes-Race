@@ -12,7 +12,7 @@ namespace HeroesRace
 
 		IEnumerator Start () 
 		{
-			if (!Net.isServer) yield break;
+			if (!Net.IsServer) yield break;
 
 			// Wait Delay time
 			var mark = Time.time + delay;
@@ -32,7 +32,7 @@ namespace HeroesRace
 			GetComponent<MeshRenderer> ().enabled = false;
 
 			// Useless on Clients
-			if (Net.isClient) Destroy (gameObject);
+			if (Net.IsClient) Destroy (gameObject);
 		}
 	} 
 }

@@ -36,7 +36,7 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
-			if (Net.isServer)
+			if (Net.IsServer)
 			{
 				waitTime = Random.Range (0.5f, 1.3f);
 				anim = GetComponent<Animator> ().GoSmart (networked: true);

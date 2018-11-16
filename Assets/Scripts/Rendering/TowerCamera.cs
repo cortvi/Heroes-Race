@@ -24,13 +24,13 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			if (Net.isServer) 
+			if (Net.IsServer) 
 			{
 				tracking = Camera.main.gameObject.AddComponent<HeroCamera> ();
 				i = this;
 			}
 			// Useless in Clients
-			if (Net.isClient) Destroy (gameObject);
+			if (Net.IsClient) Destroy (gameObject);
 		}
 	} 
 }

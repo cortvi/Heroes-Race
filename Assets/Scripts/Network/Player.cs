@@ -19,7 +19,7 @@ namespace HeroesRace
 			{
 				pawn.owner = null;
 				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStopOwnership ();
+				if (Net.IsClient) pawn.OnStopOwnership ();
 			}
 			// Authorize new Pawn
 			pawn = newPawn;
@@ -27,14 +27,14 @@ namespace HeroesRace
 			{
 				pawn.owner = this;
 				pawn.UpdateName ();
-				if (Net.isClient) pawn.OnStartOwnership ();
+				if (Net.IsClient) pawn.OnStartOwnership ();
 			}
 		}
 
 		protected override void OnAwake () 
 		{
 			// Register self & preserve
-			if (Net.isClient) Net.me = this;
+			if (Net.IsClient) Net.me = this;
 			DontDestroyOnLoad (gameObject);
 		}
 	}
@@ -68,6 +68,8 @@ namespace HeroesRace
 		[Command]
 		private void Cmd_RequestPawn () 
 		{
+			print (connectionToClient.isReady);
+
 			// Assign new Selector for Player if none
 			if (Net.networkSceneName == "Selection")
 			{

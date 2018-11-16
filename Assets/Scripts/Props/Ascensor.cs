@@ -41,7 +41,7 @@ namespace HeroesRace
 				Destroy (p, 2f);
 			}
 
-			if (Net.isServer) 
+			if (Net.IsServer) 
 			{
 				// Disable all lift colliders
 				anchor.GetComponent<Collider> ().enabled = false;
@@ -103,7 +103,7 @@ namespace HeroesRace
 		protected override void OnAwake () 
 		{
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
-			if (Net.isServer)
+			if (Net.IsServer)
 			{
 				heroesIn = new List<Hero> (3);
 				trigger = GetComponent<BoxCollider> ();

@@ -100,14 +100,14 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			if (Net.isServer)
+			if (Net.IsServer)
 			{
 				owner = GetComponent<Hero> ();
 				mods = new List<Mod> ();
 				speedBuff = speedDebuff = 1f;
 			}
 			// Not useful at all on Client
-			else if (Net.isClient) Destroy (this);
+			else if (Net.IsClient) Destroy (this);
 		}
 
 		#region CCs

@@ -13,7 +13,7 @@ namespace HeroesRace
 		protected void Attach (Hero hero, bool useDriver = false) 
 		{
 			var target = hero.transform;
-			if (Net.isServer) 
+			if (Net.IsServer) 
 			{
 				Rpc_Attaching (true, hero.gameObject);
 				if (useDriver) target = hero.driver.transform;
@@ -24,7 +24,7 @@ namespace HeroesRace
 		protected void Dettach (Hero hero, bool useDriver = false) 
 		{
 			var target = hero.transform;
-			if (Net.isServer) 
+			if (Net.IsServer) 
 			{
 				Rpc_Attaching (false, hero.gameObject);
 				if (useDriver) target = hero.driver.transform;

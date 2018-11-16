@@ -25,7 +25,6 @@ namespace HeroesRace
 			// Sync with Server
 			if (lerpFactor != 0) 
 			{
-				print ("lol no?" + name);
 				float lerp = Mathf.Lerp (a.normalizedTime, syncTime, Time.deltaTime * lerpFactor);
 				a.normalizedTime = lerp;
 			}

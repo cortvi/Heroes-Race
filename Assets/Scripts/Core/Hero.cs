@@ -35,10 +35,10 @@ namespace HeroesRace
 		private void Update () 
 		{
 			// On Server, follow Driver
-			if (Net.isServer) SyncMotion ();
+			if (Net.IsServer) SyncMotion ();
 			else
 			// On Clients, follow given motion
-			if (Net.isClient) KeepMotion ();
+			if (Net.IsClient) KeepMotion ();
 		}
 	}
 
