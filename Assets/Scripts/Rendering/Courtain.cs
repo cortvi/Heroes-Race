@@ -9,9 +9,11 @@ namespace HeroesRace
 	[ExecuteInEditMode]
 	public class Courtain : MonoBehaviour 
 	{
-		public static Courtain i;
-
 		#region DATA
+		public static Courtain i;
+		private static Rpc open;
+		private static Rpc close;
+
 		[Range (0f, 1f)] public float alpha;
 		[Range (0f, 1f)] public float fade;
 		private Color fColor;
@@ -19,12 +21,18 @@ namespace HeroesRace
 
 		private Animator anim;
 		private Text text;
+
 		#endregion
 
 		public static void Open (bool state, bool overNet = false) 
 		{
 			// Open / Close courtain
 			i.anim.SetBool ("Open", true);
+			if (overNet && Net.IsServer) 
+			{
+				if (state) open.SendToAll ();
+				else close.SendToAll ();
+			}
 		}
 
 		public static void SetText (string text) 
@@ -62,6 +70,10 @@ namespace HeroesRace
 			anim = GetComponent<Animator> ();
 			text = GetComponentInChildren<Text> ();
 			i = this;
+
+			// Init RPC methods
+			open = new Rpc (() => Open (true));
+			close = new Rpc (() => Open (false));
 		} 
 		#endregion
 	} 

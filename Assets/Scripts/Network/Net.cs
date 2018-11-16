@@ -138,7 +138,7 @@ namespace HeroesRace
 			return players.SingleOrDefault (p => p && p.IP == fromConn.address);
 		}
 
-		public static bool PlayersReady (Func<Player, bool> check = null)
+		public static bool PlayersReady (Func<Player, bool> check = null) 
 		{
 			int basicCount = players.Count (p => p && p.Conn.isReady);
 			int checkCount = (check != null) ? players.Count (check) : PlayersNeeded;
@@ -166,7 +166,7 @@ namespace HeroesRace
 			while (!PlayersReady (p=> p.pawn is Hero)) yield return null;
 
 			// Allow gameplay
-			Courtain.Open (true);
+			Courtain.Open (true, overNet: true);
 			paused = false;
 		}
 		#endregion

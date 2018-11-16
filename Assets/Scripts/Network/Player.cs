@@ -68,7 +68,8 @@ namespace HeroesRace
 		[Command]
 		private void Cmd_RequestPawn () 
 		{
-			print (connectionToClient.isReady);
+			// Make sure because because on changing scenes shit happens
+			if (!Conn.isReady) NetworkServer.SetClientReady (Conn);
 
 			// Assign new Selector for Player if none
 			if (Net.networkSceneName == "Selection")
@@ -99,7 +100,7 @@ namespace HeroesRace
 					ChangePawn (hero);
 				}
 			}
-			if (pawn) pawn.Rpc_SetPawn ();
+			if (pawn) Rpc_SetPawn (pawn.gameObject);
 		}
 
 		[Command (channel = 2)]
@@ -136,6 +137,7 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Player 
 	{
+		#region CALLBACKS
 		[ClientCallback]
 		private void Update () 
 		{
@@ -190,14 +192,15 @@ namespace HeroesRace
 		private void OnDisable () 
 		{
 			SceneManager.sceneLoaded -= OnLevelLoaded;
-		}
-	}
+		} 
+		#endregion
 
-	public enum Pawns 
-	{
-		None,
-		Hero,
-		Selector
+		[ClientRpc]
+		public void Rpc_SetPawn (GameObject netPawn) 
+		{
+			var pawn = netPawn.GetComponent<NetPawn> ();
+			ChangePawn (pawn);
+		}
 	}
 }
 
