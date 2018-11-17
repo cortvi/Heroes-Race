@@ -1,5 +1,9 @@
 ——— Faltaria ———
-- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! +  -> camibar modo de spawn a array + lineal !
+- supress speed on push
+- wait less before restore center
+- less stun
+- pinchos
+- ampliar push trigger
 
 ——— DONE ———
 
@@ -7,7 +11,7 @@
 ——— QUESITOS ———
 • Q1
 • Q2
-Q3
+- Q3
 • Q4
 • Q5
 • Q6
@@ -17,12 +21,13 @@ Q3
 • Q10
 • Q11
 • Q12
-Q13
+- Q13
 Q14
 • Q15
 Q17
 
-——— Sometime ———
+——— After-quesitos ———
+- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! +  -> camibar modo de spawn a array + lineal !
 -  PostFx stack (echale ahi una nieblita)
 - Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
 - La columna central qué...¿
