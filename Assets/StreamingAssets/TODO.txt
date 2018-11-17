@@ -1,17 +1,19 @@
 ——— Faltaria ———
-- supress speed on push
-- wait less before restore center
+- paredes Q14
+- Q1: intentar solventar spawn de los 3 Heroes
+
+——— DONE ———
+- speed pared a bit
 - less stun
 - pinchos
 - ampliar push trigger
-
-——— DONE ———
-
+- supress speed on push
+- wait less before restore center
 
 ——— QUESITOS ———
-• Q1
+Q1
 • Q2
-- Q3
+• Q3
 • Q4
 • Q5
 • Q6
@@ -21,8 +23,8 @@
 • Q10
 • Q11
 • Q12
-- Q13
-Q14
+Q13
+- Q14
 • Q15
 Q17
 

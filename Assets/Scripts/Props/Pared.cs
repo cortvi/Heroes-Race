@@ -18,7 +18,11 @@ namespace HeroesRace
 
 		protected override void OnAwake () 
 		{
-			if (Net.IsServer) anim = GetComponent<Animator> ().GoSmart (networked: true);
+			if (Net.IsServer)
+			{
+				anim = GetComponent<Animator> ().GoSmart (networked: true);
+				anim.NetAnimator.SetParameterAutoSend (0, true);
+			}
 			else
 			// Useless in Clients
 			if (Net.IsClient) Destroy (this);
