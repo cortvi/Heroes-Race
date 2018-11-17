@@ -1,12 +1,13 @@
 ——— Faltaria ———
-- Cambiar floor check a colliders otra vez -> constant check on Stay
-- plat anim: no se attacha la vd (late-updatear position trigger)
-- Acabar quesitos
-- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawn a array + lineal !
-- Optimizar quesitos (compress geo)
+- try to tapar el Hueco para k desde abajo no se pueah subí
 - la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
+- Acabar quesitos
+- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! +  -> camibar modo de spawn a array + lineal !
+- Optimizar quesitos (compress geo)
 
 ——— DONE ———
+- Cambiar floor check a colliders otra vez -> constant check on Stay
+- plat anim: no se attacha la vd (late-updatear position trigger)
 - el slow no se limpia con el escudo
 - piranas volarinas hacen algo raro (spawnean de golpe?)
 - El actual systema de RPCs no cunde, necesitaría un evento y un ID unico

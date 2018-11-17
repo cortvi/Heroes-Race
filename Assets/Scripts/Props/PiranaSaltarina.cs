@@ -59,6 +59,7 @@ namespace HeroesRace
 
 			body = GetComponent<Rigidbody> ();
 			StartCoroutine (Throw ());
+			Sleep ();
 		}
 
 		private void Sleep () 
