@@ -16,24 +16,26 @@ namespace HeroesRace
 		private static readonly Quaternion correction = Quaternion.Euler (0f, 0f, 90f);
 		#endregion
 
+		[ServerCallback]
+		private void Update () 
+		{
+			// Spawn over net, passing info
+			if (!done && spawnTimer >= spawnRate)
+			{
+				var next = Instantiate (this);
+				NetworkServer.Spawn (next.gameObject);
+				next.name = GetComponent<NetBehaviour> ().SharedName;
+				next.spawnRate = spawnRate;
+
+				// Just once
+				done = true;
+			}
+			else spawnTimer += Time.deltaTime;
+
+		}
+
 		private void LateUpdate () 
 		{
-			if (Net.IsServer)
-			{
-				if (!done && spawnTimer >= spawnRate)
-				{
-					// Spawn over net, passing info
-					var next = Instantiate (this);
-					NetworkServer.Spawn (next.gameObject);
-					next.name = GetComponent<NetBehaviour> ().SharedName;
-					next.spawnRate = spawnRate;
-
-					// Just once
-					done = true;
-				}
-				else spawnTimer += Time.deltaTime;
-			}
-
 			// Correct animator rotation for all
 			wrapper.rotation *= correction;
 		}
