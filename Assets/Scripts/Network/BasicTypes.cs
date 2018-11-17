@@ -12,7 +12,7 @@ namespace HeroesRace
 	{
 		#region DATA
 		public const short MsgType = 150;
-		private static Dictionary<string, Action> handlers;
+		public static Dictionary<string, Action> handlers;
 		#endregion
 
 		public static void Register (string name, Action handler) 
@@ -33,8 +33,10 @@ namespace HeroesRace
 
 		public static void Recieve (NetworkMessage msg) 
 		{
-			// Call handler
 			string name = msg.ReadMessage<StringMessage> ().value;
+			if (!handlers.ContainsKey (name)) return;
+
+			// Call handler if found
 			handlers[name] ();
 		}
 	}

@@ -1,21 +1,22 @@
 ——— Faltaria ———
-- piranas volarinas hacen algo raro (spawnean de golpe?)
-- plat anim: attachear hero
+- Cambiar floor check a colliders otra vez -> constant check on Stay
+- plat anim: no se attacha la vd (late-updatear position trigger)
 - Acabar quesitos
 - Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! -> camibar modo de spawn a array + lineal !
 - Optimizar quesitos (compress geo)
 - la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
 
 ——— DONE ———
+- el slow no se limpia con el escudo
+- piranas volarinas hacen algo raro (spawnean de golpe?)
 - El actual systema de RPCs no cunde, necesitaría un evento y un ID unico
-- Cambiar floor check a colliders otra vez -> constant check on Stay
 - Q10 slime doesn't sync rotation dir well
 - SlowSpeed esta mal (!= -> ==)
 - Namer a medusa
 
 ——— QUESITOS ———
 • Q1
-• Q2
+Q2
 Q3
 • Q4
 • Q5

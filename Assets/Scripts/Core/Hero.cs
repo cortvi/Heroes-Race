@@ -74,7 +74,9 @@ namespace HeroesRace
 
 		// ——— Locomotion ———
 		private float input;
-		internal Vector3 lastPos;
+		private Vector3 lastPos;
+		internal float vDir;
+
 		internal PowerUp power 
 		{
 			get { return _power; }
@@ -128,6 +130,9 @@ namespace HeroesRace
 			// Positionate character based on Driver & propagate over Net
 			transform.position = netPosition = ComputePosition ();
 			transform.rotation = netRotation = ComputeRotation ();
+
+			// Save vertical moving direction for floor checks
+			vDir = Mathf.Sign (transform.position.y - lastPos.y);
 
 			// Vertical & angular speed are synced
 			// based on whether they change or not

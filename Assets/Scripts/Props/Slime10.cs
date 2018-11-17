@@ -25,7 +25,7 @@ namespace HeroesRace
 			transform.Rotate (axis, vel, Space.Self);
 		}
 
-		private void Awake () 
+		private void Start () 
 		{
 			id = GetComponentInParent<NetworkIdentity> ().netId.Value;
 			Rpc.Register ("GoRight" + id, () => SwitchDir (1f));

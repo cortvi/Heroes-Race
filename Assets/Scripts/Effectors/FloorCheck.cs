@@ -13,19 +13,16 @@ namespace HeroesRace.Effectors
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-
-			// Get the moving direction
 			float height = hero.transform.position.y;
-			int dir = (int)Mathf.Sign (height - hero.lastPos.y);
 
 			// Use a treshold for both going up & down
-			float floorStart = (hero.floor + 1) * HeroCamera.FloorHeigth - 0.45f;
-			float floorEnd = hero.floor * HeroCamera.FloorHeigth + 0.75f;
+			float floorStart = hero.floor * HeroCamera.FloorHeigth + 0.75f;
+			float floorEnd = (hero.floor + 1) * HeroCamera.FloorHeigth - 0.45f;
 
 			// Changing 'floor' will make Camera auto-update
-			if (canGoUp && dir == 1f && height > floorStart) hero.floor++;
+			if (canGoUp && hero.vDir.Is (1f) && height > floorEnd) hero.floor++;
 			else
-			if (canGoDown && dir == -1f && height < floorEnd) hero.floor--;
+			if (canGoDown && hero.vDir.Is (-1f) && height < floorStart) hero.floor--;
 		}
 
 		private void Awake () 

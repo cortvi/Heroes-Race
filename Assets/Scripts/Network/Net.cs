@@ -195,6 +195,7 @@ namespace HeroesRace
 			Log.LowDebug ("This mahcine is now a client");
 
 			// Register RPC calls
+			Rpc.handlers = new Dictionary<string, Action> ();
 			client.RegisterHandler (Rpc.MsgType, Rpc.Recieve);
 		}
 	}

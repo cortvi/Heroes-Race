@@ -6,6 +6,14 @@ namespace HeroesRace.Effectors
 {
 	public class PlataformaAnim : NetAnchor 
 	{
+		public BoxCollider trigger;
+
+		private void LateUpdate () 
+		{
+			// Keep trigger box always with the platform
+			trigger.center = anchor.localPosition + Vector3.up * 0.128f;
+		}
+
 		private void OnTriggerEnter (Collider other) 
 		{
 			if (other.tag != "Player") return;
