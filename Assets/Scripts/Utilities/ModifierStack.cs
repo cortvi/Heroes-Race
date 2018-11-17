@@ -144,8 +144,10 @@ namespace HeroesRace
 				if (mods[i].duration > 0f)
 					mods.RemoveAt (i);
 			}
+
 			// Claen speed de-buff
 			speedDebuff = 1f;
+			UpdateSpeed ();
 		}
 		#endregion
 

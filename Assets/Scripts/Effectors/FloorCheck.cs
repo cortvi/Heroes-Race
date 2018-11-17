@@ -15,7 +15,7 @@ namespace HeroesRace.Effectors
 			var hero = other.GetComponent<Driver> ().owner;
 
 			// Get the moving direction
-			float height = transform.position.y;
+			float height = hero.transform.position.y;
 			int dir = (int)Mathf.Sign (height - hero.lastPos.y);
 
 			// Use a treshold for both going up & down
