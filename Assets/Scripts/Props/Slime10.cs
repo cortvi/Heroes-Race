@@ -30,7 +30,6 @@ namespace HeroesRace
 			id = GetComponentInParent<NetworkIdentity> ().netId.Value;
 			Rpc.Register ("GoRight" + id, () => SwitchDir (1f));
 			Rpc.Register ("GoLeft" + id, () => SwitchDir (-1f));
-			print (name + " " + id);
 		}
 
 		public void SwitchDir (float dir) 
