@@ -14,8 +14,7 @@ namespace HeroesRace
 		public float speed;
 		private float dir;
 
-		private Rpc GoRight = new Rpc ();
-		private Rpc GoLeft = new Rpc ();
+		private uint id;
 		#endregion
 
 		#region CALLBACKS
@@ -28,8 +27,10 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			GoRight.Register (() => SwitchDir (1f));
-			GoLeft.Register (() => SwitchDir (-1f));
+			id = GetComponentInParent<NetworkIdentity> ().netId.Value;
+			Rpc.Register ("GoRight" + id, () => SwitchDir (1f));
+			Rpc.Register ("GoLeft" + id, () => SwitchDir (-1f));
+			print (name + " " + id);
 		}
 
 		public void SwitchDir (float dir) 
@@ -37,9 +38,9 @@ namespace HeroesRace
 			// Notify all Clients
 			if (Net.IsServer)
 			{
-				if (dir == 1f) GoRight.SendToAll ();
+				if (dir == 1f) Rpc.SendToAll ("GoRight" + id);
 				else
-				if (dir == -1f) GoLeft.SendToAll ();
+				if (dir == -1f) Rpc.SendToAll ("GoLeft" + id);
 			}
 			// Change moving direction
 			this.dir = dir;

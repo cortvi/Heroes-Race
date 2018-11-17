@@ -11,8 +11,6 @@ namespace HeroesRace
 	{
 		#region DATA
 		public static Courtain i;
-		private static Rpc open = new Rpc ();
-		private static Rpc close = new Rpc ();
 
 		[Range (0f, 1f)] public float alpha;
 		[Range (0f, 1f)] public float fade;
@@ -30,8 +28,8 @@ namespace HeroesRace
 			i.anim.SetBool ("Open", true);
 			if (overNet && Net.IsServer) 
 			{
-				if (state) open.SendToAll ();
-				else close.SendToAll ();
+				if (state) Rpc.SendToAll ("Open");
+				else Rpc.SendToAll ("Close");
 			}
 		}
 
@@ -70,10 +68,6 @@ namespace HeroesRace
 			anim = GetComponent<Animator> ();
 			text = GetComponentInChildren<Text> ();
 			i = this;
-
-			// Init RPC methods
-			open.Register (() => Open (true));
-			close.Register (() => Open (false));
 		} 
 		#endregion
 	} 

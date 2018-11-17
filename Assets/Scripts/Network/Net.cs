@@ -54,6 +54,9 @@ namespace HeroesRace
 			{
 				Courtain.SetText ("Cargando...");
 				InitClient (config[1].Trim ());
+
+				Rpc.Register ("Open", () => Courtain.Open (true));
+				Rpc.Register ("Close", () => Courtain.Open (false));
 			}
 			else
 			// Start Server
