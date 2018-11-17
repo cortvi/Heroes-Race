@@ -9,7 +9,7 @@ namespace HeroesRace.Effectors
 		protected override void OnEnter (Hero hero) 
 		{
 			// Add CC & suppress speed
-			hero.mods.Add ("Pushed", CCs.All, 1.5f, Triggers.Hit);
+			hero.mods.Add ("Pushed", CCs.All, 1.15f, Triggers.Hit);
 			hero.driver.body.angularVelocity = Vector3.zero;
 			hero.driver.body.velocity = Vector3.zero;
 
@@ -37,8 +37,7 @@ namespace HeroesRace.Effectors
 				yield return null;
 				step += Time.deltaTime / duration;
 			}
-			// Wait until Hero is in hole (out of side)
-//			yield return new WaitForSeconds (0.1f);
+			// Restore original Driver pos
 			center.z = iZ;
 			capsule.center = center;
 		}
