@@ -1743,8 +1743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf41769854d5a8e498f23ff02c6b4f1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sendRate: 0.01
-  lerpFactor: 0
+  lerpFactor: 15
   syncedAnimation: Slime_10
 --- !u!114 &114717278564019790
 MonoBehaviour:

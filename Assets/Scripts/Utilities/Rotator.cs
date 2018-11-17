@@ -7,7 +7,7 @@ using UnityEngine.Networking.NetworkSystem;
 
 namespace HeroesRace 
 {
-	public class Slime10 : MonoBehaviour 
+	public class Rotator : MonoBehaviour 
 	{
 		#region DATA
 		public Vector3 axis;

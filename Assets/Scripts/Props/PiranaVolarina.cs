@@ -16,9 +16,9 @@ namespace HeroesRace
 		private static readonly Quaternion correction = Quaternion.Euler (0f, 0f, 90f);
 		#endregion
 
-		[ServerCallback]
 		private void Update () 
 		{
+			if (!Net.IsServer) return;
 			// Spawn over net, passing info
 			if (!done && spawnTimer >= spawnRate)
 			{

@@ -5,19 +5,20 @@ using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
+	[NetworkSettings (channel = 2, sendInterval = 0.01f)]
 	public class AnimationSync : NetBehaviour 
 	{
-		[Range (0.001f, 0.5f)]
-		public float sendRate;
+		#region DATA
 		[Range (0f, 20f)]
 		public int lerpFactor;
 		public string syncedAnimation;
-
-		private float sendTimer;
 		private Animation anim;
 
-		[ClientRpc (channel = 2)]
-		private void Rpc_Sync (float syncTime) 
+		[SyncVar (hook = "Sync")]
+		private float syncTime; 
+		#endregion
+
+		private void Sync (float syncTime) 
 		{
 			if (!anim) return;
 			var a = anim[syncedAnimation];
@@ -35,12 +36,7 @@ namespace HeroesRace
 		private void LateUpdate () 
 		{
 			var a = anim[syncedAnimation];
-			if (sendTimer > sendRate)
-			{
-				Rpc_Sync (a.normalizedTime);
-				sendTimer = 0f;
-			}
-			else sendTimer += Time.deltaTime;
+			syncTime = a.normalizedTime;
 		}
 
 		protected override void OnStart () 
