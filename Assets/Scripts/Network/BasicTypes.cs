@@ -8,45 +8,48 @@ using UnityEngine.Networking.NetworkSystem;
 
 namespace HeroesRace 
 {
-	// Simple empty-RPC call
 	public class Rpc 
 	{
-		private readonly short msgType;
-		private readonly Action handler;
+		#region DATA
+		public const short MsgType = (short)Codes.Courtain;
+		private static Dictionary<int, Action> handlers;
 
-		public Rpc (Action handler) 
+		private static int ID;
+		private readonly int id; 
+		#endregion
+
+		public Rpc () 
 		{
-			msgType = Msg.Count++;
-			this.handler = handler;
-			Register ();
+			id = ID++;
+			if (Net.IsClient && handlers == null)
+				handlers = new Dictionary<int, Action> ();
 		}
 
-		public void Register () 
+		public void Register (Action handler) 
 		{
-			// If net doesn't yet exist, buffer it
-			if (Net.worker.client == null) Net.Rpcs.Add (this);
-			// Otherwise register it in the Client
-			else Net.worker.client.RegisterHandler (msgType, Recieve);
+			// Register using ID (should be the same on both Client & Server
+			if (Net.IsClient) handlers.Add (id, handler);
 		}
 
 		public void SendToAll () 
 		{
 			// Send from Server to all Clients
-			NetworkServer.SendToAll (msgType, new EmptyMessage ());
+			if (Net.IsServer) NetworkServer.SendToAll (MsgType, new IntegerMessage (id));
 		}
 
-		private void Recieve (NetworkMessage msg) 
+		public static void Recieve (NetworkMessage msg) 
 		{
 			// Call handler
-			handler ();
+			int id = msg.ReadMessage<IntegerMessage> ().value;
+			handlers[id] ();
 		}
 	}
 
-	// All net-msg codes
-	public static class Msg 
+	public enum Codes : short 
 	{
-		public static short Count = 500;
-
-		public const short Courtain = 150;
+		// Server -> Client
+		Courtain = 150,
+		SimpleRPC = 151,
+		Slime10 = 152
 	}
 }

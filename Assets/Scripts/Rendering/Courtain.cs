@@ -11,8 +11,8 @@ namespace HeroesRace
 	{
 		#region DATA
 		public static Courtain i;
-		private static Rpc open;
-		private static Rpc close;
+		private static Rpc open = new Rpc ();
+		private static Rpc close = new Rpc ();
 
 		[Range (0f, 1f)] public float alpha;
 		[Range (0f, 1f)] public float fade;
@@ -72,8 +72,8 @@ namespace HeroesRace
 			i = this;
 
 			// Init RPC methods
-			open = new Rpc (() => Open (true));
-			close = new Rpc (() => Open (false));
+			open.Register (() => Open (true));
+			close.Register (() => Open (false));
 		} 
 		#endregion
 	} 

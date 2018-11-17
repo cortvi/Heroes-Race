@@ -29,30 +29,15 @@ namespace HeroesRace
 		{
 			// Only broken lifts
 			if (Chosen) return;
-
-			// Explode into pieces
-			var pieces = GetComponentsInChildren<Rigidbody> ();
-			foreach (var p in pieces) 
-			{
-				// I'm pretty dumb, huh
-				if (p.tag == "Player") continue;
-
-				p.isKinematic = false;
-				float force = Random.Range (2f, 5f);
-				float upForce = Random.Range (0.2f, 1f);
-				p.AddExplosionForce (force, anchor.position, 1.5f, upForce, ForceMode.VelocityChange);
-				Destroy (p, 2f);
-			}
-
 			if (Net.IsServer) 
 			{
 				// Disable all lift colliders
 				anchor.GetComponent<Collider> ().enabled = false;
 				trigger.enabled = false;
 
-				// Trigger exit on all Heroes & throw on air
 				foreach (var h in heroesIn)
 				{
+					// Trigger exit
 					h.mods.Remove (BlockName);
 					Dettach (h, useDriver: true);
 
@@ -63,6 +48,17 @@ namespace HeroesRace
 				}
 				heroesIn.Clear ();
 				PlayersIn = false;
+			}
+
+			// Explode into pieces
+			var pieces = GetComponentsInChildren<Rigidbody> ();
+			foreach (var p in pieces) 
+			{
+				p.isKinematic = false;
+				float force = Random.Range (2f, 5f);
+				float upForce = Random.Range (0.2f, 1f);
+				p.AddExplosionForce (force, anchor.position, 1.5f, upForce, ForceMode.VelocityChange);
+				Destroy (p, 2f);
 			}
 		}
 

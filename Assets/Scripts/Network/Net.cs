@@ -182,7 +182,6 @@ namespace HeroesRace
 
 	public partial class /* CLIENT */ Net 
 	{
-		public static List<Rpc> Rpcs = new List<Rpc> ();
 		public static Player me;
 
 		private void InitClient (string ipAddress) 
@@ -192,9 +191,8 @@ namespace HeroesRace
 			IsClient = true;
 			Log.LowDebug ("This mahcine is now a client");
 
-			// Register all RPC 
-			foreach (var rpc in Rpcs) rpc.Register ();
-			Rpcs.Clear ();
+			// Register RPC calls
+			client.RegisterHandler (Rpc.MsgType, Rpc.Recieve);
 		}
 	}
 }

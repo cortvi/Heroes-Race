@@ -19,8 +19,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4438813261428718}
+  - component: {fileID: 65019353124178014}
   - component: {fileID: 111717681621071482}
   - component: {fileID: 114364799965182014}
+  - component: {fileID: 114320241096775250}
   - component: {fileID: 114481293929047178}
   m_Layer: 0
   m_Name: Plataforma_Anim
@@ -67,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1585185725384860}
   m_LocalRotation: {x: -0, y: 0.0066277096, z: -0, w: 0.9999781}
-  m_LocalPosition: {x: -33.102062, y: 0.6, z: -2.3393211}
+  m_LocalPosition: {x: -0.4174528, y: 1.168, z: -31.78352}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4229328271025866}
@@ -115,6 +117,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1934471183663554}
   m_Mesh: {fileID: 4300002, guid: a3919d8721a13b34495f9d18e8a29b26, type: 3}
+--- !u!65 &65019353124178014
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1585185725384860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2203505, y: 0.06021607, z: 0.67}
+  m_Center: {x: 0, y: 0.128, z: 0}
 --- !u!65 &65813037732011258
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -142,6 +156,18 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114320241096775250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1585185725384860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055c2066ebe03f948a041ce5936a2ac2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchor: {fileID: 4229328271025866}
 --- !u!114 &114364799965182014
 MonoBehaviour:
   m_ObjectHideFlags: 1

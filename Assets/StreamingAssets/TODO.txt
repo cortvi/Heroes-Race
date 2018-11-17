@@ -1,5 +1,4 @@
 ——— Faltaria ———
-- Buscar columna central en Git :/
 - piranas volarinas hacen algo raro (spawnean de golpe?)
 - plat anim: attachear hero
 - Acabar quesitos
@@ -8,6 +7,7 @@
 - la piraña loca k sale al principio (si tienes encima Pirana Saltarina)
 
 ——— DONE ———
+- El actual systema de RPCs no cunde, necesitaría un evento y un ID unico
 - Cambiar floor check a colliders otra vez -> constant check on Stay
 - Q10 slime doesn't sync rotation dir well
 - SlowSpeed esta mal (!= -> ==)
@@ -34,6 +34,7 @@ Q17
 ——— Sometime ———
 -  PostFx stack (echale ahi una nieblita)
 - Elegir el mismo jugador deberia alternar el color? no permitir directamente escogerlo?
+- La columna central qué...¿
 - make hud work on Server
 - Make mapa work
 - Monstruo -> shader parpadeo + animator!
