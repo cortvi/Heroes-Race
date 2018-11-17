@@ -204,7 +204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   kickForce: 7
   upForce: 3
-  stunTime: 1.5
+  stunTime: 1
 --- !u!114 &114960864892274828
 MonoBehaviour:
   m_ObjectHideFlags: 1

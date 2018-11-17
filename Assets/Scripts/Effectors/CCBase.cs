@@ -34,8 +34,7 @@ namespace HeroesRace.Effectors
 		private void Awake () 
 		{
 			// Effectors are only present on Server
-			if (Net.IsClient)
-				Destroy (this);
+			if (Net.IsClient) Destroy (this);
 		} 
 		#endregion
 	} 
