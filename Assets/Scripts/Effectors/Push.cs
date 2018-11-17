@@ -22,7 +22,8 @@ namespace HeroesRace.Effectors
 			// Move Driver capsule to make Hero fall through hole
 			var center = capsule.center;
 			float iZ = center.z;
-			float tZ = 30.5f;
+			// Variant-2 holes are further away
+			float tZ = name.Contains ("2") ? 30.75f : 30.5f;
 
 			float step = 0f;
 			float duration = 0.75f;
@@ -37,6 +38,7 @@ namespace HeroesRace.Effectors
 				yield return null;
 				step += Time.deltaTime / duration;
 			}
+			yield return new WaitForSeconds (0.15f);
 			// Restore original Driver pos
 			center.z = iZ;
 			capsule.center = center;
