@@ -135,11 +135,6 @@ namespace HeroesRace
 				StartCoroutine ("WaitAllTowerPlayers");
 			}
 		}
-
-		public override void OnServerError (NetworkConnection conn, int errorCode) 
-		{
-			print ("lmao");
-		}
 		#endregion
 
 		#region UTILS
@@ -149,13 +144,13 @@ namespace HeroesRace
 			return players.SingleOrDefault (p => p && p.IP == fromConn.address);
 		}
 
-		public static bool PlayersReady (Func<Player, bool> check = null) 
+		public static bool PlayersReady (Func<Player, bool> check = null)  
 		{
-			int basicCount = players.Count (p => p && p.Conn.isReady);
+			int basicCount = players.Count (p=> p && p.Conn.isReady);
 			int checkCount = (check != null) ? players.Count (check) : PlayersNeeded;
 
 			return (basicCount == PlayersNeeded && checkCount == PlayersNeeded);
-		} 
+		}
 		#endregion
 
 		#region HELPERS

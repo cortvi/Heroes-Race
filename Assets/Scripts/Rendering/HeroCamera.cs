@@ -14,6 +14,9 @@ namespace HeroesRace
 		private Vector3 actualOffset;
 		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
 		public const float FloorHeigth = 5.2f;
+
+
+		internal Vector3 @override;
 		#endregion
 
 		private void Update () 
@@ -28,24 +31,27 @@ namespace HeroesRace
 			// on a space that always looks outside of the circle 
 			var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
 
-			// Lerp side-direction
-			actualOffset.x = Mathf.Lerp 
-			(
-				actualOffset.x,
-				(target.movingDir > 0f)? +offset.x : -offset.x,
-				Time.deltaTime * 2f
-			);
-			// Lerp floor-height
-			actualOffset.y = Mathf.Lerp 
-			(
-				actualOffset.y,
-				offset.y + (target.floor * FloorHeigth),
-				Time.deltaTime * 3f
-			);
+			if (@override == Vector3.zero)
+			{
+				// Lerp side-direction
+				actualOffset.x = Mathf.Lerp
+				(
+					actualOffset.x,
+					(target.movingDir > 0f) ? +offset.x : -offset.x,
+					Time.deltaTime * 2f
+				);
+				// Lerp floor-height
+				actualOffset.y = Mathf.Lerp
+				(
+					actualOffset.y,
+					offset.y + (target.floor * FloorHeigth),
+					Time.deltaTime * 3f
+				);
+			}
+			else actualOffset = @override;
 			
 			// Get the final position (make Height inmutable)
-			var pos = target.transform.position;
-			pos.y = offset.y;
+			var pos = target.transform.position; /* */ pos.y = offset.y;
 			pos += mat.MultiplyVector (actualOffset);
 
 			// Lerp the position for a smooth camera follow
