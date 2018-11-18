@@ -703,7 +703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bypassTower:
-  - q1: 2
+  - q1: 3
     q2: 0
     q3: 0
     q4: 0
@@ -718,7 +718,7 @@ MonoBehaviour:
     q5: 0
     q6: 0
     q7: 0
-    q8: 15
+    q8: 0
   floorRoots:
   - {fileID: 1977623220}
   - {fileID: 1045105027}
@@ -1752,14 +1752,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 16
       objectReference: {fileID: 0}
-    - target: {fileID: 4131037493138828, guid: c640bf48fddeb194d9ec24e17216143e, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 1347978440487296, guid: c640bf48fddeb194d9ec24e17216143e, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c640bf48fddeb194d9ec24e17216143e, type: 2}
   m_IsPrefabParent: 0
@@ -1912,6 +1904,10 @@ Prefab:
     - target: {fileID: 4532002290519802, guid: 9786c499a01e1be49a41f63e7c36bd73, type: 2}
       propertyPath: m_RootOrder
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1136873641616844, guid: 9786c499a01e1be49a41f63e7c36bd73, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9786c499a01e1be49a41f63e7c36bd73, type: 2}

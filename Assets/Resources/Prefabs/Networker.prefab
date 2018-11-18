@@ -88,7 +88,7 @@ MonoBehaviour:
   m_RunInBackground: 1
   m_ScriptCRCCheck: 0
   m_MaxDelay: 0.01
-  m_LogLevel: 4
+  m_LogLevel: 5
   m_PlayerPrefab: {fileID: 1822593414515006, guid: ff4c352cf0fc1ed48bd5f0a523d27e78,
     type: 2}
   m_AutoCreatePlayer: 1

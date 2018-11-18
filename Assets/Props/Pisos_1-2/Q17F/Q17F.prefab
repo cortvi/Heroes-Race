@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 33554462917068020}
   - component: {fileID: 23742590088454938}
   - component: {fileID: 64444205644374634}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: QUESITO12
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 33379811405648782}
   - component: {fileID: 23559864839740688}
   - component: {fileID: 64641673048953206}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Box013
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 33094528280469846}
   - component: {fileID: 23280102177695354}
   - component: {fileID: 64591686189211646}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ESCALERAS
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1347978440487296}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.3420201, z: 0, w: 0.9396927}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -449,7 +449,7 @@ Transform:
   - {fileID: 4587432119603850}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -40, z: 0}
 --- !u!4 &4132247084514418
 Transform:
   m_ObjectHideFlags: 1
