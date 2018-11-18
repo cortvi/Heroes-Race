@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace HeroesRace 
 {
@@ -9,6 +10,7 @@ namespace HeroesRace
 	{
 		private TentaculoGrab grab;
 
+		[ServerCallback]
 		private void Release () 
 		{
 			var hero = grab.grabbed;

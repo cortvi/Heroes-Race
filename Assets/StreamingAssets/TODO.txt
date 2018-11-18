@@ -2,6 +2,9 @@
 - repasar k todo este bien mas o menos para varios players jej
 
 ——— DONE ———
+- Q13: floor check
+- Q13: pinxos
+- Q13 animator: no dafult state :/
 - use SMB to replace Pared & Tentaculo trigger shoot
 
 ——— QUESITOS ———
