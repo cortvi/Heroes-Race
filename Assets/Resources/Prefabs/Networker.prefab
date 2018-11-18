@@ -184,6 +184,5 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  courtain: {fileID: 95441828259929830, guid: 74799eb21a11583479612a585835a3f8, type: 2}
   firstScene: Tower
   justDoNothing: 0

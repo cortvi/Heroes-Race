@@ -31,6 +31,16 @@ namespace HeroesRace
 			}
 		}
 
+		public static void SendTo (string name, NetworkConnection target)
+		{
+			// Send from Server to target Client
+			if (Net.IsServer)
+			{
+				var msg = new StringMessage (name);
+				NetworkServer.SendToClient (target.connectionId, MsgType, msg);
+			}
+		}
+
 		public static void Recieve (NetworkMessage msg) 
 		{
 			string name = msg.ReadMessage<StringMessage> ().value;

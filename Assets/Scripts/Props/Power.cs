@@ -36,7 +36,7 @@ namespace HeroesRace
 			var hero = other.GetComponent<Driver> ().owner;
 			if (hero.power == PowerUp.None)
 			{
-				hero.power = power;
+				hero.UpdatePower (power);
 				anim.SetTrigger ("Consume");
 				StartCoroutine (Consume ());
 			}
@@ -44,16 +44,14 @@ namespace HeroesRace
 
 		protected override void OnStart () 
 		{
-			if (Net.IsServer)
+			if (Net.IsServer) 
 			{
 				SetPower ();
-				anim = GetComponent<Animator> ()
-					  .GoSmart (networked: true);
+				anim = GetComponent<Animator> () .GoSmart (networked: true);
 			}
 			else
-			// Only works on Server
-			if (Net.IsClient)
-				Destroy (this);
+			// Useless on Clients
+			if (Net.IsClient) Destroy (this);
 		} 
 		#endregion
 	} 

@@ -28,8 +28,8 @@ namespace HeroesRace
 		[SyncVar] private float netYSpeed;			// Vertical speed
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 		[SyncVar] [Info] public int floor;			// The floor the Hero is in ATM
+		[SyncVar] [Info] public PowerUp power;		// The active Hero power 
 
-		private PowerUp _power;
 		#endregion
 
 		private void Update () {
@@ -75,16 +75,6 @@ namespace HeroesRace
 		private float input;
 		private Vector3 lastPos;
 		internal float vDir;
-
-		internal PowerUp power 
-		{
-			get { return _power; }
-			set
-			{
-				Target_UpdateHUD (owner.Conn, value);
-				_power = value;
-			}
-		}
 		#endregion
 
 		#region LOCOMOTION
@@ -191,19 +181,26 @@ namespace HeroesRace
 
 		protected override void OnServerAwake () 
 		{
+			// Check if other Hero has appeared already
+			bool notFirst = Camera.main != null;
+			// Initalize camera & hud for this Hero on Server
+			OnStartOwnership ();
+			if (notFirst)
+			{
+				// Disable if not first
+				cam.gameObject.SetActive (false);
+				hud.gameObject.SetActive (false);
+			}
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
 			mods = GetComponent<ModifierStack> ();
-		}
-
-		protected override void OnServerStart () 
-		{
-			// Notify Tower Camera if first player to enter!
-			if (TowerCamera.i.tracking.target == null)
-				TowerCamera.i.tracking.target = this;
 		}
 		#endregion
 
 		#region HELPERS
+		public void UpdatePower (PowerUp power) 
+		{
+
+		}
 		private IEnumerator UsePower () 
 		{
 			switch (power)
@@ -278,7 +275,8 @@ namespace HeroesRace
 
 	public sealed partial class /* CLIENT */ Hero 
 	{
-		internal HeroCamera cam;
+		internal HeroCam cam;
+		internal HeroHUD hud;
 
 		private void KeepMotion () 
 		{
@@ -326,23 +324,14 @@ namespace HeroesRace
 
 		internal override void OnStartOwnership () 
 		{
-			if (!cam)
-			{
-				// Initialize camera to focus local Client
-				cam = Camera.main.gameObject.AddComponent<HeroCamera> ();
-				cam.target = this;
-			}
-		}
+			// Initialize camera to focus on local Client
+			cam = Camera.main.gameObject.AddComponent<HeroCam> ();
+			cam.target = this;
 
-		#region RPC CALLS
-		[TargetRpc]
-		private void Target_UpdateHUD (NetworkConnection conn, PowerUp newPower) 
-		{
-			// Show new power-up on owner Client
-			cam.hud.UpdatePower (newPower);
-			_power = newPower;
+			// Initialize local HUD
+			hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
+			hud.name = "HUD";
 		}
-		#endregion
 	}
 
 	#region ENUMS

@@ -19,7 +19,6 @@ namespace HeroesRace
 		public static bool IsClient { get; private set; }
 		public static bool paused { get; private set; }
 
-		public Animator courtain;
 		public string firstScene;
 		public bool justDoNothing;
 		#endregion
@@ -54,9 +53,6 @@ namespace HeroesRace
 			{
 				Courtain.SetText ("Cargando...");
 				InitClient (config[1].Trim ());
-
-				Rpc.Register ("Open", () => Courtain.Open (true));
-				Rpc.Register ("Close", () => Courtain.Open (false));
 			}
 			else
 			// Start Server
@@ -98,8 +94,38 @@ namespace HeroesRace
 	public partial class /* SERVER */ Net 
 	{
 		public static Player[] players;
+		public static HeroCam activeCam;
+		public static HeroHUD activeHUD;
 
 		#region CALLBACKS
+		private void Update () 
+		{
+			if (IsServer && networkSceneName == "Tower")
+			{
+				int newTarget = -1;
+				// ——— Allow switching Hero tracking with keyboard ———
+				if (Input.GetKeyDown (KeyCode.Alpha1) && players[0]) newTarget = 0;
+				else
+				if (Input.GetKeyDown (KeyCode.Alpha2) && players[1]) newTarget = 1;
+				else
+				if (Input.GetKeyDown (KeyCode.Alpha3) && players[2]) newTarget = 2;
+
+				if (newTarget != -1) 
+				{
+					// Check that Player has an active Hero
+					var next = players[newTarget].pawn as Hero;
+					if (next == null) return;
+
+					// Un-track last Hero & replace it with next one
+					activeCam.gameObject.SetActive (false); /* */ activeCam = next.cam;
+					activeHUD.gameObject.SetActive (false); /* */ activeHUD = next.hud;
+
+					// Track selected Hero
+					activeCam.gameObject.SetActive (true);
+				}	activeHUD.gameObject.SetActive (true);
+			}
+		}
+
 		public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId) 
 		{
 			// If it's the first time Player connects

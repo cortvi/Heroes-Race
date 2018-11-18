@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace HeroesRace 
 {
-	[ExecuteInEditMode]
 	public class Courtain : MonoBehaviour 
 	{
 		#region DATA
@@ -19,7 +18,6 @@ namespace HeroesRace
 
 		private Animator anim;
 		private Text text;
-
 		#endregion
 
 		public static void Open (bool state, bool overNet = false) 
@@ -58,16 +56,15 @@ namespace HeroesRace
 
 		private void Awake () 
 		{
-			#if UNITY_EDITOR
-			// Don't call dont-destroy on inspector !
-			if (!UnityEditor.EditorApplication.isPlaying) return;
-			#endif
-
 			// Do this only once
 			DontDestroyOnLoad (gameObject);
 			anim = GetComponent<Animator> ();
 			text = GetComponentInChildren<Text> ();
 			i = this;
+
+			// Register RPC calls
+			Rpc.Register ("Open", () => Open (true));
+			Rpc.Register ("Close",() => Open (false));
 		} 
 		#endregion
 	} 
