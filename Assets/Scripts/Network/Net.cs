@@ -110,7 +110,7 @@ namespace HeroesRace
 				else
 				if (Input.GetKeyDown (KeyCode.Alpha3) && players[2]) newTarget = 2;
 
-				if (newTarget != -1) 
+				if (newTarget != -1)
 				{
 					// Check that Player has an active Hero
 					var next = players[newTarget].pawn as Hero;
@@ -122,7 +122,8 @@ namespace HeroesRace
 
 					// Track selected Hero
 					activeCam.gameObject.SetActive (true);
-				}	activeHUD.gameObject.SetActive (true);
+					activeHUD.gameObject.SetActive (true);
+				}
 			}
 		}
 
