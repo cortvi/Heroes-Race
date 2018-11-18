@@ -19,8 +19,8 @@ namespace HeroesRace
 
 		public override void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
-			if (!stateInfo.IsName ("Default")) return;
-			// Skip if in transition or already hit the trigger
+			if (!stateInfo.IsTag ("Default")) return;
+			// Skip if in transition OR already hit the trigger
 			if (triggered || animator.IsInTransition (0)) return;
 
 			// Manual OnTriggerEnter
@@ -55,9 +55,11 @@ namespace HeroesRace
 			}
 
 			// Resume trigger checking
-			if (!stateInfo.IsName ("Default")) return;
-			anim.SetTrigger (triggerName, reset: true);
-			triggered = false;
+			if (stateInfo.IsTag ("Default"))
+			{
+				anim.SetTrigger (triggerName, reset: true);
+				triggered = false;
+			}
 		}
 
 		private void Initialize (Animator animator) 

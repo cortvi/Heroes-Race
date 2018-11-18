@@ -23,7 +23,7 @@ namespace HeroesRace.Effectors
 				grabbed = hero;
 
 				// Disable Driver until released
-				hero.driver.body.gameObject.SetActive (false);
+				hero.driver.enabled = false;
 			}
 			else hero.mods.Add ("Shield Break", CCs.None, 0.1f);
 		}
