@@ -13,21 +13,27 @@ namespace HeroesRace
 		[ServerCallback]
 		private void Release () 
 		{
+			if (!grab.grabbed) return;
 			var hero = grab.grabbed;
-			var driver = hero.driver.transform;
+			var driver = hero.driver;
 
 			// Set Hero free & re-enable Driver
 			Dettach (hero, useDriver: false);
-			hero.driver.gameObject.SetActive (true);
+			driver.enabled = true;
+			grab.grabbed = null;
 
 			// Align Driver with new Hero location
-			var pos = driver.position;
-			pos.y = hero.transform.position.y;
-			driver.position = pos;
-			driver.rotation = Quaternion.LookRotation (hero.transform.position);
+			driver.transform.position = new Vector3 (0f, hero.transform.position.y, 0f);
+			// Align Driver rotation to projected Hero position
+			var hPos = hero.transform.position; /* */ hPos.y = 0f;
+			driver.transform.rotation = Quaternion.LookRotation (hPos);
+
+			// Set Hero on Air
+			hero.driver.SwitchFriction (false);
+			hero.OnAir = true;
 
 			// Apply CC to Hero
-			hero.mods.Add ("Raped", CCs.All, 1f);
+			hero.mods.Add ("Raped", ~CCs.Rotating, 1f);
 		}
 
 		protected override void OnAwake () 
