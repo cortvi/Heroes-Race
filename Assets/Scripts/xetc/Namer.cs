@@ -6,7 +6,7 @@ namespace HeroesRace
 {
 	public class Namer : NetBehaviour 
 	{
-		protected override void OnStart () 
+		protected override void OnAwake () 
 		{
 			// This script just names the object
 			Destroy (this);

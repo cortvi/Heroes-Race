@@ -32,8 +32,7 @@ namespace HeroesRace
 		private PowerUp _power;
 		#endregion
 
-		private void Update () 
-		{
+		private void Update () {
 			// On Server, follow Driver
 			if (Net.IsServer) SyncMotion ();
 			else
@@ -253,14 +252,19 @@ namespace HeroesRace
 
 		private Vector3 ComputePosition () 
 		{
+			// Do not sync with Driver if attached
+			if (transform.parent != null) return transform.position;
+
 			// Get capsule position, discard height
-			var pos = driver.capsule.center; pos.y = 0f;
+			var pos = driver.capsule.center; /* */ pos.y = 0f;
 			// Return the position in world-space
 			return driver.transform.TransformPoint (pos);
 		}
 		private Quaternion ComputeRotation () 
 		{
-			if (mods[CCs.Rotating]) return transform.rotation;
+			// Do not sync with Driver if attached OR blocked
+			if (transform.parent != null || mods[CCs.Rotating])
+				return transform.rotation;
 
 			// Get signed facing rotation
 			var faceDir = driver.transform.right * (movingDir > 0 ? 1f : -1f);

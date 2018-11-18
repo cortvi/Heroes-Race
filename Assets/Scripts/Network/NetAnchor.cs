@@ -10,7 +10,7 @@ namespace HeroesRace
 		// Where Heroes will be attached
 		public Transform anchor;
 
-		protected void Attach (Hero hero, bool useDriver = false) 
+		public void Attach (Hero hero, bool useDriver) 
 		{
 			var target = hero.transform;
 			if (Net.IsServer) 
@@ -21,7 +21,7 @@ namespace HeroesRace
 			target.SetParent (anchor, true);
 		}
 
-		protected void Dettach (Hero hero, bool useDriver = false) 
+		public void Dettach (Hero hero, bool useDriver) 
 		{
 			var target = hero.transform;
 			if (Net.IsServer) 
@@ -37,8 +37,9 @@ namespace HeroesRace
 		{
 			var hero = heroGO.GetComponent<Hero> ();
 
-			if (attach) Attach (hero);
-			else Dettach (hero);
+			// Always grab Hero on Client
+			if (attach) Attach (hero, useDriver: false);
+			else Dettach (hero, useDriver: false);
 		}
 	} 
 }

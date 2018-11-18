@@ -171,7 +171,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 0
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -185,7 +185,8 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - CATRigTail22
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
@@ -388,8 +389,8 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.2959427
-        functionName: Hook
+      - time: 0.723982
+        functionName: Release
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
