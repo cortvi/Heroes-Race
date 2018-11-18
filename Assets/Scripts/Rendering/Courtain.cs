@@ -61,10 +61,6 @@ namespace HeroesRace
 			anim = GetComponent<Animator> ();
 			text = GetComponentInChildren<Text> ();
 			i = this;
-
-			// Register RPC calls
-			Rpc.Register ("Open", () => Open (true));
-			Rpc.Register ("Close",() => Open (false));
 		} 
 		#endregion
 	} 

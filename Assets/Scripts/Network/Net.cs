@@ -218,6 +218,8 @@ namespace HeroesRace
 			// Register RPC calls
 			Rpc.handlers = new Dictionary<string, Action> ();
 			client.RegisterHandler (Rpc.MsgType, Rpc.Recieve);
+			Rpc.Register ("Open", () => Courtain.Open (true));
+			Rpc.Register ("Close",() => Courtain.Open (false));
 		}
 	}
 }
