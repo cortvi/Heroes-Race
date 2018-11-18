@@ -81,6 +81,7 @@ namespace HeroesRace
 			var cam = new GameObject (name + "_Camera").AddComponent <Camera> ();
 			cam.gameObject.AddComponent<AudioListener> ();
 			cam.gameObject.AddComponent<FlareLayer> ();
+			cam.fieldOfView = 29.8f;
 			cam.farClipPlane = 70f;
 			cam.allowMSAA = false;
 
