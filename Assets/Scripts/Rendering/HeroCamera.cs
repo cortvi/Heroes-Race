@@ -12,11 +12,11 @@ namespace HeroesRace
 		[Info] public Hero target;
 
 		private Vector3 actualOffset;
-		public readonly Vector3 offset = new Vector3 (2.78f, 1.4f, 9.25f);
+		public readonly Vector3 offset = new Vector3 (2.78f, 2.8f, 9.25f);
 		public const float FloorHeigth = 5.2f;
 
 
-		internal Vector3 @override;
+		internal CameraLock @override;
 		#endregion
 
 		private void Update () 
@@ -31,7 +31,8 @@ namespace HeroesRace
 			// on a space that always looks outside of the circle 
 			var mat = Matrix4x4.Rotate (Quaternion.LookRotation (forward));
 
-			if (@override == Vector3.zero)
+			Vector3 finalPos;
+			if (@override == null)
 			{
 				// Lerp side-direction
 				actualOffset.x = Mathf.Lerp
@@ -47,18 +48,23 @@ namespace HeroesRace
 					offset.y + (target.floor * FloorHeigth),
 					Time.deltaTime * 3f
 				);
+
+				// Get the final position (make Height inmutable)
+				finalPos = target.transform.position; /* */ finalPos.y = 0f;
+				finalPos += mat.MultiplyVector (actualOffset);
 			}
-			else actualOffset = @override;
-			
-			// Get the final position (make Height inmutable)
-			var pos = target.transform.position; /* */ pos.y = offset.y;
-			pos += mat.MultiplyVector (actualOffset);
+			else 
+			{
+				// Get the final position (make Height inmutable)
+				finalPos = @override.transform.position; /* */ finalPos.y = 0f;
+				finalPos += mat.MultiplyVector (@override.offset);
+			}
 
 			// Lerp the position for a smooth camera follow
-			transform.position = Vector3.Lerp (transform.position, pos, Time.deltaTime * 7f);
+			transform.position = Vector3.Lerp (transform.position, finalPos, Time.deltaTime * 7f);
 
 			// Project camera position to get the orientation
-			var camForward = transform.position; camForward.y = 0f;
+			var camForward = transform.position; /* */ camForward.y = 0f;
 			transform.rotation = Quaternion.LookRotation (-camForward.normalized);
 		}
 

@@ -12,7 +12,7 @@ namespace HeroesRace
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			hero.cam.@override = offset;
+			TowerCamera.i.tracking.@override = this;
 		}
 	} 
 }
