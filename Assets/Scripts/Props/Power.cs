@@ -34,7 +34,7 @@ namespace HeroesRace
 		{
 			if (other.tag != "Player") return;
 			var hero = other.GetComponent<Driver> ().owner;
-			if (hero.power == PowerUp.None)
+			if (hero.Power == PowerUp.None)
 			{
 				hero.UpdatePower (power);
 				anim.SetTrigger ("Consume");

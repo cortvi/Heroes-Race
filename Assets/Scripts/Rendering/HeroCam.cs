@@ -74,5 +74,17 @@ namespace HeroesRace
 			// Initialize offset
 			actualOffset = offset;
 		}
+
+		public static HeroCam New (string name) 
+		{
+			// Create new Camera object & configure it
+			var cam = new GameObject (name + "_Camera").AddComponent <Camera> ();
+			cam.gameObject.AddComponent<AudioListener> ();
+			cam.gameObject.AddComponent<FlareLayer> ();
+			cam.farClipPlane = 70f;
+			cam.allowMSAA = false;
+
+			return cam.gameObject.AddComponent<HeroCam> ();
+		}
 	} 
 }

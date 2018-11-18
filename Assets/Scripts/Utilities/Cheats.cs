@@ -32,7 +32,7 @@ namespace HeroesRace
 			{
 				// Grants said Client said power
 				int player = int.Parse (args[1]);
-				(Net.players[player-1].pawn as Hero).power = power;
+				(Net.players[player-1].pawn as Hero).UpdatePower (power);
 			}
 		}
 	} 

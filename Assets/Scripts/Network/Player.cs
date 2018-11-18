@@ -121,7 +121,7 @@ namespace HeroesRace
 
 			h.Movement (axis);
 			if (jump) h.Jumping ();
-			if (power) h.Power ();
+			if (power) h.PowerCall ();
 		}
 
 		#region CHEATS
@@ -129,7 +129,7 @@ namespace HeroesRace
 		public void Cmd_GrantPower (PowerUp power)
 		{
 			var h = pawn as Hero;
-			h.power = power;
+			h.UpdatePower (power);
 		}
 		#endregion
 		#endregion

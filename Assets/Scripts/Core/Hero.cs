@@ -28,7 +28,6 @@ namespace HeroesRace
 		[SyncVar] private float netYSpeed;			// Vertical speed
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 		[SyncVar] [Info] public int floor;			// The floor the Hero is in ATM
-		[SyncVar] [Info] public PowerUp power;		// The active Hero power 
 
 		#endregion
 
@@ -75,6 +74,8 @@ namespace HeroesRace
 		private float input;
 		private Vector3 lastPos;
 		internal float vDir;
+
+		public PowerUp Power { get; private set; }
 		#endregion
 
 		#region LOCOMOTION
@@ -101,16 +102,16 @@ namespace HeroesRace
 				anim.SetTrigger ("Jump");
 			}
 		}
-		public void Power () 
+		public void PowerCall () 
 		{
 			if (!mods[CCs.PowerUp]
 			// Can't cast a shield if already immune
-			&& !(power == PowerUp.Shield && Immune)
+			&& !(Power == PowerUp.Shield && Immune)
 			// No sense to speed up while in air
-			&& !(power == PowerUp.Speed && OnAir))
+			&& !(Power == PowerUp.Speed && OnAir))
 			{
 				StartCoroutine (UsePower ());
-				power = PowerUp.None;
+				Power = PowerUp.None;
 			}
 		}
 
@@ -199,11 +200,13 @@ namespace HeroesRace
 		#region HELPERS
 		public void UpdatePower (PowerUp power) 
 		{
-
+			// Update HUD in Server & Client
+			hud.UpdatePower (power);
+			Power = power;
 		}
 		private IEnumerator UsePower () 
 		{
-			switch (power)
+			switch (Power)
 			{
 				case PowerUp.Speed:
 				{
@@ -324,8 +327,8 @@ namespace HeroesRace
 
 		internal override void OnStartOwnership () 
 		{
-			// Initialize camera to focus on local Client
-			cam = Camera.main.gameObject.AddComponent<HeroCam> ();
+			// Create new Camera
+			cam = HeroCam.New (name);
 			cam.target = this;
 
 			// Initialize local HUD
