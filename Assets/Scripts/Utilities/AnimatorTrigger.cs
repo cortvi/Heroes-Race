@@ -13,7 +13,8 @@ namespace HeroesRace
 		private BoxCollider trigger;
 		private bool triggered;
 
-		private static readonly Collider[] hits = new Collider[3]; 
+		private static readonly Collider[] hits = new Collider[3];
+		private bool initialized;
 		#endregion
 
 		public override void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
@@ -39,21 +40,31 @@ namespace HeroesRace
 
 		public override void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
+			// Get first-time references
+			if (Net.IsServer && !initialized)
+			{
+				Initialize (animator);
+				initialized = true;
+			}
+			else
+			// Useless on Clients
+			if (Net.IsClient)
+			{
+				Destroy (this);
+				return;
+			}
+
+			// Resume trigger checking
 			if (!stateInfo.IsName ("Default")) return;
 			anim.SetTrigger (triggerName, reset: true);
 			triggered = false;
 		}
 
-		public override void OnStateMachineEnter (Animator animator, int stateMachinePathHash) 
+		private void Initialize (Animator animator) 
 		{
-			if (Net.IsServer)
-			{
-				anim = animator.GoSmart (networked: true);
-				anim.NetAnimator.SetParameterAutoSend (0, true);
-				trigger = animator.GetComponent<BoxCollider> ();
-			}
-			// Useless on Clients
-			else if (Net.IsClient) Destroy (this);
+			anim = animator.GoSmart (networked: true);
+			anim.NetAnimator.SetParameterAutoSend (0, true);
+			trigger = animator.GetComponent<BoxCollider> ();
 		}
 	} 
 }
