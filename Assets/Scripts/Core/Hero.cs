@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using System;
 
 /* The Hero mesh & animator, as well as this script,
 * are contained on a single GameObject.
@@ -13,7 +10,7 @@ using System;
 * 
 * All the Clients get their 3D data from the Server, then it's lerped for a fluid movement.
 * No Client makes actual physics logic, everything is computed on the Server and passed to the Clients. */
-namespace HeroesRace
+namespace HeroesRace 
 {
 	[NetworkSettings (channel = 2, sendInterval = 0f)]
 	public sealed partial class /* COMMON */ Hero : NetPawn 
@@ -31,7 +28,8 @@ namespace HeroesRace
 
 		#endregion
 
-		private void Update () {
+		private void Update ()
+		{
 			// On Server, follow Driver
 			if (Net.IsServer) SyncMotion ();
 			else
@@ -260,6 +258,7 @@ namespace HeroesRace
 			// Return the position in world-space
 			return driver.transform.TransformPoint (pos);
 		}
+
 		private Quaternion ComputeRotation () 
 		{
 			// Do not sync with Driver if attached OR blocked
@@ -355,7 +354,7 @@ namespace HeroesRace
 		None,
 		Speed,
 		Shield,
-		//		Bomb,
+//		Bomb,
 
 		Count
 	}

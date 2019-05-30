@@ -78,14 +78,12 @@ namespace HeroesRace
 		public static HeroCam New (string name) 
 		{
 			// Create new Camera object & configure it
-			var cam = new GameObject (name + "_Camera").AddComponent <Camera> ();
-			cam.gameObject.AddComponent<AudioListener> ();
-			cam.gameObject.AddComponent<FlareLayer> ();
+			var cam = Instantiate (Resources.Load<Camera> ("Prefabs/HeroCam"));
+			cam.name = "Cam_" + name;
 			cam.fieldOfView = 29.8f;
 			cam.farClipPlane = 70f;
-			cam.allowMSAA = false;
 
-			return cam.gameObject.AddComponent<HeroCam> ();
+			return cam.gameObject.GetComponent<HeroCam> ();
 		}
 	} 
 }
