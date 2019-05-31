@@ -179,7 +179,8 @@ namespace HeroesRace
 
 		private void OnLevelLoaded (Scene scene, LoadSceneMode mode) 
 		{
-			// When Player object is ready, call for Pawn assigment
+			// When Player object is ready, 
+			// call for Pawn assigment:
 			Cmd_RequestPawn ();
 		}
 

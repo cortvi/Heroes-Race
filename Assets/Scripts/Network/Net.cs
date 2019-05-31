@@ -159,7 +159,7 @@ namespace HeroesRace
 			if (sceneName == "Tower") 
 			{
 				// Paused until all Players arrive
-				StartCoroutine ("WaitAllTowerPlayers");
+				StartCoroutine (WaitAllTowerPlayers ());
 			}
 		}
 		#endregion
