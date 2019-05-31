@@ -31,7 +31,8 @@ namespace HeroesRace
 
 		#endregion
 
-		private void Update () {
+		private void Update ()
+		{
 			// On Server, follow Driver
 			if (Net.IsServer) SyncMotion ();
 			else
@@ -111,7 +112,7 @@ namespace HeroesRace
 			&& !(Power == PowerUp.Speed && OnAir))
 			{
 				StartCoroutine (UsePower ());
-				Power = PowerUp.None;
+				UpdatePower (PowerUp.None);
 			}
 		}
 
@@ -203,7 +204,7 @@ namespace HeroesRace
 			// Update HUD in Server & Client:
 			if (Net.IsServer)
 			{
-				Target_UpdatePower (connectionToClient, power);
+				Target_UpdatePower (owner.Conn, power);
 			}
 			hud.UpdatePower (power);
 			Power = power;
