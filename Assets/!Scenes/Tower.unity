@@ -703,17 +703,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bypassTower:
-  - q1: 3
-    q2: 0
+  - q1: 7
+    q2: 2
     q3: 0
     q4: 0
     q5: 0
     q6: 0
     q7: 0
     q8: 0
-  - q1: 0
-    q2: 0
-    q3: 0
+  - q1: 4
+    q2: 5
+    q3: 6
+    q4: 0
+    q5: 0
+    q6: 0
+    q7: 0
+    q8: 0
+  - q1: 15
+    q2: 14
+    q3: 13
     q4: 0
     q5: 0
     q6: 0
@@ -800,7 +808,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &750345951
 Transform:
   m_ObjectHideFlags: 0
@@ -1296,7 +1304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1583274266
 Transform:
   m_ObjectHideFlags: 0
@@ -1888,7 +1896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1977623220
 Transform:
   m_ObjectHideFlags: 0
