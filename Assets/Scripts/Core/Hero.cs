@@ -341,6 +341,7 @@ namespace HeroesRace
 			hud.name = name + "_HUD";
 		}
 
+		[TargetRpc]
 		private void Target_UpdatePower (NetworkConnection conn, PowerUp power) 
 		{
 			UpdatePower (power);
