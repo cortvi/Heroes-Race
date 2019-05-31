@@ -19,8 +19,8 @@ namespace HeroesRace
 		public static bool IsClient { get; private set; }
 		public static bool paused { get; private set; }
 
-		[SerializeField] private string firstScene;
-		[SerializeField] private bool justDoNothing;
+		public string firstScene;
+		public bool justDoNothing;
 		#endregion
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -69,7 +69,7 @@ namespace HeroesRace
 				Courtain.SetText ("Generando mapa...");
 				ServerChangeScene (firstScene);
 			}
-			else Debug.LogError ("Can't understand config file!");
+			else Debug.LogError ("!Can't understand config file!");
 		}
 
 		#if UNITY_EDITOR
@@ -159,7 +159,7 @@ namespace HeroesRace
 			if (sceneName == "Tower") 
 			{
 				// Paused until all Players arrive
-				StartCoroutine (WaitAllTowerPlayers ());
+				StartCoroutine ("WaitAllTowerPlayers");
 			}
 		}
 		#endregion
@@ -173,10 +173,10 @@ namespace HeroesRace
 
 		public static bool PlayersReady (Func<Player, bool> check = null)  
 		{
-			int readyCount = players.Count (p=> p && p.Conn.isReady);
+			int basicCount = players.Count (p=> p && p.Conn.isReady);
 			int checkCount = (check != null) ? players.Count (check) : PlayersNeeded;
 
-			return (readyCount == PlayersNeeded && checkCount == PlayersNeeded);
+			return (basicCount == PlayersNeeded && checkCount == PlayersNeeded);
 		}
 		#endregion
 

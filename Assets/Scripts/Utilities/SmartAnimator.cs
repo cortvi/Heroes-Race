@@ -188,7 +188,8 @@ namespace HeroesRace
 				return -1f;
 			}
 			#else
-			Param<float> cache = floats[id];
+			// wrong on porpouse, if error hits, this works!!
+			Param<floatf> cache = floats[id];
 			if (cache.isDrivenByCurve || IsDrivenByNetwork ())
 				return Animator.GetFloat (cache.hashName);
 			else
@@ -237,12 +238,12 @@ namespace HeroesRace
 				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
+			return cache.value;
 			#else
 			Param<bool> cache = bools[id];
 			Animator.SetBool (cache.hashName, value);
 			cache.value = value;
 			#endif
-			return cache.value;
 		}
 
 		public float SetFloat (string id, float value) 
@@ -255,12 +256,12 @@ namespace HeroesRace
 				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
+			return cache.value;
 			# else
 			Param<float> cache = floats[id];
 			Animator.SetFloat (cache.hashName, value);
 			cache.value = value;
 			#endif
-			return cache.value;
 		}
 		public float IncrementFloat (string id, float delta) 
 		{
@@ -278,12 +279,12 @@ namespace HeroesRace
 				cache.value = value;
 			}
 			else Debug.LogError ("Can't find parameter!", Animator);
+			return cache.value;
 			#else
 			Param<int> cache = ints[id];
 			Animator.SetInteger (cache.hashName, value);
 			cache.value = value;
 			#endif
-			return cache.value;
 		}
 		public int IncrementInt (string id, int delta) 
 		{

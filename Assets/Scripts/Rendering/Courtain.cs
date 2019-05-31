@@ -26,7 +26,8 @@ namespace HeroesRace
 			i.anim.SetBool ("Open", true);
 			if (overNet && Net.IsServer) 
 			{
-				Rpc.SendToAll (state? "Open" : "Close");
+				if (state) Rpc.SendToAll ("Open");
+				else Rpc.SendToAll ("Close");
 			}
 		}
 
