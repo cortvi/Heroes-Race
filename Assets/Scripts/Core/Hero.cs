@@ -200,10 +200,15 @@ namespace HeroesRace
 		#region HELPERS
 		public void UpdatePower (PowerUp power) 
 		{
-			// Update HUD in Server & Client
+			// Update HUD in Server & Client:
+			if (Net.IsServer)
+			{
+				Target_UpdatePower (connectionToClient, power);
+			}
 			hud.UpdatePower (power);
 			Power = power;
 		}
+
 		private IEnumerator UsePower () 
 		{
 			switch (Power)
@@ -333,7 +338,12 @@ namespace HeroesRace
 
 			// Initialize local HUD
 			hud = Instantiate (Resources.Load<HeroHUD> ("Prefabs/HUD"));
-			hud.name = "HUD";
+			hud.name = name + "_HUD";
+		}
+
+		private void Target_UpdatePower (NetworkConnection conn, PowerUp power) 
+		{
+			UpdatePower (power);
 		}
 	}
 
