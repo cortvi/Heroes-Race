@@ -58,6 +58,8 @@ namespace HeroesRace
 			Conn = fromConn;
 			IP = Conn.address;
 			ID = Conn.connectionId;
+
+			name += "_" + ID;
 			playingAs = Heroe.NONE;
 
 			Log.LowDebug (string.Format ("Added Player {0} from {1}", ID, IP));
@@ -95,6 +97,10 @@ namespace HeroesRace
 					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
 					hero.driver.name = playingAs + "_Driver";
 					hero.driver.owner = hero;
+
+					// Position Driver
+					var spawn = GameObject.Find ("Spawn_" + ID).transform.position;
+					hero.driver.transform.rotation = Quaternion.LookRotation (spawn);
 
 					NetworkServer.Spawn (hero.gameObject);
 					ChangePawn (hero);

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace HeroesRace 
 {
-	public class TowerGenerator : MonoBehaviour 
+	public class TowerGenerator: MonoBehaviour 
 	{
 		public Floor[] bypassTower;
 		public Transform[] floorRoots;
@@ -21,89 +21,96 @@ namespace HeroesRace
 			tower[2] = new int[9];
 			tower[3] = new int[9];
 
-			#region BYPASS
-			if (bypassTower.Length != 0)
+			if (bypassTower.Length > 0)
 			{
-				for (int f=0; f!=bypassTower.Length; ++f)
+				#region BYPASS
+				// First quesito is always entracne:
+				tower[0][0] = (int) Qs._01_Entrada;
+
+				for (int f=0; f<bypassTower.Length; ++f)
 				{
-					// Primer quesito, ascensores o spawn-platform
-					tower[f][0] = (int)(f == 0? Qs._01_Entrada : Qs._11_Ascensores);
-					for (int q=1; q!=9; ++q)
+					for (int q=0; q<9; ++q)
 					{
-						// Bypass randomizer, manually form tower
-						tower[f][q] = bypassTower[f][q];
+						if (tower[f][q] != 0) continue;
+
+						if (bypassTower[f][q+1] == (int) Qs._11_Ascensores)
+						{
+							tower[f][q] = (int) Qs._11_Ascensores;
+							tower[f+1][q] = - (int) Qs._11_Ascensores;
+						}
+						// Bypass randomizer, manually form tower:
+						else tower[f][q] = bypassTower[f][q+1];
 					}
 				}
-			}
-			#endregion
 
-			#region RANDOMIZER
+				#endregion
+			}
 			else
 			{
-				for (int f=0; f!=4; ++f)
+				#region RANDOMIZER
+				tower[0][0] = (int) Qs._01_Entrada;
+				tower[3][5] = (int) Qs._17_THE_END;
+
+				int lifts = 0;
+				for (int f=0; f<4; ++f)
 				{
-					// Primer quesito, ascensores o spawn-platform
-					tower[f][0] = (int) (f==0? Qs._01_Entrada : Qs._11_Ascensores);
-
-					// Ultimo quesito de cada piso
-					if (f != 3)
+					if (f < 3)
 					{
-						// Los ascensores pueden estar en
-						// las posiciones 4, 5, o 6 de cada piso
-						int pos = Random.Range (4, 6);
-						tower[f][pos] = (int) Qs._11_Ascensores;
+						// Lifts can be in either quesito 4 or 5:
+						lifts = (int) Mathf.Repeat (Random.Range (4f, 6f) + lifts, 9f);
+
+						tower[f][lifts] = (int) Qs._11_Ascensores;
+						tower[f + 1][lifts] = - (int) Qs._11_Ascensores;
 					}
-					// Ultimo quesito de toda la torre
-					else tower[f][5] = (int) Qs._17_THE_END;
 
-					// Resto de quesitos
-					for (int q=1; q!=9; ++q)
+					for (int q=0; q<9; ++q)
 					{
-						if ((Qs) tower[f][q] == Qs._11_Ascensores) continue;
-						if ((Qs) tower[f][q] == Qs._17_THE_END) continue;
+						if (tower[f][q] != 0) continue;
+						int Q = 0, last;
 
-						int Q; do
-						{Q =
-							f == 0?
-							// Avoid throw-quesitos on first floor
-							Random.Range (04, 13) : // No-throw only
-							Random.Range (04, 17);  // All
+						if (q == 0) last = 8;
+						else last = q - 1;
 
+						do
+						{
+							Q = (f == 0) ?
+							   // Avoid throw-quesitos on first floor
+							   Random.Range (4, 13) : // No-throw only
+							   Random.Range (4, 17);  // All
 							yield return null;
 						}
 						// Avoid repeating quesistos
-						while (tower[f][q - 1] == Q);
+						while (tower[f][last] == Q || (f > 0 && Q >= 13 && ((Qs) tower[f - 1][q]).ToString ().StartsWith ("f")));
 
 						// Asignar quesito
 						tower[f][q] = Q;
 					}
 				}
+				#endregion
 			}
-			#endregion
 
-			#region SPAWNING
-			for (var f=0; f!=4; ++f)
+			#region SPAWNINGs
+			for (int f=0; f<4; ++f)
 			{
-				for (var q=0; q!=9; ++q)
+				for (int q=0; q<9; ++q)
 				{
 					// Skip bypassed quesitos set to 'None'
-					int index = tower[f][q];
+					int index = Mathf.Abs (tower[f][q]);
 					if (index == 0) continue;
 
 					// Instantiate quesito & align with its floor
 					var Q = Instantiate (qPrefabs[index - 1]).transform;
 					Q.position = floorRoots[f].position;
-					Q.rotation = floorRoots[f].rotation;
+					Q.rotation = Quaternion.identity;
 
 					// Rotate it to create the circle
 					Q.Rotate (Vector3.up, q * -40f);
 
-					// If spawned quesito is a not-entry-lift
-					if ((Qs) index == Qs._11_Ascensores && q != 0) 
+					// If spawned quesito is an lift up
+					if ((Qs) index == Qs._11_Ascensores && tower[f][q] > 0) 
 					{
 						// Spawn lifts & rotate next floor to align lifts
 						Q.GetComponent<Q11> ().SpawnLifts (floor: f);
-						floorRoots[f + 1].Rotate (Vector3.up, q * -40f);
 					}
 					// Finally spawn the quesito
 					NetworkServer.Spawn (Q.gameObject);
@@ -147,27 +154,32 @@ namespace HeroesRace
 			public Qs q6;
 			public Qs q7;
 			public Qs q8;
+			public Qs q9;
 		}
 	}
 
 	// 'p' means power-up
+	// 'f' means "no-fall-into"
 	public enum Qs 
 	{
 		None,
+
 		// Especiales
 		_01_Entrada,
 		_11_Ascensores,
 		_17_THE_END,
+
 		// No-throw
 		p02_PiranasSaltarinas,
 		_06_PiranasVolarinas,
 		p04_Cueva,
-		_05_Apisonadora,
-		_08_MiniSlimes,
+		f05_Apisonadora,
+		f08_MiniSlimes,
 		_10_Slime,
 		p09_Pinchus,
 		p12_Medusa,
 		_15_Perla,
+
 		// Throw
 		p03_Pared,
 		p07_Hueco,

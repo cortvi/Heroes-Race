@@ -1,6 +1,4 @@
 ——— Faltaria ———
-- piranna volarina -> less CC time, allow consecutive hit animation
-- throw quesitos: not working -> trigger?
 - make Q17 cam floor independent
 - Q1: intentar solventar spawn de los 3 Heroes
 
@@ -13,6 +11,8 @@
 - Camara espectador (Servidor + clientes al cargar mapa, el servidor puede empezar la partida (3,2,1,ya) y eso lo desactiva de los Clientes, o los clientes se ponen en espectador solos tras un rato con la partida en paused)
 
 ——— DONE ———
+- piranna volarina -> less CC time, allow consecutive hit animation
+- throw quesitos: not working -> trigger?
 - Server Camera (each hero has a Cam & HUD) but disable/enable it as you want)
 - make hud work on Server
 
