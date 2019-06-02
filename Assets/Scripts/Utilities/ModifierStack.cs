@@ -6,7 +6,7 @@ using System;
 
 namespace HeroesRace 
 {
-	public class ModifierStack : MonoBehaviour 
+	public class ModifierStack: MonoBehaviour 
 	{
 		#region DATA
 		private Hero owner;
@@ -128,6 +128,9 @@ namespace HeroesRace
 				mod = new Mod (name, cc, duration, trigger, unique);
 				mods.Add (mod);
 			}
+
+			// Remove target trigger to allow consecutive hits:
+			triggers &= ~trigger;
 		}
 
 		public void Remove (string name) 
