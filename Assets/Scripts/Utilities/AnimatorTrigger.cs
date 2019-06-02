@@ -13,12 +13,19 @@ namespace HeroesRace
 		private BoxCollider trigger;
 		private bool triggered;
 
-		private static readonly Collider[] hits = new Collider[3];
-		private bool initialized;
+		private readonly Collider[] hits = new Collider[6];
+		private bool initialized { get { return trigger != null; } }
 		#endregion
 
 		public override void OnStateUpdate (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
+			// Get first-time references
+			if (Net.IsServer && !initialized)
+			{
+				Debug.Log ("initializing...");
+				Initialize (animator);
+				return;
+			}
 			if (!stateInfo.IsTag ("Default")) return;
 			// Skip if in transition OR already hit the trigger
 			if (triggered || animator.IsInTransition (0)) return;
@@ -40,19 +47,14 @@ namespace HeroesRace
 
 		public override void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
 		{
-			// Get first-time references
-			if (Net.IsServer && !initialized)
-			{
-				Initialize (animator);
-				initialized = true;
-			}
-			else
 			// Useless on Clients
 			if (Net.IsClient)
 			{
 				Destroy (this);
 				return;
 			}
+			else 
+			if (!initialized) Initialize (animator);
 
 			// Resume trigger checking
 			if (stateInfo.IsTag ("Default"))

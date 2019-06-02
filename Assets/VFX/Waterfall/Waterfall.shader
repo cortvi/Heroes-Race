@@ -28,6 +28,7 @@
 	SubShader  
 	{
 		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+		Cull Front
 
 		CGINCLUDE
 		// Some utilities
@@ -112,8 +113,8 @@
         Pass 
 		{
             Tags { "LightMode" = "Always" }
-
 			ZWrite Off
+
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
