@@ -131,6 +131,12 @@ namespace HeroesRace
 		{
 			// If it's the first time Player connects
 			var player = GetPlayer (conn);
+
+			#if UNITY_EDITOR
+			// This allows multiple clients on same device:
+			player = null;
+			#endif
+
 			if (player == null) 
 			{
 				// Create new persistent Player object
