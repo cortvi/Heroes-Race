@@ -176,6 +176,7 @@ namespace HeroesRace
 		public static void EndItAll (Player winner)
 		{
 			paused = true;
+
 		}
 
 		public static Player GetPlayer (NetworkConnection fromConn)

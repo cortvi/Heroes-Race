@@ -1,8 +1,9 @@
 ——— Faltaria ———
-- make Q17 cam floor independent
-- Q17 doesn't spawn in right place!
-- Make mapa work
+- winning scene!
+- reset? (maybe just loading again the scene idk lol)
+- darse un paseo (con Harry y Harley) aver que tal
 
+- Make mapa work
 - Cortinilla: 3,2,1... GO
 - Camara espectador (Servidor + clientes al cargar mapa, el servidor puede empezar la partida (3,2,1,ya) y eso lo desactiva de los Clientes, o los clientes se ponen en espectador solos tras un rato con la partida en paused)
 
@@ -23,11 +24,10 @@
 • Q13
 • Q14
 • Q15
-Q17
+• Q17
 
 ——— After-quesitos ———
 - Final: letrero en pause + bailes?? -> Escena de reinicio (no hay necesidad de alt+f4)
-- PostFx stack (echale ahi una nieblita + emissives)
 - La columna central qué...¿
 - añadir lights a cosas emissive
 - Monstruo -> shader parpadeo + animator!

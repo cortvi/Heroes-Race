@@ -1535,10 +1535,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys:
-  - 0
-  - 0
-  - 0
-  rotationSpeed: 0
+  - 0.334
+  - -0.497
+  - 0.218
+  rotationSpeed: 2.02
 --- !u!1001 &1611805108
 Prefab:
   m_ObjectHideFlags: 0

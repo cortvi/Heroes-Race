@@ -180,7 +180,7 @@
 				fixed4 bg = lerp ( bgNew, bgOld, surfNew.a);
 				
 				// Mix background and water surface
-				return surf * bg;
+				return saturate (min (surf, bg));
 			}
 			ENDCG
         }
