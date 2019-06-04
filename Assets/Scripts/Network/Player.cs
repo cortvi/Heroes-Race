@@ -62,7 +62,7 @@ namespace HeroesRace
 
 			Conn = fromConn;
 			IP = Conn.address;
-			ID = Conn.connectionId;
+			ID = Net.players.Count (p=> p != null) + 1;
 
 			name += "_" + ID;
 			playingAs = Heroe.NONE;

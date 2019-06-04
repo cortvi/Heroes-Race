@@ -173,8 +173,17 @@ namespace HeroesRace
 		#region UTILS
 		public static Player GetPlayer (NetworkConnection fromConn)
 		{
-			// Returns the Player registered with given IP address 
-			return players.SingleOrDefault (p => p && p.IP == fromConn.address);
+			if (fromConn == null || players == null) return null;
+			// Returns the Player registered with given IP address
+			lock (players)
+			{
+				foreach (var p in players)
+				{
+					if (p != null && p.IP == fromConn.address)
+						return p;
+				} 
+			}
+			return null;
 		}
 
 		public static bool PlayersReady (Func<Player, bool> check = null)  
