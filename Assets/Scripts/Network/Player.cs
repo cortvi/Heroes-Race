@@ -77,6 +77,7 @@ namespace HeroesRace
 		{
 			// Make sure because because on changing scenes shit happens
 			if (!Conn.isReady) NetworkServer.SetClientReady (Conn);
+			pawnQueue.Enqueue (this);
 
 			if (pawnQueue.Count == Net.PlayersNeeded)
 			{
@@ -90,7 +91,6 @@ namespace HeroesRace
 				}
 				else SetPawns ();
 			}
-			else pawnQueue.Enqueue (this);
 		}
 
 		[Command (channel = 2)]
