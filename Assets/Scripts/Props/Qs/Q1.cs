@@ -10,7 +10,7 @@ namespace HeroesRace
 
 		public Vector3 GetSpawn (int position) 
 		{
-			return spawnPoints[position].position;
+			return spawnPoints[position-1].position;
 		}
 
 		protected override void OnAwake ()
