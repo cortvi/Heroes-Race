@@ -51,7 +51,6 @@ namespace HeroesRace
 			{
 				#region RANDOMIZER
 				tower[0][0] = (int) Qs._01_Entrada;
-				tower[3][5] = (int) Qs._17_THE_END;
 
 				int lifts = 0;
 				for (int f=0; f<4; ++f)
@@ -63,6 +62,13 @@ namespace HeroesRace
 
 						tower[f][lifts] = (int) Qs._11_Ascensores;
 						tower[f + 1][lifts] = - (int) Qs._11_Ascensores;
+					}
+					else
+					{
+						// Spawn end-game quesito:
+						tower[3]
+							[(int) Mathf.Repeat (Random.Range (4f, 6f) + lifts, 9f)] 
+							= (int) Qs._17_THE_END;
 					}
 
 					for (int q=0; q<9; ++q)

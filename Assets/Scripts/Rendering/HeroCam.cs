@@ -26,7 +26,8 @@ namespace HeroesRace
 
 			// Project [tower->hero] over XZ plane
 			var forward = target.transform.position;
-			forward.y = 0f; forward.Normalize ();
+			forward.y = 0f;
+			forward.Normalize ();
 
 			// Compute the rotation matrix to lately extract local offset based
 			// on a space that always looks outside of the circle 
@@ -51,13 +52,15 @@ namespace HeroesRace
 				);
 
 				// Get the final position (make Height inmutable)
-				finalPos = target.transform.position; /* */ finalPos.y = 0f;
+				finalPos = target.transform.position;
+				finalPos.y = 0f;
 				finalPos += mat.MultiplyVector (actualOffset);
 			}
 			else 
 			{
 				// Get the final position (make Height inmutable)
-				finalPos = CameraLock.i.transform.position; /* */ finalPos.y = 0f;
+				finalPos = CameraLock.i.transform.position;
+				finalPos.y = target.floor * FloorHeigth;
 				finalPos += mat.MultiplyVector (CameraLock.i.offset);
 			}
 

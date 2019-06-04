@@ -1,8 +1,6 @@
 ——— Faltaria ———
-- get spawn points from Q1 special script
-
 - make Q17 cam floor independent
-- trigger para centrar camara
+- Q17 doesn't spawn in right place!
 - Make mapa work
 
 - Cortinilla: 3,2,1... GO

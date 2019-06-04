@@ -184,21 +184,21 @@ namespace HeroesRace
 		protected override void OnServerAwake () 
 		{
 			// Check if other Hero has appeared already
-			bool notFirst = (Net.activeCam != null);
+			bool first = (Net.activeCam == null);
 
 			// Initalize camera & hud for this Hero on Server
 			OnStartOwnership ();
-			if (notFirst)
-			{
-				// Disable if not first
-				cam.GetComponent<Camera> ().enabled = false;
-				hud.gameObject.SetActive (false);
-			}
-			else
+			if (first)
 			{
 				// Set this as active:
 				Net.activeCam = cam;
 				Net.activeHUD = hud;
+			}
+			else
+			{
+				// Disable if not first:
+				cam.GetComponent<Camera> ().enabled = false;
+				hud.gameObject.SetActive (false);
 			}
 			anim = GetComponent<Animator> ().GoSmart (networked: true);
 			mods = GetComponent<ModifierStack> ();

@@ -28,7 +28,7 @@
 	SubShader  
 	{
 		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
-		Cull Front
+		Cull Back
 
 		CGINCLUDE
 		// Some utilities

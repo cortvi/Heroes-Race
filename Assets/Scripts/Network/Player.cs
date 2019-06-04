@@ -19,7 +19,7 @@ namespace HeroesRace
 			{
 				pawn.owner = null;
 				pawn.UpdateName ();
-				if (Net.IsClient && Net.me == this) pawn.OnStopOwnership ();
+				if (Net.IsClient && isLocalPlayer) pawn.OnStopOwnership ();
 			}
 			// Authorize new Pawn
 			pawn = newPawn;
@@ -27,14 +27,14 @@ namespace HeroesRace
 			{
 				pawn.owner = this;
 				pawn.UpdateName ();
-				if (Net.IsClient && Net.me == this) pawn.OnStartOwnership ();
+				if (Net.IsClient && isLocalPlayer) pawn.OnStartOwnership ();
 			}
 		}
 
 		protected override void OnAwake () 
 		{
 			// Register self & preserve
-			if (Net.IsClient) Net.me = this;
+			if (Net.IsClient && isLocalPlayer) Net.me = this;
 			DontDestroyOnLoad (gameObject);
 		}
 	}

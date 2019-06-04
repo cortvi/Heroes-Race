@@ -173,6 +173,11 @@ namespace HeroesRace
 		#endregion
 
 		#region UTILS
+		public static void EndItAll (Player winner)
+		{
+			paused = true;
+		}
+
 		public static Player GetPlayer (NetworkConnection fromConn)
 		{
 			if (fromConn == null || players == null) return null;
