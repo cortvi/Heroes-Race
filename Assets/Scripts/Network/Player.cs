@@ -48,8 +48,7 @@ namespace HeroesRace
 		[Info] public Heroe playingAs;
 
 		// Pawns get assigned when Server has loaded the scene:
-		private static Queue<Player> pawnQueue = new Queue<Player> ();
-		private static bool waitingQueue;
+		public readonly static Queue<Player> pawnQueue = new Queue<Player> ();
 
 		// "Constructor":
 		public void PlayerSetup (NetworkConnection fromConn) 
@@ -78,19 +77,7 @@ namespace HeroesRace
 			// Make sure because because on changing scenes shit happens
 			if (!Conn.isReady) NetworkServer.SetClientReady (Conn);
 			pawnQueue.Enqueue (this);
-
-			if (pawnQueue.Count == Net.PlayersNeeded)
-			{
-				if (!SceneManager.GetActiveScene ().isLoaded)
-				{
-					if (!waitingQueue)
-					{
-						SceneManager.sceneLoaded += delegate { SetPawns (); };
-						waitingQueue = true;
-					}
-				}
-				else SetPawns ();
-			}
+			SetPawns ();
 		}
 
 		[Command (channel = 2)]
@@ -124,8 +111,11 @@ namespace HeroesRace
 		#endregion
 		#endregion
 
-		private static void SetPawns () 
+		public static void SetPawns () 
 		{
+			if (pawnQueue.Count != Net.PlayersNeeded || Q1.i == null)
+				return;
+
 			// This is fucking sick bullshit...
 			while (pawnQueue.Count > 0)
 			{
@@ -157,7 +147,7 @@ namespace HeroesRace
 						hero.driver.owner = hero;
 
 						// Position Driver
-						var spawn = GameObject.Find ("Spawn_" + p.ID).transform.position;
+						var spawn = Q1.i.GetSpawn (p.ID);
 						hero.driver.transform.rotation = Quaternion.LookRotation (spawn);
 
 						NetworkServer.Spawn (hero.gameObject);
@@ -166,7 +156,6 @@ namespace HeroesRace
 				}
 				if (p.pawn) p.Rpc_SetPawn (p.pawn.gameObject);
 			}
-			waitingQueue = false;
 		}
 	}
 

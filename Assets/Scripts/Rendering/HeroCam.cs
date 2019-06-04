@@ -79,6 +79,7 @@ namespace HeroesRace
 		{
 			// Create new Camera object & configure it
 			var cam = Instantiate (Resources.Load<Camera> ("Prefabs/HeroCam"));
+			cam.name = name + "_Camera";
 			cam.fieldOfView = 29.8f;
 			cam.farClipPlane = 70f;
 			cam.allowMSAA = false;

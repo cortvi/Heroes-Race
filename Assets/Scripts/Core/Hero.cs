@@ -191,7 +191,7 @@ namespace HeroesRace
 			if (notFirst)
 			{
 				// Disable if not first
-				cam.gameObject.SetActive (false);
+				cam.GetComponent<Camera> ().enabled = false;
 				hud.gameObject.SetActive (false);
 			}
 			else
