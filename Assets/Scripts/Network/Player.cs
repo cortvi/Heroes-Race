@@ -19,7 +19,7 @@ namespace HeroesRace
 			{
 				pawn.owner = null;
 				pawn.UpdateName ();
-				if (Net.IsClient) pawn.OnStopOwnership ();
+				if (Net.IsClient && Net.me == this) pawn.OnStopOwnership ();
 			}
 			// Authorize new Pawn
 			pawn = newPawn;
@@ -27,7 +27,7 @@ namespace HeroesRace
 			{
 				pawn.owner = this;
 				pawn.UpdateName ();
-				if (Net.IsClient) pawn.OnStartOwnership ();
+				if (Net.IsClient && Net.me == this) pawn.OnStartOwnership ();
 			}
 		}
 

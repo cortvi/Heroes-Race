@@ -9,7 +9,9 @@ namespace HeroesRace
 {
 	public class TowerGenerator: MonoBehaviour 
 	{
+		public bool useBypass;
 		public Floor[] bypassTower;
+		[Space]
 		public Transform[] floorRoots;
 		public GameObject[] qPrefabs;
 
@@ -21,7 +23,7 @@ namespace HeroesRace
 			tower[2] = new int[9];
 			tower[3] = new int[9];
 
-			if (bypassTower.Length > 0)
+			if (useBypass && bypassTower.Length > 0)
 			{
 				#region BYPASS
 				// First quesito is always entracne:

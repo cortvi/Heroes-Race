@@ -43,6 +43,5 @@ namespace HeroesRace
 			// Show on inspector
 			this.name = name;
 		}
-
 	}
 }

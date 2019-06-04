@@ -1,20 +1,13 @@
 ——— Faltaria ———
-- make Q17 cam floor independent
-- Q1: intentar solventar spawn de los 3 Heroes
 
+
+- make Q17 cam floor independent
 - trigger para centrar camara
 - Make mapa work
-- Elegir el mismo jugador deberia alternar el color !
 
 - Cortinilla: 3,2,1... GO
 - Camara espectador (Servidor + clientes al cargar mapa, el servidor puede empezar la partida (3,2,1,ya) y eso lo desactiva de los Clientes, o los clientes se ponen en espectador solos tras un rato con la partida en paused)
 
-——— DONE ———
-- Generator rules -> quesitos con cosas colgando del techo (aka apisonadora) no pueden estar debajo de quesitos con throw !!! +  -> camibar modo de spawn a array + lineal !
-- piranna volarina -> less CC time, allow consecutive hit animation
-- throw quesitos: not working -> trigger?
-- Server Camera (each hero has a Cam & HUD) but disable/enable it as you want)
-- make hud work on Server
 
 ——— QUESITOS ———
 • Q1
