@@ -32,7 +32,7 @@ namespace HeroesRace
 
 			// Manual OnTriggerEnter
 			var t = animator.transform;
-			int n = Physics.OverlapBoxNonAlloc (t.position + trigger.center, trigger.size / 2f, hits, t.rotation, 1 << 8);
+			int n = Physics.OverlapBoxNonAlloc (t.TransformPoint (trigger.center), trigger.size / 2f, hits, t.rotation, 1 << 8);
 
 			for (int i=0; i!=n; ++i)
 			{
