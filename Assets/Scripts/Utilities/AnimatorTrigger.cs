@@ -66,8 +66,11 @@ namespace HeroesRace
 
 		private void Initialize (Animator animator) 
 		{
-			anim = animator.GoSmart (networked: true);
-			anim.NetAnimator.SetParameterAutoSend (0, true);
+			if (anim == null)
+			{
+				anim = animator.GoSmart (networked: true);
+				anim.NetAnimator.SetParameterAutoSend (0, true);
+			}
 			trigger = animator.GetComponent<BoxCollider> ();
 		}
 	} 
