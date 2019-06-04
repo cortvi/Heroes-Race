@@ -6,7 +6,5 @@ AnimatorOverrideController:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Harry
-  m_Controller: {fileID: 9100000, guid: 2b8f0c74366adb748945b905cb8683c6, type: 2}
-  m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 9d0c9d07261e18249aac8f131be14f7b, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 9d0c9d07261e18249aac8f131be14f7b, type: 2}
+  m_Controller: {fileID: 9100000, guid: af87bb594e2bd064bae4ee59db04fa9e, type: 2}
+  m_Clips: []
