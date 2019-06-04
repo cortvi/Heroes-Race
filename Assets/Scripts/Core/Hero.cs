@@ -19,6 +19,9 @@ namespace HeroesRace
 	public sealed partial class /* COMMON */ Hero : NetPawn 
 	{
 		#region DATA
+//		[SerializeField]
+//		private float Squash
+
 		private const float Speed = 10.0f;
 		private const float JumpForce = 6.5f;
 
@@ -28,7 +31,6 @@ namespace HeroesRace
 		[SyncVar] private float netYSpeed;			// Vertical speed
 		[SyncVar] internal float movingDir;			// This is used by the Hero Camera
 		[SyncVar] [Info] public int floor;			// The floor the Hero is in ATM
-
 		#endregion
 
 		private void Update ()
