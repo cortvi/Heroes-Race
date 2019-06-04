@@ -186,4 +186,4 @@ MonoBehaviour:
   isNetworkActive: 0
   matchMaker: {fileID: 0}
   firstScene: Tower
-  justDoNothing: 1
+  justDoNothing: 0
