@@ -47,6 +47,11 @@ namespace HeroesRace
 		[Info] public NetworkConnection Conn;
 		[Info] public Heroe playingAs;
 
+		// Pawns get assigned when Server has loaded the scene:
+		private static Queue<Player> pawnQueue = new Queue<Player> ();
+		private static bool waitingQueue;
+
+		// "Constructor":
 		public void PlayerSetup (NetworkConnection fromConn) 
 		{
 			if (ID != 0)
@@ -73,40 +78,19 @@ namespace HeroesRace
 			// Make sure because because on changing scenes shit happens
 			if (!Conn.isReady) NetworkServer.SetClientReady (Conn);
 
-			// Assign new Selector for Player if none
-			if (Net.networkSceneName == "Selection")
+			if (pawnQueue.Count == Net.PlayersNeeded)
 			{
-				if (!(pawn is Selector))
+				if (!SceneManager.GetActiveScene ().isLoaded)
 				{
-					var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + ID);
-					ChangePawn (FindObjectsOfType<Selector> ().First (check));
+					if (!waitingQueue)
+					{
+						SceneManager.sceneLoaded += delegate { SetPawns (); };
+						waitingQueue = true;
+					}
 				}
+				else SetPawns ();
 			}
-			else
-			// Create new Hero for Player if none
-			if (Net.networkSceneName == "Tower")
-			{
-				if (!(pawn is Hero))
-				{
-					// If bypassing selection menu
-					if (playingAs == Heroe.NONE)
-						playingAs = (Heroe)ID;
-
-					// Spawn Heroe & set up its Driver
-					var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + playingAs));
-					hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
-					hero.driver.name = playingAs + "_Driver";
-					hero.driver.owner = hero;
-
-					// Position Driver
-					var spawn = GameObject.Find ("Spawn_" + ID).transform.position;
-					hero.driver.transform.rotation = Quaternion.LookRotation (spawn);
-
-					NetworkServer.Spawn (hero.gameObject);
-					ChangePawn (hero);
-				}
-			}
-			if (pawn) Rpc_SetPawn (pawn.gameObject);
+			else pawnQueue.Enqueue (this);
 		}
 
 		[Command (channel = 2)]
@@ -139,6 +123,51 @@ namespace HeroesRace
 		}
 		#endregion
 		#endregion
+
+		private static void SetPawns () 
+		{
+			// This is fucking sick bullshit...
+			while (pawnQueue.Count > 0)
+			{
+				var p = pawnQueue.Dequeue ();
+
+				// Assign new Selector for Player if none
+				if (Net.networkSceneName == "Selection")
+				{
+					if (!(p.pawn is Selector))
+					{
+						var check = new Func<Selector, bool> (s => s.SharedName == "Selector_" + p.ID);
+						p.ChangePawn (FindObjectsOfType<Selector> ().First (check));
+					}
+				}
+				else
+				// Create new Hero for Player if none
+				if (Net.networkSceneName == "Tower")
+				{
+					if (!(p.pawn is Hero))
+					{
+						// If bypassing selection menu
+						if (p.playingAs == Heroe.NONE)
+							p.playingAs = (Heroe) p.ID;
+
+						// Spawn Heroe & set up its Driver
+						var hero = Instantiate (Resources.Load<Hero> ("Prefabs/Heroes/" + p.playingAs));
+						hero.driver = Instantiate (Resources.Load<Driver> ("Prefabs/Character_Driver"));
+						hero.driver.name = p.playingAs + "_Driver";
+						hero.driver.owner = hero;
+
+						// Position Driver
+						var spawn = GameObject.Find ("Spawn_" + p.ID).transform.position;
+						hero.driver.transform.rotation = Quaternion.LookRotation (spawn);
+
+						NetworkServer.Spawn (hero.gameObject);
+						p.ChangePawn (hero);
+					}
+				}
+				if (p.pawn) p.Rpc_SetPawn (p.pawn.gameObject);
+			}
+			waitingQueue = false;
+		}
 	}
 
 	public partial class /* CLIENT */ Player 
@@ -195,6 +224,7 @@ namespace HeroesRace
 		{
 			SceneManager.sceneLoaded += OnLevelLoaded;
 		}
+
 		[ClientCallback]
 		private void OnDisable () 
 		{
