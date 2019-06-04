@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace HeroesRace 
 {
-	public partial class /* COMMON */ Player : NetBehaviour 
+	public partial class /* COMMON */ Player: NetBehaviour 
 	{
 		[Info] public NetPawn pawn;
 
