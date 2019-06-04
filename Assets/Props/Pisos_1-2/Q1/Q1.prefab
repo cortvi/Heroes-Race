@@ -167,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4022958171687704}
   - component: {fileID: 114718601902846436}
-  - component: {fileID: 114118019474382038}
+  - component: {fileID: 114346995482310256}
   m_Layer: 0
   m_Name: Q1
   m_TagString: Untagged
@@ -1512,7 +1512,7 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300024, guid: cc97913a1fcc44e4a8a4e1d0292c0e40, type: 3}
---- !u!114 &114118019474382038
+--- !u!114 &114346995482310256
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1520,9 +1520,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1280965242658326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17412338daaaa9344b8af4f3269c70bd, type: 3}
+  m_Script: {fileID: 11500000, guid: daf1a72676924ec479772ac30f60299a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 4418296152593640}
+  - {fileID: 4381895189431492}
+  - {fileID: 4038722594890964}
 --- !u!114 &114718601902846436
 MonoBehaviour:
   m_ObjectHideFlags: 1

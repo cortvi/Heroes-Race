@@ -1,5 +1,5 @@
 ——— Faltaria ———
-
+- get spawn points from Q1 special script
 
 - make Q17 cam floor independent
 - trigger para centrar camara
