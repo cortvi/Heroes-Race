@@ -208,7 +208,7 @@ ModelImporter:
       name: Down
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 5.8
+      lastFrame: 12.5
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -235,7 +235,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Ground
       takeName: Take 001
-      firstFrame: 5.8
+      firstFrame: 12.5
       lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
