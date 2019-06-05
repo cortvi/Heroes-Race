@@ -838,25 +838,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f801c610787a5749ac53675fd310970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useBypass: 0
+  useBypass: 1
   bypassTower:
   - q1: 0
-    q2: 6
-    q3: 7
-    q4: 2
-    q5: 0
-    q6: 0
-    q7: 0
-    q8: 0
-    q9: 0
-  - q1: 0
-    q2: 2
-    q3: 3
-    q4: 15
-    q5: 6
-    q6: 5
-    q7: 0
-    q8: 0
+    q2: 4
+    q3: 5
+    q4: 6
+    q5: 7
+    q6: 8
+    q7: 9
+    q8: 10
+    q9: 2
+  - q1: 14
+    q2: 16
+    q3: 0
+    q4: 0
+    q5: 11
+    q6: 12
+    q7: 15
+    q8: 13
     q9: 0
   - q1: 0
     q2: 0
@@ -1468,7 +1468,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1583274265}
   m_LocalRotation: {x: -0, y: 0.2100431, z: -0, w: 0.9776922}
-  m_LocalPosition: {x: 0, y: 46.36, z: 0}
+  m_LocalPosition: {x: 0, y: 11.2, z: 0}
   m_LocalScale: {x: 0.37785983, y: 0.4586169, z: 0.38228557}
   m_Children: []
   m_Father: {fileID: 750345951}

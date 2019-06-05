@@ -95,15 +95,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BumpAmt: 12
+    - _BumpAmt: 10.7
     - _BumpScale: 1
-    - _ColPow: 0
+    - _ColPow: 1.362
     - _Cutoff: 0.5
     - _DetailFres: 0.96
     - _DetailMul: 2
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FPower: 0.76
+    - _FPower: 0.56
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -120,14 +120,14 @@ Material:
     - _Speed: 0
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WavesFres: 1.3
-    - _WavesMul: 0.82
+    - _WavesFres: 0.03
+    - _WavesMul: 0.28
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dark: {r: 0.9558824, g: 0.9649654, b: 1, a: 1}
+    - _Dark: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FColor: {r: 1, g: 1, b: 1, a: 1}
     - _Light: {r: 0.4705882, g: 0.48615915, b: 1, a: 1}
-    - _Lit: {r: 0.64967036, g: 0.7551724, b: 0.73189986, a: 1}
+    - _Lit: {r: 0.60310334, g: 0.68504655, b: 0.8455882, a: 1}
     - _Speed: {r: 0, g: -0.88, b: -1.13, a: -2.16}
