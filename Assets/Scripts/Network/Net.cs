@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using SM = UnityEngine.SceneManagement.SceneManager;
 
 namespace HeroesRace 
@@ -100,8 +99,17 @@ namespace HeroesRace
 		#region CALLBACKS
 		private void Update () 
 		{
-			if (IsServer && networkSceneName == "Tower")
+			if (!IsServer) return;
+			if (networkSceneName == "Tower")
 			{
+				if (Input.GetKey (KeyCode.LeftShift) && Input.GetKeyDown (KeyCode.R))
+				{
+					paused = true;
+					Courtain.Open (false, overNet: true);
+					StartCoroutine (Config (new[] { "server", "" }));
+					return;
+				}
+
 				int newTarget = -1;
 				// ——— Allow switching Hero tracking with keyboard ———
 				if (Input.GetKeyDown (KeyCode.Alpha1) && players[0]) newTarget = 0;
@@ -176,7 +184,6 @@ namespace HeroesRace
 		public static void EndItAll (Player winner)
 		{
 			paused = true;
-
 		}
 
 		public static Player GetPlayer (NetworkConnection fromConn)
@@ -206,6 +213,7 @@ namespace HeroesRace
 		#region HELPERS
 		private void InitServer (int playersNeeded) 
 		{
+			if (IsServer) return;
 			PlayersNeeded = playersNeeded;
 			players = new Player[playersNeeded];
 
@@ -234,6 +242,7 @@ namespace HeroesRace
 
 		private void InitClient (string ipAddress) 
 		{
+			if (IsClient) return;
 			networkAddress = ipAddress;
 			StartClient ();
 			IsClient = true;

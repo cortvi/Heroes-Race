@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f801c610787a5749ac53675fd310970, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useBypass: 1
+  useBypass: 0
   bypassTower:
   - q1: 0
     q2: 4
