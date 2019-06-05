@@ -18,7 +18,14 @@ namespace HeroesRace
 		public static void Register (string name, Action handler) 
 		{
 			// Register call
-			if (Net.IsClient) handlers.Add (name, handler);
+			if (Net.IsClient)
+			{
+				if (handlers.ContainsKey (name))
+				{
+					handlers.Remove (name);
+				}
+				handlers.Add (name, handler);
+			}
 		}
 
 		public static void SendToAll (string name) 
