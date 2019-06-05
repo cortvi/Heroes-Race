@@ -125,13 +125,13 @@ namespace HeroesRace
 					if (next == null) return;
 
 					// Un-track last Hero & replace it with next one
-					activeCam.GetComponent<Camera> ().enabled = false; 
+					activeCam.SetActive (false); 
 					activeHUD.gameObject.SetActive (false);
 					activeCam = next.cam;
 					activeHUD = next.hud;
 
 					// Track selected Hero
-					activeCam.GetComponent<Camera> ().enabled = true;
+					activeCam.SetActive (true);
 					activeHUD.gameObject.SetActive (true);
 				}
 			}

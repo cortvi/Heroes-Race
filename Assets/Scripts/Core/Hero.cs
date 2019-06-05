@@ -197,7 +197,7 @@ namespace HeroesRace
 			else
 			{
 				// Disable if not first:
-				cam.GetComponent<Camera> ().enabled = false;
+				cam.SetActive (false);
 				hud.gameObject.SetActive (false);
 			}
 			anim = GetComponent<Animator> ().GoSmart (networked: true);

@@ -16,6 +16,14 @@ namespace HeroesRace
 		public const float FloorHeigth = 5.2f;
 		#endregion
 
+		public void SetActive (bool state) 
+		{
+			GetComponent<Camera> ().enabled =
+				GetComponent<AudioListener> ().enabled =
+				GetComponent<FlareLayer> ().enabled =
+				state;
+		}
+
 		private void Update () 
 		{
 			if (!target)
