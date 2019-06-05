@@ -106,7 +106,7 @@ namespace HeroesRace
 				{
 					paused = true;
 					Courtain.Open (false, overNet: true);
-					StartCoroutine (Config (new[] { "server", "" }));
+					StartCoroutine (Config (new[] { "server", "0" }));
 					return;
 				}
 
